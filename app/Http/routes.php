@@ -27,7 +27,11 @@ Route::post('/admin/login', [
 //系统管理中人员管理路由
 Route::get('system/index', 'Admin\SystemController@index');
 Route::get('system/add', 'Admin\SystemController@add');
-Route::get('system/update', 'Admin\SystemController@update');
+Route::post('systems/system/add', 'Admin\SystemController@add');
+Route::get('system/update/{id}', 'Admin\SystemController@update');
+Route::post('systems/system/update', 'Admin\SystemController@update');
+Route::get('system/delete/{id}', 'Admin\SystemController@delete');
+
 
 //系统管理中权限路由
 Route::get('auth/index', 'Admin\AuthController@index');

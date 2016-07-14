@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{asset('css/uniform.css')}}" />
     <link rel="stylesheet" href="{{asset('css/select2.css')}}" />
     <link rel="stylesheet" href="{{asset('css/unicorn.main.css')}}" />
-    <link rel="stylesheet" href="{{asset('css/unicorn.grey.css')}}" />
+    <link rel="stylesheet" href="{{asset('css/unicorn.grey.css')}}" class="skin-color"  />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 <body>
 
@@ -21,7 +21,7 @@
 
 <div id="user-nav" class="navbar navbar-inverse">
     <ul class="nav btn-group">
-        <li class="btn btn-inverse"><a title="" href="{{url("login/index")}}"><i class="icon icon-share-alt"></i> <span class="text" style="font-size:16px">退出</span></a></li>
+        <li class="btn btn-inverse"><a title="" href="{{url("login/index")}}"><i class="icon icon-share-alt"></i> <span class="text" >退出</span></a></li>
     </ul>
 </div>
 
@@ -79,14 +79,9 @@
 </div>
 
 <div id="content">
-    <div id="breadcrumb">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
-        <a href="#" class="current">Dashboard</a>
-    </div>
-    <div class="container-fluid">
-        @yield('content')
+    @yield('content')
 
-    </div>
+
 
 </div>
 <div class="row-fluid">
@@ -108,5 +103,8 @@
 <script src="{{asset('js/select2.min.js')}}"></script>
 <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('js/jquery.uniform.js')}}"></script>
+<script src="{{asset('js/unicorn.form_validation.js')}}"></script>
+<script src="{{asset('js/jquery.validate.js')}}"></script>
+
 </body>
 </html>

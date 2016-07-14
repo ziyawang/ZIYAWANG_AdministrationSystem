@@ -17,6 +17,7 @@ class LoginController extends Controller
     public function login(){
 
         if(!empty($_POST)){
+            
             return view("Index/index");
             //return redirect()->action("Admin\IndexController@index");
         }
