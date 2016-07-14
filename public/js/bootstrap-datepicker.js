@@ -202,7 +202,7 @@
 				if (prevMonth.getMonth() < month) {
 					clsName += ' old';
 				} else if (prevMonth.getMonth() > month) {
-					clsName += ' new';
+					clsName += ' news';
 				}
 				if (prevMonth.valueOf() === currentDate) {
 					clsName += ' active';
@@ -289,7 +289,7 @@
 							var month = this.viewDate.getMonth();
 							if (target.is('.old')) {
 								month -= 1;
-							} else if (target.is('.new')) {
+							} else if (target.is('.news')) {
 								month += 1;
 							}
 							var year = this.viewDate.getFullYear();

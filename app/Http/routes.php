@@ -66,10 +66,10 @@ Route::get('refuse/index', 'Admin\RefuseController@index');
 Route::get('refuse/detail', 'Admin\RefuseController@detail');
 
 //新闻视频中的新闻管理路由
-Route::get('new/index', 'Admin\NewController@index');
-Route::get('new/add', 'Admin\NewController@add');
-Route::get('new/update', 'Admin\NewController@update');
-Route::get('new/delete', 'Admin\NewController@delete');
+Route::get('news/index', 'Admin\NewsController@index');
+Route::get('news/add', 'Admin\NewsController@add');
+Route::get('news/update', 'Admin\NewsController@update');
+Route::get('news/delete', 'Admin\NewsController@delete');
 
 //新闻视频中的视频管理路由
 Route::get('video/index', 'Admin\VideoController@index');

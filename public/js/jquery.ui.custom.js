@@ -384,7 +384,7 @@ $.widget = function( name, base, prototype ) {
 	};
 
 	var basePrototype = new base();
-	// we need to make the options hash a property directly on the new instance
+	// we need to make the options hash a property directly on the news instance
 	// otherwise we'll modify the options hash on the prototype that we're
 	// inheriting from
 //	$.each( basePrototype, function( key, val ) {
@@ -567,10 +567,10 @@ $.Widget.prototype = {
 			type :
 			this.widgetEventPrefix + type ).toLowerCase();
 		// the original event may come from any element
-		// so we need to reset the target on the new event
+		// so we need to reset the target on the news event
 		event.target = this.element[ 0 ];
 
-		// copy original event properties over to the new event
+		// copy original event properties over to the news event
 		orig = event.originalEvent;
 		if ( orig ) {
 			for ( prop in orig ) {
@@ -1656,7 +1656,7 @@ $.ui.plugin.add("draggable", "connectToSortable", {
 					this.instance.isOver = 1;
 					//Now we fake the start of dragging for the sortable instance,
 					//by cloning the list group item, appending it to the sortable and using it as inst.currentItem
-					//We can then fire the start event of the sortable with our passed browser event, and our own helper (so it doesn't create a new one)
+					//We can then fire the start event of the sortable with our passed browser event, and our own helper (so it doesn't create a news one)
 					this.instance.currentItem = $(self).clone().removeAttr('id').appendTo(this.instance.element).data("sortable-item", true);
 					this.instance.options._helper = this.instance.options.helper; //Store helper option to later restore it
 					this.instance.options.helper = function() { return ui.helper[0]; };
@@ -1665,7 +1665,7 @@ $.ui.plugin.add("draggable", "connectToSortable", {
 					this.instance._mouseCapture(event, true);
 					this.instance._mouseStart(event, true, true);
 
-					//Because the browser event is way off the new appended portlet, we modify a couple of variables to reflect the changes
+					//Because the browser event is way off the news appended portlet, we modify a couple of variables to reflect the changes
 					this.instance.offset.click.top = inst.offset.click.top;
 					this.instance.offset.click.left = inst.offset.click.left;
 					this.instance.offset.parent.left -= inst.offset.parent.left - this.instance.offset.parent.left;
@@ -2238,7 +2238,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 		//Wrap the element if it cannot hold child nodes
 		if(this.element[0].nodeName.match(/canvas|textarea|input|select|button|img/i)) {
 
-			//Create a wrapper element and set the wrapper to the new current internal element
+			//Create a wrapper element and set the wrapper to the news current internal element
 			this.element.wrap(
 				$('<div class="ui-wrapper" style="overflow: hidden;"></div>').css({
 					position: this.element.css('position'),
@@ -3994,7 +3994,7 @@ $.widget("ui.sortable", $.ui.mouse, {
 			this.containers[innermostIndex].containerCache.over = 1;
 		} else if(this.currentContainer != this.containers[innermostIndex]) {
 
-			//When entering a new container, we will find the item with the least distance and append our item near it
+			//When entering a news container, we will find the item with the least distance and append our item near it
 			var dist = 10000; var itemWithLeastDistance = null; var base = this.positionAbs[this.containers[innermostIndex].floating ? 'left' : 'top'];
 			for (var j = this.items.length - 1; j >= 0; j--) {
 				if(!$.ui.contains(this.containers[innermostIndex].element[0], this.items[j].item[0])) continue;
