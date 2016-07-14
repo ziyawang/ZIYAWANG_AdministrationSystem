@@ -1,6 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
+    <div id="breadcrumb">
+        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
+        <a href="#" class="current">新闻列表</a>
+        <a href="{{url('news/add')}}" class="pull-right"> <button class="btn btn-success">添加新闻</button></a>
+    </div>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
             <table class="table table-bordered table-striped">
