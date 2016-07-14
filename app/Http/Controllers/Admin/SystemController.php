@@ -46,8 +46,10 @@ class SystemController extends Controller
     }
     //编辑人员信息
     public function update($id=null){
-      if(!empty($_POST)){
+
+      if(isset($_POST['_token']) && !empty($_POST['_token'])){
         $Id=$_POST['id'];
+
         $db=DB::table("t_as_user")->where('id',$Id)->update([
             'Name'=>$_POST['name'],
             'Email'=>$_POST['email'],
@@ -55,15 +57,13 @@ class SystemController extends Controller
             'Department'=>$_POST['department'],
         ]);
         if($db){
+        
           return Redirect::to('system/index');
         }else{
-          return Redirect::to('system/update');
+          return Redirect::to('system/update/'.$Id);
         }
       }
-      
       $datas=AsUser::find($id)->toArray();
-     //var_dump($datas);
-     // die;
       return view('systems/system/update',compact('datas'));
     }
     //删除人员信息

@@ -40,7 +40,7 @@
         <li class="submenu">
             <a href="#"><i class="icon  icon-user"></i> <span>会员管理</span> <span class="label">3</span></a>
             <ul>
-                <li><a href="invoice.html">发布方管理</a></li>
+                <li><a href="{{url("publish/index")}}">发布方管理</a></li>
                 <li><a href="chat.html">服务方管理</a></li>
                 <li><a href="calendar.html">审核发布信息</a></li>
             </ul>
@@ -55,8 +55,8 @@
         <li class="submenu">
             <a href="#"><i class="icon icon-inbox"></i> <span>新闻视频</span> <span class="label">2</span></a>
             <ul>
-                <li><a href="invoice.html">新闻管理</a></li>
-                <li><a href="chat.html">视频管理</a></li>
+                <li><a href="{{url("news/index")}}">新闻管理</a></li>
+                <li><a href="{{url("video/index")}}">视频管理</a></li>
             </ul>
         </li>
         <li class="submenu">
