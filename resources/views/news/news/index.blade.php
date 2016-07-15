@@ -11,19 +11,21 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>姓名</th>
-                    <th>登录名</th>
-                    <th>手机号</th>
-                    <th>部门</th>
+                    <th>标题</th>
+                    <th>简介</th>
+                    <th>新闻封面</th>
+                    <th>发布时间</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Row 1</td>
-                        <td>Row 2</td>
-                        <td>Row 3</td>
-                        <td>Row 4</td>
-                    </tr>
+                    @foreach($datas as $data)
+                        <tr>
+                            <td>{{$data->NewsTitle}}</td>
+                            <td>{{$data->Brief}}</td>
+                            <td>{{$data->NewsLogo}}</td>
+                            <td>{{$data->NewsContent}}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
