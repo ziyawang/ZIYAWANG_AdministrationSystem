@@ -4,9 +4,8 @@
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
         <a href="#" class="current">发布方列表</a>
-        <a href="{{url('system/add')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">添加</div></a>
+        <a href="{{url('system/add')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">导出当前页</div></a>
     </div>
-
     <div  class="container-fluid">
         <div class="widget-content nopadding">
             <table class="table table-bordered table-striped">
@@ -22,18 +21,29 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{--@foreach($datas as $data)--}}
+                @foreach($datas as $data)
                     <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>7</td>
+                        <td>{{$data->userid}}</td>
+                        <td>{{$data->username}}</td>
+                        <td>{{$data->phonenumber}}</td>
+                        <td>{{$data->created_at}}</td>
+                        @if($data->Status==0)
+                            <td><p style="color:dodgerblue;margin:0 auto">冻结</p></td>
+                        @else
+                           <td><p  style="color:dodgerblue">解冻</p></td>
+                        @endif
+                        <td>{{$data->Remark}}</td>
+                        <td>
+                        @if($data->Status==0)
+                                <a href="#" id="status" onclick="jiedong()">解冻</a>&nbsp&nbsp&nbsp&nbsp
+                        @else
+                                <a href="#" id="status" >冻结</a>&nbsp&nbsp&nbsp&nbsp
+                        @endif
+                            <a href="{{url('publish/detail/'.$data->userid)}}">查看</a>
+                        </td>
                       
                     </tr>
-                {{--@endforeach--}}
+                @endforeach
                 </tbody>
             </table>
         </div>

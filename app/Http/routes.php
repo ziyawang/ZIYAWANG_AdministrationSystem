@@ -45,21 +45,20 @@ Route::get('role/update', 'Admin\AuthController@update');
 
 //会员管理中的发布方管理路由
 Route::get('publish/index', 'Admin\PublishController@index');
-Route::get('publish/detail', 'Admin\PublishController@detail');
+Route::get('publish/detail/{id}', 'Admin\PublishController@detail');
 
 //会员管理中的服务方管理路由
 Route::get('service/index', 'Admin\ServiceController@index');
-Route::get('service/add', 'Admin\ServiceController@add');
-Route::get('service/detail', 'Admin\ServiceController@detail');
+Route::get('service/detail/{id}', 'Admin\ServiceController@detail');
 
 //会员管理中的审核发布信息路由
 Route::get('check/index', 'Admin\CheckController@index');
 Route::get('check/add', 'Admin\CheckController@add');
-Route::get('check/detail', 'Admin\CheckController@detail');
+Route::get('check/detail/{id}', 'Admin\CheckController@detail');
 
 //合作管理中的订单管理路由
 Route::get('order/index', 'Admin\OrderController@index');
-Route::get('order/detail', 'Admin\OrderController@detail');
+Route::get('order/detail/{id}', 'Admin\OrderController@detail');
 
 //合作管理中的退单管理路由
 Route::get('refuse/index', 'Admin\RefuseController@index');
