@@ -41,15 +41,15 @@
             <a href="#"><i class="icon  icon-user"></i> <span>会员管理</span> <span class="label">3</span></a>
             <ul>
                 <li><a href="{{url("publish/index")}}">发布方管理</a></li>
-                <li><a href="chat.html">服务方管理</a></li>
-                <li><a href="calendar.html">审核发布信息</a></li>
+                <li><a href="{{url("service/index")}}">服务方管理</a></li>
+                <li><a href="{{url("check/index")}}">审核发布信息</a></li>
             </ul>
         </li>
         <li class="submenu">
             <a href="#"><i class="icon  icon-globe"></i> <span>合作管理</span> <span class="label">2</span></a>
             <ul>
-                <li><a href="invoice.html">订单管理</a></li>
-                <li><a href="chat.html">退单管理</a></li>
+                <li><a href="{{url('order/index')}}">订单管理</a></li>
+                <li><a href="{{url('refuse/index')}}">退单管理</a></li>
             </ul>
         </li>
         <li class="submenu">
