@@ -15,30 +15,25 @@
                     <h5>添加新闻</h5>
                 </div>
                 <div class="widget-content nopadding">
-                    <form action="#" method="get" class="form-horizontal" />
+                    <form action="#" method="post" action="{{asset('news/news/add')}}" class="form-horizontal" />
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="control-group">
                         <label class="control-label">新闻标题</label>
                         <div class="controls">
-                            <input type="text" />
+                            <input type="text" name="title" />
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">摘要</label>
                         <div class="controls">
-                            <textarea></textarea>
+                            <textarea name="description" ></textarea>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">新闻内容</label>
                         <div class="controls">
-                            <textarea name="zertest" class="ckeditor"></textarea>
-                            <script type="text/javascript">CKEDITOR.replace('zertest');</script>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Input with placeholder</label>
-                        <div class="controls">
-                            <input type="text" placeholder="This is a placeholder..." />
+                            <textarea name="content" class="ckeditor"></textarea>
+                            <script type="text/javascript">CKEDITOR.replace('content');</script>
                         </div>
                     </div>
                     <div class="form-actions">
