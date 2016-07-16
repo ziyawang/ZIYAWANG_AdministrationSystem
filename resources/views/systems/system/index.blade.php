@@ -35,9 +35,10 @@
                 </tbody>
             </table>
         </div>
-        {!! $datas->render() !!}
+        <div class="pagination alternate">
+            {!! $datas->render() !!}
+        </div>
     </div>
-
 
 
     @endsection

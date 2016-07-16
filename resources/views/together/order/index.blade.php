@@ -1,13 +1,30 @@
 @extends('layouts.master')
 
 @section('content')
+    <style>
+        .search{
+            width:50px;
+            float:right;
+            overflow: hidden;
+            text-align:center;
+            height: 30px;
+            line-height:30px;
+        }
+    </style>
     <div id="breadcrumb" style="position:relative;height: 40px;">
 
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>合作</a>
         <a href="#" class="current">订单列表</a>
-        <div style="background:blue;width:270px;height: 30px; position:absolute;right:500px;bottom:0;padding:2px;">
-           <input type="text"><input type="button" value="搜索" style="background:blue">
+        {{--<div style="background:blue;width:270px;height: 30px; position:absolute;right:500px;bottom:0;padding:2px;">--}}
+           {{--<input type="text">搜素--}}
             {{--<div style="width:40px;float:right;" ><font color="#f5f5f5">搜索<font></div>--}}
+        {{--</div>--}}
+        <div style="background:blue;width:270px;height: 30px; position:absolute;right:500px;bottom:0;padding:2px;">
+            <div style="float:left;overfloat:hidden;"><input type="text" placeholder="编号,发布方名称，处置方名称" class="search1"/></div>
+            <div class="search"  >
+                <font color="#f5f5f5" size="3px" >搜索</font>
+            </div>
+            {{--<input type="button" value="搜索" style="heigh t: 25px">--}}
         </div>
         <a href="{{url('order/export')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">导出当前页</div></a>
 
@@ -48,6 +65,12 @@
             </table>
         </div>
     </div>
+    <script>
+        $(".search").on("mouseover",function(){
+           var result= $(".search1").val();
+            alert(result);
+        });
+    </script>
 
     @endsection
             <!-- TODO: Current Tasks -->
