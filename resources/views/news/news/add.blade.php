@@ -1,8 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <link rel="stylesheet" type="text/css" href="{{asset('/css/uploadifive.css')}}">
-    <script src="{{asset('js/jquery.uploadifive.min.js')}}"></script>
+
     <div id="breadcrumb">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
         <a href="#" class="current">添加新闻</a>
@@ -62,6 +61,7 @@
         $(function() {
             $("#file_upload").uploadifive({
                 'buttonText' : '上传图片',
+                'buttonClass' : 'btn btn-success',
                 'formData'     : {
                     'timestamp' : '<?php echo $timestamp;?>',
                     '_token'     : "{{csrf_token()}}"
