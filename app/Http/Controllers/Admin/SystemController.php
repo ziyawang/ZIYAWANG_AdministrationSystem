@@ -60,7 +60,7 @@ class SystemController extends Controller
         
           return Redirect::to('system/index');
         }else{
-          return Redirect::to('system/update/'.$Id);
+          return Redirect::to('system/index');
         }
       }
       $datas=AsUser::find($id)->toArray();

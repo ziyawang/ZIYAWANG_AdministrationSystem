@@ -59,10 +59,11 @@ Route::get('check/detail/{id}', 'Admin\CheckController@detail');
 //合作管理中的订单管理路由
 Route::get('order/index', 'Admin\OrderController@index');
 Route::get('order/detail/{id}', 'Admin\OrderController@detail');
+Route::get('order/export', 'Admin\OrderController@export');
 
 //合作管理中的退单管理路由
 Route::get('refuse/index', 'Admin\RefuseController@index');
-Route::get('refuse/detail', 'Admin\RefuseController@detail');
+Route::get('refuse/detail/{id}', 'Admin\RefuseController@detail');
 
 //新闻视频中的新闻管理路由
 Route::get('news/index', 'Admin\NewsController@index');
@@ -79,6 +80,8 @@ Route::get('video/delete', 'Admin\VideoController@delete');
 //推送管理中的推送信息路由
 Route::get('push/index', 'Admin\PushController@index');
 Route::get('push/detail', 'Admin\PushController@detail');
+
+
 
 
 

@@ -2,7 +2,7 @@
 
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>会员</a>
         <a href="#" class="current">服务方列表</a>
         <a href="{{url('system/add')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">导出当前页</div></a>
     </div>

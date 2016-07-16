@@ -1,7 +1,7 @@
 @extends('layouts.master');
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>会员</a>
         <a href="#" class="current">发布方详情页</a>
     </div>
     <div  class="container-fluid">
