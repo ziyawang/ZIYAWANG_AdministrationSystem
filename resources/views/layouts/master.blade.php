@@ -100,6 +100,5 @@
         2016 &copy; ziyawang Admin. Brought to you by <a href="https://wrapbootstrap.com/user/diablo9983">diablo9983</a>
     </div>
 </div>
-<
 </body>
 </html>

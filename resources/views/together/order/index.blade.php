@@ -1,11 +1,16 @@
 @extends('layouts.master')
 
 @section('content')
-    <div id="breadcrumb" style="position:relative">
+    <div id="breadcrumb" style="position:relative;height: 40px;">
+
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>合作</a>
         <a href="#" class="current">订单列表</a>
-        <a href="{{url('order/export')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">搜索</div></a>
+        <div style="background:blue;width:270px;height: 30px; position:absolute;right:500px;bottom:0;padding:2px;">
+           <input type="text"><input type="button" value="搜索" style="background:blue">
+            {{--<div style="width:40px;float:right;" ><font color="#f5f5f5">搜索<font></div>--}}
+        </div>
         <a href="{{url('order/export')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">导出当前页</div></a>
+
     </div>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
@@ -42,12 +47,6 @@
                 </tbody>
             </table>
         </div>
-        {{--{!! $datas->render() !!}--}}
-        <script type="text/javascript">
-            alert("123");
-            </script>
-        <>
-
     </div>
 
     @endsection

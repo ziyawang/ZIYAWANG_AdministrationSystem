@@ -4,7 +4,7 @@
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 系统</a>
         <a href="#" class="current">用户列表</a>
-        <a href="{{url('system/add')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">添加</div></a>
+        <a href="{{url('system/add')}}"> <div class=" btn btn-primary " style="position:absolute;right: 10px;bottom:0;">添加</div></a>
     </div>
 
     <div  class="container-fluid">
@@ -28,7 +28,7 @@
                     <td>{{$data['Department']}}</td>
                     <td>
                         <a href="{{url('system/update/'.$data['id'])}}">编辑</a>&nbsp&nbsp&nbsp
-                        <a href="{{url('system/delete/'.$data['id'])}}">删除</a>
+                        <a href="{{url('system/delete/'.$data['id'])}}"onclick="return confirm('确定将此记录删除?')">删除</a>
                     </td>
                 </tr>
                     @endforeach
@@ -36,9 +36,9 @@
             </table>
         </div>
         {!! $datas->render() !!}
-
-
     </div>
+
+
 
     @endsection
     <!-- TODO: Current Tasks -->

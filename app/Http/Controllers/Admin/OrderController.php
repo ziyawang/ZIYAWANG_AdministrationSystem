@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller
 {
     public  function index(){
-        
+
         $datas=DB::table("t_p_rushproject")
             ->leftjoin("t_u_serviceinfo","t_u_serviceinfo.ServiceID","=","t_p_rushproject.ServiceID")
             ->leftjoin("t_p_projectinfo","t_p_rushproject.ProjectID","=","t_p_projectinfo.ProjectID")
@@ -22,6 +22,7 @@ class OrderController extends Controller
             ->where("CooperateFlag",1)
             ->orderBy("RushProID","desc")
             ->get();
+        //var_dump($datas);die;
         return  view("together/order/index",compact("datas"));
     }
     public function detail($id){

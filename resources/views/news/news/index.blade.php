@@ -29,7 +29,7 @@
                             <td>{{$data->PublishTime}}</td>
                             <td>
                                 <a href="{{url('news/update/')}}">编辑</a>
-                                <a href="{{url('news/delete/')}}">删除</a>
+                                <a href="{{url('news/delete/')}} onclick="return delete()">删除</a>
                             </td>
                         </tr>
                     @endforeach
@@ -37,4 +37,5 @@
             </table>
         </div>
     </div>
+
 @endsection

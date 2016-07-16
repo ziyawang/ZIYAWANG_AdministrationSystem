@@ -1,4 +1,4 @@
-@extends('layouts.master');
+@extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>系统</a>
