@@ -11,19 +11,28 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>姓名</th>
-                    <th>登录名</th>
-                    <th>手机号</th>
-                    <th>部门</th>
+                    <th>新闻封面</th>
+                    <th>标题</th>
+                    <th>新闻概要</th>
+                    <th>作者</th>
+                    <th>发布时间</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Row 1</td>
-                        <td>Row 2</td>
-                        <td>Row 3</td>
-                        <td>Row 4</td>
-                    </tr>
+                    @foreach($datas as $data)
+                        <tr>
+                            <td width="60" height="50"><img  src="{{$data->NewsLogo}}"/></td>
+                            <td>{{$data->NewsTitle}}</td>
+                            <td>{{$data->Brief}}</td>
+                            <td>{{$data->NewsAuthor}}</td>
+                            <td>{{$data->PublishTime}}</td>
+                            <td>
+                                <a href="{{url('news/update/')}}">编辑</a>
+                                <a href="{{url('news/delete/')}}">删除</a>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
