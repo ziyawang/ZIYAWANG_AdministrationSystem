@@ -70,6 +70,7 @@ Route::get('news/add', 'Admin\NewsController@add');
 Route::post('news/add', 'Admin\NewsController@save');
 Route::get('news/update', 'Admin\NewsController@update');
 Route::get('news/delete', 'Admin\NewsController@delete');
+Route::any('news/upload', 'Admin\NewsController@upload');
 
 //新闻视频中的视频管理路由
 Route::get('video/index', 'Admin\VideoController@index');

@@ -5,6 +5,7 @@
     <title>资芽网后台管理系统</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css ')}}"/>
     <link rel="stylesheet" href="{{asset('css/bootstrap-responsive.min.css')}}" />
     <link rel="stylesheet" href="{{asset('css/fullcalendar.css')}}" />
@@ -12,7 +13,22 @@
     <link rel="stylesheet" href="{{asset('css/select2.css')}}" />
     <link rel="stylesheet" href="{{asset('css/unicorn.main.css')}}" />
     <link rel="stylesheet" href="{{asset('css/unicorn.grey.css')}}" class="skin-color"  />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+    <script src="{{asset('js/jquery.min.js')}}"></script>
+    <script src="{{asset('js/jquery.validate.js')}}"></script>
+    <script src="{{asset('js/excanvas.min.js')}}"></script>
+    <script src="{{asset('js/jquery.ui.custom.js')}}"></script>
+    <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/jquery.flot.min.js')}}"></script>
+    <script src="{{asset('js/jquery.flot.resize.min.js')}}"></script>
+    <script src="{{asset('js/jquery.peity.min.js')}}"></script>
+    <script src="{{asset('js/fullcalendar.min.js')}}"></script>
+    <script src="{{asset('js/unicorn.js')}}"></script>
+    <script src="{{asset('js/select2.min.js')}}"></script>
+    <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('js/jquery.uniform.js')}}"></script>
+    {{--<script src="{{asset('js/unicorn.form_validation.js')}}"></script>--}}
+    <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
+</head>
 <body>
 
 <div id="header">
@@ -89,22 +105,5 @@
         2016 &copy; ziyawang Admin. Brought to you by <a href="https://wrapbootstrap.com/user/diablo9983">diablo9983</a>
     </div>
 </div>
-<script src="{{asset('js/jquery.min.js')}}"></script>
-
-<script src="{{asset('js/excanvas.min.js')}}"></script>
-<script src="{{asset('js/jquery.ui.custom.js')}}"></script>
-<script src="{{asset('js/bootstrap.min.js')}}"></script>
-<script src="{{asset('js/jquery.flot.min.js')}}"></script>
-<script src="{{asset('js/jquery.flot.resize.min.js')}}"></script>
-<script src="{{asset('js/jquery.peity.min.js')}}"></script>
-<script src="{{asset('js/fullcalendar.min.js')}}"></script>
-<script src="{{asset('js/unicorn.js')}}"></script>
-<script src="{{asset('js/unicorn.dashboard.js')}}"></script>
-<script src="{{asset('js/select2.min.js')}}"></script>
-<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('js/jquery.uniform.js')}}"></script>
-<script src="{{asset('js/unicorn.form_validation.js')}}"></script>
-<script src="{{asset('js/jquery.validate.js')}}"></script>
-
 </body>
 </html>
