@@ -8,29 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css ')}}"/>
     <link rel="stylesheet" href="{{asset('css/bootstrap-responsive.min.css')}}" />
-    <link rel="stylesheet" href="{{asset('css/fullcalendar.css')}}" />
-    <link rel="stylesheet" href="{{asset('css/uniform.css')}}" />
     <link rel="stylesheet" href="{{asset('css/select2.css')}}" />
     <link rel="stylesheet" href="{{asset('css/unicorn.main.css')}}" />
     <link rel="stylesheet" href="{{asset('css/unicorn.grey.css')}}"/>
     <link rel="stylesheet" href="{{asset('/css/uploadifive.css')}}" />
 
     <script src="{{asset('js/jquery.min.js')}}"></script>
-    <script src="{{asset('js/excanvas.min.js')}}"></script>
-    <script src="{{asset('js/jquery.ui.custom.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('js/jquery.flot.min.js')}}"></script>
-    <script src="{{asset('js/jquery.flot.resize.min.js')}}"></script>
-    <script src="{{asset('js/jquery.peity.min.js')}}"></script>
-    <script src="{{asset('js/fullcalendar.min.js')}}"></script>
     <script src="{{asset('js/unicorn.js')}}"></script>
     <script src="{{asset('js/select2.min.js')}}"></script>
     <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('js/jquery.uniform.js')}}"></script>
-    <script src="{{asset('js/unicorn.form_validation.js')}}"></script>
     <script src="{{asset('js/jquery.validate.js')}}"></script>
-    <script src="{{asset('js/jquery.gritter.min.js')}}"></script>
-    <script src="{{asset('js/unicorn.interface.js')}}"></script>
+    <script src="{{asset('js/unicorn.form_validation.js')}}"></script>
     <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
     <script src="{{asset('js/jquery.uploadifive.min.js')}}"></script>
 </head>

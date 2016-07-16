@@ -16,7 +16,7 @@
                     <h5>添加新闻</h5>
                 </div>
                 <div class="widget-content nopadding">
-                    <form action="#" method="post" action="{{asset('news/news/add')}}" class="form-horizontal" />
+                    <form method="post" action="{{asset('news/add')}}" class="form-horizontal" />
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="control-group">
                         <label class="control-label">新闻标题</label>
@@ -33,7 +33,7 @@
                     <div class="control-group">
                         <label class="control-label">新闻封面</label>
                         <div class="controls">
-                            <input type="hidden" class="lg" id="filepath" name="newslogo">
+                            <input type="text" class="lg" id="filepath" name="art_thumb">
                             <input id="file_upload" name="file_upload" type="file" multiple="true">
                         </div>
                         <div class="controls  span4">
@@ -61,7 +61,6 @@
         $(function() {
             $("#file_upload").uploadifive({
                 'buttonText' : '上传图片',
-                'buttonClass' : 'btn btn-success',
                 'formData'     : {
                     'timestamp' : '<?php echo $timestamp;?>',
                     '_token'     : "{{csrf_token()}}"
