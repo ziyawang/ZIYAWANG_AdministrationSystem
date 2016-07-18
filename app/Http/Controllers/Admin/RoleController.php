@@ -17,7 +17,7 @@ class RoleController extends Controller
        $datas=DB::table("t_as_role")->orderBy("id","desc")
                ->where("status",1)
                ->paginate(1);
-      return view("systems/role/index",compact("datas"));
+        return view("systems/role/index",compact("datas"));
     }
 
     //添加角色
@@ -62,18 +62,17 @@ class RoleController extends Controller
         }
         
     }
-
+ //获取角色名称
     public function getRoleName(){
        $name=$_POST['data'];
        // $name="技术部经理";
-
         $db=DB::table('t_as_role')->where(["RoleName"=>$name,"Status"=>1])->get();
         if($db){
             $arr["status"]=1;
-            $arr['name']=$name;
+           
         }else{
             $arr['status']=0;
-            $arr['name']=$name;
+          
         }
 //var_dump($arr);die;
         return json_encode($arr);

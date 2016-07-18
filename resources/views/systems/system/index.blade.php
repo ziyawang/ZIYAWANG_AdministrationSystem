@@ -15,6 +15,7 @@
                     <th>姓名</th>
                     <th>登录名</th>
                     <th>手机号</th>
+                    <th>角色</th>
                     <th>部门</th>
                     <th>操作</th>
                 </tr>
@@ -25,6 +26,7 @@
                     <td>{{$data['Name']}}</td>
                     <td>{{$data['Email']}}</td>
                     <td>{{$data['PhoneNumber']}}</td>
+                    <td>{{$data['RoleName']}}</td>
                     <td>{{$data['Department']}}</td>
                     <td>
                         <a href="{{url('system/update/'.$data['id'])}}">编辑</a>&nbsp&nbsp&nbsp

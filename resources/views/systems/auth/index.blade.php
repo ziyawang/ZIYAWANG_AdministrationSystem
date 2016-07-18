@@ -1,43 +1,54 @@
 @extends('layouts.master')
-
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 系统</a>
-        <a href="#" class="current">用户列表</a>
-        <a href="{{url('system/add')}}"> <div class=" btn btn-primary " style="position:absolute;right: 10px;bottom:0;">添加</div></a>
+        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>系统</a>
+        <a href="#" class="current">添加用户</a>
     </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-align-justify"></i>
+                            </span>
+                    <h5>Basic validation</h5>
+                </div>
+                <div class="widget-content nopadding">
+                    <form class="form-horizontal" method="post" action="{{asset('systems/system/add')}}" name="basic_validate"  novalidate="novalidate" />
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="control-group">
+                        <label class="control-label">角色名称</label>
+                        <div class="controls">
+                            <select  name="roleName" id="roleName" />
+                            <option value="0">-请选择-</option>
+                            @foreach($datas as $data)
+                                <option value="{{$data->id}}">{{$data->RoleName}}</option>
+                                @endforeach
+                                </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <input type="submit" value="添加" class="btn btn-primary" />
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {{--<script>--}}
 
-    <div  class="container-fluid">
-        <div class="widget-content nopadding">
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>角色名称</th>
-                    <th>角色描述</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($datas as $data)
-                    <tr>
-                        <td>{{$data['id']}}</td>
-                        <td>{{$data['RoleName']}}</td>
-                        <td>1</td>
-                        <td>
-                            <a href="{{url('auth/update/'.$data['id'])}}">编辑</a>&nbsp&nbsp&nbsp
-                            <a href="{{url('auth/delete/'.$data['id'])}}"onclick="return confirm('确定将此记录删除?')">删除</a>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
-        <div class="pagination alternate" style="margin:0 auto">
-            {!! $datas->render() !!}
-        </div>
+            {{--$("#roleName").on("change",function(){--}}
+               {{--var roleId= $("#roleName").val();--}}
+                {{--$.ajax({--}}
+                    {{--url:"{{url(auth/getAuth)}}",--}}
+                    {{--data:{"roleId":roleId},--}}
+                    {{--dataType:"json",--}}
+                    {{--type:"get",--}}
+                    {{--success:function(){--}}
+                        {{--var str--}}
+                    {{--}--}}
+
+                {{--});--}}
+            {{--});--}}
+        {{--</script>--}}
     </div>
-
-
-    @endsection
-            <!-- TODO: Current Tasks -->
+@endsection            <!-- TODO: Current Tasks -->

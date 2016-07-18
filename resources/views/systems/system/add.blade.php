@@ -54,6 +54,17 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="control-group">
+                            <label class="control-label">角色</label>
+                            <div class="controls">
+                                <select  name="roleName" id="url" />
+                                <option value="0">-请选择-</option>
+                                @foreach($datas as $data)
+                                <option value="{{$data->id}}">{{$data->RoleName}}</option>
+                               @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-actions">
                             <input type="submit" value="添加" class="btn btn-primary" />
                         </div>
