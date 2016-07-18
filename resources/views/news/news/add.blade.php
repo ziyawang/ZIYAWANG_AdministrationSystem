@@ -33,8 +33,8 @@
                     <div class="control-group">
                         <label class="control-label">新闻封面</label>
                         <div class="controls">
-                            <input type="text" class="lg" id="filepath" name="art_thumb">
-                            <input id="file_upload" name="file_upload" type="file" multiple="true">
+                            <input type="hidden" id="filepath" name="newslogo">
+                            <input id="file_upload" name="file_upload"  multiple="true">
                         </div>
                         <div class="controls  span4">
                             <img src="" id="thumb" alt=""/>
@@ -47,7 +47,8 @@
                         </div>
                     </div>
                     <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">保存</button>
+                        <button type="submit" class="btn btn-primary" onClick="savenews(0)" >保存</button>
+                        <button id="publish" type="submit" class="btn btn-primary" onClick="savenews(1)" >保存并发布</button>
                     </div>
                     </form>
                     
@@ -58,6 +59,12 @@
 
     <script type="text/javascript">
         <?php $timestamp = time();?>
+
+        function savenews(para){
+            var f = document.getElementsByTagName("form")[0];
+            f.action=f.action+"/"+para;
+        }
+
         $(function() {
             $("#file_upload").uploadifive({
                 'buttonText' : '上传图片',

@@ -68,8 +68,9 @@ Route::get('refuse/detail/{id}', 'Admin\RefuseController@detail');
 //新闻视频中的新闻管理路由
 Route::get('news/index', 'Admin\NewsController@index');
 Route::get('news/add', 'Admin\NewsController@add');
-Route::post('news/add', 'Admin\NewsController@save');
-Route::get('news/update', 'Admin\NewsController@update');
+Route::post('news/add/{id}', 'Admin\NewsController@save');
+Route::get('news/update/{id}', 'Admin\NewsController@update');
+Route::post('news/saveupdate/{id}', 'Admin\NewsController@saveupdate');
 Route::get('news/delete', 'Admin\NewsController@delete');
 Route::any('news/upload', 'Admin\NewsController@upload');
 
