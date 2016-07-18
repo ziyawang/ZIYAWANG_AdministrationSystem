@@ -15,6 +15,7 @@
                     <th>标题</th>
                     <th>新闻概要</th>
                     <th>作者</th>
+                    <th>状态</th>
                     <th>发布时间</th>
                     <th>操作</th>
                 </tr>
@@ -26,10 +27,11 @@
                             <td>{{$data->NewsTitle}}</td>
                             <td>{{$data->Brief}}</td>
                             <td>{{$data->NewsAuthor}}</td>
+                            <td>{{$data->Flag}}</td>
                             <td>{{$data->PublishTime}}</td>
                             <td>
-                                <a href="{{url('news/update/')}}">编辑</a>
-                                <a href="{{url('news/delete/')}} onclick="return delete()">删除</a>
+                                <a class="btn btn-primary" href="{{url('news/update/'.$data->NewsID)}}"><i class="icon-pencil icon-white"></i></a>
+                                <a class="btn btn-danger" href="{{url('news/delete/'.$data->NewsID)}}" onclick="deletenews()"><i class="icon-remove icon-white"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -37,5 +39,12 @@
             </table>
         </div>
     </div>
+    <script type="text/javascript">
 
+        function deletenews(para){
+            var f = document.getElementsByTagName("form")[0];
+            f.action=f.action+"/"+para;
+            alert(f.action);
+        }
+    </script>
 @endsection

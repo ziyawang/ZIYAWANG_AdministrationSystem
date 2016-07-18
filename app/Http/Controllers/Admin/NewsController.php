@@ -22,23 +22,41 @@ class NewsController extends Controller
         return view("news/news/add");
     }
 
-    //添加新闻
-    public function save(){
+    //保存添加新闻
+    public function save($type){
         $db=DB::table("t_n_newsinfo")->insert([
             'NewsTitle'=>$_POST['title'],
             'NewsContent'=>$_POST['content'],
             'Brief'=>$_POST['description'],
             'NewsLogo'=>$_POST['newslogo'],
+            'Flag'=>$type,
             'created_at'=>date("Y-m-d H:i:s", time())
         ]);
 
-        //dd($datas);
+        return redirect("news/index");
+    }
+
+    //保存编辑新闻
+    public function saveupdate($type){
+        
+        $db=DB::table("t_n_newsinfo")->where('newsid',$_POST['newsid'])->update([
+            'NewsTitle'=>$_POST['title'],
+            'NewsContent'=>$_POST['content'],
+            'Brief'=>$_POST['description'],
+            'NewsLogo'=>$_POST['newslogo'],
+            'Flag'=>$type,
+            'updated_at'=>date("Y-m-d H:i:s", time())
+        ]);
+
         return redirect("news/index");
     }
 
     //编辑新闻信息
-    public function update(){
-        return view("news/news/update");
+    public function update($id){
+
+        $datas=DB::table("t_n_newsinfo")->where('newsid',$id)->first();
+
+        return view("news/news/update",compact('datas'));
     }
     //删除新闻信息
     public function delete(){
