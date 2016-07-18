@@ -44,8 +44,8 @@
             <a href="#"><i class="icon icon-th-list"></i> <span>系统管理</span> <span class="label">3</span></a>
             <ul>
                 <li><a href="{{url('system/index')}}">人员管理</a></li>
-                <li><a href="form-validation.html">角色管理</a></li>
-                <li><a href="form-wizard.html">权限管理</a></li>
+                <li><a href="{{url('role/index')}}">角色管理</a></li>
+                <li><a href="{{url("auth/index")}}">权限管理</a></li>
             </ul>
         </li>
         <li class="submenu">

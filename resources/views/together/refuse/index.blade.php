@@ -4,7 +4,7 @@
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>系统</a>
         <a href="#" class="current">退单列表</a>
-        <a href="{{url('system/add')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">导出当前页</div></a>
+        <a href="{{url('refuse/export')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">导出当前页</div></a>
     </div>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
@@ -41,7 +41,9 @@
                 </tbody>
             </table>
         </div>
-        {{--{!! $datas->render() !!}--}}
+        <div class="pagination alternate">
+            {!! $datas->render() !!}
+        </div>
 
 
     </div>

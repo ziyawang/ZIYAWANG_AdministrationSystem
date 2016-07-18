@@ -17,7 +17,7 @@ class SystemController extends Controller
     //人员管理列表
   public function index(){
      
-      $datas=AsUser::where('Status',1)->paginate(2);;
+      $datas=AsUser::where('Status',1)->orderBy("id","desc")->paginate(2);
    
      return view("systems/system/index",compact('datas'));
   }

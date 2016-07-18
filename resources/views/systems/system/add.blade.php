@@ -33,7 +33,7 @@
                         <div class="control-group">
                             <label class="control-label">手机号</label>
                             <div class="controls">
-                                <input type="password" name="number" id="date" />
+                                <input type="text" name="number" id="date" />
                             </div>
                         </div>
                         <div class="control-group">
@@ -49,7 +49,7 @@
                                         <option value="技术部">技术部</option>
                                         <option value="产品部">产品部</option>
                                         <option value="销售部">销售部</option>
-                                        <option value=人事部">人事部</option>
+                                        <option value="人事部">人事部</option>
 
                                 </select>
                             </div>

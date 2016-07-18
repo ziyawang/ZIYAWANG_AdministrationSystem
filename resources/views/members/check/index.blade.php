@@ -4,7 +4,7 @@
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>会员</a>
         <a href="#" class="current">审核列表</a>
-        <a href="{{url('system/add')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">导出当前页</div></a>
+        <a href="{{url('check/export')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">导出当前页</div></a>
     </div>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
@@ -44,7 +44,9 @@
                 </tbody>
             </table>
         </div>
-        {{--{!! $datas->render() !!}--}}
+        <div class="pagination alternate">
+            {!! $datas->render() !!}
+        </div>
     </div>
     @endsection
             <!-- TODO: Current Tasks -->

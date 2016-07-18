@@ -12,26 +12,24 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>姓名</th>
-                    <th>登录名</th>
-                    <th>手机号</th>
-                    <th>部门</th>
+                    <th>ID</th>
+                    <th>角色名称</th>
+                    <th>角色描述</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($datas as $data)
-                <tr>
-                    <td>{{$data['Name']}}</td>
-                    <td>{{$data['Email']}}</td>
-                    <td>{{$data['PhoneNumber']}}</td>
-                    <td>{{$data['Department']}}</td>
-                    <td>
-                        <a href="{{url('system/update/'.$data['id'])}}">编辑</a>&nbsp&nbsp&nbsp
-                        <a href="{{url('system/delete/'.$data['id'])}}"onclick="return confirm('确定将此记录删除?')">删除</a>
-                    </td>
-                </tr>
-                    @endforeach
+                    <tr>
+                        <td>{{$data['id']}}</td>
+                        <td>{{$data['RoleName']}}</td>
+                        <td>1</td>
+                        <td>
+                            <a href="{{url('auth/update/'.$data['id'])}}">编辑</a>&nbsp&nbsp&nbsp
+                            <a href="{{url('auth/delete/'.$data['id'])}}"onclick="return confirm('确定将此记录删除?')">删除</a>
+                        </td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
@@ -42,5 +40,4 @@
 
 
     @endsection
-    <!-- TODO: Current Tasks -->
-
+            <!-- TODO: Current Tasks -->
