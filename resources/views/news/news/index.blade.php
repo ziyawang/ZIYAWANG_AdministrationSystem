@@ -31,7 +31,7 @@
                             <td>{{$data->PublishTime}}</td>
                             <td>
                                 <a class="btn btn-primary" href="{{url('news/update/'.$data->NewsID)}}"><i class="icon-pencil icon-white"></i></a>
-                                <a class="btn btn-danger" href="{{url('news/delete/'.$data->NewsID)}}" onclick="deletenews()"><i class="icon-remove icon-white"></i></a>
+                                <a class="btn btn-danger" href="{{url('news/delete/'.$data->NewsID)}}" onclick="return confirm('确定将此记录删除?')"><i class="icon-remove icon-white"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -39,12 +39,4 @@
             </table>
         </div>
     </div>
-    <script type="text/javascript">
-
-        function deletenews(para){
-            var f = document.getElementsByTagName("form")[0];
-            f.action=f.action+"/"+para;
-            alert(f.action);
-        }
-    </script>
 @endsection

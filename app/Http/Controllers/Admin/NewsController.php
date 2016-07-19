@@ -13,8 +13,7 @@ class NewsController extends Controller
 {
     //新闻列表
     public function index(){
-        $datas=DB::table("t_n_newsinfo")->get();
-        //dd($datas);
+        $datas=DB::table("t_n_newsinfo")->where('flag',"<>",2)->get();
         return view("news/news/index",compact('datas'));
     }
     //添加新闻
@@ -59,8 +58,11 @@ class NewsController extends Controller
         return view("news/news/update",compact('datas'));
     }
     //删除新闻信息
-    public function delete(){
-        return view("news/news/delete");
+    public function delete($id){
+        DB::table('t_n_newsinfo')->where('newsid',$id)->update([
+            'Flag'=>2,
+            'updated_at'=>date("Y-m-d H:i:s", time())]);
+        return redirect("news/index");
     }
 
     public function upload(){
