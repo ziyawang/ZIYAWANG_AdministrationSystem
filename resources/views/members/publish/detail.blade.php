@@ -1,20 +1,13 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>会员</a>
+        <a href="{{asset('publish/index')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>会员</a>
         <a href="#" class="current">发布方详情页</a>
     </div>
     <div  class="container-fluid">
         <div class="row-fluid">
             <div class="span12">
                 <div class="widget-box">
-                    <div class="widget-title">
-								<span class="icon">
-									<i class="icon-align-justify"></i>
-								</span>
-                        <h5>Basic validation</h5>
-                        <span class="label label-important">48 notices</span>
-                    </div>
                     <div class="widget-content nopadding">
                         <form class="form-horizontal" method="post" action="{{asset('publish/update')}}" name="basic_validate" id="basic_validate" novalidate="novalidate" />
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -48,7 +41,7 @@
                         <div class="control-group">
                             <label class="control-label">注册图像</label>
                             <div class="controls">
-                                <input type="area" name="password" id="url" value="{{$data->UserPicture}}"  readonly/>
+                                <input type="tex" name="password" id="url" value="{{$data->UserPicture}}"  readonly/>
                             </div>
                         </div>
                         <div class="control-group">

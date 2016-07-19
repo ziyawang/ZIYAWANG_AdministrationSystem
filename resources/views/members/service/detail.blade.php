@@ -1,20 +1,13 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>会员</a>
+        <a href="{{asset("service/index")}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>会员</a>
         <a href="#" class="current">服务方详情页</a>
     </div>
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span12">
                 <div class="widget-box">
-                    <div class="widget-title">
-								<span class="icon">
-									<i class="icon-align-justify"></i>
-								</span>
-                        <h5>Basic validation</h5>
-                        <span class="label label-important">48 notices</span>
-                    </div>
                     <div class="widget-content nopadding">
                         <form class="form-horizontal" method="post" action="{{asset('service/update')}}"
                               name="basic_validate" id="basic_validate" novalidate="novalidate"/>
@@ -52,7 +45,7 @@
                             <div class="control-group">
                                 <label class="control-label">服务地区</label>
                                 <div class="controls">
-                                    <input type="area" name="password" id="url" value="{{$data->ServiceArea}}"
+                                    <input type="text" name="password" id="url" value="{{$data->ServiceArea}}"
                                            readonly/>
                                 </div>
                             </div>
@@ -92,11 +85,7 @@
                 } else {
                     $("#remark").css("display", "block");
                 }
-
-
-                // alert($result);
             });
-
         </script>
     </div>
 @endsection

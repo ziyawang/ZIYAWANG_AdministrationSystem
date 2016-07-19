@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="{{asset('css/select2.css')}}" />
     <link rel="stylesheet" href="{{asset('css/unicorn.main.css')}}" />
     <link rel="stylesheet" href="{{asset('css/unicorn.grey.css')}}"/>
-    <link rel="stylesheet" href="{{asset('/css/uploadifive.css')}}" />
+    <link rel="stylesheet" href="{{asset('css/uploadifive.css')}}" />
+    <link rel="stylesheet" href="{{asset('css/uniform.css')}}" />
 
     <script src="{{asset('js/jquery.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
@@ -23,6 +24,8 @@
     <script src="{{asset('js/unicorn.form_validation.js')}}"></script>
     <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
     <script src="{{asset('js/jquery.uploadifive.min.js')}}"></script>
+    <script src="{{asset('js/jquery.ui.custom.js')}}"></script>
+    <script src="{{asset('js/unicorn.tables.js')}}"></script>
 </head>
 <body>
 
@@ -40,43 +43,22 @@
     <a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
     <ul>
         <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
-        <li class="submenu">
-            <a href="#"><i class="icon icon-th-list"></i> <span>系统管理</span> <span class="label">3</span></a>
+        <?php $pAuths = unserialize(Session::get('pAuths'));
+            $Auths = unserialize(Session::get('Auths'));
+
+        ?>
+        @foreach($pAuths as $pAuth)
+            <li class="submenu">
+                <a href="#"><i class="icon icon-th-list"></i> <span>{{$pAuth->AuthName}}</span> <span class="label">{{$pAuth->count}}</span></a>
             <ul>
-                <li><a href="{{url('system/index')}}">人员管理</a></li>
-                <li><a href="{{url('role/index')}}">角色管理</a></li>
-                <li><a href="{{url("auth/index")}}">权限管理</a></li>
+                @foreach($Auths as $Auth)
+                    @if($Auth->PID==$pAuth->Auth_ID)
+                <li><a href="{{url($Auth->Path)}}">{{$Auth->AuthName}}</a></li>
+                    @endif
+                @endforeach
             </ul>
         </li>
-        <li class="submenu">
-            <a href="#"><i class="icon  icon-user"></i> <span>会员管理</span> <span class="label">3</span></a>
-            <ul>
-                <li><a href="{{url("publish/index")}}">发布方管理</a></li>
-                <li><a href="{{url("service/index")}}">服务方管理</a></li>
-                <li><a href="{{url("check/index")}}">审核发布信息</a></li>
-            </ul>
-        </li>
-        <li class="submenu">
-            <a href="#"><i class="icon  icon-globe"></i> <span>合作管理</span> <span class="label">2</span></a>
-            <ul>
-                <li><a href="{{url('order/index')}}">订单管理</a></li>
-                <li><a href="{{url('refuse/index')}}">退单管理</a></li>
-            </ul>
-        </li>
-        <li class="submenu">
-            <a href="#"><i class="icon icon-inbox"></i> <span>新闻视频</span> <span class="label">2</span></a>
-            <ul>
-                <li><a href="{{url("news/index")}}">新闻管理</a></li>
-                <li><a href="{{url("video/index")}}">视频管理</a></li>
-            </ul>
-        </li>
-        <li class="submenu">
-            <a href="#"><i class="icon icon-hand-up"></i> <span>推送管理</span> <span class="label">2</span></a>
-            <ul>
-                <li><a href="invoice.html">推送信息</a></li>
-                <li><a href="chat.html">已推送列表</a></li>
-            </ul>
-        </li>
+        @endforeach
     </ul>
 
 </div>

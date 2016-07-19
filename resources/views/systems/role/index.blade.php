@@ -2,8 +2,8 @@
 
 @section('content')
     <div id="breadcrumb" style="position: relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 系统</a>
-        <a href="#" class="current">用户列表</a>
+        <a href="{{asset('role/index')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 系统</a>
+        <a href="#" class="current">角色列表</a>
         <a href="{{url('role/add')}}"> <div class=" btn btn-primary " style="position:absolute;right: 10px;bottom:0;">添加</div></a>
     </div>
 

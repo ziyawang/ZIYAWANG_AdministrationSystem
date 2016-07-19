@@ -122,7 +122,6 @@ class ServiceController extends Controller
     }
     
     public function update(){
-       // var_dump($_POST);die;
         $db=DB::table("T_U_SERVICEINFO")->where("ServiceID",$_POST['id'])
             ->update([
 

@@ -1,21 +1,13 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>系统</a>
+        <a href="{{url("system/index")}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>系统</a>
         <a href="#" class="current">编辑用户</a>
-
     </div>
     <div  class="container-fluid">
         <div class="row-fluid">
             <div class="span12">
                 <div class="widget-box">
-                    <div class="widget-title">
-								<span class="icon">
-									<i class="icon-align-justify"></i>
-								</span>
-                        <h5>Basic validation</h5>
-                        <span class="label label-important">48 notices</span>
-                    </div>
                     <div class="widget-content nopadding">
                         <form class="form-horizontal" method="post" action="{{asset('systems/system/update')}}" name="basic_validate" id="basic_validate" novalidate="novalidate" />
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">

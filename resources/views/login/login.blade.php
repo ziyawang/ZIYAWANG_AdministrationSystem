@@ -14,7 +14,7 @@
     <img src="{{asset('img/logo.png')}}" alt=""/>
 </div>
 <div id="loginbox" style="height:225px">
-    <form id="loginform" class="form-vertical" action="{{url('/admin/login')}}" method="post"/>
+    <form id="loginform" class="form-vertical" action="{{url('admin/login')}}" method="post"/>
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <p>请输入您的邮箱和密码</p>
     <div class="control-group">
@@ -34,7 +34,7 @@
     </div>
     @if(session("msg"))
         <div class="control-group">
-            <p style="font-size: 5px;color: orangered">{{session("msg")}}</p>
+            <p style="font-size: 15px;color:orangered">{{session("msg")}}</p>
         </div>
     @endif
     <div class="form-actions">

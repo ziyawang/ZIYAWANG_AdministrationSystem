@@ -88,4 +88,20 @@ class CheckController extends Controller
         header("Content-Transfer-Encoding:binary");
         $objWriter->save('php://output');
     }
+
+    public function update(){
+        $db=DB::table("T_U_SERVICEINFO")->where("ServiceID",$_POST['id'])
+            ->update([
+
+                "ServiceIntroduction"=>$_POST['remark']
+            ]);
+        $result=DB::table("t_p_servicecertify")->where("ServiceID",$_POST['id'])->update([
+            "State"=>$_POST['state'],
+        ]);
+        if($db && $result){
+            return Redirect::to("service/index");
+        }else{
+            return Redirect::to("service/detail/".$_POST['id']);
+        }
+    }
 }

@@ -18,10 +18,13 @@ class SystemController extends Controller
   public function index(){
      
       $datas=AsUser::where('t_as_user.Status',1)
-          ->leftjoin("t_as_userrole","t_as_userrole.UserID","=","t_as_user.id")
-          ->leftjoin("t_as_role","t_as_role.id","=","t_as_userrole.RoleID")
+          ->leftJoin("t_as_userrole","t_as_userrole.UserID","=","t_as_user.id")
+          ->leftJoin("t_as_role","t_as_role.id","=","t_as_userrole.RoleID")
+          ->select("t_as_user.*","t_as_role.RoleName")
           ->orderBy("t_as_user.id","desc")->paginate(2);
-    
+ /*var_dump($datas);
+    die;*/
+
     return view("systems/system/index",compact('datas'));
   }
     //添加人员
@@ -31,11 +34,11 @@ class SystemController extends Controller
         $password=md5($_POST['password']);
         $db=DB::table("t_as_user")->insertGetId([
             'Name'=>$_POST['name'],
-              'Email'=>$_POST['email'],
-                'Password'=>$password,
-              'PhoneNumber'=>$_POST['number'],
-              'Department'=>$_POST['department'],
-              'Status'=>$_POST['status'],
+            'Email'=>$_POST['email'],
+            'Password'=>$password,
+            'PhoneNumber'=>$_POST['number'],
+            'Department'=>$_POST['department'],
+            'Status'=>$_POST['status'],
             "RoleID"=>$_POST['roleName']
         ]);
 
