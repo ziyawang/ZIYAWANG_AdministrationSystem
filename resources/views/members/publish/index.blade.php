@@ -2,9 +2,9 @@
 
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>会员</a>
         <a href="#" class="current">发布方列表</a>
-        <a href="{{url('system/add')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">导出当前页</div></a>
+        <a href="{{url('publish/export')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">导出当前页</div></a>
     </div>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
@@ -34,11 +34,6 @@
                         @endif
                         <td>{{$data->Remark}}</td>
                         <td>
-                        @if($data->Status==0)
-                                <a href="#" id="status" onclick="jiedong()">解冻</a>&nbsp&nbsp&nbsp&nbsp
-                        @else
-                                <a href="#" id="status" >冻结</a>&nbsp&nbsp&nbsp&nbsp
-                        @endif
                             <a href="{{url('publish/detail/'.$data->userid)}}">查看</a>
                         </td>
                       
@@ -49,8 +44,13 @@
         </div>
         {{--{!! $datas->render() !!}--}}
 
+        <div class="pagination alternate">
+            {!! $datas->render() !!}
+        </div>
 
     </div>
 
     @endsection
             <!-- TODO: Current Tasks -->
+
+

@@ -4,15 +4,26 @@
 <head>
     <title>资芽网后台管理系统</title>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css ')}}"/>
     <link rel="stylesheet" href="{{asset('css/bootstrap-responsive.min.css')}}" />
-    <link rel="stylesheet" href="{{asset('css/fullcalendar.css')}}" />
-    <link rel="stylesheet" href="{{asset('css/uniform.css')}}" />
     <link rel="stylesheet" href="{{asset('css/select2.css')}}" />
     <link rel="stylesheet" href="{{asset('css/unicorn.main.css')}}" />
-    <link rel="stylesheet" href="{{asset('css/unicorn.grey.css')}}" class="skin-color"  />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+    <link rel="stylesheet" href="{{asset('css/unicorn.grey.css')}}"/>
+    <link rel="stylesheet" href="{{asset('/css/uploadifive.css')}}" />
+
+    <script src="{{asset('js/jquery.min.js')}}"></script>
+    <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/unicorn.js')}}"></script>
+    <script src="{{asset('js/select2.min.js')}}"></script>
+    <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('js/jquery.uniform.js')}}"></script>
+    <script src="{{asset('js/jquery.validate.js')}}"></script>
+    <script src="{{asset('js/unicorn.form_validation.js')}}"></script>
+    <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
+    <script src="{{asset('js/jquery.uploadifive.min.js')}}"></script>
+</head>
 <body>
 
 <div id="header">
@@ -33,8 +44,8 @@
             <a href="#"><i class="icon icon-th-list"></i> <span>系统管理</span> <span class="label">3</span></a>
             <ul>
                 <li><a href="{{url('system/index')}}">人员管理</a></li>
-                <li><a href="form-validation.html">角色管理</a></li>
-                <li><a href="form-wizard.html">权限管理</a></li>
+                <li><a href="{{url('role/index')}}">角色管理</a></li>
+                <li><a href="{{url("auth/index")}}">权限管理</a></li>
             </ul>
         </li>
         <li class="submenu">
@@ -70,41 +81,15 @@
 
 </div>
 
-<div id="style-switcher">
-    <i class="icon-arrow-left icon-white"></i>
-    <span>Style:</span>
-    <a href="#grey" style="background-color: #555555;border-color: #aaaaaa;"></a>
-    <a href="#blue" style="background-color: #2D2F57;"></a>
-    <a href="#red" style="background-color: #673232;"></a>
-</div>
+
 
 <div id="content">
     @yield('content')
-
-
-
 </div>
 <div class="row-fluid">
     <div id="footer" class="span12">
         2016 &copy; ziyawang Admin. Brought to you by <a href="https://wrapbootstrap.com/user/diablo9983">diablo9983</a>
     </div>
 </div>
-<script src="{{asset('js/jquery.min.js')}}"></script>
-
-<script src="{{asset('js/excanvas.min.js')}}"></script>
-<script src="{{asset('js/jquery.ui.custom.js')}}"></script>
-<script src="{{asset('js/bootstrap.min.js')}}"></script>
-<script src="{{asset('js/jquery.flot.min.js')}}"></script>
-<script src="{{asset('js/jquery.flot.resize.min.js')}}"></script>
-<script src="{{asset('js/jquery.peity.min.js')}}"></script>
-<script src="{{asset('js/fullcalendar.min.js')}}"></script>
-<script src="{{asset('js/unicorn.js')}}"></script>
-<script src="{{asset('js/unicorn.dashboard.js')}}"></script>
-<script src="{{asset('js/select2.min.js')}}"></script>
-<script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('js/jquery.uniform.js')}}"></script>
-<script src="{{asset('js/unicorn.form_validation.js')}}"></script>
-<script src="{{asset('js/jquery.validate.js')}}"></script>
-
 </body>
 </html>
