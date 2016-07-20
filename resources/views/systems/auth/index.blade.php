@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position: relative">
-        <a href="{{asset("auth/index")}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 系统</a>
+        <a href="{{asset("auth/index")}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>权限</a>
         <a href="#" class="current">角色列表</a>
     </div>
     <div  class="container-fluid">

@@ -2,9 +2,9 @@
 
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>会员</a>
+        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>服务方</a>
         <a href="#" class="current">服务方列表</a>
-        <a href="{{url('service/export')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">导出当前页</div></a>
+        <a href="{{url('service/export')}}" class="pull-right"> <div class=" btn btn-primary ">导出当前页</div></a>
     </div>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
@@ -17,8 +17,8 @@
                     <th>地址</th>
                     <th>服务类型</th>
                     <th>服务地区</th>
+                    <th>公司介绍</th>
                     <th>审核状态</th>
-                    <th>备注</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -31,14 +31,15 @@
                         <td>{{$data->ServiceLocation}}</td>
                         <td>{{$data->ServiceType}}</td>
                         <td>{{$data->ServiceArea}}</td>
-                        @if($data->State==0)
+                        <td>{{$data->ServiceIntroduction}}</td>
+                        @if($data->State==2)
                             <td><p style="color: #149bdf">拒审核</p></td>
-                            @elseif($data->State==1)
+                            @elseif($data->State==0)
                             <td><p style="color: #149bdf">待审核</p></td>
                             @else
                             <td><p style="color: #149bdf">已审核</p></td>
                             @endif
-                        <td>{{$data->ServiceIntroduction}}</td>
+
                         <td><a href="{{url('service/detail/'.$data->ServiceID)}}">查看</a></td>
                     </tr>
                     @endforeach

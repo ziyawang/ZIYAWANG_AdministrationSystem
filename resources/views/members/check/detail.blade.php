@@ -1,15 +1,20 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="{{asset('check/index')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>会员</a>
-        <a href="#" class="current">服务方详情页</a>
+        <a href="{{asset('check/index')}}" title="审核列表" class="tip-bottom"><i class="icon-home"></i>审核</a>
+        <a href="#" class="current">审核详情</a>
     </div>
-    <div  class="container-fluid">
-        <div class="row-fluid">
+    <div class="row-fluid">
             <div class="span12">
                 <div class="widget-box">
+                    <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-align-justify"></i>
+                            </span>
+                        <h5>审核详情</h5>
+                    </div>
                     <div class="widget-content nopadding">
-                        <form class="form-horizontal" method="post" action="{{asset('/system/add')}}" name="basic_validate" id="basic_validate" novalidate="novalidate" />
+                        <form class="form-horizontal" method="post" action="{{asset('check/update')}}" name="basic_validate" id="basic_validate" novalidate="novalidate" />
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         @foreach($datas as $data)
                             <input type="hidden" name="id" value="{{$id}}">
@@ -41,19 +46,19 @@
                                 <label class="control-label">审核状态</label>
                                 <div class="controls">
                                     <select name="state" id="state">
-                                        <option value="0" @if($data->PublishState==0) selected="selected" @endif>拒审核</option>
-                                        <option value="1" @if($data->PublishState==1)selected="selected" @endif>待审核</option>
-                                        <option value="2" @if($data->PublishState==2)selected="selected" @endif>已审核</option>
+                                        <option value="0" >-请选择-</option>
+                                        <option value="1" @if($data->CertifyState==1)selected="selected" @endif>已审核</option>
+                                        <option value="2" @if($data->CertifyState==2)selected="selected" @endif>拒审核</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="control-group" id="remark" style="display: none">
                                 <label class="control-label">备注</label>
                                 <div class="controls">
-                                    <input type="text" name="number" id="date" value="效益听啊后哦"/>
+                                    <input type="text" name="remark" id="date" value=""/>
                                 </div>
                             </div>
-@endforeach
+                        @endforeach
                         <div class="form-actions">
                             <input type="submit" value="修改" class="btn btn-primary"/>
                             <a href="{{url('check/index')}}"><input type=button value="返回" class="btn btn-primary"/></a>
@@ -64,15 +69,15 @@
             </div>
         </div>
         <script>
-            var result1 = $("#state").val();
+
             $("#state").on("change", function () {
                 var result2 = $(this).val();
-                if (result1 == result2) {
-                    $("#remark").hide();
+                if (result2==2) {
+                    $("#remark").show();
                 } else {
-                    $("#remark").css("display", "block");
+                    $("#remark").hide();
                 }
             });
         </script>
-    </div>
+
 @endsection

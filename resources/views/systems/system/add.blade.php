@@ -1,11 +1,9 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="{{url("system/index")}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>系统</a>
+        <a href="{{url("system/index")}}" title="用户列表" class="tip-bottom"><i class="icon-home"></i>用户</a>
         <a href="#" class="current">添加用户</a>
-
     </div>
-
     <div class="row-fluid">
         <div class="span12">
                 <div class="widget-box">
@@ -13,7 +11,7 @@
                             <span class="icon">
                                 <i class="icon-align-justify"></i>
                             </span>
-                        <h5>Basic validation</h5>
+                        <h5>添加用户</h5>
                     </div>
                     <div class="widget-content nopadding">
                         <form class="form-horizontal" method="post" action="{{asset('systems/system/add')}}" name="basic_validate"  novalidate="novalidate" />

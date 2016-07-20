@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 
 class CheckController extends Controller
 {
@@ -16,7 +18,7 @@ class CheckController extends Controller
             ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
             ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
             ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName")
-            ->orderBy("T_P_PROJECTINFO.ProjectID", "desc")->paginate(2);
+            ->orderBy("T_P_PROJECTINFO.ProjectID", "desc")->paginate(20);
         return view("members/check/index", compact("datas"));
     }
 
@@ -27,9 +29,9 @@ class CheckController extends Controller
             ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
             ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName")
             ->where("T_P_PROJECTINFO.ProjectID",$id)
-            ->orderBy("T_P_PROJECTINFO.ProjectID", "desc")->get();
+            ->get();
        
-        return view("members/check/detail", compact('datas'));
+        return view("members/check/detail", compact('datas',"id"));
     }
 
     public function export()
@@ -42,7 +44,7 @@ class CheckController extends Controller
             ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName")
             ->orderBy("T_P_PROJECTINFO.ProjectID", "desc")
             ->get();
-//var_dump($_SERVER['DOCUMENT_ROOT']);die;获取根目录
+        //var_dump($_SERVER['DOCUMENT_ROOT']);die;获取根目录
         require_once '../vendor/PHPExcel.class.php';
         require_once '../vendor/PHPExcel/IOFactory.php';
         require_once '../vendor/PHPExcel/Reader/Excel5.php';
@@ -90,18 +92,19 @@ class CheckController extends Controller
     }
 
     public function update(){
-        $db=DB::table("T_U_SERVICEINFO")->where("ServiceID",$_POST['id'])
+        $db=DB::table("T_P_PROJECTINFO")->where("T_P_PROJECTINFO.ProjectID",$_POST['id'])
             ->update([
-
-                "ServiceIntroduction"=>$_POST['remark']
+                "CertifyState"=>$_POST['state']
             ]);
-        $result=DB::table("t_p_servicecertify")->where("ServiceID",$_POST['id'])->update([
-            "State"=>$_POST['state'],
+        $remark= !empty($_POST['remark']) ? $_POST['remark'] : "";
+        $result=DB::table("t_p_projectcertify")->where("ProjectID",$_POST['id'])->update([
+            "state"=>$_POST['state'],
+            "Remark"=>$remark
         ]);
         if($db && $result){
-            return Redirect::to("service/index");
+            return Redirect::to("check/index");
         }else{
-            return Redirect::to("service/detail/".$_POST['id']);
+            return Redirect::to("check/detail/".$_POST['id']);
         }
     }
 }

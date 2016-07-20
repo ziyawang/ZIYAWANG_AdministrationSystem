@@ -16,7 +16,7 @@ class RoleController extends Controller
 
        $datas=DB::table("t_as_role")->orderBy("id","desc")
                ->where("status",1)
-               ->paginate(1);
+               ->paginate(20);
         return view("systems/role/index",compact("datas"));
     }
 

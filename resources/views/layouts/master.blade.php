@@ -40,16 +40,16 @@
 </div>
 
 <div id="sidebar">
-    <a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
+    {{--<a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>--}}
     <ul>
-        <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
+        <li class="active"><a href="{{asset('index/index')}}"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
         <?php $pAuths = unserialize(Session::get('pAuths'));
             $Auths = unserialize(Session::get('Auths'));
 
         ?>
         @foreach($pAuths as $pAuth)
             <li class="submenu">
-                <a href="#"><i class="icon icon-th-list"></i> <span>{{$pAuth->AuthName}}</span> <span class="label">{{$pAuth->count}}</span></a>
+                <a href="#"><i class="{{$pAuth->Class}}"></i> <span>{{$pAuth->AuthName}}</span></a>
             <ul>
                 @foreach($Auths as $Auth)
                     @if($Auth->PID==$pAuth->Auth_ID)

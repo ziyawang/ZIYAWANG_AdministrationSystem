@@ -2,9 +2,9 @@
 
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>会员</a>
+        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>发布方</a>
         <a href="#" class="current">发布方列表</a>
-        <a href="{{url('publish/export')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">导出当前页</div></a>
+        <a href="{{url('publish/export')}}" class="pull-right"> <div class=" btn btn-primary ">导出当前页</div></a>
     </div>
     <div  class="container-fluid">
         <div class="widget-content nopadding">

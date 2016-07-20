@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class RefuseController extends Controller
 {
@@ -20,7 +21,7 @@ class RefuseController extends Controller
             ->select("t_p_rushproject.*","t_u_serviceinfo.ServiceName","t_p_projecttype.TypeName","users.phonenumber")
             ->where("CooperateFlag",2)
             ->orderBy("RushProID","desc")
-            ->paginate(2);
+            ->paginate(20);
         return view("together/refuse/index",compact("datas"));
     }
     
@@ -33,7 +34,7 @@ class RefuseController extends Controller
             ->select("t_p_rushproject.*","t_u_serviceinfo.ServiceName","t_p_projecttype.TypeName","users.phonenumber")
             ->where("t_p_rushproject.RushProID",$id)
             ->get();
-        return view("together/refuse/index",compact("datas"));
+        return view("together/refuse/detail",compact("datas","id"));
     }
     public function export()
     {
@@ -95,4 +96,19 @@ class RefuseController extends Controller
         header("Content-Transfer-Encoding:binary");
         $objWriter->save('php://output');
     }
+    public function update(){
+        if($_POST["CooperateFlag"]==1){
+                $cooperateFlag=0;
+        }else{
+            $cooperateFlag=1;
+        }
+        $db=DB::table("t_p_rushproject")->where("RushProID",$_POST['id'])
+            ->update([
+                    "CooperateFlag"=>$cooperateFlag
+            ]);
+        if($db){
+            return Redirect::to("refuse/index");
+        }
+    }
+
 }

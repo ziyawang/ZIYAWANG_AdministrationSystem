@@ -14,7 +14,7 @@ class AuthController extends Controller
     public function index(){
         $datas=DB::table("t_as_role")->orderBy("id","desc")
             ->where("status",1)
-            ->paginate(1);
+            ->paginate(20);
         return view("systems/auth/index",compact("datas"));
     }
    

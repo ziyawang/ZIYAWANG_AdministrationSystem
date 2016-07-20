@@ -21,10 +21,7 @@ class SystemController extends Controller
           ->leftJoin("t_as_userrole","t_as_userrole.UserID","=","t_as_user.id")
           ->leftJoin("t_as_role","t_as_role.id","=","t_as_userrole.RoleID")
           ->select("t_as_user.*","t_as_role.RoleName")
-          ->orderBy("t_as_user.id","desc")->paginate(2);
- /*var_dump($datas);
-    die;*/
-
+          ->orderBy("t_as_user.id","desc")->paginate(20);
     return view("systems/system/index",compact('datas'));
   }
     //添加人员
@@ -71,16 +68,24 @@ class SystemController extends Controller
             'Email'=>$_POST['email'],
             'PhoneNumber'=>$_POST['number'],
             'Department'=>$_POST['department'],
+            "RoleID"=>$_POST['roleName']
         ]);
+
         if($db){
-        
+      
+          $roleId=$_POST['roleName'];
+          DB::table('t_as_userrole')->where("UserID",$Id)->update([
+              "RoleID"=>$roleId
+          ]);
+
           return Redirect::to('system/index');
         }else{
           return Redirect::to('system/index');
         }
       }
       $datas=AsUser::find($id)->toArray();
-      return view('systems/system/update',compact('datas'));
+      $results=DB::table("t_as_role")->where("Status",1)->get();
+      return view('systems/system/update',compact('datas','results'));
     }
     //删除人员信息
     public function delete($id){

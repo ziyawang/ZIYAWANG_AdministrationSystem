@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 class PublishController extends Controller
 {
     public  function index(){
-        $datas=DB::table("users")->orderBy("userid","desc")->paginate(2);
+        $datas=DB::table("users")->orderBy("userid","desc")->paginate(20);
 
         return view("members/publish/index",compact("datas"));
     }

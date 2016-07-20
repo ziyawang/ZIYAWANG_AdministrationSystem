@@ -2,9 +2,9 @@
 
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>会员</a>
+        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>审核</a>
         <a href="#" class="current">审核列表</a>
-        <a href="{{url('check/export')}}"> <div class=" btn btn-primary " style="position:absolute;right:0;bottom:0;">导出当前页</div></a>
+        <a href="{{url('check/export')}}" class="pull-right"> <div class=" btn btn-primary " >导出当前页</div></a>
     </div>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
@@ -30,12 +30,12 @@
                         <td>{{$data->PublishTime}}</td>
                         <td>{{$data->ProArea}}</td>
                         <td>{{$data->TypeName}}</td>
-                        @if($data->PublishState==0)
-                            <td><p style="color: #149bdf">拒审核</p></td>
-                        @elseif($data->PublishState==0)
+                        @if($data->CertifyState==0)
                             <td><p style="color: #149bdf">待审核</p></td>
-                        @else
+                        @elseif($data->CertifyState==1)
                             <td><p style="color: #149bdf">已审核</p></td>
+                        @else
+                            <td><p style="color: #149bdf">拒审核</p></td>
                         @endif
                         <td>8</td>
                         <td><a href="{{url('check/detail/'.$data->ProjectID)}}">查看</a></td>

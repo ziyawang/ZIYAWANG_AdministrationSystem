@@ -1,12 +1,18 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" >
-        <a href="{{asset('role/index')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>系统</a>
-        <a href="#" class="current">添加用户</a>
+        <a href="{{asset('role/index')}}" title="角色列表" class="tip-bottom"><i class="icon-home"></i>角色</a>
+        <a href="#" class="current">添加角色</a>
     </div>
     <div class="row-fluid">
         <div class="span12">
             <div class="widget-box">
+                <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-align-justify"></i>
+                            </span>
+                    <h5>添加角色</h5>
+                </div>
                 <div class="widget-content nopadding">
                     <form class="form-horizontal" method="post" action="{{asset('systems/role/add')}}" name="basic_validate"  novalidate="novalidate" />
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -24,25 +30,25 @@
                 </div>
             </div>
         </div>
-        <script>
-            $("#submit").on("mouseover",function(){
-               var datas=$("#roleName").val();
-                $.ajax({
-                    url:"{{url('role/getRoleName')}}",
-                    data:{"data":datas,'_token':"{{csrf_token()}}"},
-                    dataType:"json",
-                    type:"post",
-                    success:function(msg){
-                            if(msg.status==1){
-                                $("#remark").show();
-                            }
-                    }
-                });
+    <script>
+        $("#submit").on("mouseover",function(){
+           var datas=$("#roleName").val();
+            $.ajax({
+                url:"{{url('role/getRoleName')}}",
+                data:{"data":datas,'_token':"{{csrf_token()}}"},
+                dataType:"json",
+                type:"post",
+                success:function(msg){
+                        if(msg.status==1){
+                            $("#remark").show();
+                        }
+                }
             });
-            $("#roleName").on("mouseover",function(){
-                $("#remark").hide();
-            });
-        </script>
+        });
+        $("#roleName").on("mouseover",function(){
+            $("#remark").hide();
+        });
+    </script>
     </div>
 
 @endsection

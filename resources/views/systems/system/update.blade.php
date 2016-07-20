@@ -1,13 +1,19 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="{{url("system/index")}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>系统</a>
+        <a href="{{url("system/index")}}" title="用户列表" class="tip-bottom"><i class="icon-home"></i>用户</a>
         <a href="#" class="current">编辑用户</a>
     </div>
-    <div  class="container-fluid">
+
         <div class="row-fluid">
             <div class="span12">
                 <div class="widget-box">
+                    <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-align-justify"></i>
+                            </span>
+                        <h5>编辑用户</h5>
+                    </div>
                     <div class="widget-content nopadding">
                         <form class="form-horizontal" method="post" action="{{asset('systems/system/update')}}" name="basic_validate" id="basic_validate" novalidate="novalidate" />
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -35,13 +41,22 @@
                             <label class="control-label">部门</label>
                             <div class="controls">
                                 <select  name="department" id="url" />
-
                                 <option value="技术部"   @if($datas['Department']=='技术部') selected="selected" @endif>技术部</option>
                                 <option value="产品部"  @if($datas['Department']=='产品部')selected="selected" @endif>产品部</option>
                                 <option value="销售部"  @if($datas['Department']=='销售部') selected="selected" @endif>销售部</option>
                                 <option value="人事部"  @if($datas['Department']=='人事部') selected="selected" @endif>人事部</option>
 
                                 </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">角色</label>
+                            <div class="controls">
+                                <select  name="roleName" id="url" />
+                                @foreach($results as $result)
+                                    <option value="{{$result->id}}" @if($result->id==$datas['RoleID'])selected="selected" @endif >{{$result->RoleName}}</option>
+                                    @endforeach
+                                    </select>
                             </div>
                         </div>
                         <div class="form-actions">
@@ -52,6 +67,6 @@
                 </div>
             </div>
         </div>
-    </div>
+
 
 @endsection

@@ -2,9 +2,9 @@
 
 @section('content')
     <div id="breadcrumb" style="position: relative">
-        <a href="{{asset('role/index')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 系统</a>
+        <a href="{{asset('role/index')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>角色</a>
         <a href="#" class="current">角色列表</a>
-        <a href="{{url('role/add')}}"> <div class=" btn btn-primary " style="position:absolute;right: 10px;bottom:0;">添加</div></a>
+        <a href="{{url('role/add')}}" class="pull-right"> <button class="btn btn-success">添加角色</button></a>
     </div>
 
     <div  class="container-fluid">
@@ -25,8 +25,8 @@
                         <td>{{$data->RoleName}}</td>
 
                         <td>
-                            <a href="{{url('role/update/'.$data->id)}}">编辑</a>&nbsp&nbsp&nbsp
-                            <a href="{{url('role/delete/'.$data->id)}}"onclick="return confirm('确定将此记录删除?')">删除</a>
+                            <a class="btn btn-primary" href="{{url('role/update/'.$data->id)}}"><i class="icon-pencil icon-white"></i></a>&nbsp&nbsp&nbsp
+                            <a class="btn btn-danger"  href="{{url('role/delete/'.$data->id)}}"onclick="return confirm('确定将此记录删除?')"><i class="icon-remove icon-white"></i></a>
                         </td>
                     </tr>
                 @endforeach

@@ -1,13 +1,18 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="{{asset('publish/index')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>会员</a>
-        <a href="#" class="current">发布方详情页</a>
+        <a href="{{asset('publish/index')}}" title="发布方列表" class="tip-bottom"><i class="icon-home"></i>发布方</a>
+        <a href="#" class="current">发布方详情</a>
     </div>
-    <div  class="container-fluid">
-        <div class="row-fluid">
+    <div class="row-fluid">
             <div class="span12">
                 <div class="widget-box">
+                    <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-align-justify"></i>
+                            </span>
+                        <h5>发布方详情</h5>
+                    </div>
                     <div class="widget-content nopadding">
                         <form class="form-horizontal" method="post" action="{{asset('publish/update')}}" name="basic_validate" id="basic_validate" novalidate="novalidate" />
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -69,24 +74,17 @@
                 </div>
             </div>
         </div>
+        <script>
+            var result1 = $("#status").val();
+            $("#status").on("change", function () {
+                var result2 = $(this).val();
+                if (result1 == result2) {
+                    $("#remark").hide();
+                } else {
+                    $("#remark").css("display", "block");
+                }
+            });
+        </script>
 
-<script>
-    var result1 = $("#status").val();
-    $("#status").on("change", function () {
-        var result2 = $(this).val();
-        if (result1 == result2) {
-            $("#remark").hide();
-        } else {
-            $("#remark").css("display", "block");
-        }
-
-
-        // alert($result);
-    });
-
-</script>
-
-
-    </div>
 
 @endsection

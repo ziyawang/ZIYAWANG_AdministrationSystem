@@ -14,8 +14,8 @@ class ServiceController extends Controller
     public function index(){
      $datas=DB::table("T_U_SERVICEINFO")
          ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
-         ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State")
-         ->orderBy("t_U_SERVICEINFO.ServiceID","desc")->paginate(1);
+         ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State","t_p_servicecertify.Remark")
+         ->orderBy("t_U_SERVICEINFO.ServiceID","desc")->paginate(20);
 
         $db=array();
         foreach ($datas as $data){
@@ -42,7 +42,6 @@ class ServiceController extends Controller
             ->leftjoin("t_p_servicecertify","T_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
             ->where("T_U_SERVICEINFO.ServiceID",$id)
             ->get();
-       
         $datas=array();
         foreach ($array as $data){
             $serviceTypes=$data->ServiceType;
@@ -122,15 +121,11 @@ class ServiceController extends Controller
     }
     
     public function update(){
-        $db=DB::table("T_U_SERVICEINFO")->where("ServiceID",$_POST['id'])
-            ->update([
-
-                "ServiceIntroduction"=>$_POST['remark']
-            ]);
         $result=DB::table("t_p_servicecertify")->where("ServiceID",$_POST['id'])->update([
             "State"=>$_POST['state'],
+            "Remark"=>$_POST['remark']
         ]);
-        if($db && $result){
+        if( $result){
             return Redirect::to("service/index");
         }else{
             return Redirect::to("service/detail/".$_POST['id']);

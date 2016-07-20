@@ -1,15 +1,22 @@
 @extends('layouts.master')
-
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 系统</a>
+        <a href="{{asset("auth/index")}}" title="角色列表" class="tip-bottom"><i class="icon-home"></i>权限</a>
         <a href="#" class="current">分配权限</a>
     </div>
     <div  class="container-fluid">
-        <form class="form-horizontal" method="post" action="{{asset('auth/edit')}}" name="basic_validate"  novalidate="novalidate" />
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <input type="hidden" name="id" value="{{$id}}">
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-align-justify"></i>
+                            </span>
+                    <h5>分配权限</h5>
+                </div>
         <div class="widget-content nopadding">
+            <form class="form-horizontal" method="post" action="{{asset('auth/edit')}}" name="basic_validate"  novalidate="novalidate" />
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="id" value="{{$id}}">
             <table class="table table-bordered table-striped with-check">
                 <thead>
                 <tr>
@@ -22,7 +29,6 @@
                 @foreach($tpAuths as $tpAuth)
                     <tr>
                         <td><input type="checkbox"  name="ids[]" value="{{$tpAuth->Auth_ID}}" @if(in_array($tpAuth->Auth_ID,$authId)) checked="checked" @endif/>{{$tpAuth->AuthName}}</td>
-
                         <td>
                             @foreach($tAuths as $tAuth)
                                 @if($tAuth->PID==$tpAuth->Auth_ID)
@@ -41,7 +47,5 @@
         </div>
         </form>
     </div>
-
-
-    @endsection
+@endsection
             <!-- TODO: Current Tasks -->
