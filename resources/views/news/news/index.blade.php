@@ -2,7 +2,7 @@
 
 @section('content')
     <div id="breadcrumb">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
+        <a href="#" title="新闻列表" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
         <a href="#" class="current">新闻列表</a>
         <a href="{{url('news/add')}}" class="pull-right"> <button class="btn btn-success">添加新闻</button></a>
     </div>
@@ -29,9 +29,9 @@
                             <td>{{$data->NewsAuthor}}</td>
                             <td>{{$data->Flag}}</td>
                             <td>{{$data->PublishTime}}</td>
-                            <td>
-                                <a class="btn btn-primary" href="{{url('news/update/'.$data->NewsID)}}"><i class="icon-pencil icon-white"></i></a>
-                                <a class="btn btn-danger" href="{{url('news/delete/'.$data->NewsID)}}" onclick="return confirm('确定将此记录删除?')"><i class="icon-remove icon-white"></i></a>
+                            <td class="text-center">
+                                <a class="btn btn-small btn-primary" href="{{url('news/update/'.$data->NewsID)}}"><i class="icon-pencil icon-white"></i></a>
+                                <a class="btn btn-small btn-danger" href="{{url('news/delete/'.$data->NewsID)}}" onclick="return confirm('确定将此记录删除?')"><i class="icon-remove icon-white"></i></a>
                             </td>
                         </tr>
                     @endforeach

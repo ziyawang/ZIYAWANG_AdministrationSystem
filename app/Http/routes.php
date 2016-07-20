@@ -87,8 +87,10 @@ Route::any('news/upload', 'Admin\NewsController@upload');
 //新闻视频中的视频管理路由
 Route::get('video/index', 'Admin\VideoController@index');
 Route::get('video/add', 'Admin\VideoController@add');
-Route::get('video/update', 'Admin\VideoController@update');
-Route::get('video/delete', 'Admin\VideoController@delete');
+Route::post('video/add/{id}', 'Admin\VideoController@save');
+Route::get('video/update/{id}', 'Admin\VideoController@update');
+Route::post('video/saveupdate/{id}', 'Admin\VideoController@saveupdate');
+Route::get('video/delete/{id}', 'Admin\VideoController@delete');
 
 //推送管理中的推送信息路由
 Route::get('push/index', 'Admin\PushController@index');

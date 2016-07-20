@@ -13,7 +13,7 @@ class NewsController extends Controller
 {
     //新闻列表
     public function index(){
-        $datas=DB::table("t_n_newsinfo")->where('flag',"<>",2)->get();
+        $datas=DB::table("T_N_NEWSINFO")->where('flag',"<>",2)->get();
         return view("news/news/index",compact('datas'));
     }
     //添加新闻
@@ -23,12 +23,14 @@ class NewsController extends Controller
 
     //保存添加新闻
     public function save($type){
+
         $db=DB::table("t_n_newsinfo")->insert([
             'NewsTitle'=>$_POST['title'],
             'NewsContent'=>$_POST['content'],
             'Brief'=>$_POST['description'],
             'NewsLogo'=>$_POST['newslogo'],
             'Flag'=>$type,
+            'PublishTime'=>date("Y-m-d H:i:s", time()),
             'created_at'=>date("Y-m-d H:i:s", time())
         ]);
 
@@ -38,12 +40,13 @@ class NewsController extends Controller
     //保存编辑新闻
     public function saveupdate($type){
         
-        $db=DB::table("t_n_newsinfo")->where('newsid',$_POST['newsid'])->update([
+        $db=DB::table("T_N_NEWSINFO")->where('NewsID',$_POST['newsid'])->update([
             'NewsTitle'=>$_POST['title'],
             'NewsContent'=>$_POST['content'],
             'Brief'=>$_POST['description'],
             'NewsLogo'=>$_POST['newslogo'],
             'Flag'=>$type,
+            'PublishTime'=>date("Y-m-d H:i:s", time()),
             'updated_at'=>date("Y-m-d H:i:s", time())
         ]);
 
@@ -53,13 +56,13 @@ class NewsController extends Controller
     //编辑新闻信息
     public function update($id){
 
-        $datas=DB::table("t_n_newsinfo")->where('newsid',$id)->first();
+        $datas=DB::table("T_N_NEWSINFO")->where('newsid',$id)->first();
 
         return view("news/news/update",compact('datas'));
     }
     //删除新闻信息
     public function delete($id){
-        DB::table('t_n_newsinfo')->where('newsid',$id)->update([
+        DB::table('T_N_NEWSINFO')->where('newsid',$id)->update([
             'Flag'=>2,
             'updated_at'=>date("Y-m-d H:i:s", time())]);
         return redirect("news/index");

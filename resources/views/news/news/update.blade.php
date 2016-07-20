@@ -2,16 +2,16 @@
 
 @section('content')
     <div id="breadcrumb">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
+        <a href="{{url('news/index')}}" title="新闻列表" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
         <a href="#" class="current">添加新闻</a>
     </div>
     <div class="row-fluid">
         <div class="span12">
             <div class="widget-box">
                 <div class="widget-title">
-								<span class="icon">
-									<i class="icon-align-justify"></i>
-								</span>
+                    <span class="icon">
+                        <i class="icon-align-justify"></i>
+                    </span>
                     <h5>添加新闻</h5>
                 </div>
                 <div class="widget-content nopadding">
@@ -51,7 +51,6 @@
                         <button id="publish" type="submit" class="btn btn-primary" onClick="savenews(1)" >保存并发布</button>
                     </div>
                     </form>
-
                 </div>
             </div>
         </div>
