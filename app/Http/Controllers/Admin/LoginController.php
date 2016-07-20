@@ -13,7 +13,7 @@ class LoginController extends Controller
     //登录
     public function index()
     {
-//        session(['_token'=>"admin"]);
+       session(["user"=>null]);
         return view("login/login");
     }
     public function login(){
