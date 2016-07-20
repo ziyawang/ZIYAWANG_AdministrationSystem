@@ -78,20 +78,22 @@ Route::group(['middleware' =>"AdminLogin"], function () {
     Route::get('refuse/detail/{id}', 'Admin\RefuseController@detail');
     Route::get('refuse/export', 'Admin\RefuseController@export');
 
-//新闻视频中的新闻管理路由
+    //新闻视频中的新闻管理路由
     Route::get('news/index', 'Admin\NewsController@index');
     Route::get('news/add', 'Admin\NewsController@add');
     Route::post('news/add/{id}', 'Admin\NewsController@save');
     Route::get('news/update/{id}', 'Admin\NewsController@update');
     Route::post('news/saveupdate/{id}', 'Admin\NewsController@saveupdate');
-    Route::get('news/delete', 'Admin\NewsController@delete');
+    Route::get('news/delete/{id}', 'Admin\NewsController@delete');
     Route::any('news/upload', 'Admin\NewsController@upload');
 
-//新闻视频中的视频管理路由
+    //新闻视频中的视频管理路由
     Route::get('video/index', 'Admin\VideoController@index');
     Route::get('video/add', 'Admin\VideoController@add');
-    Route::get('video/update', 'Admin\VideoController@update');
-    Route::get('video/delete', 'Admin\VideoController@delete');
+    Route::post('video/add/{id}', 'Admin\VideoController@save');
+    Route::get('video/update/{id}', 'Admin\VideoController@update');
+    Route::post('video/saveupdate/{id}', 'Admin\VideoController@saveupdate');
+    Route::get('video/delete/{id}', 'Admin\VideoController@delete');
 
 //推送管理中的推送信息路由
     Route::get('push/index', 'Admin\PushController@index');
