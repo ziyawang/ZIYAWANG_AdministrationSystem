@@ -14,7 +14,7 @@
                         <h5>审核详情</h5>
                     </div>
                     <div class="widget-content nopadding">
-                        <form class="form-horizontal" method="post" action="{{asset('check/update')}}" name="basic_validate" id="basic_validate" novalidate="novalidate" />
+                        <form class="form-horizontal" method="post" action="{{asset('check/update')}}" />
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         @foreach($datas as $data)
                             <input type="hidden" name="id" value="{{$id}}">
@@ -25,13 +25,7 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">发布时间</label>
-                                <div class="controls">
-                                    <input type="text" name="email" id="email"  value="{{$data->PublishTime}}" readonly/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">地址</label>
+                                <label class="control-label">地区</label>
                                 <div class="controls">
                                     <input type="text" name="number" id="date" value="{{$data->ProArea}}" readonly/>
                                 </div>
@@ -40,6 +34,73 @@
                                 <label class="control-label">服务类型</label>
                                 <div class="controls">
                                     <input type="text" name="password" id="url" value="{{$data->TypeName}}"readonly/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">文字描述</label>
+                                <div class="controls">
+                                    <input type="text" name="wordDes" id="eordDes" value="{{$data->WordDes}}"
+                                           readonly/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">语音描述</label>
+                                <div class="controls">
+                                    <input type="text" name="videoDes" id="videoDes" value="{{$data->VoiceDes}}"
+                                           readonly/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">发布时间</label>
+                                <div class="controls">
+                                    <input type="text" name="PublishTime" id="PublishTime" value="{{$data->PublishTime}}"
+                                           readonly/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">审核时间</label>
+                                <div class="controls">
+                                    <input type="text" name="CertifyTime" id="CertifyTime" value="{{$data->CertifyTime}}"
+                                           readonly/>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">浏览次数</label>
+                                <div class="controls">
+                                    <input type="text" name="ViewCount" id="ViewCount" value="{{$data->ViewCount}}"
+                                           readonly/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">收藏次数</label>
+                                <div class="controls">
+                                    <input type="text" name="CollectionCount" id="CollectionCount" value="{{$data->CollectionCount}}"
+                                           readonly/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">审核方图片</label>
+                                <div class="controls">
+                                    <input type="hidden" id="filepath" name="checklogo">
+                                    <input id="file_upload" name="file_upload"  multiple="true">
+                                </div>
+                                <div class="controls  span3">
+                                    <div><img id="PictureDes1" alt=""  @if(!empty($data->PictureDes1)) src="{{$data->PictureDes1}}"   @endif/>
+                                       <span><a href="{{asset("$data->PictureDes1")}}"><i class="icon-download PictureDes1" @if(empty($data->PictureDes1)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                           <i class="icon-trash PictureDes1" @if(empty($data->PictureDes1)) style="display:none" @endif ></i>
+                                       </span>
+                                    </div>
+                                    <div><img  id="PictureDes2" alt=""  @if(!empty($data->PictureDes2))  src="{{$data->PictureDes2}}" @endif/>
+                                        <span><a href="{{asset("$data->PictureDes2")}}"><i class="icon-download PictureDes2"  @if(empty($data->PictureDes2)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                            <i class="icon-trash PictureDes2" @if(empty($data->PictureDes2)) style="display:none" @endif></i>
+                                        </span>
+                                    </div>
+                                    <div><img  id="PictureDes3" alt=""  @if(!empty($data->PictureDes3))  src="{{$data->PictureDes3}}"  @endif/>
+                                            <span><a href="{{asset("$data->PictureDes3")}}"><i class="icon-download PictureDes3 " @if(empty($data->PictureDes3)) style="display:none" @endif ></i></a>&nbsp&nbsp
+                                                <i class="icon-trash PictureDes3" @if(empty($data->PictureDes3)) style="display:none" @endif ></i>
+                                            </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -77,6 +138,126 @@
                 } else {
                     $("#remark").hide();
                 }
+            });
+            $(function(){
+                $(".PictureDes1").on("click",function(){
+                    var id=$("input[name='id']").val();
+                    $.ajax({
+                        url:"{{asset('check/handle')}}",
+                        data:{"data":id,"title":"PictureDes1","_token":"{{ csrf_token() }}"},
+                        dataType:"json",
+                        type:"post",
+                        success:function(mag){
+                            if(mag.state==1){
+                                $("#PictureDes1").removeAttrs("src")
+                                $(".PictureDes1").hide();
+                            }
+                        }
+                    });
+                });
+            });
+            $(function(){
+                $(".PictureDes2").on("click",function(){
+                    var id=$("input[name='id']").val();
+                    $.ajax({
+                        url:"{{asset('check/handle')}}",
+                        data:{"data":id,"title":"PictureDes2","_token":"{{ csrf_token() }}"},
+                        dataType:"json",
+                        type:"post",
+                        success:function(mag){
+                            if(mag.state==1){
+                                $("#PictureDes2").removeAttrs("src");
+                                $(".PictureDes2").hide();
+                            }
+                        }
+                    });
+                });
+            });
+            $(function(){
+                $(".PictureDes3").on("click",function(){
+                    var id=$("input[name='id']").val();
+                    $.ajax({
+                        url:"{{asset('check/handle')}}",
+                        data:{"data":id,"title":"PictureDes3","_token":"{{ csrf_token() }}"},
+                        dataType:"json",
+                        type:"post",
+                        success:function(mag){
+                            if(mag.state==1){
+                                $("#PictureDes3").removeAttrs("src");
+                                $(".PictureDes3").hide();
+                            }
+                        }
+                    });
+                });
+            });
+            <?php $timestamp = time();?>
+           $(function() {
+                $("#file_upload").uploadifive({
+                    'buttonText' : '上传图片',
+                    'formData'     : {
+                        'timestamp' : '<?php echo $timestamp;?>',
+                        '_token'     : "{{csrf_token()}}"
+                    },
+                    'removeCompleted' : true,
+                    'uploadLimit'     : 10,
+                    'uploadScript'     :"{{url('/check/upload')}}",
+                    'onUploadComplete' : function(file, data) {
+                        $('#filepath').val(data);
+                        //$('#confirmationP1').attr('src', data);
+                        var p1=$("#PictureDes1").attr('src');
+                        var p2=$("#PictureDes2").attr('src');
+                        var p3=$("#PictureDes3").attr('src');
+                        if(typeof(p1)=="undefined"){
+                            $('#PictureDes1').attr('src', data);
+                            $(".PictureDes1").show();
+                            var data= $('#PictureDes1').attr('src');
+                            var id=$("input[name='id']").val();
+                            $.ajax({
+                                url:"{{asset('check/editHandle')}}",
+                                data:{"id":id,"data":data,"title":"PictureDes1","_token":"{{ csrf_token() }}"},
+                                dataType:"json",
+                                type:"post",
+                                success:function(mag){
+                                    if(mag.state==0){
+                                        alert("您添加失败!");
+                                    }
+                                }
+                            });
+                        }else if(typeof(p2)=="undefined"){
+                            $('#PictureDes2').attr('src', data);
+                            $(".PictureDes2").show();
+                            var data= $('#PictureDes2').attr('src');
+                            var id=$("input[name='id']").val();
+                            $.ajax({
+                                url:"{{asset('check/editHandle')}}",
+                                data:{"id":id,"data":data,"title":"PictureDes2","_token":"{{ csrf_token() }}"},
+                                dataType:"json",
+                                type:"post",
+                                success:function(mag){
+                                    if(mag.state==0){
+                                        alert("您添加失败!");
+                                    }
+                                }
+                            });
+                        }else{
+                            $('#PictureDes3').attr('src', data);
+                            $(".PictureDes3").show();
+                            var data= $('#PictureDes3').attr('src');
+                            var id=$("input[name='id']").val();
+                            $.ajax({
+                                url:"{{asset('check/editHandle')}}",
+                                data:{"id":id,"data":data,"title":"PictureDes3","_token":"{{ csrf_token() }}"},
+                                dataType:"json",
+                                type:"post",
+                                success:function(mag){
+                                    if(mag.state==0){
+                                        alert("您添加失败!");
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
             });
         </script>
 

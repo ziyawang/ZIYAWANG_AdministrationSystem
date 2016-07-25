@@ -12,9 +12,26 @@ use Illuminate\Support\Facades\Redirect;
 class PublishController extends Controller
 {
     public  function index(){
-        $datas=DB::table("users")->orderBy("userid","desc")->paginate(20);
+        $stateWhere=$typeNameWhere=array();
+        if(isset($_POST["_token"])){
+            $state=$_POST['state'];
+            $typeName=$_POST['typeName'];
+            $typeNameWhere=$_POST['typeName']!=0 ? array("T_P_PROJECTTYPE.TypeID"=>$_POST['typeName']) : array();
+            $stateWhere=$_POST['state']!=2 ? array("Status"=>$state) :array();
+            $results=DB::table("T_P_PROJECTTYPE")->get();
+            $datas=DB::table("users")->leftJoin("T_P_PROJECTINFO","USERS.userid","=","T_P_PROJECTINFO.UserID")
+                ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                ->select("USERS.*","T_P_PROJECTTYPE.TypeName")
+                ->where($stateWhere)->where($typeNameWhere)->orderBy("created_at","desc")->paginate(20);
+            return view("members/publish/index",compact("datas","state","results","typeName"));
 
-        return view("members/publish/index",compact("datas"));
+        }
+        $datas=DB::table("users")->leftJoin("T_P_PROJECTINFO","USERS.userid","=","T_P_PROJECTINFO.UserID")
+                ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                ->select("USERS.*","T_P_PROJECTTYPE.TypeName")
+               ->orderBy("created_at","desc")->paginate(20);
+        $results=DB::table("T_P_PROJECTTYPE")->get();
+        return view("members/publish/index",compact("datas","results"));
     }
 
     public function  detail($id){
@@ -32,7 +49,7 @@ class PublishController extends Controller
             ini_set('memory_limit', '512M');
             $datas=DB::table("users")->orderBy("userid","desc")
                 ->get();
-//var_dump($_SERVER['DOCUMENT_ROOT']);die;获取根目录
+        //var_dump($_SERVER['DOCUMENT_ROOT']);die;获取根目录
             require_once '../vendor/PHPExcel.class.php';
             require_once '../vendor/PHPExcel/IOFactory.php';
             require_once '../vendor/PHPExcel/Reader/Excel5.php';
@@ -89,5 +106,6 @@ class PublishController extends Controller
            return Redirect::to("publish/detail/".$_POST['id']);
         }
     }
+ 
 
 }

@@ -25,6 +25,14 @@
                         </div>
                     </div>
                     <div class="control-group">
+                        <label class="control-label">视频类型</label>
+                        <div class="controls">
+                            @foreach($datas as $data)
+                                <input type="checkbox" name="type[]" value="{{$data->id}}" />{{$data->TypeName}}
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="control-group">
                         <label class="control-label">摘要</label>
                         <div class="controls">
                             <textarea name="description" ></textarea>
@@ -43,7 +51,7 @@
                     <div class="control-group">
                         <label class="control-label">视频内容</label>
                         <div class="controls">
-                            <input type="hidden" id="filepath2" name="videolink">
+                            <input type="hidden" id="filepath1" name="videolink">
                             <input id="file_uploadvideo" name="file_uploadvideo"  multiple="true">
                         </div>
                         <div class="controls  span4">
@@ -52,6 +60,19 @@
                             </video>
                         </div>
                     </div>
+                    <div class="control-group">
+                        <label class="control-label">视频内容</label>
+                        <div class="controls">
+                            <input type="hidden" id="filepath2" name="videolink2">
+                            <input id="file_uploadvideo2" name="file_uploadvideo2"  multiple="true">
+                        </div>
+                        <div class="controls  span4">
+                            <video src="" id="videolink2" controls="controls" width="400px" height="300px">
+                                your browser does not support the video tag
+                            </video>
+                        </div>
+                    </div>
+
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary" onClick="savevideo(0)" >保存</button>
                         <button id="publish" type="submit" class="btn btn-primary" onClick="savevideo(1)" >保存并发布</button>
@@ -72,6 +93,21 @@
         }
 
         $(function() {
+            $("#file_uploadvideo2").uploadifive({
+                'buttonText' : '上传视频',
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    '_token'     : "{{csrf_token()}}"
+                },
+                'removeCompleted' : false,
+                'uploadScript'     :"{{url('/video/smallupload')}}",
+                'onUploadComplete' : function(file, data) {
+                    $('#filepath2').val(data);
+                    $('#videolink2').attr('src', data);
+                }
+            });
+        });
+        $(function() {
             $("#file_uploadvideo").uploadifive({
                 'buttonText' : '上传视频',
                 'formData'     : {
@@ -79,9 +115,9 @@
                     '_token'     : "{{csrf_token()}}"
                 },
                 'removeCompleted' : false,
-                'uploadScript'     :"{{url('/news/upload')}}",
+                'uploadScript'     :"{{url('/video/bigupload')}}",
                 'onUploadComplete' : function(file, data) {
-                    $('#filepath2').val(data);
+                    $('#filepath1').val(data);
                     $('#videolink').attr('src', data);
                 }
             });
@@ -95,7 +131,7 @@
                     '_token'     : "{{csrf_token()}}"
                 },
                 'removeCompleted' : true,
-                'uploadScript'     :"{{url('/news/upload')}}",
+                'uploadScript'     :"{{url('video/upload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath').val(data);
                     $('#thumb').attr('src', data);

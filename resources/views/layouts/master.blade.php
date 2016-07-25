@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <!-- container-fluid -->
 <head>
     <title>资芽网后台管理系统</title>
@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="{{asset('css/unicorn.main.css')}}" />
     <link rel="stylesheet" href="{{asset('css/unicorn.grey.css')}}"/>
     <link rel="stylesheet" href="{{asset('css/uploadifive.css')}}" />
-    <link rel="stylesheet" href="{{asset('css/uniform.css')}}" />
+    <link rel="stylesheet" href="{{asset('css/uniform.css')}}" class="skin-color"  />
+    <link rel="stylesheet" href="{{asset('css/fullcalendar.css')}}" />
+
 
     <script src="{{asset('js/jquery.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
@@ -26,12 +28,16 @@
     <script src="{{asset('js/jquery.uploadifive.min.js')}}"></script>
     <script src="{{asset('js/jquery.ui.custom.js')}}"></script>
     <script src="{{asset('js/unicorn.tables.js')}}"></script>
+
+    </body>
+
 </head>
 <body>
 
 <div id="header">
     <h1>资芽网后台管理系统</h1>
 </div>
+
 
 <div id="user-nav" class="navbar navbar-inverse">
     <ul class="nav btn-group">
@@ -70,7 +76,7 @@
 </div>
 <div class="row-fluid">
     <div id="footer" class="span12">
-        2016 &copy; ziyawang Admin. Brought to you by <a href="https://wrapbootstrap.com/user/diablo9983">diablo9983</a>
+         &copy;2016 ziyawang.com
     </div>
 </div>
 </body>

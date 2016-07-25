@@ -28,15 +28,12 @@ Route::get('system/add', 'Admin\SystemController@add');
 Route::post('systems/system/add', 'Admin\SystemController@add');
 Route::get('system/update/{id}', 'Admin\SystemController@update');
 Route::post('systems/system/update', 'Admin\SystemController@update');
-Route::get('system/delete/{id}', 'Admin\SystemController@delete');
-
-
+Route::get('system/delete/{id}','Admin\SystemController@delete');
+    
 //系统管理中权限路由
 Route::get('auth/index', 'Admin\AuthController@index');
 Route::get('auth/assign/{id}', 'Admin\AuthController@assign');
 Route::post('auth/edit', 'Admin\AuthController@edit');
-
-
 
 //系统管理中角色路由
 Route::get('role/index', 'Admin\RoleController@index');
@@ -46,33 +43,45 @@ Route::post('systems/role/update', 'Admin\RoleController@update');
 Route::get('role/update/{id}', 'Admin\RoleController@update');
 Route::get('role/delete/{id}', 'Admin\RoleController@delete');
 Route::post('role/getRoleName/', 'Admin\RoleController@getRoleName');
+    
+//系统管理中的密码修改路由
+Route::get('login/wordEdit','Admin\LoginController@wordEdit');
+Route::post('login/wordUpdate','Admin\LoginController@wordUpdate');
+
 
 //会员管理中的发布方管理路由
-Route::get('publish/index', 'Admin\PublishController@index');
+Route::any('publish/index', 'Admin\PublishController@index');
 Route::get('publish/detail/{id}', 'Admin\PublishController@detail');
 Route::get('publish/export', 'Admin\PublishController@export');
 Route::post('publish/update', 'Admin\PublishController@update');
 
+
 //会员管理中的服务方管理路由
-Route::get('service/index', 'Admin\ServiceController@index');
+Route::any('service/index', 'Admin\ServiceController@index');
 Route::get('service/detail/{id}', 'Admin\ServiceController@detail');
 Route::get('service/export', 'Admin\ServiceController@export');
 Route::post('service/update', 'Admin\ServiceController@update');
+Route::any('service/upload', 'Admin\ServiceController@upload');
+Route::post('service/handle', 'Admin\ServiceController@handle');
+Route::post('service/editHandle', 'Admin\ServiceController@editHandle');
 
 //会员管理中的审核发布信息路由
-Route::get('check/index', 'Admin\CheckController@index');
+Route::any('check/index', 'Admin\CheckController@index');
 Route::get('check/detail/{id}', 'Admin\CheckController@detail');
 Route::get('check/export', 'Admin\CheckController@export');
 Route::post('check/update', 'Admin\CheckController@update');
+Route::any('check/upload', 'Admin\CheckController@upload');
+Route::post('check/handle', 'Admin\CheckController@handle');
+Route::post('check/editHandle', 'Admin\CheckController@editHandle');
 
 //合作管理中的订单管理路由
-Route::get('order/index', 'Admin\OrderController@index');
+Route::any('order/index', 'Admin\OrderController@index');
 Route::get('order/detail/{id}', 'Admin\OrderController@detail');
 Route::get('order/export', 'Admin\OrderController@export');
 
 
 //合作管理中的退单管理路由
-Route::get('refuse/index', 'Admin\RefuseController@index');
+Route::any('refuse/index', 'Admin\RefuseController@index');
 Route::get('refuse/detail/{id}', 'Admin\RefuseController@detail');
 Route::get('refuse/export', 'Admin\RefuseController@export');
 Route::post('refuse/update', 'Admin\RefuseController@update');
@@ -93,6 +102,9 @@ Route::post('video/add/{id}', 'Admin\VideoController@save');
 Route::get('video/update/{id}', 'Admin\VideoController@update');
 Route::post('video/saveupdate/{id}', 'Admin\VideoController@saveupdate');
 Route::get('video/delete/{id}', 'Admin\VideoController@delete');
+Route::any('video/upload', 'Admin\VideoController@upload');
+Route::any('video/bigupload', 'Admin\VideoController@bigupload');
+Route::any('video/smallupload', 'Admin\VideoController@smallupload');
 
 //推送管理中的推送信息路由
 Route::get('push/index', 'Admin\PushController@index');

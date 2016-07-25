@@ -25,6 +25,17 @@
                         </div>
                     </div>
                     <div class="control-group">
+                        <label class="control-label">视频类型</label>
+                        <div class="controls">
+                            @foreach($types as $type)
+                                @if(!isset($count))
+                                    <input type="checkbox" name="type[]" value="{{$type->id}}"/>{{$type->TypeName}}
+                                @endif
+                                <input type="checkbox" name="type[]" value="{{$type->id}}" @if(in_array($type->id,$count)) checked="checked" @endif />{{$type->TypeName}}
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="control-group">
                         <label class="control-label">摘要</label>
                         <div class="controls">
                             <textarea name="description" >{{$datas->VideoDes}}</textarea>
@@ -43,11 +54,23 @@
                     <div class="control-group">
                         <label class="control-label">视频内容</label>
                         <div class="controls">
-                            <input type="hidden" id="filepath2" name="videolink">
+                            <input type="hidden" id="filepath1" name="videolink">
                             <input id="file_uploadvideo" name="file_uploadvideo"  multiple="true">
                         </div>
                         <div class="controls  span4">
                             <video src="{{$datas->VideoLink}}" id="videolink" controls="controls" width="400px" height="300px">
+                                your browser does not support the video tag
+                            </video>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">视频内容</label>
+                        <div class="controls">
+                            <input type="hidden" id="filepath2" name="videolink2">
+                            <input id="file_uploadvideo2" name="file_uploadvideo2"  multiple="true">
+                        </div>
+                        <div class="controls  span4">
+                            <video src="{{$datas->VideoLink2}}" id="videolink2" controls="controls" width="400px" height="300px">
                                 your browser does not support the video tag
                             </video>
                         </div>
@@ -72,7 +95,7 @@
         }
 
         $(function() {
-            $("#file_uploadvideo").uploadifive({
+            $("#file_uploadvideo2").uploadifive({
                 'buttonText' : '上传视频',
                 'formData'     : {
                     'timestamp' : '<?php echo $timestamp;?>',
@@ -80,9 +103,24 @@
                 },
                 'fileSizeLimit' : '100MB',
                 'removeCompleted' : false,
-                'uploadScript'     :"{{url('/news/upload')}}",
+                'uploadScript'     :"{{url('/video/smallupload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath2').val(data);
+                    $('#videolink2').attr('src', data);
+                }
+            });
+        });
+        $(function() {
+            $("#file_uploadvideo").uploadifive({
+                'buttonText' : '上传视频',
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    '_token'     : "{{csrf_token()}}"
+                },
+                'removeCompleted' : false,
+                'uploadScript'     :"{{url('/video/bigupload')}}",
+                'onUploadComplete' : function(file, data) {
+                    $('#filepath1').val(data);
                     $('#videolink').attr('src', data);
                 }
             });
@@ -96,7 +134,7 @@
                     '_token'     : "{{csrf_token()}}"
                 },
                 'removeCompleted' : true,
-                'uploadScript'     :"{{url('/news/upload')}}",
+                'uploadScript'     :"{{url('video/upload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath').val(data);
                     $('#thumb').attr('src', data);

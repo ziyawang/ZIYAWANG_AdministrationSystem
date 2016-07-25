@@ -12,7 +12,22 @@ use Illuminate\Support\Facades\Redirect;
 class RefuseController extends Controller
 {
     public function index(){
-
+        if(isset($_POST['_token']) && !empty($_POST['typeName'])){
+            $typeName=$_POST['typeName'];
+            $results=DB::table("T_P_PROJECTTYPE")->get();
+            $datas = DB::table("t_p_rushproject")
+                ->leftjoin("t_u_serviceinfo", "t_u_serviceinfo.ServiceID", "=", "t_p_rushproject.ServiceID")
+                ->leftjoin("t_p_projectinfo", "t_p_rushproject.ProjectID", "=", "t_p_projectinfo.ProjectID")
+                ->leftjoin("t_p_projecttype", "t_p_projectinfo.TypeID", "=", "t_p_projecttype.TypeID")
+                ->leftjoin("users", "t_p_projectinfo.UserID", "=", "users.userid")
+                ->select("t_p_rushproject.*", "t_u_serviceinfo.ServiceName", "t_p_projecttype.TypeName", "users.phonenumber")
+                ->where("CooperateFlag", 2)
+                ->where("T_P_PROJECTTYPE.TypeID",$typeName)
+                ->orderBy("RushProID", "desc")
+                ->paginate(20);
+            //var_dump($datas);die;
+            return view("together/refuse/index", compact("datas","results","typeName"));
+        }
         $datas=DB::table("t_p_rushproject")
             ->leftjoin("t_u_serviceinfo","t_u_serviceinfo.ServiceID","=","t_p_rushproject.ServiceID")
             ->leftjoin("t_p_projectinfo","t_p_rushproject.ProjectID","=","t_p_projectinfo.ProjectID")
@@ -22,7 +37,8 @@ class RefuseController extends Controller
             ->where("CooperateFlag",2)
             ->orderBy("RushProID","desc")
             ->paginate(20);
-        return view("together/refuse/index",compact("datas"));
+        $results=DB::table("T_P_PROJECTTYPE")->get();
+        return view("together/refuse/index",compact("datas","results"));
     }
     
     public function detail($id){

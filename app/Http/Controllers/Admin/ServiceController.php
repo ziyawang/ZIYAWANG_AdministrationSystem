@@ -8,32 +8,96 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Input;
 
 class ServiceController extends Controller
 {
     public function index(){
-     $datas=DB::table("T_U_SERVICEINFO")
-         ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
-         ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State","t_p_servicecertify.Remark")
-         ->orderBy("t_U_SERVICEINFO.ServiceID","desc")->paginate(20);
+        $stateWhere=$typeNameWhere=$provinceWhere=array();
+        if(isset($_POST['_token'])){
+                $state=$_POST['state'];
+                $typeName=$_POST['typeName'];
+                $province=$_POST['province'];
+                $provinceWhere=$_POST['province']!="全国" ? array("ServiceArea","like","%.$province.%") : array();
+                $typeNameWhere=$_POST['typeName']!=0 ? array("t_U_SERVICEINFO.ServiceType","like","%".$typeName."%") : array();
+                $stateWhere=$_POST['state']!=3 ? array("t_p_servicecertify.State"=>$state) :array();
+            if($_POST['typeName']!=0){
+                  if($_POST['province']!="全国"){
+                      $datas=DB::table("T_U_SERVICEINFO")
+                          ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
+                          ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State","t_p_servicecertify.Remark")
+                          ->where("ServiceArea","like","%".$province."%" )
+                          ->where( "t_U_SERVICEINFO.ServiceType","like","%".$typeName."%")
+                          ->where( $stateWhere)
+                          ->orderBy("t_U_SERVICEINFO.ServiceID","desc")->paginate(20);
+                  }else{
+                      $datas=DB::table("T_U_SERVICEINFO")
+                          ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
+                          ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State","t_p_servicecertify.Remark")
+                          ->where( "t_U_SERVICEINFO.ServiceType","like","%".$typeName."%")
+                          ->where( $stateWhere)
+                          ->orderBy("t_U_SERVICEINFO.ServiceID","desc")->paginate(20);
+                  }
 
-        $db=array();
-        foreach ($datas as $data){
-            $serviceTypes=$data->ServiceType;
-            $serviceType=explode(",",$serviceTypes);
-
-            $types=DB::table("T_P_PROJECTTYPE")->select("TypeName")
-                ->whereIn("TypeID",$serviceType)
-                ->get();
-            $arr=array();
-            foreach($types as $value){
-                $arr[]=$value->TypeName;
+            }else {
+                if ($_POST['province'] != "全国") {
+                    $datas = DB::table("T_U_SERVICEINFO")
+                        ->leftjoin("t_p_servicecertify", "t_U_SERVICEINFO.ServiceID", "=", "t_p_servicecertify.ServiceID")
+                        ->select("t_U_SERVICEINFO.*", "t_p_servicecertify.State", "t_p_servicecertify.Remark")
+                        ->where("ServiceArea", "like", "%".$province."%")
+                        ->where($stateWhere)
+                        ->orderBy("t_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                }else{
+                    $datas = DB::table("T_U_SERVICEINFO")
+                        ->leftjoin("t_p_servicecertify", "t_U_SERVICEINFO.ServiceID", "=", "t_p_servicecertify.ServiceID")
+                        ->select("t_U_SERVICEINFO.*", "t_p_servicecertify.State", "t_p_servicecertify.Remark")
+                        ->where($stateWhere)
+                        ->orderBy("t_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                }
             }
-            $type=implode(",",$arr);
-            $data->ServiceType=$type;
-            $db[]=$data;
+
+                $db=array();
+                foreach ($datas as $data){
+                    $serviceTypes=$data->ServiceType;
+                    $serviceType=explode(",",$serviceTypes);
+
+                    $types=DB::table("T_P_PROJECTTYPE")->select("TypeName")
+                        ->whereIn("TypeID",$serviceType)
+                        ->get();
+                    $arr=array();
+                    foreach($types as $value){
+                        $arr[]=$value->TypeName;
+                    }
+                    $type=implode(",",$arr);
+                    $data->ServiceType=$type;
+                    $db[]=$data;
+                }
+                $results=DB::table("T_P_PROJECTTYPE")->get();
+                return view("members/service/index",compact('datas','db',"results","state","typeName","province"));
         }
-        return view("members/service/index",compact('datas','db'));
+         $datas=DB::table("T_U_SERVICEINFO")
+             ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
+             ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State","t_p_servicecertify.Remark")
+             ->orderBy("t_U_SERVICEINFO.ServiceID","desc")->paginate(20);
+
+            $db=array();
+            foreach ($datas as $data){
+                $serviceTypes=$data->ServiceType;
+                $serviceType=explode(",",$serviceTypes);
+
+                $types=DB::table("T_P_PROJECTTYPE")->select("TypeName")
+                    ->whereIn("TypeID",$serviceType)
+                    ->get();
+                $arr=array();
+                foreach($types as $value){
+                    $arr[]=$value->TypeName;
+                }
+                $type=implode(",",$arr);
+                $data->ServiceType=$type;
+                $db[]=$data;
+            }
+            $results=DB::table("T_P_PROJECTTYPE")->get();
+            return view("members/service/index",compact('datas','db',"results"));
     }
 
 
@@ -131,4 +195,48 @@ class ServiceController extends Controller
             return Redirect::to("service/detail/".$_POST['id']);
         }
     }
-}
+
+    //服务方上传图片
+    public function upload(){
+        $file = Input::file('Filedata');
+        $clientName = $file->getClientOriginalName();//获取文件名
+        $tmpName = $file->getFileName();//获取临时文件名
+        $realPath = $file->getRealPath();//缓存文件的绝对路径
+        $extension = $file->getClientOriginalExtension();//获取文件的后缀
+        $mimeType = $file->getMimeType();//文件类型
+        $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
+//       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
+//       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
+        $path = $file->move(base_path().'/public/upload/imgs/',$newName);//移动绝对路径
+        $filePath = '/upload/imgs/'.$newName;//存入数据库的相对路径
+        return $filePath;
+    }
+    public function handle(){
+        $id=$_POST['data'];
+        $title=$_POST['title'];
+        $db=DB::table("T_U_SERVICEINFO")->where("ServiceID",$id)->update([
+            $title=>0,
+        ]);
+        if($db){
+           $data= array("state"=>1);
+        }else{
+            $data=array("state"=>0);
+        }
+        return json_encode($data);
+    }
+    
+    public function editHandle(){
+        $id=$_POST['id'];
+        $data=$_POST['data'];
+        $title=$_POST['title'];
+        $db=DB::table("T_U_SERVICEINFO")->where("ServiceID",$id)->update([
+            $title=>$data,
+        ]);
+        if($db){
+            $res=array("state"=>1);
+        }else{
+            $res=array("state"=>0);
+        }
+        return json_encode($res);
+    }
+ }

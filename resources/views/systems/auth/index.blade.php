@@ -9,7 +9,6 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>角色ID</th>
                     <th>角色名称</th>
                     <th>操作</th>
                 </tr>
@@ -17,9 +16,7 @@
                 <tbody>
                 @foreach($datas as $data)
                     <tr>
-                        <td>{{$data->id}}</td>
                         <td>{{$data->RoleName}}</td>
-
                         <td>
                             <a href="{{url('auth/assign/'.$data->id)}}">分配权限</a>&nbsp&nbsp&nbsp
                         </td>

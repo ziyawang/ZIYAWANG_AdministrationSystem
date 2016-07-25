@@ -11,7 +11,7 @@
 </head>
 <body>
 <div id="logo">
-    <img src="{{asset('img/logo.png')}}" alt=""/>
+    <img src="{{asset('img/ziya2.png')}}" alt=""/>
 </div>
 <div id="loginbox" style="height:225px">
     <form id="loginform" class="form-vertical" action="{{url('admin/login')}}" method="post"/>

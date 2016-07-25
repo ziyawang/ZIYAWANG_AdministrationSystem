@@ -14,12 +14,34 @@ class CheckController extends Controller
 {
     public function index()
     {
+        if(isset($_POST['_token'])){
+            $state=$_POST['state'];
+            $typeName=$_POST['typeName'];
+            $province=$_POST['province'];
+            $provinceWhere=$_POST['province']!="全国" ? array("ProArea"=>$province) : array();
+            $typeNameWhere=$_POST['typeName']!=0 ? array("T_P_PROJECTINFO.TypeID"=>$typeName) : array();
+            $stateWhere=$_POST['state']!=3 ? array("T_P_PROJECTCERTIFY.State"=>$state) :array();
+            $datas = DB::table("T_P_PROJECTINFO")
+                ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                ->leftjoin("T_P_PROJECTCERTIFY","T_P_PROJECTCERTIFY.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_PROJECTCERTIFY.Remark","T_P_PROJECTCERTIFY.State")
+                ->where($provinceWhere)
+                ->where( $typeNameWhere)
+                ->where( $stateWhere)
+                ->orderBy("T_P_PROJECTINFO.ProjectID", "desc")->paginate(20);
+            $results=DB::table("T_P_PROJECTTYPE")->get();
+            return view("members/check/index", compact("datas","results","state","typeName","province"));
+        }
+
         $datas = DB::table("T_P_PROJECTINFO")
             ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
             ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
-            ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName")
+            ->leftjoin("T_P_PROJECTCERTIFY","T_P_PROJECTCERTIFY.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+            ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_PROJECTCERTIFY.Remark")
             ->orderBy("T_P_PROJECTINFO.ProjectID", "desc")->paginate(20);
-        return view("members/check/index", compact("datas"));
+            $results=DB::table("T_P_PROJECTTYPE")->get();
+        return view("members/check/index", compact("datas","results"));
     }
 
     public function detail($id)
@@ -106,5 +128,49 @@ class CheckController extends Controller
         }else{
             return Redirect::to("check/detail/".$_POST['id']);
         }
+    }
+
+    //服务方上传图片
+    public function upload(){
+        $file = Input::file('Filedata');
+        $clientName = $file->getClientOriginalName();//获取文件名
+        $tmpName = $file->getFileName();//获取临时文件名
+        $realPath = $file->getRealPath();//缓存文件的绝对路径
+        $extension = $file->getClientOriginalExtension();//获取文件的后缀
+        $mimeType = $file->getMimeType();//文件类型
+        $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
+//       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
+//       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
+        $path = $file->move(base_path().'/public/upload/imgs/',$newName);//移动绝对路径
+        $filePath = '/upload/imgs/'.$newName;//存入数据库的相对路径
+        return $filePath;
+    }
+    public function handle(){
+        $id=$_POST['data'];
+        $title=$_POST['title'];
+        $db=DB::table("T_P_PROJECTINFO")->where("ProjectID",$id)->update([
+            $title=>0,
+        ]);
+        if($db){
+            $data= array("state"=>1);
+        }else{
+            $data=array("state"=>0);
+        }
+        return json_encode($data);
+    }
+
+    public function editHandle(){
+        $id=$_POST['id'];
+        $data=$_POST['data'];
+        $title=$_POST['title'];
+        $db=DB::table("T_P_PROJECTINFO")->where("ProjectID",$id)->update([
+            $title=>$data,
+        ]);
+        if($db){
+            $res=array("state"=>1);
+        }else{
+            $res=array("state"=>0);
+        }
+        return json_encode($res);
     }
 }

@@ -14,7 +14,7 @@
                         <h5>发布方详情</h5>
                     </div>
                     <div class="widget-content nopadding">
-                        <form class="form-horizontal" method="post" action="{{asset('publish/update')}}" name="basic_validate" id="basic_validate" novalidate="novalidate" />
+                        <form class="form-horizontal" method="post" action="{{asset('publish/update')}}" />
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         @foreach($db as $data)
@@ -41,12 +41,6 @@
                             <label class="control-label">注册时间</label>
                             <div class="controls">
                                 <input type="text" name="password" id="url" value="{{$data->created_at}}"  readonly/>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">注册图像</label>
-                            <div class="controls">
-                                <input type="tex" name="password" id="url" value="{{$data->UserPicture}}"  readonly/>
                             </div>
                         </div>
                         <div class="control-group">

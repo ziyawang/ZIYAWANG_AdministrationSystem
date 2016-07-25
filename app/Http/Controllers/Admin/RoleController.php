@@ -13,8 +13,7 @@ class RoleController extends Controller
 {
     //角色展示
     public function index(){
-
-       $datas=DB::table("t_as_role")->orderBy("id","desc")
+        $datas=DB::table("t_as_role")->orderBy("id","desc")
                ->where("status",1)
                ->paginate(20);
         return view("systems/role/index",compact("datas"));
@@ -22,9 +21,18 @@ class RoleController extends Controller
 
     //添加角色
     public function add(){
-        var_dump($_POST);
         $_POST['status']=1;
         if(isset($_POST['_token'])){
+            if(empty($_POST['roleName'])){
+                return back()->with("msg","角色名称不能为空!");
+                return view("role/add");
+            }
+            $count=DB::table("t_as_role")->where("RoleName",$_POST['roleName'])
+                ->count();
+            if($count!=0){
+                return back()->with("msg","您添加的角色已经存在!");
+                return view("role/add");
+            }
             $db=DB::table("t_as_role")->insert([
                 "RoleName"=>$_POST['roleName'],
                 "Status"=>$_POST['status']
@@ -42,6 +50,16 @@ class RoleController extends Controller
     public function update($id=""){
         if(isset($_POST['_token'])){
             $id=$_POST['id'];
+            if(empty($_POST['roleName'])){
+                return back()->with("msg","角色名称不能为空!");
+                return view("role/add");
+            }
+            $count=DB::table("t_as_role")->where("RoleName",$_POST['roleName'])
+                ->count();
+            if($count!=0){
+                return back()->with("msg","您添加的角色已经存在!");
+                return view("role/add");
+            }
             DB::table('t_as_role')->where('id',$id)->update([
                 "RoleName"=>$_POST['roleName']
             ]);
@@ -54,6 +72,12 @@ class RoleController extends Controller
 
     //删除角色
     public function delete($id){
+        $count=DB::table("t_as_userrole")->where("RoleID",$id)
+                                         ->count();
+        if($count!=0){
+            return back()->with("msg","该角色存在用户，暂不能删除!");
+            return view("role/index");
+        }
         $db= DB::table("t_as_role")->where("id",$id)->update([
                 "status"=>0
         ]);

@@ -15,7 +15,7 @@
                         <h5>编辑用户</h5>
                     </div>
                     <div class="widget-content nopadding">
-                        <form class="form-horizontal" method="post" action="{{asset('systems/system/update')}}" name="basic_validate" id="basic_validate" novalidate="novalidate" />
+                        <form class="form-horizontal" method="post" action="{{asset('systems/system/update')}}"  />
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="id" value="{{$datas['id']}}">
                         <div class="control-group">
@@ -28,12 +28,27 @@
                             <label class="control-label">邮箱</label>
                             <div class="controls">
                                 <input type="text" name="email" id="email" value="{{$datas['Email']}}"/>
+                                @if(session(("msg0")))
+                                    <span class="help-inline"  id= "remark" for="pwd" generated="true" style=" color: red">{{session("msg0")}}</span>
+                                @endif
+                                @if(session(("msg2")))
+                                    <span class="help-inline"  id= "remark" for="pwd" generated="true" style="color: red">{{session("msg2")}}</span>
+                                @endif
+                                @if(session(("msg5")))
+                                    <span class="help-inline"  id= "remark" for="pwd" generated="true" style="color: red">{{session("msg5")}}</span>
+                                @endif
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">手机号</label>
                             <div class="controls">
                                 <input type="text" name="number" id="date" value="{{$datas['PhoneNumber']}}"/>
+                                @if(session(("msg3")))
+                                    <span class="help-inline"  id= "remark" for="pwd" generated="true" style=" color: red">{{session("msg3")}}</span>
+                                @endif
+                                @if(session(("msg4")))
+                                    <span class="help-inline"  id= "remark" for="pwd" generated="true" style="color: red">{{session("msg4")}}</span>
+                                @endif
                             </div>
                         </div>
 

@@ -22,6 +22,9 @@
                             <input type="hidden" name="id" value="{{ $value->id }}">
                         <div class="controls">
                             <input type="text" name="roleName" value="{{$value->RoleName}}" />
+                            @if(session("msg"))
+                                <span class="help-inline"  id= "remark" for="pwd" generated="true" style=" color: red">{{session("msg")}}</span>
+                            @endif
                         </div>
                             @endforeach
                     </div>

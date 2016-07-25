@@ -1,9 +1,44 @@
 @extends('layouts.master')
 @section('content')
+    <style type="text/css">
+        .form-actions {
+            padding: 0px 20px 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-color: #f5f5f5;
+            border-top: 0px solid #e5e5e5;
+            *zoom: 1;
+        }
+    </style>
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>退单</a>
         <a href="#" class="current">退单列表</a>
         <a href="{{url('refuse/export')}}"  class="pull-right"> <div class=" btn btn-primary " >导出当前页</div></a>
+    </div>
+    <div class="widget-content nopadding">
+        <form class="form-horizontal" method="post" action="{{asset('refuse/index')}}" name="basic_validate"  novalidate="novalidate" />
+        <table  class="table table-bordered table-striped">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <td>
+                <div class="control-group">
+                    <label class="control-label">姓名</label>
+                    <div class="controls" >
+                        <select  name="typeName" id="typeName"/>
+                        <option value="0">---全部---</option>
+                        @foreach($results as $result)
+                            <option value="{{$result->TypeID}}" @if(!empty($typeName) && $typeName==$result->TypeID) selected="selected" @endif>{{$result->TypeName}}</option>
+                            @endforeach
+                            </select>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-actions">
+                    <input type="submit" value="搜索" class="btn btn-primary" />
+                </div>
+            </td>
+        </table>
+        </form>
     </div>
     <div  class="container-fluid">
         <div class="widget-content nopadding">

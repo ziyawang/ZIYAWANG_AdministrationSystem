@@ -26,19 +26,34 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($tpAuths as $tpAuth)
-                    <tr>
-                        <td><input type="checkbox"  name="ids[]" value="{{$tpAuth->Auth_ID}}" @if(in_array($tpAuth->Auth_ID,$authId)) checked="checked" @endif/>{{$tpAuth->AuthName}}</td>
-                        <td>
-                            @foreach($tAuths as $tAuth)
-                                @if($tAuth->PID==$tpAuth->Auth_ID)
-                           <input type="checkbox"  name="ids[]" value="{{$tAuth->Auth_ID}}"  @if(in_array($tAuth->Auth_ID,$authId)) checked="checked" @endif/> {{$tAuth->AuthName}}
-                                @endif
-                           @endforeach
-                        </td>
-                    </tr>
-                @endforeach
-
+                @if(!empty($authId))
+                            @foreach($tpAuths as $tpAuth)
+                                <tr>
+                                    <td><input type="checkbox"  name="ids[]" value="{{$tpAuth->Auth_ID}}" @if(in_array($tpAuth->Auth_ID,$authId)) checked="checked" @endif/>{{$tpAuth->AuthName}}</td>
+                                    <td>
+                                        @foreach($tAuths as $tAuth)
+                                            @if($tAuth->PID==$tpAuth->Auth_ID)
+                                       <input type="checkbox"  name="ids[]" value="{{$tAuth->Auth_ID}}"  @if(in_array($tAuth->Auth_ID,$authId)) checked="checked" @endif/> {{$tAuth->AuthName}}
+                                            @endif
+                                       @endforeach
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                @if(empty($authId))
+                        @foreach($tpAuths as $tpAuth)
+                            <tr>
+                                <td><input type="checkbox"  name="ids[]" value="{{$tpAuth->Auth_ID}}" />{{$tpAuth->AuthName}}</td>
+                                <td>
+                                    @foreach($tAuths as $tAuth)
+                                        @if($tAuth->PID==$tpAuth->Auth_ID)
+                                            <input type="checkbox"  name="ids[]" value="{{$tAuth->Auth_ID}}" /> {{$tAuth->AuthName}}
+                                        @endif
+                                    @endforeach
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -46,6 +61,11 @@
             <input type="submit"  id="submit" value="确认" class="btn btn-primary" />
         </div>
         </form>
+                <style>
+                    .table.with-check tr td:first-child {
+                        width: 100px;
+                    }
+                </style>
     </div>
 @endsection
             <!-- TODO: Current Tasks -->

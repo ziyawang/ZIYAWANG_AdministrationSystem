@@ -3,7 +3,7 @@
 @section('content')
     <div id="breadcrumb">
         <a href="{{url('news/index')}}" title="新闻列表" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
-        <a href="#" class="current">添加新闻</a>
+        <a href="#" class="current">编辑新闻</a>
     </div>
     <div class="row-fluid">
         <div class="span12">
@@ -12,7 +12,7 @@
                     <span class="icon">
                         <i class="icon-align-justify"></i>
                     </span>
-                    <h5>添加新闻</h5>
+                    <h5>编辑新闻</h5>
                 </div>
                 <div class="widget-content nopadding">
                     <form method="post" action="{{asset('news/saveupdate')}}" class="form-horizontal" />
@@ -22,6 +22,14 @@
                         <label class="control-label">新闻标题</label>
                         <div class="controls">
                             <input type="text" name="title" value="{{$datas->NewsTitle}}" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">新闻类型</label>
+                        <div class="controls">
+                            @foreach($types as $type)
+                                <input type="checkbox" name="type[]" value="{{$type->id}}" @if(in_array($type->id,$count)) checked="checked" @endif />{{$type->TypeName}}
+                            @endforeach
                         </div>
                     </div>
                     <div class="control-group">

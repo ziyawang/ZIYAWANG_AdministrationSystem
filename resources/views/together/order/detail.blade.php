@@ -14,7 +14,7 @@
                         <h5>订单详情</h5>
                     </div>
                     <div class="widget-content nopadding">
-                        <form class="form-horizontal" method="post" action="{{asset('order/update')}}" name="basic_validate" id="basic_validate" novalidate="novalidate" />
+                        <form class="form-horizontal" method="post" action="{{asset('order/update')}}" />
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="id" value="{{$id}}">
                         @foreach($datas as $data)

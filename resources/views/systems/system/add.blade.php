@@ -26,12 +26,27 @@
                             <label class="control-label">邮箱</label>
                             <div class="controls">
                                 <input type="text" name="email" id="email" />
+                                @if(session(("msg0")))
+                                 <span class="help-inline"  id= "remark" for="pwd" generated="true" style=" color: red">{{session("msg0")}}</span>
+                                @endif
+                                @if(session(("msg2")))
+                                    <span class="help-inline"  id= "remark" for="pwd" generated="true" style="color: red">{{session("msg2")}}</span>
+                                @endif
+                                @if(session(("msg5")))
+                                    <span class="help-inline"  id= "remark" for="pwd" generated="true" style="color: red">{{session("msg5")}}</span>
+                                @endif
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">手机号</label>
                             <div class="controls">
                                 <input type="text" name="number" id="date" />
+                                @if(session(("msg3")))
+                                    <span class="help-inline"  id= "remark" for="pwd" generated="true" style=" color: red">{{session("msg3")}}</span>
+                                @endif
+                                @if(session(("msg4")))
+                                    <span class="help-inline"  id= "remark" for="pwd" generated="true" style="color: red">{{session("msg4")}}</span>
+                                @endif
                             </div>
                         </div>
                         <div class="control-group">
@@ -44,6 +59,7 @@
                             <label class="control-label">部门</label>
                             <div class="controls">
                                 <select  name="department" id="url" />
+                                        <option value="0">请选择</option>
                                         <option value="技术部">技术部</option>
                                         <option value="产品部">产品部</option>
                                         <option value="销售部">销售部</option>
@@ -55,8 +71,8 @@
                         <div class="control-group">
                             <label class="control-label">角色</label>
                             <div class="controls">
-                                <select  name="roleName" id="url" />
-                                <option value="0">-请选择-</option>
+                                <select  name="roleName" id="url"/>
+                                <option value="0">--请选择--</option>
                                 @foreach($datas as $data)
                                 <option value="{{$data->id}}">{{$data->RoleName}}</option>
                                @endforeach

@@ -15,7 +15,7 @@
                     </div>
                     <div class="widget-content nopadding">
                         <form class="form-horizontal" method="post" action="{{asset('service/update')}}"
-                              name="basic_validate" id="basic_validate" novalidate="novalidate"/>
+                              />
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         @foreach($datas as $data)
                             <input type="hidden" name="id" value="{{$id}}">
@@ -29,21 +29,22 @@
                             <div class="control-group">
                                 <label class="control-label">联系方式</label>
                                 <div class="controls">
-                                    <input type="text" name="email" id="email" value="{{$data->ConnectPhone}}"
+                                    <input type="text" name="number" id="number" value="{{$data->ConnectPhone}}"
                                            readonly/>
                                 </div>
                             </div>
+
                             <div class="control-group">
-                                <label class="control-label">地址</label>
+                                <label class="control-label">地区</label>
                                 <div class="controls">
-                                    <input type="text" name="number" id="date" value="{{$data->ServiceLocation}}"
+                                    <input type="text" name="area" id="area" value="{{$data->ServiceLocation}}"
                                            readonly/>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">服务类型</label>
                                 <div class="controls">
-                                    <input type="text" name="password" id="url" value="{{$data->ServiceType}}"
+                                    <input type="text" name="type" id="type" value="{{$data->ServiceType}}"
                                            readonly/>
                                 </div>
                             </div>
@@ -59,6 +60,30 @@
                                 <div class="controls">
                                     <input type="text" name="SerInt" id="url" value="{{$data->ServiceIntroduction}}"
                                            readonly/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">服务方图片</label>
+                                <div class="controls">
+                                    <input type="hidden" id="filepath" name="servicelogo[]">
+                                    <input id="file_upload" name="file_upload"  multiple="true">
+                                </div>
+                                <div class="controls  span3">
+                                   <div><img id="confirmationP1" alt=""  @if(!empty($data->ConfirmationP1)) src="{{$data->ConfirmationP1}}"   @endif/>
+                                       <span><a href="{{asset("$data->ConfirmationP1")}}"><i class="icon-download confirmationP1"  @if(empty($data->ConfirmationP1)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                           <i class="icon-trash confirmationP1"  @if(empty($data->ConfirmationP1)) style="display:none" @endif></i>
+                                       </span>
+                                   </div>
+                                    <div><img  id="confirmationP2" alt=""  @if(!empty($data->ConfirmationP2))  src="{{$data->ConfirmationP2}}" @endif/>
+                                        <span><a href="{{asset("$data->ConfirmationP2")}}"><i class="icon-download confirmationP2"  @if(empty($data->ConfirmationP2)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                            <i class="icon-trash confirmationP2"  @if(empty($data->ConfirmationP2)) style="display:none" @endif></i>
+                                        </span>
+                                    </div>
+                                        <div><img  id="confirmationP3" alt=""  @if(!empty($data->ConfirmationP3))  src="{{$data->ConfirmationP3}}"  @endif/>
+                                            <span><a href="{{asset("$data->ConfirmationP3")}}"><i class="icon-download confirmationP3"  @if(empty($data->ConfirmationP3)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                                <i class="icon-trash confirmationP3"  @if(empty($data->ConfirmationP3)) style="display:none" @endif></i>
+                                            </span>
+                                        </div>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -87,7 +112,7 @@
                 </div>
             </div>
         </div>
-        <script>
+        <script type="text/javascript">
             $("#state").on("change", function () {
                 var result2 = $(this).val();
                 if ( result2==2) {
@@ -96,6 +121,128 @@
                     $("#remark").hide();
                 }
             });
-        </script>
+            $(function(){
+                $(".confirmationP1").on("click",function(){
+                    var id=$("input[name='id']").val();
+                    $.ajax({
+                        url:"{{asset('service/handle')}}",
+                        data:{"data":id,"title":"ConfirmationP1","_token":"{{ csrf_token() }}"},
+                        dataType:"json",
+                        type:"post",
+                        success:function(mag){
+                            if(mag.state==1){
+                                $("#confirmationP1").removeAttrs("src");
+                                $(".confirmationP1").hide();
+
+                            }
+                        }
+                        });
+                });
+            });
+            $(function(){
+                $(".confirmationP2").on("click",function(){
+                    var id=$("input[name='id']").val();
+                    $.ajax({
+                        url:"{{asset('service/handle')}}",
+                        data:{"data":id,"title":"ConfirmationP2","_token":"{{ csrf_token() }}"},
+                        dataType:"json",
+                        type:"post",
+                        success:function(mag){
+                            if(mag.state==1){
+                                $("#confirmationP2").removeAttrs("src")
+                                $(".confirmationP2").hide();
+                            }
+                        }
+                    });
+                });
+            });
+            $(function(){
+                $(".confirmationP3").on("click",function(){
+                    var id=$("input[name='id']").val();
+                    $.ajax({
+                        url:"{{asset('service/handle')}}",
+                        data:{"data":id,"title":"ConfirmationP3","_token":"{{ csrf_token() }}"},
+                        dataType:"json",
+                        type:"post",
+                        success:function(mag){
+                            if(mag.state==1){
+                                $("#confirmationP3").removeAttrs("src")
+                                $(".confirmationP3").hide();
+                            }
+                        }
+                    });
+                });
+            });
+            <?php $timestamp = time();?>
+           $(function() {
+
+                $("#file_upload").uploadifive({
+                    'buttonText' : '上传图片',
+                    'formData'     : {
+                        'timestamp' : '<?php echo $timestamp;?>',
+                        '_token'     : "{{csrf_token()}}"
+                    },
+                    'removeCompleted' : true,
+                    'uploadLimit'     : 10,
+                    'uploadScript'     :"{{url('/service/upload')}}",
+                    'onUploadComplete' : function(file, data) {
+                        $('#filepath').val(data);
+                        //$('#confirmationP1').attr('src', data);
+                        var p1=$("#confirmationP1").attr('src');
+                        var p2=$("#confirmationP2").attr('src');
+                        var p3=$("#confirmationP3").attr('src');
+                        if(typeof(p1)=="undefined"){
+                            $('#confirmationP1').attr('src', data);
+                            $(".confirmationP1").show();
+                            var data= $('#confirmationP1').attr('src');
+                            var id=$("input[name='id']").val();
+                            $.ajax({
+                                url:"{{asset('service/editHandle')}}",
+                                data:{"id":id,"data":data,"title":"ConfirmationP1","_token":"{{ csrf_token() }}"},
+                                dataType:"json",
+                                type:"post",
+                                success:function(mag){
+                                    if(mag.state==0){
+                                        alert("您添加失败!");
+                                    }
+                                }
+                            });
+                        }else if(typeof(p2)=="undefined"){
+                            $('#confirmationP2').attr('src', data);
+                            $(".confirmationP2").show();
+                            var data= $('#confirmationP2').attr('src');
+                            var id=$("input[name='id']").val();
+                            $.ajax({
+                                url:"{{asset('service/editHandle')}}",
+                                data:{"id":id,"data":data,"title":"ConfirmationP2","_token":"{{ csrf_token() }}"},
+                                dataType:"json",
+                                type:"post",
+                                success:function(mag){
+                                    if(mag.state==0){
+                                        alert("您添加失败!");
+                                    }
+                                }
+                            });
+                        }else{
+                            $('#confirmationP3').attr('src', data);
+                            $(".confirmationP3").show();
+                            var data= $('#confirmationP3').attr('src');
+                            var id=$("input[name='id']").val();
+                            $.ajax({
+                                url:"{{asset('service/editHandle')}}",
+                                data:{"id":id,"data":data,"title":"ConfirmationP3","_token":"{{ csrf_token() }}"},
+                                dataType:"json",
+                                type:"post",
+                                success:function(mag){
+                                    if(mag.state==0){
+                                        alert("您添加失败!");
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+    </script>
 
 @endsection

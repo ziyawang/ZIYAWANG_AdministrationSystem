@@ -20,9 +20,12 @@
                         <label class="control-label">角色名称:</label>
                         <div class="controls">
                             <input type="text" name="roleName"  id="roleName"/>
+                            <span class="help-inline"  id= "remark" for="pwd" generated="true" style="display: none; color: red">*您添加的角色已经存在</span>
+                            @if(session("msg"))
+                                <span class="help-inline"  id= "remark" for="pwd" generated="true" style=" color: red">{{session("msg")}}</span>
+                            @endif
                         </div>
                     </div>
-                    <div style="width:200px;display:none" id="remark"><font color="red">*您添加的角色已经存在</font></div>
                     <div class="form-actions">
                         <input type="submit"  id="submit" value="添加" class="btn btn-primary" />
                     </div>
@@ -31,7 +34,7 @@
             </div>
         </div>
     <script>
-        $("#submit").on("mouseover",function(){
+        $("#roleName").on("mouseover",function(){
            var datas=$("#roleName").val();
             $.ajax({
                 url:"{{url('role/getRoleName')}}",
@@ -49,6 +52,5 @@
             $("#remark").hide();
         });
     </script>
-    </div>
-
+</div>
 @endsection
