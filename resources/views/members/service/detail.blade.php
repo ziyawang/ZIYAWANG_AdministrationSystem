@@ -69,18 +69,18 @@
                                     <input id="file_upload" name="file_upload"  multiple="true">
                                 </div>
                                 <div class="controls  span3">
-                                   <div><img id="confirmationP1" alt=""  @if(!empty($data->ConfirmationP1)) src="{{$data->ConfirmationP1}}"   @endif/>
-                                       <span><a href="{{asset("$data->ConfirmationP1")}}"><i class="icon-download confirmationP1"  @if(empty($data->ConfirmationP1)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                   <div><img id="confirmationP1" alt=""  @if(!empty($data->ConfirmationP1)) src="{{'Http://img.ziyawang.cn'.$data->ConfirmationP1}}"   @endif/>
+                                       <span><a href="{{asset('Http://img.ziyawang.cn'."$data->ConfirmationP1")}}"><i class="icon-download confirmationP1"  @if(empty($data->ConfirmationP1)) style="display:none" @endif></i></a>&nbsp&nbsp
                                            <i class="icon-trash confirmationP1"  @if(empty($data->ConfirmationP1)) style="display:none" @endif></i>
                                        </span>
                                    </div>
-                                    <div><img  id="confirmationP2" alt=""  @if(!empty($data->ConfirmationP2))  src="{{$data->ConfirmationP2}}" @endif/>
-                                        <span><a href="{{asset("$data->ConfirmationP2")}}"><i class="icon-download confirmationP2"  @if(empty($data->ConfirmationP2)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                    <div><img  id="confirmationP2" alt=""  @if(!empty($data->ConfirmationP2))  src="{{'Http://img.ziyawang.cn'.$data->ConfirmationP2}}" @endif/>
+                                        <span><a href="{{asset('Http://img.ziyawang.cn'."$data->ConfirmationP2")}}"><i class="icon-download confirmationP2"  @if(empty($data->ConfirmationP2)) style="display:none" @endif></i></a>&nbsp&nbsp
                                             <i class="icon-trash confirmationP2"  @if(empty($data->ConfirmationP2)) style="display:none" @endif></i>
                                         </span>
                                     </div>
-                                        <div><img  id="confirmationP3" alt=""  @if(!empty($data->ConfirmationP3))  src="{{$data->ConfirmationP3}}"  @endif/>
-                                            <span><a href="{{asset("$data->ConfirmationP3")}}"><i class="icon-download confirmationP3"  @if(empty($data->ConfirmationP3)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                        <div><img  id="confirmationP3" alt=""  @if(!empty($data->ConfirmationP3))  src="{{'Http://img.ziyawang.cn'.$data->ConfirmationP3}}"  @endif/>
+                                            <span><a href="{{asset('Http://img.ziyawang.cn'."$data->ConfirmationP3")}}"><i class="icon-download confirmationP3"  @if(empty($data->ConfirmationP3)) style="display:none" @endif></i></a>&nbsp&nbsp
                                                 <i class="icon-trash confirmationP3"  @if(empty($data->ConfirmationP3)) style="display:none" @endif></i>
                                             </span>
                                         </div>
@@ -192,9 +192,9 @@
                         var p2=$("#confirmationP2").attr('src');
                         var p3=$("#confirmationP3").attr('src');
                         if(typeof(p1)=="undefined"){
-                            $('#confirmationP1').attr('src', data);
+                            $('#confirmationP1').attr('src',"Http://img.ziyawang.cn"+data);
                             $(".confirmationP1").show();
-                            var data= $('#confirmationP1').attr('src');
+                            //var data= $('#confirmationP1').attr('src');
                             var id=$("input[name='id']").val();
                             $.ajax({
                                 url:"{{asset('service/editHandle')}}",
@@ -208,9 +208,9 @@
                                 }
                             });
                         }else if(typeof(p2)=="undefined"){
-                            $('#confirmationP2').attr('src', data);
+                            $('#confirmationP2').attr('src',"Http://img.ziyawang.cn"+data);
                             $(".confirmationP2").show();
-                            var data= $('#confirmationP2').attr('src');
+                            //var data= $('#confirmationP2').attr('src');
                             var id=$("input[name='id']").val();
                             $.ajax({
                                 url:"{{asset('service/editHandle')}}",
@@ -224,9 +224,9 @@
                                 }
                             });
                         }else{
-                            $('#confirmationP3').attr('src', data);
+                            $('#confirmationP3').attr('src',"Http://img.ziyawang.cn"+data);
                             $(".confirmationP3").show();
-                            var data= $('#confirmationP3').attr('src');
+                           // var data= $('#confirmationP3').attr('src');
                             var id=$("input[name='id']").val();
                             $.ajax({
                                 url:"{{asset('service/editHandle')}}",

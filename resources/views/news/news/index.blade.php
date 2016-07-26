@@ -1,10 +1,40 @@
 @extends('layouts.master')
 
 @section('content')
+<style type="text/css">
+        .form-actions {
+            padding: 0px 20px 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-color: #f5f5f5;
+            border-top: 0px solid #e5e5e5;
+            *zoom: 1;
+        }
+    </style>
     <div id="breadcrumb">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
         <a href="#" class="current">新闻列表</a>
         <a href="{{url('news/add')}}" class="pull-right"> <button class="btn btn-success">添加新闻</button></a>
+    </div>
+    <div class="widget-content nopadding">
+        <form class="form-horizontal" method="post" action="{{asset('news/index')}}" name="basic_validate"  novalidate="novalidate" />
+        <table  class="table table-bordered table-striped">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <td>
+                <div class="control-group">
+                    <label class="control-label">新闻标题</label>
+                    <div class="controls" >
+                       <input type="text" name="newsTitle" class="span4">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-actions">
+                    <input type="submit" value="搜索" class="btn btn-primary" />
+                </div>
+            </td>
+        </table>
+        </form>
     </div>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
@@ -23,7 +53,7 @@
                 <tbody>
                     @foreach($datas as $data)
                         <tr>
-                            <td width="60" height="50"><img  src=""/></td>
+                            <td width="60" height="50"><img  src="{{'Http://img.ziyawang.cn'.$data->NewsLogo}}"/></td>
                             <td>{{$data->NewsTitle}}</td>
                             <td>{{$data->Brief}}</td>
                             <td>{{$data->NewsAuthor}}</td>
@@ -38,13 +68,9 @@
                 </tbody>
             </table>
         </div>
+        <div class="pagination alternate" style="margin:0 auto">
+            {!! $datas->render() !!}
+        </div>
     </div>
-    {{--<script type="text/javascript">
 
-        function deletenews(para){
-            var f = document.getElementsByTagName("form")[0];
-            f.action=f.action+"/"+para;
-            alert(f.action);
-        }
-    </script>--}}
 @endsection

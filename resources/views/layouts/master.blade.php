@@ -28,7 +28,6 @@
     <script src="{{asset('js/jquery.uploadifive.min.js')}}"></script>
     <script src="{{asset('js/jquery.ui.custom.js')}}"></script>
     <script src="{{asset('js/unicorn.tables.js')}}"></script>
-
     </body>
 
 </head>
@@ -48,7 +47,7 @@
 <div id="sidebar">
     {{--<a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>--}}
     <ul>
-        <li class="active"><a href="{{asset('index/index')}}"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
+        <li class="active"><a href="{{asset('index/index')}}"><i class="icon icon-home"></i> <span>首页</span></a></li>
         <?php $pAuths = unserialize(Session::get('pAuths'));
             $Auths = unserialize(Session::get('Auths'));
 

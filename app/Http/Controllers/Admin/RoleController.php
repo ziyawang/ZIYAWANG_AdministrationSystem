@@ -35,7 +35,9 @@ class RoleController extends Controller
             }
             $db=DB::table("t_as_role")->insert([
                 "RoleName"=>$_POST['roleName'],
-                "Status"=>$_POST['status']
+                "Status"=>$_POST['status'],
+                 'created_at'=>date("Y-m-d H:i:s", time()),
+                 'updated_at'=>date("Y-m-d H:i:s", time())
             ]);
             if($db){
                 return Redirect::to("role/index");
@@ -61,7 +63,8 @@ class RoleController extends Controller
                 return view("role/add");
             }
             DB::table('t_as_role')->where('id',$id)->update([
-                "RoleName"=>$_POST['roleName']
+                "RoleName"=>$_POST['roleName'],
+                'updated_at'=>date("Y-m-d H:i:s", time())
             ]);
            
             return Redirect::to("role/index");
@@ -98,7 +101,7 @@ class RoleController extends Controller
             $arr['status']=0;
           
         }
-//var_dump($arr);die;
+
         return json_encode($arr);
     }
 }

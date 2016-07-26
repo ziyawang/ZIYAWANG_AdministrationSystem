@@ -3,28 +3,28 @@
  * Diablo9983 -> diablo9983@gmail.com
 **/
 $(document).ready(function(){
-	
-	
-	
 	// === Prepare peity charts === //
+	var d = new Date();
+	var vMon = d.getMonth() + 1;
+	var vDay = d.getDate();
+	var vDate = vMon*100+vDay-6;
 	unicorn.peity();
-	
+	//console.log($('input[type="hidden"]')[0]);
 	// === Prepare the chart data ===/
 	var sin = [], cos = [];
-    for (var i = 0; i < 14; i += 0.5) {
-        sin.push([i, Math.sin(i)]);
-        cos.push([i, Math.cos(i)]);
+    for (var i = 0; i < 7; i += 1) {
+		cos.push([vDate+i,  $($('input[type="hidden"]')[i]).val()]);
     }
 
 	// === Make chart === //
     var plot = $.plot($(".chart"),
-           [ { data: sin, label: "sin(x)", color: "#BA1E20"}, { data: cos, label: "cos(x)",color: "#459D1C" } ], {
+           [  { data:cos, label: "总人数",color: "#459D1C" } ], {
                series: {
                    lines: { show: true },
                    points: { show: true }
                },
                grid: { hoverable: true, clickable: true },
-               yaxis: { min: -1.6, max: 1.6 }
+               yaxis: { min:$("#min").val(), max: $("#max").val()}
 		   });
     
 	// === Point hover in chart === //
@@ -38,10 +38,10 @@ $(document).ready(function(){
                 $('#tooltip').fadeOut(200,function(){
 					$(this).remove();
 				});
-                var x = item.datapoint[0].toFixed(2),
-					y = item.datapoint[1].toFixed(2);
+                var x = item.datapoint[0].toFixed(0),
+					y = item.datapoint[1].toFixed(0);
                     
-                unicorn.flot_tooltip(item.pageX, item.pageY,item.series.label + " of " + x + " = " + y);
+                unicorn.flot_tooltip(item.pageX, item.pageY,item.series.label + " : " + y);
             }
             
         } else {

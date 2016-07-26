@@ -58,7 +58,9 @@ class SystemController extends Controller
               'PhoneNumber' => $_POST['number'],
               'Department' => $_POST['department'],
               'Status' => $_POST['status'],
-              "RoleID" => $_POST['roleName']
+              "RoleID" => $_POST['roleName'],
+               'created_at'=>date("Y-m-d H:i:s", time()),
+             'updated_at'=>date("Y-m-d H:i:s", time())
           ]);
 
           if ($db) {
@@ -102,8 +104,8 @@ class SystemController extends Controller
                   return view("system/add");
             }
               $count=DB::table("t_as_user")->where("Email",$_POST['email'])->count();
-            if($count!=0){
-                  return back()->with("msg5", "*请添加的邮箱号已经存在!");
+            if($count!=0 && $count!=1){
+                  return back()->with("msg5", "*您添加的邮箱号已经存在!");
                   return view("system/add");
             }
             $Id=$_POST['id'];
@@ -112,7 +114,8 @@ class SystemController extends Controller
                 'Email'=>$_POST['email'],
                 'PhoneNumber'=>$_POST['number'],
                 'Department'=>$_POST['department'],
-                "RoleID"=>$_POST['roleName']
+                "RoleID"=>$_POST['roleName'],
+                'updated_at'=>date("Y-m-d H:i:s", time())
             ]);
 
             if($db){

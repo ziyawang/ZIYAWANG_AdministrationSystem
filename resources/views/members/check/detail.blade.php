@@ -86,18 +86,18 @@
                                     <input id="file_upload" name="file_upload"  multiple="true">
                                 </div>
                                 <div class="controls  span3">
-                                    <div><img id="PictureDes1" alt=""  @if(!empty($data->PictureDes1)) src="{{$data->PictureDes1}}"   @endif/>
-                                       <span><a href="{{asset("$data->PictureDes1")}}"><i class="icon-download PictureDes1" @if(empty($data->PictureDes1)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                    <div><img id="PictureDes1" alt=""  @if(!empty($data->PictureDes1)) src="{{'Http://img.ziyawang.cn'.$data->PictureDes1}}"   @endif/>
+                                       <span><a href="{{asset('Http://img.ziyawang.cn'."$data->PictureDes1")}}"><i class="icon-download PictureDes1" @if(empty($data->PictureDes1)) style="display:none" @endif></i></a>&nbsp&nbsp
                                            <i class="icon-trash PictureDes1" @if(empty($data->PictureDes1)) style="display:none" @endif ></i>
                                        </span>
                                     </div>
-                                    <div><img  id="PictureDes2" alt=""  @if(!empty($data->PictureDes2))  src="{{$data->PictureDes2}}" @endif/>
-                                        <span><a href="{{asset("$data->PictureDes2")}}"><i class="icon-download PictureDes2"  @if(empty($data->PictureDes2)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                    <div><img  id="PictureDes2" alt=""  @if(!empty($data->PictureDes2))  src="{{'Http://img.ziyawang.cn'.$data->PictureDes2}}" @endif/>
+                                        <span><a href="{{asset('Http://img.ziyawang.cn'."$data->PictureDes2")}}"><i class="icon-download PictureDes2"  @if(empty($data->PictureDes2)) style="display:none" @endif></i></a>&nbsp&nbsp
                                             <i class="icon-trash PictureDes2" @if(empty($data->PictureDes2)) style="display:none" @endif></i>
                                         </span>
                                     </div>
-                                    <div><img  id="PictureDes3" alt=""  @if(!empty($data->PictureDes3))  src="{{$data->PictureDes3}}"  @endif/>
-                                            <span><a href="{{asset("$data->PictureDes3")}}"><i class="icon-download PictureDes3 " @if(empty($data->PictureDes3)) style="display:none" @endif ></i></a>&nbsp&nbsp
+                                    <div><img  id="PictureDes3" alt=""  @if(!empty($data->PictureDes3))  src="{{'Http://img.ziyawang.cn'.$data->PictureDes3}}"  @endif/>
+                                            <span><a href="{{asset('Http://img.ziyawang.cn'."$data->PictureDes3")}}"><i class="icon-download PictureDes3 " @if(empty($data->PictureDes3)) style="display:none" @endif ></i></a>&nbsp&nbsp
                                                 <i class="icon-trash PictureDes3" @if(empty($data->PictureDes3)) style="display:none" @endif ></i>
                                             </span>
                                     </div>
@@ -208,9 +208,9 @@
                         var p2=$("#PictureDes2").attr('src');
                         var p3=$("#PictureDes3").attr('src');
                         if(typeof(p1)=="undefined"){
-                            $('#PictureDes1').attr('src', data);
+                            $('#PictureDes1').attr('src','Http://img.ziyawang.cn'+data);
                             $(".PictureDes1").show();
-                            var data= $('#PictureDes1').attr('src');
+                           // var data= $('#PictureDes1').attr('src');
                             var id=$("input[name='id']").val();
                             $.ajax({
                                 url:"{{asset('check/editHandle')}}",
@@ -224,9 +224,9 @@
                                 }
                             });
                         }else if(typeof(p2)=="undefined"){
-                            $('#PictureDes2').attr('src', data);
+                            $('#PictureDes2').attr('src','Http://img.ziyawang.cn'+ data);
                             $(".PictureDes2").show();
-                            var data= $('#PictureDes2').attr('src');
+                           // var data= $('#PictureDes2').attr('src');
                             var id=$("input[name='id']").val();
                             $.ajax({
                                 url:"{{asset('check/editHandle')}}",
@@ -240,9 +240,9 @@
                                 }
                             });
                         }else{
-                            $('#PictureDes3').attr('src', data);
+                            $('#PictureDes3').attr('src','Http://img.ziyawang.cn'+ data);
                             $(".PictureDes3").show();
-                            var data= $('#PictureDes3').attr('src');
+                           // var data= $('#PictureDes3').attr('src');
                             var id=$("input[name='id']").val();
                             $.ajax({
                                 url:"{{asset('check/editHandle')}}",

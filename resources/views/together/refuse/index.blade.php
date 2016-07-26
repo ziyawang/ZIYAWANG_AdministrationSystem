@@ -13,7 +13,7 @@
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>退单</a>
         <a href="#" class="current">退单列表</a>
-        <a href="{{url('refuse/export')}}"  class="pull-right"> <div class=" btn btn-primary " >导出当前页</div></a>
+        <a href="#"  class="pull-right" id="export"> <div class=" btn btn-primary " >导出</div></a>
     </div>
     <div class="widget-content nopadding">
         <form class="form-horizontal" method="post" action="{{asset('refuse/index')}}" name="basic_validate"  novalidate="novalidate" />
@@ -21,7 +21,7 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <td>
                 <div class="control-group">
-                    <label class="control-label">姓名</label>
+                    <label class="control-label">服务类型</label>
                     <div class="controls" >
                         <select  name="typeName" id="typeName"/>
                         <option value="0">---全部---</option>
@@ -40,6 +40,13 @@
         </table>
         </form>
     </div>
+    <script>
+        $(function(){
+            var type = $('#typeName').val();
+            var url = 'http://admin.ziyawang.cn/refuse/export?type='+type;
+            $('#export').attr('href',url);
+        });
+    </script>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
             <table class="table table-bordered table-striped">

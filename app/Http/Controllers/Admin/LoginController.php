@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Admin\IndexController;
 
 class LoginController extends Controller
 {
@@ -48,20 +49,8 @@ class LoginController extends Controller
                 }
                 $pAuths = serialize($pAuths);
                 $Auths = serialize($Auths);
-
-               
                 session(['user'=>"admin",'pAuths'=>$pAuths,'Auths'=>$Auths,"userId"=>$userId]);
-                $projectinfos=DB::table("T_P_PROJECTINFO")->count();
-                $users=DB::table("USERS")->count();
-                $nowTime=time();
-                $lastTime=time()-86400*7;
-                var_dump($nowTime);
-                var_dump($lastTime);die;
-                $lastUser=DB::table("USERS")->whereBetween('created_at', [$lastTime, $nowTime])->count();
-                $orders=DB::table("T_P_RUSHPROJECT")->count();
-                $hots=DB::table("T_P_RUSHPROJECT")->where("CooperateFlag",0)->count();
-                $togethers=DB::table("T_P_RUSHPROJECT")->where("CooperateFlag",1)->count();
-                return view("Index/index",compact("Auths","pAuths","users","orders","projectinfos","hots","togethers","lastUser"));
+                return redirect('index/index');
             }else{
                 return back()->with('msg',"您输入的账号或者密码有误，请重新输入");
                 return view("login/login");
@@ -98,6 +87,7 @@ class LoginController extends Controller
         $db=DB::table("t_as_user")->where("id",$_POST['userId'])
                                   ->update([
                                       "PassWord"=>md5($pwd),
+                                      'updated_at'=>date("Y-m-d H:i:s", time())
 
                                   ]);
         if($db){

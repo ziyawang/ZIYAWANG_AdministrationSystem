@@ -11,9 +11,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
 class CheckController extends Controller
-{
-    public function index()
-    {
+{   //审核信息展示
+    public function index(){
         if(isset($_POST['_token'])){
             $state=$_POST['state'];
             $typeName=$_POST['typeName'];
@@ -38,12 +37,12 @@ class CheckController extends Controller
             ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
             ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
             ->leftjoin("T_P_PROJECTCERTIFY","T_P_PROJECTCERTIFY.ProjectID","=","T_P_PROJECTINFO.ProjectID")
-            ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_PROJECTCERTIFY.Remark")
+            ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_PROJECTCERTIFY.Remark","T_P_PROJECTCERTIFY.State")
             ->orderBy("T_P_PROJECTINFO.ProjectID", "desc")->paginate(20);
             $results=DB::table("T_P_PROJECTTYPE")->get();
         return view("members/check/index", compact("datas","results"));
     }
-
+  //审核信息详情
     public function detail($id)
     {
         $datas = DB::table("T_P_PROJECTINFO")
@@ -55,21 +54,30 @@ class CheckController extends Controller
        
         return view("members/check/detail", compact('datas',"id"));
     }
-
+    //导出
     public function export()
     {
         set_time_limit(0);
         ini_set('memory_limit', '512M');
-        $datas = DB::table("T_P_PROJECTINFO")
-            ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
-            ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
-            ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName")
-            ->orderBy("T_P_PROJECTINFO.ProjectID", "desc")
-            ->get();
-        //var_dump($_SERVER['DOCUMENT_ROOT']);die;获取根目录
-        require_once '../vendor/PHPExcel.class.php';
-        require_once '../vendor/PHPExcel/IOFactory.php';
-        require_once '../vendor/PHPExcel/Reader/Excel5.php';
+            $state=$_GET['state'];
+            $typeName=$_GET['type'];
+            $province=$_GET['province'];
+            $provinceWhere=$_GET['province']!="全国" ? array("ProArea"=>$province) : array();
+            $typeNameWhere=$_GET['type']!=0 ? array("T_P_PROJECTINFO.TypeID"=>$typeName) : array();
+            $stateWhere=$_GET['state']!=3 ? array("T_P_PROJECTCERTIFY.State"=>$state) :array();
+            $datas = DB::table("T_P_PROJECTINFO")
+                ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                ->leftjoin("T_P_PROJECTCERTIFY","T_P_PROJECTCERTIFY.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_PROJECTCERTIFY.Remark","T_P_PROJECTCERTIFY.State")
+                ->where($provinceWhere)
+                ->where( $typeNameWhere)
+                ->where( $stateWhere)
+                ->get();
+
+            require_once '../vendor/PHPExcel.class.php';
+            require_once '../vendor/PHPExcel/IOFactory.php';
+            require_once '../vendor/PHPExcel/Reader/Excel5.php';
 
         $phpExcel = new \PHPExcel();
         //var_dump($phpExcel);die;
@@ -94,7 +102,7 @@ class CheckController extends Controller
             }
             $i = $key + 2;
             $phpExcel->setActiveSheetIndex(0)
-                ->setCellValue('A' . $i, $data->phonenumber)
+                ->setCellValue('A' . $i, "'".$data->phonenumber)
                 ->setCellValue('B' . $i, $data->PublishTime)
                 ->setCellValue('C' . $i, $data->ProArea)
                 ->setCellValue('D' . $i, $data->TypeName)
@@ -112,16 +120,18 @@ class CheckController extends Controller
         header("Content-Transfer-Encoding:binary");
         $objWriter->save('php://output');
     }
-
+    //编辑信息详情
     public function update(){
         $db=DB::table("T_P_PROJECTINFO")->where("T_P_PROJECTINFO.ProjectID",$_POST['id'])
             ->update([
-                "CertifyState"=>$_POST['state']
+                "CertifyState"=>$_POST['state'],
+                'updated_at'=>date("Y-m-d H:i:s", time())
             ]);
         $remark= !empty($_POST['remark']) ? $_POST['remark'] : "";
         $result=DB::table("t_p_projectcertify")->where("ProjectID",$_POST['id'])->update([
             "state"=>$_POST['state'],
-            "Remark"=>$remark
+            "Remark"=>$remark,
+            'updated_at'=>date("Y-m-d H:i:s", time())
         ]);
         if($db && $result){
             return Redirect::to("check/index");
@@ -141,15 +151,17 @@ class CheckController extends Controller
         $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
-        $path = $file->move(base_path().'/public/upload/imgs/',$newName);//移动绝对路径
-        $filePath = '/upload/imgs/'.$newName;//存入数据库的相对路径
+        $path = $file->move(dirname(base_path()).'/upload/images/checks/',$newName);//移动绝对路径
+        $filePath = '/images/checks/'.$newName;//存入数据库的相对路径
         return $filePath;
     }
+    //审核删除照片
     public function handle(){
         $id=$_POST['data'];
         $title=$_POST['title'];
         $db=DB::table("T_P_PROJECTINFO")->where("ProjectID",$id)->update([
             $title=>0,
+            'updated_at'=>date("Y-m-d H:i:s", time())
         ]);
         if($db){
             $data= array("state"=>1);
@@ -158,13 +170,14 @@ class CheckController extends Controller
         }
         return json_encode($data);
     }
-
+    //处理上传的照片
     public function editHandle(){
         $id=$_POST['id'];
         $data=$_POST['data'];
         $title=$_POST['title'];
         $db=DB::table("T_P_PROJECTINFO")->where("ProjectID",$id)->update([
             $title=>$data,
+            'updated_at'=>date("Y-m-d H:i:s", time())
         ]);
         if($db){
             $res=array("state"=>1);

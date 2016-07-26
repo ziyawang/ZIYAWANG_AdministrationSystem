@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class PublishController extends Controller
 {
+    //发不方列表
     public  function index(){
         $stateWhere=$typeNameWhere=array();
         if(isset($_POST["_token"])){
@@ -33,23 +34,32 @@ class PublishController extends Controller
         $results=DB::table("T_P_PROJECTTYPE")->get();
         return view("members/publish/index",compact("datas","results"));
     }
-
+    //详情
     public function  detail($id){
         $db=DB::table("users")->where("userid",$id)->get();
-       /* var_dump($data);
-        die;*/
+
         return view("members/publish/detail",compact('db'));
 
     }
 
-
-    public function export()
-        {
+    //导出
+    public function export(){
             set_time_limit(0);
             ini_set('memory_limit', '512M');
-            $datas=DB::table("users")->orderBy("userid","desc")
+            $stateWhere=$typeNameWhere=array();
+            $typeName=$_GET['type'];
+            $state=$_GET['state'];
+
+            $state=$_GET['state'];
+            $typeName=$_GET['type'];
+            $typeNameWhere=$_GET['type']!=0 ? array("T_P_PROJECTTYPE.TypeID"=>$_GET['type']) : array();
+            $stateWhere=$_GET['state']!=2 ? array("Status"=>$state) :array();
+            $results=DB::table("T_P_PROJECTTYPE")->get();
+            $datas=DB::table("users")->leftJoin("T_P_PROJECTINFO","USERS.userid","=","T_P_PROJECTINFO.UserID")
+                ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                ->select("USERS.*","T_P_PROJECTTYPE.TypeName")
+                ->where($stateWhere)->where($typeNameWhere)
                 ->get();
-        //var_dump($_SERVER['DOCUMENT_ROOT']);die;获取根目录
             require_once '../vendor/PHPExcel.class.php';
             require_once '../vendor/PHPExcel/IOFactory.php';
             require_once '../vendor/PHPExcel/Reader/Excel5.php';
@@ -93,12 +103,13 @@ class PublishController extends Controller
             header("Content-Transfer-Encoding:binary");
             $objWriter->save('php://output');
         }
-    
+    //发布方编辑信息保存
     public function update(){
 
         $db= DB::table("users")->where("userid",$_POST['id'])->update([
             "Status"=>$_POST['status'],
-            "Remark"=>$_POST["remark"]
+            "Remark"=>$_POST["remark"],
+             'updated_at'=>date("Y-m-d H:i:s", time()),
         ]);
         if($db){
              return Redirect::to("publish/index");

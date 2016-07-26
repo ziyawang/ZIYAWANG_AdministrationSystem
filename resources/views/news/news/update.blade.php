@@ -45,7 +45,7 @@
                             <input id="file_upload" name="file_upload"  multiple="true">
                         </div>
                         <div class="controls  span4">
-                            <img src="{{$datas->NewsLogo}}" id="thumb" alt=""/>
+                            <img src="{{'Http://img.ziyawang.cn'.$datas->NewsLogo}}" id="thumb" alt=""/>
                         </div>
                     </div>
                     <div class="control-group">

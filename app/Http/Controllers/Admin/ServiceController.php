@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Input;
 
 class ServiceController extends Controller
 {
+    //服务方列表
     public function index(){
         $stateWhere=$typeNameWhere=$provinceWhere=array();
         if(isset($_POST['_token'])){
@@ -55,7 +56,6 @@ class ServiceController extends Controller
                         ->orderBy("t_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
                 }
             }
-
                 $db=array();
                 foreach ($datas as $data){
                     $serviceTypes=$data->ServiceType;
@@ -100,7 +100,7 @@ class ServiceController extends Controller
             return view("members/service/index",compact('datas','db',"results"));
     }
 
-
+    //服务方详情
     public function detail($id){
         $array=DB::table("T_U_SERVICEINFO")
             ->leftjoin("t_p_servicecertify","T_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
@@ -125,16 +125,81 @@ class ServiceController extends Controller
       
         return view("members/service/detail",compact('datas',"id"));
     }
-
-    public function export()
-    {
+    //导出
+    public function export(){
         set_time_limit(0);
         ini_set('memory_limit', '512M');
-        $datas=DB::table("T_U_SERVICEINFO")
+        $stateWhere=$typeNameWhere=$provinceWhere=array();
+            $state=$_GET['state'];
+            $typeName=$_GET['type'];
+            $province=$_GET['province'];
+            $provinceWhere=$_GET['province']!="全国" ? array("ServiceArea","like","%.$province.%") : array();
+            $typeNameWhere=$_GET['type']!=0 ? array("t_U_SERVICEINFO.ServiceType","like","%".$typeName."%") : array();
+            $stateWhere=$_GET['state']!=3 ? array("t_p_servicecertify.State"=>$state) :array();
+            if($_GET['type']!=0){
+                if($_GET['province']!="全国"){
+                    $datas=DB::table("T_U_SERVICEINFO")
+                        ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
+                        ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State","t_p_servicecertify.Remark")
+                        ->where("ServiceArea","like","%".$province."%" )
+                        ->where( "t_U_SERVICEINFO.ServiceType","like","%".$typeName."%")
+                        ->where( $stateWhere)
+                       ->get();
+                }else{
+                    $datas=DB::table("T_U_SERVICEINFO")
+                        ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
+                        ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State","t_p_servicecertify.Remark")
+                        ->where( "t_U_SERVICEINFO.ServiceType","like","%".$typeName."%")
+                        ->where( $stateWhere)
+                        ->get();
+                }
+
+            }else {
+                if ($_GET['province'] != "全国") {
+                    $datas = DB::table("T_U_SERVICEINFO")
+                        ->leftjoin("t_p_servicecertify", "t_U_SERVICEINFO.ServiceID", "=", "t_p_servicecertify.ServiceID")
+                        ->select("t_U_SERVICEINFO.*", "t_p_servicecertify.State", "t_p_servicecertify.Remark")
+                        ->where("ServiceArea", "like", "%".$province."%")
+                        ->where($stateWhere)
+                        ->get();
+                }else{
+                    $datas = DB::table("T_U_SERVICEINFO")
+                        ->leftjoin("t_p_servicecertify", "t_U_SERVICEINFO.ServiceID", "=", "t_p_servicecertify.ServiceID")
+                        ->select("t_U_SERVICEINFO.*", "t_p_servicecertify.State", "t_p_servicecertify.Remark")
+                        ->where($stateWhere)
+                        ->get();
+                }
+            }
+            $db=array();
+            foreach ($datas as $data){
+                $serviceTypes=$data->ServiceType;
+                $serviceType=explode(",",$serviceTypes);
+
+                $types=DB::table("T_P_PROJECTTYPE")->select("TypeName")
+                    ->whereIn("TypeID",$serviceType)
+                    ->get();
+                $arr=array();
+                foreach($types as $value){
+                    $arr[]=$value->TypeName;
+                }
+                $type=implode(",",$arr);
+                $data->ServiceType=$type;
+                $db[]=$data;
+            }
+
+
+
+
+
+
+
+
+
+       /* $datas=DB::table("T_U_SERVICEINFO")
             ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
             ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State")
             ->orderBy("t_U_SERVICEINFO.ServiceID","desc")
-            ->get();
+            ->get();*/
 //var_dump($_SERVER['DOCUMENT_ROOT']);die;获取根目录
         require_once '../vendor/PHPExcel.class.php';
         require_once '../vendor/PHPExcel/IOFactory.php';
@@ -181,13 +246,15 @@ class ServiceController extends Controller
         header("Content-Type:application/download");
         header('Content-Disposition:attachment;filename=' . $excel_name . ".xls");
         header("Content-Transfer-Encoding:binary");
-        $objWriter->save('php://output');
+       $objWriter->save('php://output');
+       
     }
-    
+    //保存编辑的信息
     public function update(){
         $result=DB::table("t_p_servicecertify")->where("ServiceID",$_POST['id'])->update([
             "State"=>$_POST['state'],
-            "Remark"=>$_POST['remark']
+            "Remark"=>$_POST['remark'],
+            'updated_at'=>date("Y-m-d H:i:s", time())
         ]);
         if( $result){
             return Redirect::to("service/index");
@@ -207,15 +274,19 @@ class ServiceController extends Controller
         $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
-        $path = $file->move(base_path().'/public/upload/imgs/',$newName);//移动绝对路径
-        $filePath = '/upload/imgs/'.$newName;//存入数据库的相对路径
+//       $path = $file->move(base_path().'/public/upload/imgs/',$newName);//移动绝对路径
+//        $filePath = '/upload/imgs/'.$newName;//存入数据库的相对路径
+        $path = $file->move(dirname(base_path()).'/upload/images/services/',$newName);//移动绝对路径
+        $filePath = '/images/services/'.$newName;//存入数据库的相对路径
         return $filePath;
     }
+    //服务方图片删除处理
     public function handle(){
         $id=$_POST['data'];
         $title=$_POST['title'];
         $db=DB::table("T_U_SERVICEINFO")->where("ServiceID",$id)->update([
             $title=>0,
+            'updated_at'=>date("Y-m-d H:i:s", time())
         ]);
         if($db){
            $data= array("state"=>1);
@@ -224,13 +295,14 @@ class ServiceController extends Controller
         }
         return json_encode($data);
     }
-    
+    //服务方图片上传插入数据库
     public function editHandle(){
         $id=$_POST['id'];
         $data=$_POST['data'];
         $title=$_POST['title'];
         $db=DB::table("T_U_SERVICEINFO")->where("ServiceID",$id)->update([
             $title=>$data,
+            'updated_at'=>date("Y-m-d H:i:s", time())
         ]);
         if($db){
             $res=array("state"=>1);

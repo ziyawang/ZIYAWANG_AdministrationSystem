@@ -1,10 +1,40 @@
 @extends('layouts.master')
 
 @section('content')
+<style type="text/css">
+        .form-actions {
+            padding: 0px 20px 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-color: #f5f5f5;
+            border-top: 0px solid #e5e5e5;
+            *zoom: 1;
+        }
+    </style>
     <div id="breadcrumb">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 视频</a>
         <a href="#" class="current">视频列表</a>
         <a href="{{url('video/add')}}" class="pull-right"> <button class="btn btn-success">添加视频</button></a>
+    </div>
+    <div class="widget-content nopadding">
+        <form class="form-horizontal" method="post" action="{{asset('video/index')}}" name="basic_validate"  novalidate="novalidate" />
+        <table  class="table table-bordered table-striped">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <td>
+                <div class="control-group span4" >
+                    <label class="control-label">视频标题:</label>
+                    <div class="controls"  >
+                        <input type="text" name="videoTitle" >
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-actions">
+                    <input type="submit" value="搜索" class="btn btn-primary" />
+                </div>
+            </td>
+        </table>
+        </form>
     </div>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
@@ -23,7 +53,7 @@
                 <tbody>
                 @foreach($datas as $data)
                     <tr>
-                        <td width="60" height="50"><img  src="{{$data->VideoLogo}}"/></td>
+                        <td width="60" height="50"><img  src="{{"Http://img.ziyawang.cn".$data->VideoLogo}}"/></td>
                         <td>{{$data->VideoTitle}}</td>
                         <td>{{$data->VideoDes}}</td>
                         <td>{{$data->Order}}</td>
@@ -37,6 +67,9 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+        <div class="pagination alternate" style="margin:0 auto">
+            {!! $datas->render() !!}
         </div>
     </div>
 @endsection

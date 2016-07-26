@@ -14,7 +14,7 @@
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>审核</a>
         <a href="#" class="current">审核列表</a>
-        <a href="{{url('check/export')}}" class="pull-right"> <div class=" btn btn-primary " >导出当前页</div></a>
+        <a href="#" class="pull-right" id="export"> <div class=" btn btn-primary " >导出</div></a>
     </div>
     <div class="widget-content nopadding">
         <form class="form-horizontal" method="post" action="{{asset('check/index')}}" name="basic_validate"  novalidate="novalidate" />
@@ -95,6 +95,15 @@
         </table>
         </form>
     </div>
+    <script>
+        $(function(){
+            var type = $('#typeName').val();
+            var province=$("#province").val();
+            var state=$("#state").val();
+            var url = 'http://admin.ziyawang.cn/check/export?type='+type+"&province="+province+"&state="+state;
+            $('#export').attr('href',url);
+        });
+    </script>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
             <table class="table table-bordered table-striped">

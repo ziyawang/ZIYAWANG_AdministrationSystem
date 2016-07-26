@@ -13,7 +13,11 @@ class VideoController extends Controller
 {
     //视频管理
     public function index(){
-        $datas=DB::table("T_V_VIDEOINFO")->where('Flag',"<>",2)->get();
+        if(isset($_POST["_token"])){
+            $datas=DB::table("T_V_VIDEOINFO")->where("Flag","<>",2)->where("VideoTitle","like","%".$_POST['videoTitle']."%")->paginate(20);
+            return view("news/video/index",compact('datas'));
+        }
+        $datas=DB::table("T_V_VIDEOINFO")->where('Flag',"<>",2)->paginate(20);
         return view("news/video/index",compact('datas'));
     }
     //添加视频
@@ -78,6 +82,7 @@ class VideoController extends Controller
     public function update($id){
         $datas=DB::table("T_V_VIDEOINFO")->where('VideoID',$id)->first();
         $results=DB::table("T_CONFIG_ITEMTYPE")->select("TypeID")->where("MoudleID",$id)->get();
+       
         foreach ($results as $result){
             $count[]=$result->TypeID;
         }
@@ -104,8 +109,8 @@ class VideoController extends Controller
         $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
-        $path = $file->move(base_path().'/public/images/video/',$newName);//移动绝对路径
-        $filePath = '/images/video/'.$newName;//存入数据库的相对路径
+        $path = $file->move(dirname(base_path()).'/upload/images/videos/',$newName);//移动绝对路径
+        $filePath = '/images/videos/'.$newName;//存入数据库的相对路径
         return $filePath;
     }
      //上传pc端的视频
@@ -119,7 +124,7 @@ class VideoController extends Controller
         $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
-        $path = $file->move(base_path().'/public/videos/bigvideo/',$newName);//移动绝对路径
+        $path = $file->move(dirname(base_path()).'/upload/videos/bigvideo/',$newName);//移动绝对路径
         $filePath = '/videos/bigvideo/'.$newName;//存入数据库的相对路径
         return $filePath;
     }
@@ -134,7 +139,7 @@ class VideoController extends Controller
         $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
-        $path = $file->move(base_path().'/public/videos/smallvideo/',$newName);//移动绝对路径
+        $path = $file->move(dirname(base_path()).'/upload/videos/smallvideo/',$newName);//移动绝对路径
         $filePath = '/videos/smallvideo/'.$newName;//存入数据库的相对路径
         return $filePath;
     }

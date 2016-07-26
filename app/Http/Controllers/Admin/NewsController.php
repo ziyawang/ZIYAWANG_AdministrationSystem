@@ -13,8 +13,11 @@ class NewsController extends Controller
 {
     //新闻列表
     public function index(){
-        $datas=DB::table("t_n_newsinfo")->where('Flag',"<>",2)->get();
-        //dd($datas);
+        if(isset($_POST["_token"])){
+            $datas=DB::table("T_N_NEWSINFO")->where("Flag","<>",2)->where("NewsTitle","like","%".$_POST['newsTitle']."%")->paginate(20);
+            return view("news/news/index",compact('datas'));
+        }
+        $datas=DB::table("t_n_newsinfo")->where('Flag',"<>",2)->paginate(20);
         return view("news/news/index",compact('datas'));
     }
     //添加新闻
@@ -31,7 +34,8 @@ class NewsController extends Controller
             'Brief'=>$_POST['description'],
             'NewsLogo'=>$_POST['newslogo'],
             'Flag'=>$type,
-            'created_at'=>date("Y-m-d H:i:s", time())
+            'created_at'=>date("Y-m-d H:i:s", time()),
+            
         ]);
         $types=$_POST['type'];
         foreach($types as $value){
@@ -101,7 +105,7 @@ class NewsController extends Controller
         $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
-        $path = $file->move(base_path().'/public/images/news/',$newName);//移动绝对路径
+        $path = $file->move(dirname(base_path()).'/upload/images/news/',$newName);//移动绝对路径
         $filePath = '/images/news/'.$newName;//存入数据库的相对路径
         return $filePath;
     }

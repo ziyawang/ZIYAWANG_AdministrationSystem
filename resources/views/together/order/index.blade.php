@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-    <style type="text/css">
+<style type="text/css">
         .form-actions {
             padding: 0px 20px 20px;
             margin-top: 20px;
@@ -9,12 +9,12 @@
             border-top: 0px solid #e5e5e5;
             *zoom: 1;
         }
-    </style>
+</style>
     <div id="breadcrumb" >
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>订单</a>
         <a href="#" class="current">订单列表</a>
-        <a href="{{url('order/export')}}" class="pull-right">
-            <div class=" btn btn-primary " >导出当前页</div>
+        <a href="#" class="pull-right" id="export">
+            <div class=" btn btn-primary " >导出</div>
         </a>
     </div>
     <div class="widget-content nopadding">
@@ -42,17 +42,13 @@
                 </table>
             </form>
         </div>
-    {{-- --}}{{--<div class="container-fluid">--}}{{--
-        <div class="widget-content nopadding">
-        <div class="row-fluid">
-            <div class="span12">
-                <div class="widget-box nopadding">
-            </div>
-
-        </div>
-        </div>
-    </div>--}}
-
+<script>
+    $(function(){
+       var type = $('#typeName').val();
+        var url = 'http://admin.ziyawang.cn/order/export?type='+type;
+        $('#export').attr('href',url);
+    });
+</script>
     <div class="container-fluid">
         <div class="widget-content nopadding">
             <table class="table table-bordered table-striped">
@@ -83,6 +79,7 @@
         <div class="pagination alternate">
             {!! $datas->render() !!}
         </div>
+
     </div>
 @endsection
         <!-- TODO: Current Tasks -->

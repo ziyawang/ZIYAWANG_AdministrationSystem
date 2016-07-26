@@ -14,7 +14,7 @@
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>发布方</a>
         <a href="#" class="current">发布方列表</a>
-        <a href="{{url('publish/export')}}" class="pull-right"> <div class=" btn btn-primary ">导出当前页</div></a>
+        <a href="#" class="pull-right" id="export"> <div class=" btn btn-primary ">导出</div></a>
     </div>
     <div class="widget-content nopadding">
         <form class="form-horizontal" method="post" action="{{asset('publish/index')}}" name="basic_validate"  novalidate="novalidate" />
@@ -53,6 +53,14 @@
         </table>
         </form>
     </div>
+    <script>
+        $(function(){
+            var type = $('#typeName').val();
+            var state= $("#state").val();
+            var url = 'http://admin.ziyawang.cn/publish/export?type='+type+"&state="+state;
+            $('#export').attr('href',url);
+        });
+    </script>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
             <table class="table table-bordered table-striped">

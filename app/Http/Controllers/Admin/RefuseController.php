@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class RefuseController extends Controller
 {
+    //退单列表
     public function index(){
         if(isset($_POST['_token']) && !empty($_POST['typeName'])){
             $typeName=$_POST['typeName'];
@@ -40,7 +41,7 @@ class RefuseController extends Controller
         $results=DB::table("T_P_PROJECTTYPE")->get();
         return view("together/refuse/index",compact("datas","results"));
     }
-    
+    //退单详情
     public function detail($id){
         $datas=DB::table("t_p_rushproject")
             ->leftjoin("t_u_serviceinfo","t_u_serviceinfo.ServiceID","=","t_p_rushproject.ServiceID")
@@ -52,10 +53,35 @@ class RefuseController extends Controller
             ->get();
         return view("together/refuse/detail",compact("datas","id"));
     }
+    //导出
     public function export()
     {
         set_time_limit(0);
         ini_set('memory_limit', '512M');
+        $typeName=$_GET['type'];
+        if($typeName!=0){
+            $datas = DB::table("t_p_rushproject")
+                ->leftjoin("t_u_serviceinfo", "t_u_serviceinfo.ServiceID", "=", "t_p_rushproject.ServiceID")
+                ->leftjoin("t_p_projectinfo", "t_p_rushproject.ProjectID", "=", "t_p_projectinfo.ProjectID")
+                ->leftjoin("t_p_projecttype", "t_p_projectinfo.TypeID", "=", "t_p_projecttype.TypeID")
+                ->leftjoin("users", "t_p_projectinfo.UserID", "=", "users.userid")
+                ->select("t_p_rushproject.*", "t_u_serviceinfo.ServiceName", "t_p_projecttype.TypeName", "users.phonenumber")
+                ->where("CooperateFlag", 2)
+                ->where("T_P_PROJECTTYPE.TypeID",$typeName)
+                ->get();
+
+        }else{
+            $datas=DB::table("t_p_rushproject")
+                ->leftjoin("t_u_serviceinfo","t_u_serviceinfo.ServiceID","=","t_p_rushproject.ServiceID")
+                ->leftjoin("t_p_projectinfo","t_p_rushproject.ProjectID","=","t_p_projectinfo.ProjectID")
+                ->leftjoin("t_p_projecttype","t_p_projectinfo.TypeID","=","t_p_projecttype.TypeID")
+                ->leftjoin("users","t_p_projectinfo.UserID","=","users.userid")
+                ->select("t_p_rushproject.*","t_u_serviceinfo.ServiceName","t_p_projecttype.TypeName","users.phonenumber")
+                ->where("CooperateFlag",2)
+                ->get();
+        }
+        
+        /*
         $datas = DB::table("t_p_rushproject")
             ->leftjoin("t_u_serviceinfo", "t_u_serviceinfo.ServiceID", "=", "t_p_rushproject.ServiceID")
             ->leftjoin("t_p_projectinfo", "t_p_rushproject.ProjectID", "=", "t_p_projectinfo.ProjectID")
@@ -64,7 +90,7 @@ class RefuseController extends Controller
             ->select("t_p_rushproject.*", "t_u_serviceinfo.ServiceName", "t_p_projecttype.TypeName", "users.phonenumber")
             ->where("CooperateFlag", 2)
             ->orderBy("RushProID", "desc")
-            ->get();
+            ->get();*/
 //var_dump($_SERVER['DOCUMENT_ROOT']);die;
         require_once '../vendor/PHPExcel.class.php';
         require_once '../vendor/PHPExcel/IOFactory.php';
@@ -112,6 +138,7 @@ class RefuseController extends Controller
         header("Content-Transfer-Encoding:binary");
         $objWriter->save('php://output');
     }
+    //保存退单编辑信息
     public function update(){
         if($_POST["CooperateFlag"]==1){
                 $cooperateFlag=0;
