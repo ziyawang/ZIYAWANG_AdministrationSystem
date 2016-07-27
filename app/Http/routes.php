@@ -29,6 +29,7 @@ Route::post('systems/system/add', 'Admin\SystemController@add');
 Route::get('system/update/{id}', 'Admin\SystemController@update');
 Route::post('systems/system/update', 'Admin\SystemController@update');
 Route::get('system/delete/{id}','Admin\SystemController@delete');
+Route::get('system/edit/{id}','Admin\SystemController@edit');    
     
 //系统管理中权限路由
 Route::get('auth/index', 'Admin\AuthController@index');
@@ -43,6 +44,7 @@ Route::post('systems/role/update', 'Admin\RoleController@update');
 Route::get('role/update/{id}', 'Admin\RoleController@update');
 Route::get('role/delete/{id}', 'Admin\RoleController@delete');
 Route::post('role/getRoleName/', 'Admin\RoleController@getRoleName');
+
     
 //系统管理中的密码修改路由
 Route::get('login/wordEdit','Admin\LoginController@wordEdit');

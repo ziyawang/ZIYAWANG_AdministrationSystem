@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class AuthController extends Controller
 {
-    //权限展示
+    //展示角色 
     public function index(){
         $datas=DB::table("t_as_role")->orderBy("id","desc")
             ->where("status",1)
@@ -35,6 +35,10 @@ class AuthController extends Controller
     }
     //保存分配的权限
     public  function  edit(){
+        if(empty($_POST['ids'])){
+            return back()->with("msg","请您选择所要分配的权限");
+            return view("auth/assign");
+        }
         $RoleId=$_POST['id'];
         $ids=$_POST['ids'];
         $result=DB::table("t_as_roleauth")->where('RoleID',$RoleId)->get();

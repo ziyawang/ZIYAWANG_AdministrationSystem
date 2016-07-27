@@ -46,11 +46,12 @@ class SystemController extends Controller
           }
           $count=DB::table("t_as_user")->where("Email",$_POST['email'])->count();
           if($count!=0){
-            return back()->with("msg5", "*请添加的邮箱号已经存在!");
+            return back()->with("msg5", "*您添加的邮箱号已经存在!");
             return view("system/add");
           }
           $_POST['status'] = 1;
-          $password = md5($_POST['password']);
+          $pwd=!empty($_POST['password']) ? $_POST['password'] : 123456;
+          $password = md5($pwd);
           $db = DB::table("t_as_user")->insertGetId([
               'Name' => $_POST['name'],
               'Email' => $_POST['email'],
@@ -143,6 +144,20 @@ class SystemController extends Controller
       $results=DB::table("t_as_role")->where("Status",1)->get();
       return view('systems/system/update',compact('datas','results'));
     }
+
+  //密码恢复原始值
+    public function edit($id){
+      $pwd=md5(123456);
+         $db=DB::table("T_AS_USER")->where("id",$id)->update([
+
+                "PassWord"=>$pwd,
+                'updated_at'=>date("Y-m-d H:i:s", time())
+             ]);
+      if($db){
+           return redirect("system/index");
+      }
+    }
+
     //删除人员信息
     public function delete($id){
       DB::table('t_as_user')->where('id',$id)

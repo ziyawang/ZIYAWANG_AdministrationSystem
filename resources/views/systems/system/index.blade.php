@@ -30,7 +30,8 @@
                     <td>{{$data['Department']}}</td>
                     <td>
                         <a class="btn btn-primary" href="{{url('system/update/'.$data['id'])}}"><i class="icon-pencil icon-white"></i></a>&nbsp&nbsp&nbsp
-                        <a class="btn btn-danger"  href="{{url('system/delete/'.$data['id'])}}"onclick="return confirm('确定将此记录删除?')"><i class="icon-remove icon-white"></i></a>
+                        <a class="btn btn-danger"  href="{{url('system/delete/'.$data['id'])}}"onclick="return confirm('确定将此记录删除?')"><i class="icon-remove icon-white"></i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <a class="btn btn-primary"  href="{{url('system/edit/'.$data['id'])}}"onclick="return confirm('确定将密码恢复到原始值吗?')">重置密码</i></a>
                     </td>
                 </tr>
                     @endforeach

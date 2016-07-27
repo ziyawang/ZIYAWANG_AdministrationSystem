@@ -4,6 +4,12 @@
         <a href="{{asset("auth/index")}}" title="角色列表" class="tip-bottom"><i class="icon-home"></i>权限</a>
         <a href="#" class="current">分配权限</a>
     </div>
+    @if(session("msg"))
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>{{session("msg")}}</strong>
+        </div>
+    @endif
     <div  class="container-fluid">
         <div class="span12">
             <div class="widget-box">

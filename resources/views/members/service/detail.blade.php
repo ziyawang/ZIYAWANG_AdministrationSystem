@@ -183,7 +183,7 @@
                         '_token'     : "{{csrf_token()}}"
                     },
                     'removeCompleted' : true,
-                    'uploadLimit'     : 10,
+                    'uploadLimit'     : 3,
                     'uploadScript'     :"{{url('/service/upload')}}",
                     'onUploadComplete' : function(file, data) {
                         $('#filepath').val(data);

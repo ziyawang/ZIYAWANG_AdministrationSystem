@@ -186,21 +186,6 @@ class ServiceController extends Controller
                 $data->ServiceType=$type;
                 $db[]=$data;
             }
-
-
-
-
-
-
-
-
-
-       /* $datas=DB::table("T_U_SERVICEINFO")
-            ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
-            ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State")
-            ->orderBy("t_U_SERVICEINFO.ServiceID","desc")
-            ->get();*/
-//var_dump($_SERVER['DOCUMENT_ROOT']);die;获取根目录
         require_once '../vendor/PHPExcel.class.php';
         require_once '../vendor/PHPExcel/IOFactory.php';
         require_once '../vendor/PHPExcel/Reader/Excel5.php';
@@ -236,17 +221,17 @@ class ServiceController extends Controller
                 ->setCellValue('E' . $i, $data->ServiceArea)
                 ->setCellValue('F' . $i, $status);
         }
-        $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel, 'Excel5');
-        header("Pragma: public");
-        header("Expires: 0");
-        header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
-        header("Content-Type:application/force-download");
-        header("Content-Type:application/vnd.ms-execl");
-        header("Content-Type:application/octet-stream");
-        header("Content-Type:application/download");
-        header('Content-Disposition:attachment;filename=' . $excel_name . ".xls");
-        header("Content-Transfer-Encoding:binary");
-       $objWriter->save('php://output');
+            $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type:application/force-download");
+            header("Content-Type:application/vnd.ms-execl");
+            header("Content-Type:application/octet-stream");
+            header("Content-Type:application/download");
+            header('Content-Disposition:attachment;filename=' . $excel_name . ".xls");
+            header("Content-Transfer-Encoding:binary");
+           $objWriter->save('php://output');
        
     }
     //保存编辑的信息
