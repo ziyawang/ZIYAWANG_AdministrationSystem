@@ -45,7 +45,7 @@
                             <input id="file_upload" name="file_upload"  multiple="true">
                         </div>
                         <div class="controls  span4">
-                            <img src="{{'Http://img.ziyawang.cn'.$datas->NewsLogo}}" id="thumb" alt=""/>
+                            <img src="{{'Http://images.ziyawang.com'.$datas->NewsLogo}}" id="thumb" alt=""/>
                         </div>
                     </div>
                     <div class="control-group">
@@ -83,7 +83,7 @@
                 'uploadScript'     :"{{url('/news/upload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath').val(data);
-                    $('#thumb').attr('src', data);
+                    $('#thumb').attr('src', 'Http://images.ziyawang.com'+data);
                 }
             });
         });

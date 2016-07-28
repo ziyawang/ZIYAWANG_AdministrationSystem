@@ -48,7 +48,7 @@
                             <input id="file_uploadvideopic" name="file_uploadvideopic"  multiple="true">
                         </div>
                         <div class="controls  span4">
-                            <img src="{{"Http://img.ziyawang.cn".$datas->VideoLogo}}" id="thumb" alt=""/>
+                            <img src="{{"Http://images.ziyawang.com".$datas->VideoLogo}}" id="thumb" alt=""/>
                         </div>
                     </div>
                     <div class="control-group">
@@ -58,7 +58,7 @@
                             <input id="file_uploadvideo" name="file_uploadvideo"  multiple="true">
                         </div>
                         <div class="controls  span4">
-                            <video src="{{"Http://img.ziyawang.cn".$datas->VideoLink}}" id="videolink" controls="controls" width="400px" height="300px">
+                            <video src="{{"Http://videos.ziyawang.com".$datas->VideoLink}}" id="videolink" controls="controls" width="400px" height="300px">
                                 your browser does not support the video tag
                             </video>
                         </div>
@@ -70,7 +70,7 @@
                             <input id="file_uploadvideo2" name="file_uploadvideo2"  multiple="true">
                         </div>
                         <div class="controls  span4">
-                            <video src="{{"Http://img.ziyawang.cn".$datas->VideoLink2}}" id="videolink2" controls="controls" width="400px" height="300px">
+                            <video src="{{"Http://videos.ziyawang.com".$datas->VideoLink2}}" id="videolink2" controls="controls" width="400px" height="300px">
                                 your browser does not support the video tag
                             </video>
                         </div>
@@ -106,7 +106,7 @@
                 'uploadScript'     :"{{url('/video/smallupload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath2').val(data);
-                    $('#videolink2').attr('src', "Http://img.ziyawang.cn"+data);
+                    $('#videolink2').attr('src', "Http://videos.ziyawang.com"+data);
                 }
             });
         });
@@ -121,7 +121,7 @@
                 'uploadScript'     :"{{url('/video/bigupload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath1').val(data);
-                    $('#videolink').attr('src',"Http://img.ziyawang.cn"+data);
+                    $('#videolink').attr('src',"Http://videos.ziyawang.com"+data);
                 }
             });
         });
@@ -137,7 +137,7 @@
                 'uploadScript'     :"{{url('video/upload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath').val(data);
-                    $('#thumb').attr('src',"Http://img.ziyawang.cn"+data);
+                    $('#thumb').attr('src',"Http://images.ziyawang.com"+data);
                 }
             });
         });

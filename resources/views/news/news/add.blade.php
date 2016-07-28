@@ -84,7 +84,7 @@
                 'uploadScript'     :"{{url('/news/upload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath').val(data);
-                    $('#thumb').attr('src',"Http://img.ziyawang.cn"+data);
+                    $('#thumb').attr('src',"Http://images.ziyawang.com"+data);
                 }
             });
         });

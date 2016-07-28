@@ -109,8 +109,8 @@ class VideoController extends Controller
         $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
-        $path = $file->move(dirname(base_path()).'/upload/images/videos/',$newName);//移动绝对路径
-        $filePath = '/images/videos/'.$newName;//存入数据库的相对路径
+        $path = $file->move(dirname(base_path()).'/ziyaupload/images/videos/',$newName);//移动绝对路径
+        $filePath = '/videos/'.$newName;//存入数据库的相对路径
         return $filePath;
     }
      //上传pc端的视频
@@ -124,8 +124,8 @@ class VideoController extends Controller
         $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
-        $path = $file->move(dirname(base_path()).'/upload/videos/bigvideo/',$newName);//移动绝对路径
-        $filePath = '/videos/bigvideo/'.$newName;//存入数据库的相对路径
+        $path = $file->move(dirname(base_path()).'/ziyaupload/videos/bigvideo/',$newName);//移动绝对路径
+        $filePath = '/bigvideo/'.$newName;//存入数据库的相对路径
         return $filePath;
     }
       //上传手机端的视频
@@ -139,8 +139,8 @@ class VideoController extends Controller
         $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
-        $path = $file->move(dirname(base_path()).'/upload/videos/smallvideo/',$newName);//移动绝对路径
-        $filePath = '/videos/smallvideo/'.$newName;//存入数据库的相对路径
+        $path = $file->move(dirname(base_path()).'/ziyaupload/videos/smallvideo/',$newName);//移动绝对路径
+        $filePath = '/smallvideo/'.$newName;//存入数据库的相对路径
         return $filePath;
     }
 

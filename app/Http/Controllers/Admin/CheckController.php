@@ -151,8 +151,8 @@ class CheckController extends Controller
         $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
-        $path = $file->move(dirname(base_path()).'/upload/images/checks/',$newName);//移动绝对路径
-        $filePath = '/images/checks/'.$newName;//存入数据库的相对路径
+        $path = $file->move(dirname(base_path()).'/ziyaupload/images/checks/',$newName);//移动绝对路径
+        $filePath = '/checks/'.$newName;//存入数据库的相对路径
         return $filePath;
     }
     //审核删除照片

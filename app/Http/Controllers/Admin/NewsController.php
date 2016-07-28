@@ -105,8 +105,8 @@ class NewsController extends Controller
         $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
-        $path = $file->move(dirname(base_path()).'/upload/images/news/',$newName);//移动绝对路径
-        $filePath = '/images/news/'.$newName;//存入数据库的相对路径
+        $path = $file->move(dirname(base_path()).'/ziyaupload/images/news/',$newName);//移动绝对路径
+        $filePath = '/news/'.$newName;//存入数据库的相对路径
         return $filePath;
     }
 }

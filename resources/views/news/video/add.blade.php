@@ -103,7 +103,7 @@
                 'uploadScript'     :"{{url('/video/smallupload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath2').val(data);
-                    $('#videolink2').attr('src',"Http://img.ziyawang.cn"+data);
+                    $('#videolink2').attr('src',"Http://videos.ziyawang.com"+data);
                 }
             });
         });
@@ -118,7 +118,7 @@
                 'uploadScript'     :"{{url('/video/bigupload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath1').val(data);
-                    $('#videolink').attr('src',"Http://img.ziyawang.cn"+data);
+                    $('#videolink').attr('src',"Http://videos.ziyawang.com"+data);
                 }
             });
         });
@@ -134,7 +134,7 @@
                 'uploadScript'     :"{{url('video/upload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath').val(data);
-                    $('#thumb').attr('src',"Http://img.ziyawang.cn"+data);
+                    $('#thumb').attr('src',"Http://images.ziyawang.com"+data);
                 }
             });
         });

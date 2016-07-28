@@ -261,8 +261,8 @@ class ServiceController extends Controller
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
 //       $path = $file->move(base_path().'/public/upload/imgs/',$newName);//移动绝对路径
 //        $filePath = '/upload/imgs/'.$newName;//存入数据库的相对路径
-        $path = $file->move(dirname(base_path()).'/upload/images/services/',$newName);//移动绝对路径
-        $filePath = '/images/services/'.$newName;//存入数据库的相对路径
+        $path = $file->move(dirname(base_path()).'/ziyaupload/images/services/',$newName);//移动绝对路径
+        $filePath = '/services/'.$newName;//存入数据库的相对路径
         return $filePath;
     }
     //服务方图片删除处理
