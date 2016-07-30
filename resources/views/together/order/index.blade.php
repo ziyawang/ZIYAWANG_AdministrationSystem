@@ -9,12 +9,16 @@
             border-top: 0px solid #e5e5e5;
             *zoom: 1;
         }
+        .form-horizontal .form-actions {
+            margin-bottom: 0;
+            margin-right: 100px;
+        }
 </style>
     <div id="breadcrumb" >
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>订单</a>
         <a href="#" class="current">订单列表</a>
         <a href="#" class="pull-right" id="export">
-            <div class=" btn btn-primary " >导出</div>
+            <div class="btn btn-success " >导出</div>
         </a>
     </div>
     <div class="widget-content nopadding">
@@ -36,7 +40,7 @@
                     </td>
                     <td>
                     <div class="form-actions">
-                        <input type="submit" value="搜索" class="btn btn-primary" />
+                        <input type="submit" value="搜索" class="btn btn-success" />
                     </div>
                     </td>
                 </table>
@@ -45,7 +49,7 @@
 <script>
     $(function(){
        var type = $('#typeName').val();
-        var url = 'http://admin.ziyawang.cn/order/export?type='+type;
+        var url = 'http://admin.ziyawang.com/order/export?type='+type;
         $('#export').attr('href',url);
     });
 </script>

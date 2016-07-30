@@ -56,14 +56,21 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">公司介绍</label>
+                                <label class="control-label">服务方认证时间</label>
+                                <div class="controls">
+                                    <input type="text" name="time" id="time" value="{{$data->created_at}}"
+                                           readonly/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">公司简介</label>
                                 <div class="controls">
                                     <input type="text" name="SerInt" id="url" value="{{$data->ServiceIntroduction}}"
                                            readonly/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">服务方图片</label>
+                                <label class="control-label">服务方资质认证</label>
                                 <div class="controls">
                                     <input type="hidden" id="filepath" name="servicelogo[]">
                                     <input id="file_upload" name="file_upload"  multiple="true">
@@ -183,6 +190,7 @@
                         '_token'     : "{{csrf_token()}}"
                     },
                     'removeCompleted' : true,
+                    'fileSizeLimit': "1M",
                     'uploadLimit'     : 3,
                     'uploadScript'     :"{{url('/service/upload')}}",
                     'onUploadComplete' : function(file, data) {

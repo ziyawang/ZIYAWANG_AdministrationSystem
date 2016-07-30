@@ -9,21 +9,21 @@
                         <div class="left peity_bar_good"><span>{{$data['TsevenUser']}},{{$data['TsixUser']}},{{$data['TfiveUser']}},{{$data['TfourUser']}},{{$data['TthreeUser']}},{{$data['TtwoUser']}},{{$data['ToneUser']}}</span>{{$data['change'].'%'}}</div>
                         <div class="right">
                             <strong>{{$data['users']}}</strong>
-                            总注册
+                            注册总数
                         </div>
                     </li>
                     <li>
                         <div class="left peity_bar_neutral"><span>{{$data['sevenUser']}},{{$data['sixUser']}},{{$data['fiveUser']}},{{$data['fourUser']}},{{$data['threeUser']}},{{$data['twoUser']}},{{$data['oneUser']}}</span>{{$data['changeUser'].'%'}}</div>
                         <div class="right">
                             <strong>{{$data['lastUser']}}</strong>
-                            上周注册
+                            上周注册数
                         </div>
                     </li>
                     <li>
                         <div class="left peity_bar_bad"><span>{{$data['TsevenSer']}},{{$data['TsixSer']}},{{$data['TfiveSer']}},{{$data['TfourSer']}},{{$data['TthreeSer']}},{{$data['TtwoSer']}},{{$data['ToneSer']}}</span>{{$data['changeSer'].'%'}}</div>
                         <div class="right">
                             <strong>{{$data['services']}}</strong>
-                            总服务商
+                            服务方总数
                         </div>
                     </li>
                     <li>
@@ -47,7 +47,7 @@
                                     <li><i class="icon-user"></i> <strong>{{$data['projectinfos']}}</strong> <small>信息条数</small></li>
                                     <li><i class="icon-arrow-right"></i> <strong>{{$data['lastOrders']}}</strong> <small>上周发布</small></li>
                                     <li class="divider"></li>
-                                    <li><i class="icon-shopping-cart"></i> <strong>{{$data['orders']}}</strong> <small>总订单</small></li>
+                                    <li><i class="icon-shopping-cart"></i> <strong>{{$data['orders']}}</strong> <small>总订单数</small></li>
                                     <li><i class="icon-tag"></i> <strong>{{$data['hots']}}</strong> <small>抢单中</small></li>
                                     <li><i class="icon-repeat"></i> <strong>{{$data['togethers']}}</strong> <small>已合作</small></li>
                                 </ul>

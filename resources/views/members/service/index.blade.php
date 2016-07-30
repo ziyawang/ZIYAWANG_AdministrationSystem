@@ -10,11 +10,15 @@
             border-top: 0px solid #e5e5e5;
             *zoom: 1;
         }
+        .form-horizontal .form-actions {
+            margin-bottom: 0;
+            margin-right: 100px;
+        }
     </style>
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>服务方</a>
         <a href="#" class="current">服务方列表</a>
-        <a href="#" class="pull-right" id="export"> <div class=" btn btn-primary ">导出</div></a>
+        <a href="#" class="pull-right" id="export"> <div class="btn btn-success ">导出</div></a>
     </div>
     <div class="widget-content nopadding">
         <form class="form-horizontal" method="post" action="{{asset('service/index')}}" name="basic_validate"  novalidate="novalidate" />
@@ -38,7 +42,7 @@
                     <label class="control-label">类型</label>
                     <div class="controls" >
                         <select  name="typeName" id="typeName"/>
-                        <option value="0">---全部---</option>
+                        <option value="0" class="select1">---全部---</option>
                         @foreach($results as $result)
                             <option value="{{$result->TypeID}}" @if(!empty($typeName) && $typeName==$result->TypeID) selected="selected" @endif>{{$result->TypeName}}</option>
                             @endforeach
@@ -89,7 +93,7 @@
             </td>
             <td>
                 <div class="form-actions">
-                    <input type="submit" value="搜索" class="btn btn-primary" />
+                    <input type="submit" value="搜索" class="btn btn-success" />
                 </div>
             </td>
         </table>
@@ -100,7 +104,7 @@
             var type = $('#typeName').val();
             var state=$("#state").val();
             var province=$("#province").val();
-            var url = 'http://admin.ziyawang.cn/service/export?type='+type+"&state="+state+"&province="+province;
+            var url = 'http://admin.ziyawang.com/service/export?type='+type+"&state="+state+"&province="+province;
             $('#export').attr('href',url);
         });
     </script>

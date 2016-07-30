@@ -17,12 +17,12 @@ class OrderController extends Controller
         if(isset($_POST['_token']) && !empty($_POST['typeName'])){
             $typeName=$_POST['typeName'];
             $results=DB::table("T_P_PROJECTTYPE")->get();
-            $datas = DB::table("t_p_rushproject")
-                ->leftjoin("t_u_serviceinfo", "t_u_serviceinfo.ServiceID", "=", "t_p_rushproject.ServiceID")
-                ->leftjoin("t_p_projectinfo", "t_p_rushproject.ProjectID", "=", "t_p_projectinfo.ProjectID")
-                ->leftjoin("t_p_projecttype", "t_p_projectinfo.TypeID", "=", "t_p_projecttype.TypeID")
-                ->leftjoin("users", "t_p_projectinfo.UserID", "=", "users.userid")
-                ->select("t_p_rushproject.*", "t_u_serviceinfo.ServiceName", "t_p_projecttype.TypeName", "users.phonenumber")
+            $datas = DB::table("T_P_RUSHPROJECT")
+                ->leftjoin("T_U_SERVICEINFO", "T_U_SERVICEINFO.ServiceID", "=", "T_P_RUSHPROJECT.ServiceID")
+                ->leftjoin("T_P_PROJECTINFO", "T_P_RUSHPROJECT.ProjectID", "=", "T_P_PROJECTINFO.ProjectID")
+                ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                ->select("T_P_RUSHPROJECT.*", "T_U_SERVICEINFO.ServiceName", "T_P_PROJECTTYPE.TypeName", "users.phonenumber")
                 ->where("CooperateFlag", 1)
                 ->where("T_P_PROJECTTYPE.TypeID",$typeName)
                 ->orderBy("RushProID", "desc")
@@ -31,12 +31,12 @@ class OrderController extends Controller
             return view("together/order/index", compact("datas","results","typeName"));
         }
         $results=DB::table("T_P_PROJECTTYPE")->get();
-        $datas = DB::table("t_p_rushproject")
-            ->leftjoin("t_u_serviceinfo", "t_u_serviceinfo.ServiceID", "=", "t_p_rushproject.ServiceID")
-            ->leftjoin("t_p_projectinfo", "t_p_rushproject.ProjectID", "=", "t_p_projectinfo.ProjectID")
-            ->leftjoin("t_p_projecttype", "t_p_projectinfo.TypeID", "=", "t_p_projecttype.TypeID")
-            ->leftjoin("users", "t_p_projectinfo.UserID", "=", "users.userid")
-            ->select("t_p_rushproject.*", "t_u_serviceinfo.ServiceName", "t_p_projecttype.TypeName", "users.phonenumber")
+        $datas = DB::table("T_P_RUSHPROJECT")
+            ->leftjoin("T_U_SERVICEINFO", "T_U_SERVICEINFO.ServiceID", "=", "T_P_RUSHPROJECT.ServiceID")
+            ->leftjoin("T_P_PROJECTINFO", "T_P_RUSHPROJECT.ProjectID", "=", "T_P_PROJECTINFO.ProjectID")
+            ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+            ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+            ->select("T_P_RUSHPROJECT.*", "T_U_SERVICEINFO.ServiceName", "T_P_PROJECTTYPE.TypeName", "users.phonenumber")
             ->where("CooperateFlag", 1)
             ->orderBy("RushProID", "desc")
             ->paginate(20);
@@ -46,13 +46,13 @@ class OrderController extends Controller
     //订单详情
     public function detail($id)
     {
-        $datas = DB::table("t_p_rushproject")
-            ->leftjoin("t_u_serviceinfo", "t_u_serviceinfo.ServiceID", "=", "t_p_rushproject.ServiceID")
-            ->leftjoin("t_p_projectinfo", "t_p_rushproject.ProjectID", "=", "t_p_projectinfo.ProjectID")
-            ->leftjoin("t_p_projecttype", "t_p_projectinfo.TypeID", "=", "t_p_projecttype.TypeID")
-            ->leftjoin("users", "t_p_projectinfo.UserID", "=", "users.userid")
-            ->select("t_p_rushproject.*", "t_u_serviceinfo.ServiceName", "t_p_projecttype.TypeName", "users.phonenumber")
-            ->where("t_p_rushproject.RushProID", $id)
+        $datas = DB::table("T_P_RUSHPROJECT")
+            ->leftjoin("T_U_SERVICEINFO", "T_U_SERVICEINFO.ServiceID", "=", "T_P_RUSHPROJECT.ServiceID")
+            ->leftjoin("T_P_PROJECTINFO", "T_P_RUSHPROJECT.ProjectID", "=", "T_P_PROJECTINFO.ProjectID")
+            ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+            ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+            ->select("T_P_RUSHPROJECT.*", "T_U_SERVICEINFO.ServiceName", "T_P_PROJECTTYPE.TypeName", "users.phonenumber")
+            ->where("T_P_RUSHPROJECT.RushProID", $id)
             ->get();
 
         return view("together/order/detail", compact("datas","id"));
@@ -63,39 +63,28 @@ class OrderController extends Controller
             ini_set('memory_limit', '512M');
             $typeName=$_GET['type'];
             if($typeName!=0){
-                $datas = DB::table("t_p_rushproject")
-                        ->leftjoin("t_u_serviceinfo", "t_u_serviceinfo.ServiceID", "=", "t_p_rushproject.ServiceID")
-                        ->leftjoin("t_p_projectinfo", "t_p_rushproject.ProjectID", "=", "t_p_projectinfo.ProjectID")
-                        ->leftjoin("t_p_projecttype", "t_p_projectinfo.TypeID", "=", "t_p_projecttype.TypeID")
-                        ->leftjoin("users", "t_p_projectinfo.UserID", "=", "users.userid")
-                        ->select("t_p_rushproject.*", "t_u_serviceinfo.ServiceName", "t_p_projecttype.TypeName", "users.phonenumber")
+                $datas = DB::table("T_P_RUSHPROJECT")
+                        ->leftjoin("T_U_SERVICEINFO", "T_U_SERVICEINFO.ServiceID", "=", "T_P_RUSHPROJECT.ServiceID")
+                        ->leftjoin("T_P_PROJECTINFO", "T_P_RUSHPROJECT.ProjectID", "=", "T_P_PROJECTINFO.ProjectID")
+                        ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                        ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                        ->select("T_P_RUSHPROJECT.*", "T_U_SERVICEINFO.ServiceName", "T_P_PROJECTTYPE.TypeName", "users.phonenumber")
                         ->where("CooperateFlag", 1)
                         ->where("T_P_PROJECTTYPE.TypeID",$typeName)
                         ->get();
                }else{
-                   $datas = DB::table("t_p_rushproject")
-                        ->leftjoin("t_u_serviceinfo", "t_u_serviceinfo.ServiceID", "=", "t_p_rushproject.ServiceID")
-                        ->leftjoin("t_p_projectinfo", "t_p_rushproject.ProjectID", "=", "t_p_projectinfo.ProjectID")
-                        ->leftjoin("t_p_projecttype", "t_p_projectinfo.TypeID", "=", "t_p_projecttype.TypeID")
-                        ->leftjoin("users", "t_p_projectinfo.UserID", "=", "users.userid")
-                        ->select("t_p_rushproject.*", "t_u_serviceinfo.ServiceName", "t_p_projecttype.TypeName", "users.phonenumber")
+                   $datas = DB::table("T_P_RUSHPROJECT")
+                        ->leftjoin("T_U_SERVICEINFO", "T_U_SERVICEINFO.ServiceID", "=", "T_P_RUSHPROJECT.ServiceID")
+                        ->leftjoin("T_P_PROJECTINFO", "T_P_RUSHPROJECT.ProjectID", "=", "T_P_PROJECTINFO.ProjectID")
+                        ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                        ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                        ->select("T_P_RUSHPROJECT.*", "T_U_SERVICEINFO.ServiceName", "T_P_PROJECTTYPE.TypeName", "users.phonenumber")
                         ->where("CooperateFlag", 1)
                         ->get();
                }
 
 
-                //var_dump($datas);die;
-
-           /* $datas = DB::table("t_p_rushproject")
-                ->leftjoin("t_u_serviceinfo", "t_u_serviceinfo.ServiceID", "=", "t_p_rushproject.ServiceID")
-                ->leftjoin("t_p_projectinfo", "t_p_rushproject.ProjectID", "=", "t_p_projectinfo.ProjectID")
-                ->leftjoin("t_p_projecttype", "t_p_projectinfo.TypeID", "=", "t_p_projecttype.TypeID")
-                ->leftjoin("users", "t_p_projectinfo.UserID", "=", "users.userid")
-                ->select("t_p_rushproject.*", "t_u_serviceinfo.ServiceName", "t_p_projecttype.TypeName", "users.phonenumber")
-                ->where("CooperateFlag", 1)
-                ->orderBy("RushProID", "desc")
-                ->get();*/
-            //var_dump($_SERVER['DOCUMENT_ROOT']);die;
+             
             require_once '../vendor/PHPExcel.class.php';
             require_once '../vendor/PHPExcel/IOFactory.php';
             require_once '../vendor/PHPExcel/Reader/Excel5.php';

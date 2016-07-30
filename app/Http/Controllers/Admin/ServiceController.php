@@ -20,40 +20,40 @@ class ServiceController extends Controller
                 $typeName=$_POST['typeName'];
                 $province=$_POST['province'];
                 $provinceWhere=$_POST['province']!="全国" ? array("ServiceArea","like","%.$province.%") : array();
-                $typeNameWhere=$_POST['typeName']!=0 ? array("t_U_SERVICEINFO.ServiceType","like","%".$typeName."%") : array();
-                $stateWhere=$_POST['state']!=3 ? array("t_p_servicecertify.State"=>$state) :array();
+                $typeNameWhere=$_POST['typeName']!=0 ? array("T_U_SERVICEINFO.ServiceType","like","%".$typeName."%") : array();
+                $stateWhere=$_POST['state']!=3 ? array("T_P_SERVICECERTIFY.State"=>$state) :array();
             if($_POST['typeName']!=0){
                   if($_POST['province']!="全国"){
                       $datas=DB::table("T_U_SERVICEINFO")
-                          ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
-                          ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State","t_p_servicecertify.Remark")
+                          ->leftjoin("T_P_SERVICECERTIFY","T_U_SERVICEINFO.ServiceID","=","T_P_SERVICECERTIFY.ServiceID")
+                          ->select("T_U_SERVICEINFO.*","T_P_SERVICECERTIFY.State","T_P_SERVICECERTIFY.Remark")
                           ->where("ServiceArea","like","%".$province."%" )
-                          ->where( "t_U_SERVICEINFO.ServiceType","like","%".$typeName."%")
+                          ->where( "T_U_SERVICEINFO.ServiceType","like","%".$typeName."%")
                           ->where( $stateWhere)
-                          ->orderBy("t_U_SERVICEINFO.ServiceID","desc")->paginate(20);
+                          ->orderBy("T_U_SERVICEINFO.ServiceID","desc")->paginate(20);
                   }else{
                       $datas=DB::table("T_U_SERVICEINFO")
-                          ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
-                          ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State","t_p_servicecertify.Remark")
-                          ->where( "t_U_SERVICEINFO.ServiceType","like","%".$typeName."%")
+                          ->leftjoin("T_P_SERVICECERTIFY","T_U_SERVICEINFO.ServiceID","=","T_P_SERVICECERTIFY.ServiceID")
+                          ->select("T_U_SERVICEINFO.*","T_P_SERVICECERTIFY.State","T_P_SERVICECERTIFY.Remark")
+                          ->where( "T_U_SERVICEINFO.ServiceType","like","%".$typeName."%")
                           ->where( $stateWhere)
-                          ->orderBy("t_U_SERVICEINFO.ServiceID","desc")->paginate(20);
+                          ->orderBy("T_U_SERVICEINFO.ServiceID","desc")->paginate(20);
                   }
 
             }else {
                 if ($_POST['province'] != "全国") {
                     $datas = DB::table("T_U_SERVICEINFO")
-                        ->leftjoin("t_p_servicecertify", "t_U_SERVICEINFO.ServiceID", "=", "t_p_servicecertify.ServiceID")
-                        ->select("t_U_SERVICEINFO.*", "t_p_servicecertify.State", "t_p_servicecertify.Remark")
+                        ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
+                        ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                         ->where("ServiceArea", "like", "%".$province."%")
                         ->where($stateWhere)
-                        ->orderBy("t_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                        ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
                 }else{
                     $datas = DB::table("T_U_SERVICEINFO")
-                        ->leftjoin("t_p_servicecertify", "t_U_SERVICEINFO.ServiceID", "=", "t_p_servicecertify.ServiceID")
-                        ->select("t_U_SERVICEINFO.*", "t_p_servicecertify.State", "t_p_servicecertify.Remark")
+                        ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
+                        ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                         ->where($stateWhere)
-                        ->orderBy("t_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                        ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
                 }
             }
                 $db=array();
@@ -76,9 +76,9 @@ class ServiceController extends Controller
                 return view("members/service/index",compact('datas','db',"results","state","typeName","province"));
         }
          $datas=DB::table("T_U_SERVICEINFO")
-             ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
-             ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State","t_p_servicecertify.Remark")
-             ->orderBy("t_U_SERVICEINFO.ServiceID","desc")->paginate(20);
+             ->leftjoin("T_P_SERVICECERTIFY","T_U_SERVICEINFO.ServiceID","=","T_P_SERVICECERTIFY.ServiceID")
+             ->select("T_U_SERVICEINFO.*","T_P_SERVICECERTIFY.State","T_P_SERVICECERTIFY.Remark")
+             ->orderBy("T_U_SERVICEINFO.ServiceID","desc")->paginate(20);
 
             $db=array();
             foreach ($datas as $data){
@@ -103,7 +103,7 @@ class ServiceController extends Controller
     //服务方详情
     public function detail($id){
         $array=DB::table("T_U_SERVICEINFO")
-            ->leftjoin("t_p_servicecertify","T_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
+            ->leftjoin("T_P_SERVICECERTIFY","T_U_SERVICEINFO.ServiceID","=","T_P_SERVICECERTIFY.ServiceID")
             ->where("T_U_SERVICEINFO.ServiceID",$id)
             ->get();
         $datas=array();
@@ -134,22 +134,22 @@ class ServiceController extends Controller
             $typeName=$_GET['type'];
             $province=$_GET['province'];
             $provinceWhere=$_GET['province']!="全国" ? array("ServiceArea","like","%.$province.%") : array();
-            $typeNameWhere=$_GET['type']!=0 ? array("t_U_SERVICEINFO.ServiceType","like","%".$typeName."%") : array();
-            $stateWhere=$_GET['state']!=3 ? array("t_p_servicecertify.State"=>$state) :array();
+            $typeNameWhere=$_GET['type']!=0 ? array("T_U_SERVICEINFO.ServiceType","like","%".$typeName."%") : array();
+            $stateWhere=$_GET['state']!=3 ? array("T_P_SERVICECERTIFY.State"=>$state) :array();
             if($_GET['type']!=0){
                 if($_GET['province']!="全国"){
                     $datas=DB::table("T_U_SERVICEINFO")
-                        ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
-                        ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State","t_p_servicecertify.Remark")
+                        ->leftjoin("T_P_SERVICECERTIFY","T_U_SERVICEINFO.ServiceID","=","T_P_SERVICECERTIFY.ServiceID")
+                        ->select("T_U_SERVICEINFO.*","T_P_SERVICECERTIFY.State","T_P_SERVICECERTIFY.Remark")
                         ->where("ServiceArea","like","%".$province."%" )
-                        ->where( "t_U_SERVICEINFO.ServiceType","like","%".$typeName."%")
+                        ->where( "T_U_SERVICEINFO.ServiceType","like","%".$typeName."%")
                         ->where( $stateWhere)
                        ->get();
                 }else{
                     $datas=DB::table("T_U_SERVICEINFO")
-                        ->leftjoin("t_p_servicecertify","t_U_SERVICEINFO.ServiceID","=","t_p_servicecertify.ServiceID")
-                        ->select("t_U_SERVICEINFO.*","t_p_servicecertify.State","t_p_servicecertify.Remark")
-                        ->where( "t_U_SERVICEINFO.ServiceType","like","%".$typeName."%")
+                        ->leftjoin("T_P_SERVICECERTIFY","T_U_SERVICEINFO.ServiceID","=","T_P_SERVICECERTIFY.ServiceID")
+                        ->select("T_U_SERVICEINFO.*","T_P_SERVICECERTIFY.State","T_P_SERVICECERTIFY.Remark")
+                        ->where( "T_U_SERVICEINFO.ServiceType","like","%".$typeName."%")
                         ->where( $stateWhere)
                         ->get();
                 }
@@ -157,15 +157,15 @@ class ServiceController extends Controller
             }else {
                 if ($_GET['province'] != "全国") {
                     $datas = DB::table("T_U_SERVICEINFO")
-                        ->leftjoin("t_p_servicecertify", "t_U_SERVICEINFO.ServiceID", "=", "t_p_servicecertify.ServiceID")
-                        ->select("t_U_SERVICEINFO.*", "t_p_servicecertify.State", "t_p_servicecertify.Remark")
+                        ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
+                        ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                         ->where("ServiceArea", "like", "%".$province."%")
                         ->where($stateWhere)
                         ->get();
                 }else{
                     $datas = DB::table("T_U_SERVICEINFO")
-                        ->leftjoin("t_p_servicecertify", "t_U_SERVICEINFO.ServiceID", "=", "t_p_servicecertify.ServiceID")
-                        ->select("t_U_SERVICEINFO.*", "t_p_servicecertify.State", "t_p_servicecertify.Remark")
+                        ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
+                        ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                         ->where($stateWhere)
                         ->get();
                 }
@@ -236,7 +236,7 @@ class ServiceController extends Controller
     }
     //保存编辑的信息
     public function update(){
-        $result=DB::table("t_p_servicecertify")->where("ServiceID",$_POST['id'])->update([
+        $result=DB::table("T_P_SERVICECERTIFY")->where("ServiceID",$_POST['id'])->update([
             "State"=>$_POST['state'],
             "Remark"=>$_POST['remark'],
             'updated_at'=>date("Y-m-d H:i:s", time())
@@ -256,11 +256,7 @@ class ServiceController extends Controller
         $realPath = $file->getRealPath();//缓存文件的绝对路径
         $extension = $file->getClientOriginalExtension();//获取文件的后缀
         $mimeType = $file->getMimeType();//文件类型
-        $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
-//       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
-//       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
-//       $path = $file->move(base_path().'/public/upload/imgs/',$newName);//移动绝对路径
-//        $filePath = '/upload/imgs/'.$newName;//存入数据库的相对路径
+        $newName = time(). mt_rand(1000,9999). '.'. $extension;//新文件名
         $path = $file->move(dirname(base_path()).'/ziyaupload/images/services/',$newName);//移动绝对路径
         $filePath = '/services/'.$newName;//存入数据库的相对路径
         return $filePath;

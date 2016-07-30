@@ -5,6 +5,12 @@
         <a href="{{url('news/index')}}" title="新闻列表" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
         <a href="#" class="current">编辑新闻</a>
     </div>
+    @if(session("msg"))
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>{{session("msg")}}</strong>
+        </div>
+    @endif
     <div class="row-fluid">
         <div class="span12">
             <div class="widget-box">
@@ -41,7 +47,7 @@
                     <div class="control-group">
                         <label class="control-label">新闻封面</label>
                         <div class="controls">
-                            <input type="hidden" id="filepath" name="newslogo">
+                            <input type="hidden" id="filepath" name="newslogo" value="{{$datas->NewsLogo}}">
                             <input id="file_upload" name="file_upload"  multiple="true">
                         </div>
                         <div class="controls  span4">
@@ -80,6 +86,7 @@
                     '_token'     : "{{csrf_token()}}"
                 },
                 'removeCompleted' : true,
+                'fileSizeLimit':"1M",
                 'uploadScript'     :"{{url('/news/upload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath').val(data);

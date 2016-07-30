@@ -69,7 +69,7 @@ Route::post('service/editHandle', 'Admin\ServiceController@editHandle');
 
 //会员管理中的审核发布信息路由
 Route::any('check/index', 'Admin\CheckController@index');
-Route::get('check/detail/{id}', 'Admin\CheckController@detail');
+Route::get('check/detail/{id}/{TypeID}', 'Admin\CheckController@detail');
 Route::get('check/export', 'Admin\CheckController@export');
 Route::post('check/update', 'Admin\CheckController@update');
 Route::any('check/upload', 'Admin\CheckController@upload');
@@ -96,6 +96,7 @@ Route::get('news/update/{id}', 'Admin\NewsController@update');
 Route::post('news/saveupdate/{id}', 'Admin\NewsController@saveupdate');
 Route::get('news/delete/{id}', 'Admin\NewsController@delete');
 Route::any('news/upload', 'Admin\NewsController@upload');
+Route::any("news/editorUpload",'Admin\NewsController@editorUpload');
 
 //新闻视频中的视频管理路由
 Route::any('video/index', 'Admin\VideoController@index');

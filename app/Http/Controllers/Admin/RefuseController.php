@@ -16,12 +16,12 @@ class RefuseController extends Controller
         if(isset($_POST['_token']) && !empty($_POST['typeName'])){
             $typeName=$_POST['typeName'];
             $results=DB::table("T_P_PROJECTTYPE")->get();
-            $datas = DB::table("t_p_rushproject")
-                ->leftjoin("t_u_serviceinfo", "t_u_serviceinfo.ServiceID", "=", "t_p_rushproject.ServiceID")
-                ->leftjoin("t_p_projectinfo", "t_p_rushproject.ProjectID", "=", "t_p_projectinfo.ProjectID")
-                ->leftjoin("t_p_projecttype", "t_p_projectinfo.TypeID", "=", "t_p_projecttype.TypeID")
-                ->leftjoin("users", "t_p_projectinfo.UserID", "=", "users.userid")
-                ->select("t_p_rushproject.*", "t_u_serviceinfo.ServiceName", "t_p_projecttype.TypeName", "users.phonenumber")
+            $datas = DB::table("T_P_RUSHPROJECT")
+                ->leftjoin("T_U_SERVICEINFO", "T_U_SERVICEINFO.ServiceID", "=", "T_P_RUSHPROJECT.ServiceID")
+                ->leftjoin("T_P_PROJECTINFO", "T_P_RUSHPROJECT.ProjectID", "=", "T_P_PROJECTINFO.ProjectID")
+                ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                ->select("T_P_RUSHPROJECT.*", "T_U_SERVICEINFO.ServiceName", "T_P_PROJECTTYPE.TypeName", "users.phonenumber")
                 ->where("CooperateFlag", 2)
                 ->where("T_P_PROJECTTYPE.TypeID",$typeName)
                 ->orderBy("RushProID", "desc")
@@ -29,12 +29,12 @@ class RefuseController extends Controller
             //var_dump($datas);die;
             return view("together/refuse/index", compact("datas","results","typeName"));
         }
-        $datas=DB::table("t_p_rushproject")
-            ->leftjoin("t_u_serviceinfo","t_u_serviceinfo.ServiceID","=","t_p_rushproject.ServiceID")
-            ->leftjoin("t_p_projectinfo","t_p_rushproject.ProjectID","=","t_p_projectinfo.ProjectID")
-            ->leftjoin("t_p_projecttype","t_p_projectinfo.TypeID","=","t_p_projecttype.TypeID")
-            ->leftjoin("users","t_p_projectinfo.UserID","=","users.userid")
-            ->select("t_p_rushproject.*","t_u_serviceinfo.ServiceName","t_p_projecttype.TypeName","users.phonenumber")
+        $datas=DB::table("T_P_RUSHPROJECT")
+            ->leftjoin("T_U_SERVICEINFO","T_U_SERVICEINFO.ServiceID","=","T_P_RUSHPROJECT.ServiceID")
+            ->leftjoin("T_P_PROJECTINFO","T_P_RUSHPROJECT.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+            ->leftjoin("T_P_PROJECTTYPE","T_P_PROJECTINFO.TypeID","=","T_P_PROJECTTYPE.TypeID")
+            ->leftjoin("users","T_P_PROJECTINFO.UserID","=","users.userid")
+            ->select("T_P_RUSHPROJECT.*","T_U_SERVICEINFO.ServiceName","T_P_PROJECTTYPE.TypeName","users.phonenumber")
             ->where("CooperateFlag",2)
             ->orderBy("RushProID","desc")
             ->paginate(20);
@@ -43,13 +43,13 @@ class RefuseController extends Controller
     }
     //退单详情
     public function detail($id){
-        $datas=DB::table("t_p_rushproject")
-            ->leftjoin("t_u_serviceinfo","t_u_serviceinfo.ServiceID","=","t_p_rushproject.ServiceID")
-            ->leftjoin("t_p_projectinfo","t_p_rushproject.ProjectID","=","t_p_projectinfo.ProjectID")
-            ->leftjoin("t_p_projecttype","t_p_projectinfo.TypeID","=","t_p_projecttype.TypeID")
-            ->leftjoin("users","t_p_projectinfo.UserID","=","users.userid")
-            ->select("t_p_rushproject.*","t_u_serviceinfo.ServiceName","t_p_projecttype.TypeName","users.phonenumber")
-            ->where("t_p_rushproject.RushProID",$id)
+        $datas=DB::table("T_P_RUSHPROJECT")
+            ->leftjoin("T_U_SERVICEINFO","T_U_SERVICEINFO.ServiceID","=","T_P_RUSHPROJECT.ServiceID")
+            ->leftjoin("T_P_PROJECTINFO","T_P_RUSHPROJECT.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+            ->leftjoin("T_P_PROJECTTYPE","T_P_PROJECTINFO.TypeID","=","T_P_PROJECTTYPE.TypeID")
+            ->leftjoin("users","T_P_PROJECTINFO.UserID","=","users.userid")
+            ->select("T_P_RUSHPROJECT.*","T_U_SERVICEINFO.ServiceName","T_P_PROJECTTYPE.TypeName","users.phonenumber")
+            ->where("T_P_RUSHPROJECT.RushProID",$id)
             ->get();
         return view("together/refuse/detail",compact("datas","id"));
     }
@@ -60,34 +60,34 @@ class RefuseController extends Controller
         ini_set('memory_limit', '512M');
         $typeName=$_GET['type'];
         if($typeName!=0){
-            $datas = DB::table("t_p_rushproject")
-                ->leftjoin("t_u_serviceinfo", "t_u_serviceinfo.ServiceID", "=", "t_p_rushproject.ServiceID")
-                ->leftjoin("t_p_projectinfo", "t_p_rushproject.ProjectID", "=", "t_p_projectinfo.ProjectID")
-                ->leftjoin("t_p_projecttype", "t_p_projectinfo.TypeID", "=", "t_p_projecttype.TypeID")
-                ->leftjoin("users", "t_p_projectinfo.UserID", "=", "users.userid")
-                ->select("t_p_rushproject.*", "t_u_serviceinfo.ServiceName", "t_p_projecttype.TypeName", "users.phonenumber")
+            $datas = DB::table("T_P_RUSHPROJECT")
+                ->leftjoin("T_U_SERVICEINFO", "T_U_SERVICEINFO.ServiceID", "=", "T_P_RUSHPROJECT.ServiceID")
+                ->leftjoin("T_P_PROJECTINFO", "T_P_RUSHPROJECT.ProjectID", "=", "T_P_PROJECTINFO.ProjectID")
+                ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                ->select("T_P_RUSHPROJECT.*", "T_U_SERVICEINFO.ServiceName", "T_P_PROJECTTYPE.TypeName", "users.phonenumber")
                 ->where("CooperateFlag", 2)
                 ->where("T_P_PROJECTTYPE.TypeID",$typeName)
                 ->get();
 
         }else{
-            $datas=DB::table("t_p_rushproject")
-                ->leftjoin("t_u_serviceinfo","t_u_serviceinfo.ServiceID","=","t_p_rushproject.ServiceID")
-                ->leftjoin("t_p_projectinfo","t_p_rushproject.ProjectID","=","t_p_projectinfo.ProjectID")
-                ->leftjoin("t_p_projecttype","t_p_projectinfo.TypeID","=","t_p_projecttype.TypeID")
-                ->leftjoin("users","t_p_projectinfo.UserID","=","users.userid")
-                ->select("t_p_rushproject.*","t_u_serviceinfo.ServiceName","t_p_projecttype.TypeName","users.phonenumber")
+            $datas=DB::table("T_P_RUSHPROJECT")
+                ->leftjoin("T_U_SERVICEINFO","T_U_SERVICEINFO.ServiceID","=","T_P_RUSHPROJECT.ServiceID")
+                ->leftjoin("T_P_PROJECTINFO","T_P_RUSHPROJECT.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                ->leftjoin("T_P_PROJECTTYPE","T_P_PROJECTINFO.TypeID","=","T_P_PROJECTTYPE.TypeID")
+                ->leftjoin("users","T_P_PROJECTINFO.UserID","=","users.userid")
+                ->select("T_P_RUSHPROJECT.*","T_U_SERVICEINFO.ServiceName","T_P_PROJECTTYPE.TypeName","users.phonenumber")
                 ->where("CooperateFlag",2)
                 ->get();
         }
         
         /*
-        $datas = DB::table("t_p_rushproject")
-            ->leftjoin("t_u_serviceinfo", "t_u_serviceinfo.ServiceID", "=", "t_p_rushproject.ServiceID")
-            ->leftjoin("t_p_projectinfo", "t_p_rushproject.ProjectID", "=", "t_p_projectinfo.ProjectID")
-            ->leftjoin("t_p_projecttype", "t_p_projectinfo.TypeID", "=", "t_p_projecttype.TypeID")
-            ->leftjoin("users", "t_p_projectinfo.UserID", "=", "users.userid")
-            ->select("t_p_rushproject.*", "t_u_serviceinfo.ServiceName", "t_p_projecttype.TypeName", "users.phonenumber")
+        $datas = DB::table("T_P_RUSHPROJECT")
+            ->leftjoin("T_U_SERVICEINFO", "T_U_SERVICEINFO.ServiceID", "=", "T_P_RUSHPROJECT.ServiceID")
+            ->leftjoin("T_P_PROJECTINFO", "T_P_RUSHPROJECT.ProjectID", "=", "T_P_PROJECTINFO.ProjectID")
+            ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+            ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+            ->select("T_P_RUSHPROJECT.*", "T_U_SERVICEINFO.ServiceName", "T_P_PROJECTTYPE.TypeName", "users.phonenumber")
             ->where("CooperateFlag", 2)
             ->orderBy("RushProID", "desc")
             ->get();*/
@@ -140,15 +140,32 @@ class RefuseController extends Controller
     }
     //保存退单编辑信息
     public function update(){
+        $projectIds=DB::table("T_P_RUSHPROJECT")
+                    ->select("ProjectID")
+                    ->where("RushProID",$_POST['id'])
+                    ->get();
+        foreach ($projectIds as $projectId){
+            $pId=$projectId->ProjectID;
+        }
         if($_POST["CooperateFlag"]==1){
                 $cooperateFlag=0;
+            DB::table("T_P_PROJECTINFO")->where("ProjectID",$pId)->update([
+                 "PublishState"=>0,
+                 'updated_at'=>date("Y-m-d H:i:s", time()),
+            ]);
         }else{
             $cooperateFlag=1;
-        }
-        $db=DB::table("t_p_rushproject")->where("RushProID",$_POST['id'])
-            ->update([
-                    "CooperateFlag"=>$cooperateFlag
+            DB::table("T_P_PROJECTINFO")->where("ProjectID",$pId)->update([
+                "PublishState"=>1,
+                 'updated_at'=>date("Y-m-d H:i:s", time()),
             ]);
+        }
+        $db=DB::table("T_P_RUSHPROJECT")->where("RushProID",$_POST['id'])
+            ->update([
+                    "CooperateFlag"=>$cooperateFlag,
+                 'updated_at'=>date("Y-m-d H:i:s", time()),
+            ]);
+        //$result=DB::table("T_P_PROJRCTINFO")
         if($db){
             return Redirect::to("refuse/index");
         }

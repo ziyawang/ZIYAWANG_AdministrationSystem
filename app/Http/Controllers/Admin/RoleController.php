@@ -13,7 +13,7 @@ class RoleController extends Controller
 {
     //角色展示
     public function index(){
-        $datas=DB::table("t_as_role")->orderBy("id","desc")
+        $datas=DB::table("T_AS_ROLE")->orderBy("id","desc")
                ->where("status",1)
                ->paginate(20);
         return view("systems/role/index",compact("datas"));
@@ -27,13 +27,13 @@ class RoleController extends Controller
                 return back()->with("msg","角色名称不能为空!");
                 return view("role/add");
             }
-            $count=DB::table("t_as_role")->where("RoleName",$_POST['roleName'])
+            $count=DB::table("T_AS_ROLE")->where("RoleName",$_POST['roleName'])
                 ->count();
             if($count!=0){
                 return back()->with("msg","您添加的角色已经存在!");
                 return view("role/add");
             }
-            $db=DB::table("t_as_role")->insert([
+            $db=DB::table("T_AS_ROLE")->insert([
                 "RoleName"=>$_POST['roleName'],
                 "Status"=>$_POST['status'],
                  'created_at'=>date("Y-m-d H:i:s", time()),
@@ -56,32 +56,32 @@ class RoleController extends Controller
                 return back()->with("msg","角色名称不能为空!");
                 return view("role/add");
             }
-            $count=DB::table("t_as_role")->where("RoleName",$_POST['roleName'])
+            $count=DB::table("T_AS_ROLE")->where("RoleName",$_POST['roleName'])
                 ->count();
             if($count!=0){
                 return back()->with("msg","您添加的角色已经存在!");
                 return view("role/add");
             }
-            DB::table('t_as_role')->where('id',$id)->update([
+            DB::table('T_AS_ROLE')->where('id',$id)->update([
                 "RoleName"=>$_POST['roleName'],
                 'updated_at'=>date("Y-m-d H:i:s", time())
             ]);
            
             return Redirect::to("role/index");
         }
-        $db=DB::table('t_as_role')->where('id',$id)->get();
+        $db=DB::table('T_AS_ROLE')->where('id',$id)->get();
         return view('systems/role/update',compact('db'));
     }
 
     //删除角色
     public function delete($id){
-        $count=DB::table("t_as_userrole")->where("RoleID",$id)
+        $count=DB::table("T_AS_USERROLE")->where("RoleID",$id)
                                          ->count();
         if($count!=0){
             return back()->with("msg","该角色存在用户，暂不能删除!");
             return view("role/index");
         }
-        $db= DB::table("t_as_role")->where("id",$id)->update([
+        $db= DB::table("T_AS_ROLE")->where("id",$id)->update([
                 "status"=>0
         ]);
         if($db){
@@ -93,7 +93,7 @@ class RoleController extends Controller
     public function getRoleName(){
        $name=$_POST['data'];
        // $name="技术部经理";
-        $db=DB::table('t_as_role')->where(["RoleName"=>$name,"Status"=>1])->get();
+        $db=DB::table('T_AS_ROLE')->where(["RoleName"=>$name,"Status"=>1])->get();
         if($db){
             $arr["status"]=1;
            

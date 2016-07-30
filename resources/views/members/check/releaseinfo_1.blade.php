@@ -18,7 +18,6 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     @foreach($datas as $data)
                         <input type="hidden" name="id" value="{{$id}}">
-
                         <div class="control-group">
                             <label class="control-label">联系方式</label>
                             <div class="controls">
@@ -36,29 +35,40 @@
                             <div class="controls">
                                 <input type="text" name="type" id="type" value="{{$data->TypeName}}"readonly/>
                             </div>
-                        </div>
+
+                            <div class="control-group">
+                                <label class="control-label">状态</label>
+                                <div class="controls">
+                                    @if ($data->Status==0)
+                                    <input type="text" name="status" id="status" value="未诉讼"readonly/>
+                                        @else
+                                        <input type="text" name="status" id="status" value="已诉讼"readonly/>
+                                    @endif
+
+                                </div>
+                            </div>
                         <div class="control-group">
-                            <label class="control-label">资产包类型</label>
+                            <label class="control-label">债务人所在地</label>
                             <div class="controls">
-                                <input type="text" name="AssetList" id="AssetList" value="{{$data->AssetList}}"readonly/>
+                                <input type="text" name="proArea" id="proArea" value="{{$data->ProArea}}"readonly/>
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">来源</label>
+                            <label class="control-label">类型</label>
                             <div class="controls">
-                                <input type="text" name="FromWhere" id="FromWhere" value="{{$data->FromWhere}}"readonly/>
+                                <input type="text" name="AssetType" id="AssetType" value="{{$data->AssetType}}"readonly/>
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">总金额</label>
+                            <label class="control-label">金额</label>
                             <div class="controls">
                                 <input type="text" name="TotalMoney" id="TotalMoney" value="{{$data->TotalMoney}}"readonly/>
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">转让价</label>
+                            <label class="control-label">佣金比例</label>
                             <div class="controls">
-                                <input type="text" name="TransferMoney" id="TransferMoney" value="{{$data->TransferMoney}}"readonly/>
+                                <input type="text" name="Rate" id="Rate" value="{{$data->Rate.'%'}}"readonly/>
                             </div>
                         </div>
                         <div class="control-group">
@@ -112,17 +122,17 @@
                             </div>
                             <div class="controls  span3">
                                 <div><img id="PictureDes1" alt=""  @if(!empty($data->PictureDes1)) src="{{'Http://images.ziyawang.com'.$data->PictureDes1}}"   @endif/>
-                                       <span><a href="{{asset('Http://images.ziyawang.com'.$data->PictureDes1)}}"><i class="icon-download PictureDes1" @if(empty($data->PictureDes1)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                       <span><a href="{{asset('Http://images.ziyawang.com'."$data->PictureDes1")}}"><i class="icon-download PictureDes1" @if(empty($data->PictureDes1)) style="display:none" @endif></i></a>&nbsp&nbsp
                                            <i class="icon-trash PictureDes1" @if(empty($data->PictureDes1)) style="display:none" @endif ></i>
                                        </span>
                                 </div>
                                 <div><img  id="PictureDes2" alt=""  @if(!empty($data->PictureDes2))  src="{{'Http://images.ziyawang.com'.$data->PictureDes2}}" @endif/>
-                                        <span><a href="{{asset('Http://images.ziyawang.com'.$data->PictureDes2)}}"><i class="icon-download PictureDes2"  @if(empty($data->PictureDes2)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                        <span><a href="{{asset('Http://images.ziyawang.com'."$data->PictureDes2")}}"><i class="icon-download PictureDes2"  @if(empty($data->PictureDes2)) style="display:none" @endif></i></a>&nbsp&nbsp
                                             <i class="icon-trash PictureDes2" @if(empty($data->PictureDes2)) style="display:none" @endif></i>
                                         </span>
                                 </div>
                                 <div><img  id="PictureDes3" alt=""  @if(!empty($data->PictureDes3))  src="{{'Http://images.ziyawang.com'.$data->PictureDes3}}"  @endif/>
-                                            <span><a href="{{asset('Http://images.ziyawang.com'.$data->PictureDes3)}}"><i class="icon-download PictureDes3 " @if(empty($data->PictureDes3)) style="display:none" @endif ></i></a>&nbsp&nbsp
+                                            <span><a href="{{asset('Http://images.ziyawang.com'."$data->PictureDes3")}}"><i class="icon-download PictureDes3 " @if(empty($data->PictureDes3)) style="display:none" @endif ></i></a>&nbsp&nbsp
                                                 <i class="icon-trash PictureDes3" @if(empty($data->PictureDes3)) style="display:none" @endif ></i>
                                             </span>
                                 </div>
@@ -144,13 +154,7 @@
                                 <input type="text" name="remark" id="date" value=""/>
                             </div>
                         </div>
-                        <div class="control-group" id="remark">
-                            <label class="control-label">清单</label>
-                            <div class="controls">
-                                <a href="{{'Http://files.ziyawang.com'.$data->AssetList}}"  id="upload"> <div class="btn btn-success " >下载清单</div></a>
-                            </div>
-                        </div>
-                    @endforeach
+                        @endforeach
                     <div class="form-actions">
                         <input type="submit" value="修改" class="btn btn-primary"/>
                         <a href="{{url('check/index')}}"><input type=button value="返回" class="btn btn-primary"/></a>
@@ -161,7 +165,6 @@
         </div>
     </div>
     <script>
-
         $("#state").on("change", function () {
             var result2 = $(this).val();
             if (result2==2) {
@@ -292,5 +295,5 @@
             });
         });
     </script>
-
+</div>
 @endsection

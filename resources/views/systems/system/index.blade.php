@@ -6,7 +6,12 @@
         <a href="#" class="current">用户列表</a>
         <a href="{{url('system/add')}}" class="pull-right"> <button class="btn btn-success">添加用户</button></a>
     </div>
-
+    @if(session("msg"))
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>{{session("msg")}}</strong>
+        </div>
+    @endif
     <div  class="container-fluid">
         <div class="widget-content nopadding">
             <table class="table table-bordered table-striped">

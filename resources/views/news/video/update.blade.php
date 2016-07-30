@@ -5,6 +5,12 @@
         <a href="{{url('video/index')}}" title="视频列表" class="tip-bottom"><i class="icon-home"></i> 视频</a>
         <a href="#" class="current">编辑视频</a>
     </div>
+    @if(session("msg"))
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>{{session("msg")}}</strong>
+        </div>
+    @endif
     <div class="row-fluid">
         <div class="span12">
             <div class="widget-box">
@@ -44,7 +50,7 @@
                     <div class="control-group">
                         <label class="control-label">视频封面</label>
                         <div class="controls">
-                            <input type="hidden" id="filepath" name="videologo">
+                            <input type="hidden" id="filepath" name="videologo" value="{{$datas->VideoLogo}}">
                             <input id="file_uploadvideopic" name="file_uploadvideopic"  multiple="true">
                         </div>
                         <div class="controls  span4">
@@ -54,7 +60,7 @@
                     <div class="control-group">
                         <label class="control-label">视频内容</label>
                         <div class="controls">
-                            <input type="hidden" id="filepath1" name="videolink">
+                            <input type="hidden" id="filepath1" name="videolink" value="{{$datas->VideoLink}}">
                             <input id="file_uploadvideo" name="file_uploadvideo"  multiple="true">
                         </div>
                         <div class="controls  span4">
@@ -66,7 +72,7 @@
                     <div class="control-group">
                         <label class="control-label">视频内容</label>
                         <div class="controls">
-                            <input type="hidden" id="filepath2" name="videolink2">
+                            <input type="hidden" id="filepath2" name="videolink2" value="{{$datas->VideoLink2}}">
                             <input id="file_uploadvideo2" name="file_uploadvideo2"  multiple="true">
                         </div>
                         <div class="controls  span4">

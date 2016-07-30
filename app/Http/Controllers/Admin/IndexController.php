@@ -22,13 +22,13 @@ class IndexController extends Controller
         $fourTime=date("Y-m-d",time()-86400*4);
         $fiveTime=date("Y-m-d",time()-86400*5);
         $sixTime=date("Y-m-d",time()-86400*6);
-        $ToneUser=DB::table("USERS")->where( 'created_at',"<",$nowTime)->count();
-        $TtwoUser=DB::table("USERS")->where('created_at', "<",$oneTime)->count();
-        $TthreeUser=DB::table("USERS")->where('created_at',"<",$twoTime)->count();
-        $TfourUser=DB::table("USERS")->where('created_at',"<",$threeTime)->count();
-        $TfiveUser=DB::table("USERS")->where('created_at',"<",$fourTime)->count();
-        $TsixUser=DB::table("USERS")->where('created_at',"<",$fiveTime)->count();
-        $TsevenUser=DB::table("USERS")->where('created_at',"<",$sixTime)->count();
+        $ToneUser=DB::table("users")->where( 'created_at',"<",$nowTime)->count();
+        $TtwoUser=DB::table("users")->where('created_at', "<",$oneTime)->count();
+        $TthreeUser=DB::table("users")->where('created_at',"<",$twoTime)->count();
+        $TfourUser=DB::table("users")->where('created_at',"<",$threeTime)->count();
+        $TfiveUser=DB::table("users")->where('created_at',"<",$fourTime)->count();
+        $TsixUser=DB::table("users")->where('created_at',"<",$fiveTime)->count();
+        $TsevenUser=DB::table("users")->where('created_at',"<",$sixTime)->count();
         $chart=array(
             "TsevenUser"=>$TsevenUser,
             "TsixUser"=>$TsixUser,
@@ -67,27 +67,27 @@ class IndexController extends Controller
         $sixTime=date("Y-m-d",time()-86400*6);
         //最近一周每天总的注册的人数
         
-        $ToneUser=DB::table("USERS")->where( 'created_at',"<",$nowTime)->count();
-        $TtwoUser=DB::table("USERS")->where('created_at', "<",$oneTime)->count();
-        $TthreeUser=DB::table("USERS")->where('created_at',"<",$twoTime)->count();
-        $TfourUser=DB::table("USERS")->where('created_at',"<",$threeTime)->count();
-        $TfiveUser=DB::table("USERS")->where('created_at',"<",$fourTime)->count();
-        $TsixUser=DB::table("USERS")->where('created_at',"<",$fiveTime)->count();
-        $TsevenUser=DB::table("USERS")->where('created_at',"<",$lastTime)->count();
-        $total=DB::table("USERS")->count();
+        $ToneUser=DB::table("users")->where( 'created_at',"<",$nowTime)->count();
+        $TtwoUser=DB::table("users")->where('created_at', "<",$oneTime)->count();
+        $TthreeUser=DB::table("users")->where('created_at',"<",$twoTime)->count();
+        $TfourUser=DB::table("users")->where('created_at',"<",$threeTime)->count();
+        $TfiveUser=DB::table("users")->where('created_at',"<",$fourTime)->count();
+        $TsixUser=DB::table("users")->where('created_at',"<",$fiveTime)->count();
+        $TsevenUser=DB::table("users")->where('created_at',"<",$lastTime)->count();
+        $total=DB::table("users")->count();
         $changes=($ToneUser-$TsevenUser)/$total;
         $change=round($changes,2)*100;
 
         //最近一周每天新增的注册的人数
-        $oneUser=DB::table("USERS")->whereBetween( 'created_at',[$oneTime, $nowTime])->count();
-        $twoUser=DB::table("USERS")->whereBetween('created_at',[$twoTime, $oneTime])->count();
-        $threeUser=DB::table("USERS")->whereBetween('created_at',[$threeTime, $twoTime])->count();
-        $fourUser=DB::table("USERS")->whereBetween('created_at',[$fourTime, $threeTime])->count();
-        $fiveUser=DB::table("USERS")->whereBetween('created_at',[$fiveTime, $fourTime])->count();
-        $sixUser=DB::table("USERS")->whereBetween('created_at',[$sixTime, $fiveTime])->count();
-        $sevenUser=DB::table("USERS")->whereBetween('created_at',[$lastTime, $sixTime])->count();
-        $changeUsers=($oneUser-$sevenUser)/$total;
-        $changeUser=round($changeUsers,2)*100;
+        $oneUser=DB::table("users")->whereBetween( 'created_at',[$oneTime, $nowTime])->count();
+        $twoUser=DB::table("users")->whereBetween('created_at',[$twoTime, $oneTime])->count();
+        $threeUser=DB::table("users")->whereBetween('created_at',[$threeTime, $twoTime])->count();
+        $fourUser=DB::table("users")->whereBetween('created_at',[$fourTime, $threeTime])->count();
+        $fiveUser=DB::table("users")->whereBetween('created_at',[$fiveTime, $fourTime])->count();
+        $sixUser=DB::table("users")->whereBetween('created_at',[$sixTime, $fiveTime])->count();
+        $sevenUser=DB::table("users")->whereBetween('created_at',[$lastTime, $sixTime])->count();
+        $changeusers=($oneUser-$sevenUser)/$total;
+        $changeUser=round($changeusers,2)*100;
         
 
         //最近一周的服务商每天的总数
@@ -115,13 +115,13 @@ class IndexController extends Controller
         $lchangeSer=round($lchangeSers,2)*100;
 
 
-        $lastUser=DB::table("USERS")->whereBetween('created_at', [$lastTime, $nowTime])->count();
+        $lastUser=DB::table("users")->whereBetween('created_at', [$lastTime, $nowTime])->count();
         $services=DB::table("T_U_SERVICEINFO")->count();
         $lastServices=DB::table("T_U_SERVICEINFO")->whereBetween("created_at", [$lastTime, $nowTime])->count();
         $hots=DB::table("T_P_RUSHPROJECT")->where("CooperateFlag",0)->count();
         $togethers=DB::table("T_P_RUSHPROJECT")->where("CooperateFlag",1)->count();
         $projectinfos=DB::table("T_P_PROJECTINFO")->count();
-        $users=DB::table("USERS")->count();
+        $users=DB::table("users")->count();
         $orders=DB::table("T_P_RUSHPROJECT")->count();
         $lastOrders=DB::table("T_P_RUSHPROJECT")->whereBetween("created_at", [$lastTime, $nowTime])->count();
 

@@ -10,11 +10,22 @@
             border-top: 0px solid #e5e5e5;
             *zoom: 1;
         }
+        .form-horizontal .form-actions {
+            padding-left: 50px;
+        }
+
+        .select2-container .select2-choice span {
+            display: block;
+            margin-right: 45px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     </style>
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>发布方</a>
         <a href="#" class="current">发布方列表</a>
-        <a href="#" class="pull-right" id="export"> <div class=" btn btn-primary ">导出</div></a>
+        <a href="#" class="pull-right" id="export"> <div class=" btn btn-success ">导出</div></a>
     </div>
     <div class="widget-content nopadding">
         <form class="form-horizontal" method="post" action="{{asset('publish/index')}}" name="basic_validate"  novalidate="novalidate" />
@@ -26,8 +37,8 @@
                     <div class="controls" >
                         <select  name="state" id="state"/>
                         <option value="2">全部<option>
-                        <option value="1" @if(isset($state) && $state==1) selected="selected" @endif>解冻</option>
-                        <option value="0" @if(isset($state) && $state==0) selected="selected" @endif>冻结</option>
+                        <option value="1" @if(isset($state) && $state==1) selected="selected" @endif>冻结</option>
+                        <option value="0" @if(isset($state) && $state==0) selected="selected" @endif>正常</option>
                             </select>
                     </div>
                 </div>
@@ -47,7 +58,7 @@
             </td>
             <td>
                 <div class="form-actions">
-                    <input type="submit" value="搜索" class="btn btn-primary" />
+                    <input type="submit" value="搜索" class="btn btn-success" />
                 </div>
             </td>
         </table>
@@ -57,7 +68,7 @@
         $(function(){
             var type = $('#typeName').val();
             var state= $("#state").val();
-            var url = 'http://admin.ziyawang.cn/publish/export?type='+type+"&state="+state;
+            var url = 'http://admin.ziyawang.com/publish/export?type='+type+"&state="+state;
             $('#export').attr('href',url);
         });
     </script>
@@ -85,9 +96,9 @@
                         <td>{{$data->created_at}}</td>
                         <td>{{$data->TypeName}}</td>
                         @if($data->Status==0)
-                            <td><p style="color:dodgerblue;margin:0 auto">冻结</p></td>
+                            <td><p style="color:dodgerblue;margin:0 auto">正常</p></td>
                         @else
-                           <td><p  style="color:dodgerblue">解冻</p></td>
+                           <td><p  style="color:dodgerblue">冻结</p></td>
                         @endif
                         <td>{{$data->Remark}}</td>
                         <td>

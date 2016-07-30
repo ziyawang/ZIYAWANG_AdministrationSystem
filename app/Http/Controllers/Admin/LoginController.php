@@ -24,25 +24,25 @@ class LoginController extends Controller
     public function login(){
         if(!empty($_POST['email']) && !empty($_POST['password'])){
             $password=md5($_POST['password']);
-            $data=DB::table("t_as_user")->where(["Email"=>$_POST['email'],"PassWord"=>$password,"Status"=>1])
+            $data=DB::table("T_AS_USER")->where(["Email"=>$_POST['email'],"PassWord"=>$password,"Status"=>1])
                 ->get();
             if($data){
                foreach($data as $value){
                    $userId=$value->id;
                    $roleId=$value->RoleID;
-                   $pAuths=DB::table("t_as_roleauth")
-                       ->leftJoin("t_as_auth","t_as_auth.Auth_ID","=","t_as_roleauth.AuthID")
+                   $pAuths=DB::table("T_AS_ROLEAUTH")
+                       ->leftJoin("T_AS_AUTH","T_AS_AUTH.Auth_ID","=","T_AS_ROLEAUTH.AuthID")
                        ->where(["Level"=>1,"RoleID"=>$roleId])
                        ->get();
-                   $Auths=DB::table("t_as_roleauth")
-                       ->leftJoin("t_as_auth","t_as_auth.Auth_ID","=","t_as_roleauth.AuthID")
+                   $Auths=DB::table("T_AS_ROLEAUTH")
+                       ->leftJoin("T_AS_AUTH","T_AS_AUTH.Auth_ID","=","T_AS_ROLEAUTH.AuthID")
                        ->where(["Level"=>2,"RoleID"=>$roleId])
                        ->get();
                }
                 foreach($pAuths as $pAuth){
                     $id=$pAuth->Auth_ID;
-                    $count=DB::table("t_as_roleauth")
-                        ->leftJoin("t_as_auth","t_as_auth.Auth_ID","=","t_as_roleauth.AuthID")
+                    $count=DB::table("T_AS_ROLEAUTH")
+                        ->leftJoin("T_AS_AUTH","T_AS_AUTH.Auth_ID","=","T_AS_ROLEAUTH.AuthID")
                         ->where(["Level"=>2,"RoleID"=>$roleId,"PID"=>$id])
                         ->count();
                     $pAuth->count=$count;
@@ -65,7 +65,7 @@ class LoginController extends Controller
     //修改密码首页
     public function wordEdit(){
         $id=Session::get("userId");
-        $datas=DB::table("t_as_user")->where("id",$id)->get();
+        $datas=DB::table("T_AS_USER")->where("id",$id)->get();
         return view("login/wordEdit",compact("datas"));
     }
     //修改密码保存
@@ -84,7 +84,7 @@ class LoginController extends Controller
             return view("login/wordEdit");
         }
 
-        $db=DB::table("t_as_user")->where("id",$_POST['userId'])
+        $db=DB::table("T_AS_USER")->where("id",$_POST['userId'])
                                   ->update([
                                       "PassWord"=>md5($pwd),
                                       'updated_at'=>date("Y-m-d H:i:s", time())

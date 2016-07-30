@@ -10,6 +10,10 @@
             border-top: 0px solid #e5e5e5;
             *zoom: 1;
         }
+        .form-horizontal .form-actions {
+            margin-bottom: 0;
+            margin-right: 100px;
+        }
     </style>
     <div id="breadcrumb">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
@@ -30,7 +34,7 @@
             </td>
             <td>
                 <div class="form-actions">
-                    <input type="submit" value="搜索" class="btn btn-primary" />
+                    <input type="submit" value="搜索" class="btn btn-success" />
                 </div>
             </td>
         </table>
@@ -43,7 +47,7 @@
                 <tr>
                     <th>新闻封面</th>
                     <th>标题</th>
-                    <th>新闻概要</th>
+                    <th>新闻摘要</th>
                     <th>作者</th>
                     <th>状态</th>
                     <th>发布时间</th>
@@ -53,7 +57,7 @@
                 <tbody>
                     @foreach($datas as $data)
                         <tr>
-                            <td width="60" height="50"><img  src="{{'Http://img.ziyawang.cn'.$data->NewsLogo}}"/></td>
+                            <td width="60" height="50"><img  src="{{'Http://images.ziyawang.com'.$data->NewsLogo}}"/></td>
                             <td>{{$data->NewsTitle}}</td>
                             <td>{{$data->Brief}}</td>
                             <td>{{$data->NewsAuthor}}</td>

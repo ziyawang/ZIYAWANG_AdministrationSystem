@@ -20,16 +20,16 @@ class PublishController extends Controller
             $typeNameWhere=$_POST['typeName']!=0 ? array("T_P_PROJECTTYPE.TypeID"=>$_POST['typeName']) : array();
             $stateWhere=$_POST['state']!=2 ? array("Status"=>$state) :array();
             $results=DB::table("T_P_PROJECTTYPE")->get();
-            $datas=DB::table("users")->leftJoin("T_P_PROJECTINFO","USERS.userid","=","T_P_PROJECTINFO.UserID")
+            $datas=DB::table("users")->leftJoin("T_P_PROJECTINFO","users.userid","=","T_P_PROJECTINFO.UserID")
                 ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
-                ->select("USERS.*","T_P_PROJECTTYPE.TypeName")
+                ->select("users.*","T_P_PROJECTTYPE.TypeName")
                 ->where($stateWhere)->where($typeNameWhere)->orderBy("created_at","desc")->paginate(20);
             return view("members/publish/index",compact("datas","state","results","typeName"));
 
         }
-        $datas=DB::table("users")->leftJoin("T_P_PROJECTINFO","USERS.userid","=","T_P_PROJECTINFO.UserID")
+        $datas=DB::table("users")->leftJoin("T_P_PROJECTINFO","users.userid","=","T_P_PROJECTINFO.UserID")
                 ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
-                ->select("USERS.*","T_P_PROJECTTYPE.TypeName")
+                ->select("users.*","T_P_PROJECTTYPE.TypeName")
                ->orderBy("created_at","desc")->paginate(20);
         $results=DB::table("T_P_PROJECTTYPE")->get();
         return view("members/publish/index",compact("datas","results"));
@@ -55,9 +55,9 @@ class PublishController extends Controller
             $typeNameWhere=$_GET['type']!=0 ? array("T_P_PROJECTTYPE.TypeID"=>$_GET['type']) : array();
             $stateWhere=$_GET['state']!=2 ? array("Status"=>$state) :array();
             $results=DB::table("T_P_PROJECTTYPE")->get();
-            $datas=DB::table("users")->leftJoin("T_P_PROJECTINFO","USERS.userid","=","T_P_PROJECTINFO.UserID")
+            $datas=DB::table("users")->leftJoin("T_P_PROJECTINFO","users.userid","=","T_P_PROJECTINFO.UserID")
                 ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
-                ->select("USERS.*","T_P_PROJECTTYPE.TypeName")
+                ->select("users.*","T_P_PROJECTTYPE.TypeName")
                 ->where($stateWhere)->where($typeNameWhere)
                 ->get();
             require_once '../vendor/PHPExcel.class.php';

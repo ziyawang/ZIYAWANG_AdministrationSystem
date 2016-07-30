@@ -10,11 +10,16 @@
             border-top: 0px solid #e5e5e5;
             *zoom: 1;
         }
+        .form-horizontal .form-actions {
+
+              margin-right: 100px;
+        }
+
     </style>
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>审核</a>
         <a href="#" class="current">审核列表</a>
-        <a href="#" class="pull-right" id="export"> <div class=" btn btn-primary " >导出</div></a>
+        <a href="#" class="pull-right" id="export"> <div class="btn btn-success " >导出</div></a>
     </div>
     <div class="widget-content nopadding">
         <form class="form-horizontal" method="post" action="{{asset('check/index')}}" name="basic_validate"  novalidate="novalidate" />
@@ -89,7 +94,7 @@
             </td>
             <td>
                 <div class="form-actions">
-                    <input type="submit" value="搜索" class="btn btn-primary" />
+                    <input type="submit" value="搜索" class="btn btn-success" />
                 </div>
             </td>
         </table>
@@ -100,7 +105,7 @@
             var type = $('#typeName').val();
             var province=$("#province").val();
             var state=$("#state").val();
-            var url = 'http://admin.ziyawang.cn/check/export?type='+type+"&province="+province+"&state="+state;
+            var url = 'http://admin.ziyawang.com/check/export?type='+type+"&province="+province+"&state="+state;
             $('#export').attr('href',url);
         });
     </script>
@@ -136,7 +141,7 @@
                             <td><p style="color: #149bdf">拒审核</p></td>
                         @endif
                         <td>{{$data->Remark}}</td>
-                        <td><a href="{{url('check/detail/'.$data->ProjectID)}}">查看</a></td>
+                        <td><a href="{{url('check/detail/'.$data->ProjectID.'/'.$data->TypeID)}}">查看</a></td>
                     </tr>
                 @endforeach
                 </tbody>

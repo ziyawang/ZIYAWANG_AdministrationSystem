@@ -6,6 +6,12 @@
         <a href="{{url('news/index')}}" title="新闻列表" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
         <a href="#" class="current">添加新闻</a>
     </div>
+    @if(session("msg"))
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>{{session("msg")}}</strong>
+        </div>
+    @endif
     <div class="row-fluid">
         <div class="span12">
             <div class="widget-box">
@@ -81,6 +87,7 @@
                     '_token'     : "{{csrf_token()}}"
                 },
                 'removeCompleted' : true,
+                'fileSizeLimit':"1M",
                 'uploadScript'     :"{{url('/news/upload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath').val(data);

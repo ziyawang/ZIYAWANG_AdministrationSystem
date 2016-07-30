@@ -47,8 +47,8 @@
                             <label class="control-label">当前状态</label>
                             <div class="controls">
                                 <select name="status" id="status">
-                                        <option value="0"  @if($data->Status==0) selected="selected"  @endif>冻结</option>
-                                        <option value="1" @if($data->Status==1)selected="selected"  @endif>解冻</option>
+                                        <option value="1"  @if($data->Status==1) selected="selected"  @endif>冻结</option>
+                                        <option value="0" @if($data->Status==0)selected="selected"  @endif>正常</option>
                                     </select>
                             </div>
                         </div>

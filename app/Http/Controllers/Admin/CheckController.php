@@ -19,16 +19,28 @@ class CheckController extends Controller
             $province=$_POST['province'];
             $provinceWhere=$_POST['province']!="全国" ? array("ProArea"=>$province) : array();
             $typeNameWhere=$_POST['typeName']!=0 ? array("T_P_PROJECTINFO.TypeID"=>$typeName) : array();
-            $stateWhere=$_POST['state']!=3 ? array("T_P_PROJECTCERTIFY.State"=>$state) :array();
-            $datas = DB::table("T_P_PROJECTINFO")
-                ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
-                ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
-                ->leftjoin("T_P_PROJECTCERTIFY","T_P_PROJECTCERTIFY.ProjectID","=","T_P_PROJECTINFO.ProjectID")
-                ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_PROJECTCERTIFY.Remark","T_P_PROJECTCERTIFY.State")
-                ->where($provinceWhere)
-                ->where( $typeNameWhere)
-                ->where( $stateWhere)
-                ->orderBy("T_P_PROJECTINFO.ProjectID", "desc")->paginate(20);
+            $stateWhere=$_POST['state']!=3 ? array("T_P_PROJECTCERTIFY.State"=>$state) : array();
+            if($_POST['province']!="全国"){
+                $datas = DB::table("T_P_PROJECTINFO")
+                    ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                    ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                    ->leftjoin("T_P_PROJECTCERTIFY","T_P_PROJECTCERTIFY.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                    ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_PROJECTCERTIFY.Remark","T_P_PROJECTCERTIFY.State","T_P_PROJECTTYPE.TypeID")
+                    ->where("ProArea","like","%".$province."%")
+                    ->where( $typeNameWhere)
+                    ->where( $stateWhere)
+                    ->orderBy("T_P_PROJECTINFO.ProjectID", "desc")->paginate(20);
+            }else{
+                $datas = DB::table("T_P_PROJECTINFO")
+                    ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                    ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                    ->leftjoin("T_P_PROJECTCERTIFY","T_P_PROJECTCERTIFY.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                    ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_PROJECTCERTIFY.Remark","T_P_PROJECTCERTIFY.State","T_P_PROJECTTYPE.TypeID")
+                    ->where( $typeNameWhere)
+                    ->where( $stateWhere)
+                    ->orderBy("T_P_PROJECTINFO.ProjectID", "desc")->paginate(20);
+            }
+
             $results=DB::table("T_P_PROJECTTYPE")->get();
             return view("members/check/index", compact("datas","results","state","typeName","province"));
         }
@@ -37,22 +49,127 @@ class CheckController extends Controller
             ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
             ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
             ->leftjoin("T_P_PROJECTCERTIFY","T_P_PROJECTCERTIFY.ProjectID","=","T_P_PROJECTINFO.ProjectID")
-            ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_PROJECTCERTIFY.Remark","T_P_PROJECTCERTIFY.State")
+            ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_PROJECTCERTIFY.Remark","T_P_PROJECTCERTIFY.State","T_P_PROJECTTYPE.TypeID")
             ->orderBy("T_P_PROJECTINFO.ProjectID", "desc")->paginate(20);
             $results=DB::table("T_P_PROJECTTYPE")->get();
         return view("members/check/index", compact("datas","results"));
     }
   //审核信息详情
-    public function detail($id)
-    {
-        $datas = DB::table("T_P_PROJECTINFO")
-            ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
-            ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
-            ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName")
-            ->where("T_P_PROJECTINFO.ProjectID",$id)
-            ->get();
-       
-        return view("members/check/detail", compact('datas',"id"));
+    public function detail($id,$typeId){
+        switch ($typeId){
+            case "1":
+                    $datas = DB::table("T_P_PROJECTINFO")
+                        ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                        ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                        ->leftJoin("T_P_SPEC01","T_P_PROJECTINFO.ProjectID","=","T_P_SPEC01.ProjectID")
+                        ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_SPEC01.*")
+                        ->where("T_P_PROJECTINFO.ProjectID",$id)
+                        ->get();
+                       return view("members/check/detail", compact('datas',"id"));
+            break;
+            case "2":
+                    $datas = DB::table("T_P_PROJECTINFO")
+                        ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                        ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                        ->leftJoin("T_P_SPEC02","T_P_PROJECTINFO.ProjectID","=","T_P_SPEC02.ProjectID")
+                        ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_SPEC02.*")
+                        ->where("T_P_PROJECTINFO.ProjectID",$id)
+                        ->get();
+                    return view("members/check/releaseinfo_1", compact('datas',"id"));
+            break;
+            case "3":
+                    $datas = DB::table("T_P_PROJECTINFO")
+                        ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                        ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                        ->leftJoin("T_P_SPEC03","T_P_PROJECTINFO.ProjectID","=","T_P_SPEC03.ProjectID")
+                        ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_SPEC03.*")
+                        ->where("T_P_PROJECTINFO.ProjectID",$id)
+                        ->get();
+                    return view("members/check/releaseinfo_2", compact('datas',"id"));
+            break;
+            case "4":
+                    $datas = DB::table("T_P_PROJECTINFO")
+                        ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                        ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                        ->leftJoin("T_P_SPEC04","T_P_PROJECTINFO.ProjectID","=","T_P_SPEC04.ProjectID")
+                        ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_SPEC04.*")
+                        ->where("T_P_PROJECTINFO.ProjectID",$id)
+                        ->get();
+                    return view("members/check/releaseinfo_3", compact('datas',"id"));
+            break;
+            case "5":
+                    $datas = DB::table("T_P_PROJECTINFO")
+                        ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                        ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                        ->leftJoin("T_P_SPEC05","T_P_PROJECTINFO.ProjectID","=","T_P_SPEC05.ProjectID")
+                        ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_SPEC05.*")
+                        ->where("T_P_PROJECTINFO.ProjectID",$id)
+                        ->get();
+                    return view("members/check/releaseinfo_4", compact('datas',"id"));
+            break;
+            case "6":
+                $datas = DB::table("T_P_PROJECTINFO")
+                    ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                    ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                    ->leftJoin("T_P_SPEC06","T_P_PROJECTINFO.ProjectID","=","T_P_SPEC06.ProjectID")
+                    ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_SPEC06.*")
+                    ->where("T_P_PROJECTINFO.ProjectID",$id)
+                    ->get();
+                return view("members/check/releaseinfo_5", compact('datas',"id"));
+            break;
+            case "9":
+                $datas = DB::table("T_P_PROJECTINFO")
+                    ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                    ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                    ->leftJoin("T_P_SPEC09","T_P_PROJECTINFO.ProjectID","=","T_P_SPEC09.ProjectID")
+                    ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_SPEC09.*")
+                    ->where("T_P_PROJECTINFO.ProjectID",$id)
+                    ->get();
+                return view("members/check/releaseinfo_6", compact('datas',"id"));
+            break;
+            case "10":
+                $datas = DB::table("T_P_PROJECTINFO")
+                    ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                    ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                    ->leftJoin("T_P_SPEC10","T_P_PROJECTINFO.ProjectID","=","T_P_SPEC10.ProjectID")
+                    ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_SPEC10.*")
+                    ->where("T_P_PROJECTINFO.ProjectID",$id)
+                    ->get();
+                return view("members/check/releaseinfo_7", compact('datas',"id"));
+            break;
+            case "12":
+                $datas = DB::table("T_P_PROJECTINFO")
+                    ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                    ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                    ->leftJoin("T_P_SPEC12","T_P_PROJECTINFO.ProjectID","=","T_P_SPEC12.ProjectID")
+                    ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_SPEC12.*")
+                    ->where("T_P_PROJECTINFO.ProjectID",$id)
+                    ->get();
+                return view("members/check/releaseinfo_8", compact('datas',"id"));
+            break;
+            case "13":
+                $datas = DB::table("T_P_PROJECTINFO")
+                    ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                    ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                    ->leftJoin("T_P_SPEC13","T_P_PROJECTINFO.ProjectID","=","T_P_SPEC13.ProjectID")
+                    ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_SPEC13.*")
+                    ->where("T_P_PROJECTINFO.ProjectID",$id)
+                    ->get();
+                return view("members/check/releaseinfo_9", compact('datas',"id"));
+            break;
+            case "14":
+                $datas = DB::table("T_P_PROJECTINFO")
+                    ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
+                    ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
+                    ->leftJoin("T_P_SPEC14","T_P_PROJECTINFO.ProjectID","=","T_P_SPEC14.ProjectID")
+                    ->select("T_P_PROJECTINFO.*","users.phonenumber","T_P_PROJECTTYPE.TypeName","T_P_SPEC14.*")
+                    ->where("T_P_PROJECTINFO.ProjectID",$id)
+                    ->get();
+                return view("members/check/releaseinfo_10", compact('datas',"id"));
+            break;
+
+        }
+
     }
     //导出
     public function export()
@@ -128,7 +245,7 @@ class CheckController extends Controller
                 'updated_at'=>date("Y-m-d H:i:s", time())
             ]);
         $remark= !empty($_POST['remark']) ? $_POST['remark'] : "";
-        $result=DB::table("t_p_projectcertify")->where("ProjectID",$_POST['id'])->update([
+        $result=DB::table("T_P_PROJECTCERTIFY")->where("ProjectID",$_POST['id'])->update([
             "state"=>$_POST['state'],
             "Remark"=>$remark,
             'updated_at'=>date("Y-m-d H:i:s", time())
@@ -148,7 +265,7 @@ class CheckController extends Controller
         $realPath = $file->getRealPath();//缓存文件的绝对路径
         $extension = $file->getClientOriginalExtension();//获取文件的后缀
         $mimeType = $file->getMimeType();//文件类型
-        $newName = date('Ymd'). mt_rand(1000,9999). '.'. $extension;//新文件名
+        $newName = time(). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
         $path = $file->move(dirname(base_path()).'/ziyaupload/images/checks/',$newName);//移动绝对路径

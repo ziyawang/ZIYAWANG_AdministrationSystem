@@ -18,7 +18,6 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     @foreach($datas as $data)
                         <input type="hidden" name="id" value="{{$id}}">
-
                         <div class="control-group">
                             <label class="control-label">联系方式</label>
                             <div class="controls">
@@ -38,27 +37,15 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">资产包类型</label>
+                            <label class="control-label">求购类型</label>
                             <div class="controls">
-                                <input type="text" name="AssetList" id="AssetList" value="{{$data->AssetList}}"readonly/>
+                                <input type="text" name="AssetType" id="AssetType" value="{{$data->AssetType}}"readonly/>
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">来源</label>
+                            <label class="control-label">求购方</label>
                             <div class="controls">
-                                <input type="text" name="FromWhere" id="FromWhere" value="{{$data->FromWhere}}"readonly/>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">总金额</label>
-                            <div class="controls">
-                                <input type="text" name="TotalMoney" id="TotalMoney" value="{{$data->TotalMoney}}"readonly/>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">转让价</label>
-                            <div class="controls">
-                                <input type="text" name="TransferMoney" id="TransferMoney" value="{{$data->TransferMoney}}"readonly/>
+                                <input type="text" name="Buyer" id="Buyer" value="{{$data->Buyer}}"readonly/>
                             </div>
                         </div>
                         <div class="control-group">
@@ -112,17 +99,17 @@
                             </div>
                             <div class="controls  span3">
                                 <div><img id="PictureDes1" alt=""  @if(!empty($data->PictureDes1)) src="{{'Http://images.ziyawang.com'.$data->PictureDes1}}"   @endif/>
-                                       <span><a href="{{asset('Http://images.ziyawang.com'.$data->PictureDes1)}}"><i class="icon-download PictureDes1" @if(empty($data->PictureDes1)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                       <span><a href="{{asset('Http://images.ziyawang.com'."$data->PictureDes1")}}"><i class="icon-download PictureDes1" @if(empty($data->PictureDes1)) style="display:none" @endif></i></a>&nbsp&nbsp
                                            <i class="icon-trash PictureDes1" @if(empty($data->PictureDes1)) style="display:none" @endif ></i>
                                        </span>
                                 </div>
                                 <div><img  id="PictureDes2" alt=""  @if(!empty($data->PictureDes2))  src="{{'Http://images.ziyawang.com'.$data->PictureDes2}}" @endif/>
-                                        <span><a href="{{asset('Http://images.ziyawang.com'.$data->PictureDes2)}}"><i class="icon-download PictureDes2"  @if(empty($data->PictureDes2)) style="display:none" @endif></i></a>&nbsp&nbsp
+                                        <span><a href="{{asset('Http://images.ziyawang.com'."$data->PictureDes2")}}"><i class="icon-download PictureDes2"  @if(empty($data->PictureDes2)) style="display:none" @endif></i></a>&nbsp&nbsp
                                             <i class="icon-trash PictureDes2" @if(empty($data->PictureDes2)) style="display:none" @endif></i>
                                         </span>
                                 </div>
                                 <div><img  id="PictureDes3" alt=""  @if(!empty($data->PictureDes3))  src="{{'Http://images.ziyawang.com'.$data->PictureDes3}}"  @endif/>
-                                            <span><a href="{{asset('Http://images.ziyawang.com'.$data->PictureDes3)}}"><i class="icon-download PictureDes3 " @if(empty($data->PictureDes3)) style="display:none" @endif ></i></a>&nbsp&nbsp
+                                            <span><a href="{{asset('Http://images.ziyawang.com'."$data->PictureDes3")}}"><i class="icon-download PictureDes3 " @if(empty($data->PictureDes3)) style="display:none" @endif ></i></a>&nbsp&nbsp
                                                 <i class="icon-trash PictureDes3" @if(empty($data->PictureDes3)) style="display:none" @endif ></i>
                                             </span>
                                 </div>
@@ -142,12 +129,6 @@
                             <label class="control-label">备注</label>
                             <div class="controls">
                                 <input type="text" name="remark" id="date" value=""/>
-                            </div>
-                        </div>
-                        <div class="control-group" id="remark">
-                            <label class="control-label">清单</label>
-                            <div class="controls">
-                                <a href="{{'Http://files.ziyawang.com'.$data->AssetList}}"  id="upload"> <div class="btn btn-success " >下载清单</div></a>
                             </div>
                         </div>
                     @endforeach
