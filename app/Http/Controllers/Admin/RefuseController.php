@@ -21,7 +21,7 @@ class RefuseController extends Controller
                 ->leftjoin("T_P_PROJECTINFO", "T_P_RUSHPROJECT.ProjectID", "=", "T_P_PROJECTINFO.ProjectID")
                 ->leftjoin("T_P_PROJECTTYPE", "T_P_PROJECTINFO.TypeID", "=", "T_P_PROJECTTYPE.TypeID")
                 ->leftjoin("users", "T_P_PROJECTINFO.UserID", "=", "users.userid")
-                ->select("T_P_RUSHPROJECT.*", "T_U_SERVICEINFO.ServiceName", "T_P_PROJECTTYPE.TypeName", "users.phonenumber")
+                ->select("T_P_RUSHPROJECT.*", "T_U_SERVICEINFO.ServiceName", "T_P_PROJECTTYPE.TypeName", "users.phonenumber","T_P_PROJECTINFO.ProjectID")
                 ->where("CooperateFlag", 2)
                 ->where("T_P_PROJECTTYPE.TypeID",$typeName)
                 ->orderBy("RushProID", "desc")
@@ -34,7 +34,7 @@ class RefuseController extends Controller
             ->leftjoin("T_P_PROJECTINFO","T_P_RUSHPROJECT.ProjectID","=","T_P_PROJECTINFO.ProjectID")
             ->leftjoin("T_P_PROJECTTYPE","T_P_PROJECTINFO.TypeID","=","T_P_PROJECTTYPE.TypeID")
             ->leftjoin("users","T_P_PROJECTINFO.UserID","=","users.userid")
-            ->select("T_P_RUSHPROJECT.*","T_U_SERVICEINFO.ServiceName","T_P_PROJECTTYPE.TypeName","users.phonenumber")
+            ->select("T_P_RUSHPROJECT.*","T_U_SERVICEINFO.ServiceName","T_P_PROJECTTYPE.TypeName","users.phonenumber","T_P_PROJECTINFO.ProjectID")
             ->where("CooperateFlag",2)
             ->orderBy("RushProID","desc")
             ->paginate(20);
@@ -48,7 +48,7 @@ class RefuseController extends Controller
             ->leftjoin("T_P_PROJECTINFO","T_P_RUSHPROJECT.ProjectID","=","T_P_PROJECTINFO.ProjectID")
             ->leftjoin("T_P_PROJECTTYPE","T_P_PROJECTINFO.TypeID","=","T_P_PROJECTTYPE.TypeID")
             ->leftjoin("users","T_P_PROJECTINFO.UserID","=","users.userid")
-            ->select("T_P_RUSHPROJECT.*","T_U_SERVICEINFO.ServiceName","T_P_PROJECTTYPE.TypeName","users.phonenumber")
+            ->select("T_P_RUSHPROJECT.*","T_U_SERVICEINFO.ServiceName","T_P_PROJECTTYPE.TypeName","users.phonenumber","T_P_PROJECTINFO.ProjectID")
             ->where("T_P_RUSHPROJECT.RushProID",$id)
             ->get();
         return view("together/refuse/detail",compact("datas","id"));
@@ -151,6 +151,7 @@ class RefuseController extends Controller
                 $cooperateFlag=0;
             DB::table("T_P_PROJECTINFO")->where("ProjectID",$pId)->update([
                  "PublishState"=>0,
+                "ServiceID"=>0,
                  'updated_at'=>date("Y-m-d H:i:s", time()),
             ]);
         }else{

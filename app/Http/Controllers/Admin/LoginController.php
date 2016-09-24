@@ -29,6 +29,7 @@ class LoginController extends Controller
             if($data){
                foreach($data as $value){
                    $userId=$value->id;
+                   $name=$value->Name;
                    $roleId=$value->RoleID;
                    $pAuths=DB::table("T_AS_ROLEAUTH")
                        ->leftJoin("T_AS_AUTH","T_AS_AUTH.Auth_ID","=","T_AS_ROLEAUTH.AuthID")
@@ -49,7 +50,7 @@ class LoginController extends Controller
                 }
                 $pAuths = serialize($pAuths);
                 $Auths = serialize($Auths);
-                session(['user'=>"admin",'pAuths'=>$pAuths,'Auths'=>$Auths,"userId"=>$userId]);
+                session(['user'=>"admin",'pAuths'=>$pAuths,'Auths'=>$Auths,"userId"=>$userId,"userName"=>$name]);
                 return redirect('index/index');
             }else{
                 return back()->with('msg',"您输入的账号或者密码有误，请重新输入");

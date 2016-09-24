@@ -4,6 +4,12 @@
         <a href="{{asset('publish/index')}}" title="发布方列表" class="tip-bottom"><i class="icon-home"></i>发布方</a>
         <a href="#" class="current">发布方详情</a>
     </div>
+    @if(session("msg"))
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>{{session("msg")}}</strong>
+        </div>
+    @endif
     <div class="row-fluid">
             <div class="span12">
                 <div class="widget-box">
@@ -60,7 +66,7 @@
                         </div>
                             <div class="form-actions">
                                 <input type="submit" value="修改" class="btn btn-primary"/>
-                                <a href="{{url('publish/index')}}"><input type="button" value="返回" class="btn btn-primary"/></a>
+                                <a href="#"><input type="button" value="返回" class="btn btn-primary" onclick="javascript:history.back(-1);"/></a>
                             </div>
                         @endforeach
                         </form>

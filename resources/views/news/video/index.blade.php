@@ -1,28 +1,15 @@
 @extends('layouts.master')
 
 @section('content')
-<style type="text/css">
-        .form-actions {
-            padding: 0px 20px 20px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            background-color: #f5f5f5;
-            border-top: 0px solid #e5e5e5;
-            *zoom: 1;
-        }
-        .form-horizontal .form-actions {
-            margin-bottom: 0;
-            margin-right: 100px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{asset('css/news.css ')}}"/>
     <div id="breadcrumb">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 视频</a>
         <a href="#" class="current">视频列表</a>
-        <a href="{{url('video/add')}}" class="pull-right"> <button class="btn btn-success">添加视频</button></a>
+        <a href="{{url('video/add')}}" class="pull-right"> <button class="btn btn-primary">添加视频</button></a>
     </div>
     <div class="widget-content nopadding">
         <form class="form-horizontal" method="post" action="{{asset('video/index')}}" name="basic_validate"  novalidate="novalidate" />
-        <table  class="table table-bordered table-striped">
+        <table  class="table table-bordered table-striped newsHeader">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <td>
                 <div class="control-group span4" >
@@ -33,7 +20,7 @@
                 </div>
             </td>
             <td>
-                <div class="form-actions">
+                <div class="form-actions searchBox">
                     <input type="submit" value="搜索" class="btn btn-success" />
                 </div>
             </td>
@@ -42,16 +29,16 @@
     </div>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped newsTable">
                 <thead>
                 <tr>
-                    <th>视频封面</th>
-                    <th>标题</th>
-                    <th>视频概要</th>
-                    <th>权重</th>
-                    <th>状态</th>
-                    <th>发布时间</th>
-                    <th>操作</th>
+                    <th class="newsFace">视频封面</th>
+                    <th class="newsTitle">标题</th>
+                    <th class="newsAbstract">视频概要</th>
+                    <th class="newsAuthor">权重</th>
+                    <th class="newsState">状态</th>
+                    <th class="newsReleasetime">发布时间</th>
+                    <th class="newsOperate">操作</th>
                 </tr>
                 </thead>
                 <tbody>

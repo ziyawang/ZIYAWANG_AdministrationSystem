@@ -1,25 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
-    <style type="text/css">
-        .form-actions {
-            padding: 0px 20px 20px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            background-color: #f5f5f5;
-            border-top: 0px solid #e5e5e5;
-            *zoom: 1;
-        }
-        .form-horizontal .form-actions {
-
-              margin-right: 100px;
-        }
-
-    </style>
+    <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>审核</a>
         <a href="#" class="current">审核列表</a>
-        <a href="#" class="pull-right" id="export"> <div class="btn btn-success " >导出</div></a>
+        <a href="#" class="pull-right" id="export"> <div class="btn btn-primary " >导出</div></a>
     </div>
     <div class="widget-content nopadding">
         <form class="form-horizontal" method="post" action="{{asset('check/index')}}" name="basic_validate"  novalidate="novalidate" />
@@ -27,8 +13,8 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <td>
                 <div class="control-group">
-                    <label class="control-label">审核状态</label>
-                    <div class="controls" >
+                    <label class="control-label checkState" >审核状态</label>
+                    <div class="controls selectBox" >
                         <select  name="state" id="state"/>
                         <option value="3">--全部--<option>
                         <option value="1" @if(isset($state) && $state==1) selected="selected" @endif>已审核</option>
@@ -40,8 +26,20 @@
             </td>
             <td>
                 <div class="control-group">
-                    <label class="control-label">类型</label>
-                    <div class="controls" >
+                    <label class="control-label checkState">手机号</label>
+                    <div class="controls selectBox" >
+                        @if(!empty($phoneNumber))
+                            <input type="text" name="phoneNumber" id="phoneNumber" value="{{$phoneNumber}}"  style="width:100px" />
+                        @else
+                            <input type="text" name="phoneNumber" id="phoneNumber" value=""   style="width:100px"/>
+                        @endif
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="control-group">
+                    <label class="control-label checkState">类型</label>
+                    <div class="controls selectBox" >
                         <select  name="typeName" id="typeName"/>
                         <option value="0">---全部---</option>
                         @foreach($results as $result)
@@ -53,8 +51,8 @@
             </td>
             <td>
                 <div class="control-group">
-                    <label class="control-label">服务地区</label>
-                    <div class="controls" >
+                    <label class="control-label checkState">服务地区</label>
+                    <div class="controls selectBox" >
                         <select  name="province" id="province"/>
                         <option   value="全国" @if(!empty($province) && $province=="全国") selected="selected" @endif>--全国--</option>
                         <option value="北京" @if(!empty($province) && $province=="北京") selected="selected" @endif>北京</option>
@@ -92,8 +90,8 @@
                     </div>
                 </div>
             </td>
-            <td>
-                <div class="form-actions">
+            <td class="tdSearch">
+                <div class="form-actions searchBox checkSearch">
                     <input type="submit" value="搜索" class="btn btn-success" />
                 </div>
             </td>
@@ -105,13 +103,14 @@
             var type = $('#typeName').val();
             var province=$("#province").val();
             var state=$("#state").val();
-            var url = 'http://admin.ziyawang.com/check/export?type='+type+"&province="+province+"&state="+state;
+            var phoneNumber=$("#phoneNumber").val();
+            var url = 'http://admin.ziyawang.com/check/export?type='+type+"&province="+province+"&state="+state+"&phoneNumber="+phoneNumber;
             $('#export').attr('href',url);
         });
     </script>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped checkTable">
                 <thead>
 
                 <tr>
@@ -120,6 +119,8 @@
                     <th>发布时间</th>
                     <th>地址</th>
                     <th>服务类型</th>
+                    <th>浏览次数</th>
+                    <th>收藏次数</th>
                     <th>审核状态</th>
                     <th>备注</th>
                     <th>操作</th>
@@ -133,6 +134,8 @@
                         <td>{{$data->PublishTime}}</td>
                         <td>{{$data->ProArea}}</td>
                         <td>{{$data->TypeName}}</td>
+                        <td>{{$data->ViewCount}}</td>
+                        <td>{{$data->CollectionCount}}</td>
                         @if($data->State==0)
                             <td><p style="color: #149bdf">待审核</p></td>
                         @elseif($data->State==1)
@@ -148,7 +151,7 @@
             </table>
         </div>
         <div class="pagination alternate">
-            {!! $datas->render() !!}
+            {!! $datas->appends(["state"=>$state,"province"=>$province,"typeName"=>$typeName,"phoneNumber"=>$phoneNumber])->render() !!}
         </div>
     </div>
     @endsection

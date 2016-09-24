@@ -14,10 +14,10 @@ class VideoController extends Controller
     //视频管理
     public function index(){
         if(isset($_POST["_token"])){
-            $datas=DB::table("T_V_VIDEOINFO")->where("Flag","<>",2)->where("VideoTitle","like","%".$_POST['videoTitle']."%")->paginate(20);
+            $datas=DB::table("T_V_VIDEOINFO")->where("Flag","<>",2)->where("VideoTitle","like","%".$_POST['videoTitle']."%")->orderBy("PublishTime","desc")->paginate(20);
             return view("news/video/index",compact('datas'));
         }
-        $datas=DB::table("T_V_VIDEOINFO")->where('Flag',"<>",2)->paginate(20);
+        $datas=DB::table("T_V_VIDEOINFO")->where('Flag',"<>",2)->orderBy("PublishTime","desc")->paginate(20);
         return view("news/video/index",compact('datas'));
     }
     //添加视频
@@ -33,6 +33,26 @@ class VideoController extends Controller
             foreach ($typeIds  as $typeId ){
                 $typeNames= DB::table("T_CONFIG_TYPE")->select("TypeName")->where("id",$typeId)->get();
                 foreach ($typeNames as $typeName){
+                    $name=$typeName->TypeName;
+                    switch($name){
+                        case "推荐":
+                            $typeName->TypeName="tj";
+                            break;
+                        case "资芽哈哈哈":
+                            $typeName->TypeName="zyhhh";
+                            break;
+                        case "行业说":
+                            $typeName->TypeName="hys";
+                            break;
+                        case "大咖秀":
+                            $typeName->TypeName="dkx";
+                            break;
+                        case "资芽一分钟":
+                            $typeName->TypeName="zyyfz";
+                            break;
+                    }
+                }
+                foreach ($typeNames as $typeName){
                     $arr[]=$typeName->TypeName;
                 }
             }
@@ -43,8 +63,10 @@ class VideoController extends Controller
                 'VideoLink'=>$_POST['videolink'],
                 "VideoLink2"=>$_POST['videolink2'],
                 'VideoLogo'=>$_POST['videologo'],
+                "VideoThumb"=>$_POST['videoThumb'],
                 'Flag'=>$type,
                 "VideoLabel"=>$videoLab,
+                "Order"=>!empty($_POST['order']) ? $_POST['order'] : "",
                 'PublishTime'=>date("Y-m-d H:i:s", time()),
                 'created_at'=>date("Y-m-d H:i:s", time())
             ]);
@@ -70,8 +92,26 @@ class VideoController extends Controller
             foreach ($typeIds  as $typeId ){
                 $typeNames= DB::table("T_CONFIG_TYPE")->select("TypeName")->where("id",$typeId)->get();
                 foreach ($typeNames as $typeName){
-                    $arr[]=$typeName->TypeName;
+                    $name=$typeName->TypeName;
+                    switch($name){
+                        case "推荐":
+                            $typeName->TypeName="tj";
+                        break;
+                        case "资芽哈哈哈":
+                            $typeName->TypeName="zyhhh";
+                            break;
+                        case "行业说":
+                            $typeName->TypeName="hys";
+                            break;
+                        case "资芽一分钟":
+                            $typeName->TypeName="zyyfz";
+                            break;
+                    }
                 }
+                foreach ($typeNames as $typeName){
+                    $arr[]= $typeName->TypeName;
+                }
+
             }
             $videoLab=implode(",",$arr);
             $db=DB::table("T_V_VIDEOINFO")->where('VideoID',$_POST['videoid'])->update([
@@ -80,8 +120,10 @@ class VideoController extends Controller
                 'VideoLink'=>$_POST['videolink'],
                 'VideoLink2'=>$_POST['videolink2'],
                 'VideoLogo'=>$_POST['videologo'],
+                "VideoThumb"=>$_POST['videoThumb'],
                 'Flag'=>$type,
                 "VideoLabel"=>$videoLab,
+                "Order"=>!empty($_POST['order']) ? $_POST['order'] : "",
                 'PublishTime'=>date("Y-m-d H:i:s", time()),
                 'updated_at'=>date("Y-m-d H:i:s", time())
             ]);
@@ -110,12 +152,10 @@ class VideoController extends Controller
     public function update($id){
         $datas=DB::table("T_V_VIDEOINFO")->where('VideoID',$id)->first();
         $results=DB::table("T_CONFIG_ITEMTYPE")->select("TypeID")->where("ModuleID",$id)->get();
-       
         foreach ($results as $result){
             $count[]=$result->TypeID;
         }
         $types=DB::table("T_CONFIG_TYPE")->where("module",2)->get();
-
         return view("news/video/update",compact('datas',"count","types"));
     }
     //删除视频信息

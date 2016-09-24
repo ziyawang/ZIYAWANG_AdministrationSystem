@@ -1,24 +1,11 @@
 @extends('layouts.master')
 @section('content')
-<style type="text/css">
-        .form-actions {
-            padding: 0px 20px 20px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            background-color: #f5f5f5;
-            border-top: 0px solid #e5e5e5;
-            *zoom: 1;
-        }
-        .form-horizontal .form-actions {
-            margin-bottom: 0;
-            margin-right: 100px;
-        }
-</style>
+    <link rel="stylesheet" href="{{asset('css/news.css ')}}"/>
     <div id="breadcrumb" >
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>订单</a>
         <a href="#" class="current">订单列表</a>
         <a href="#" class="pull-right" id="export">
-            <div class="btn btn-success " >导出</div>
+            <div class="btn btn-primary" >导出</div>
         </a>
     </div>
     <div class="widget-content nopadding">
@@ -58,7 +45,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>订单号</th>
+                    <th>编号</th>
                     <th>服务类型</th>
                     <th>发布方</th>
                     <th>处置方名称</th>
@@ -69,7 +56,7 @@
                 <tbody>
                 @foreach($datas as $data)
                     <tr>
-                        <td>{{$data->RushProID}}</td>
+                        <td>{{$data->ProjectID}}</td>
                         <td>{{$data->TypeName}}</td>
                         <td>{{$data->phonenumber}}</td>
                         <td>{{$data->ServiceName}}</td>

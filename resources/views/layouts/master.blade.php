@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{asset('css/uploadifive.css')}}" />
     <link rel="stylesheet" href="{{asset('css/uniform.css')}}" class="skin-color"  />
     <link rel="stylesheet" href="{{asset('css/fullcalendar.css')}}" />
+    <link rel="stylesheet" href="{{asset('css/bootstrap-datetimepicker.min.css')}}" />
 
 
     <script src="{{asset('js/jquery.min.js')}}"></script>
@@ -28,8 +29,8 @@
     <script src="{{asset('js/jquery.uploadifive.min.js')}}"></script>
     <script src="{{asset('js/jquery.ui.custom.js')}}"></script>
     <script src="{{asset('js/unicorn.tables.js')}}"></script>
-    </body>
-
+    <script src="{{asset('js/bootstrap-datetimepicker.js')}}"></script>
+    <script src="{{asset('js/bootstrap-datetimepicker.zh-CN.js')}}"></script>
 </head>
 <body>
 

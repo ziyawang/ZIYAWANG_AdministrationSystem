@@ -19,9 +19,9 @@
                         <input type="hidden" name="id" value="{{ $id }}">
                         @foreach($datas as $data)
                             <div class="control-group">
-                                <label class="control-label">订单号</label>
+                                <label class="control-label">编号</label>
                                 <div class="controls">
-                                    <input type="text" name="rushProID" id="required" value="{{$data->RushProID}}" readonly />
+                                    <input type="text" name="rushProID" id="required" value="{{$data->ProjectID}}" readonly />
                                 </div>
                             </div>
                             <div class="control-group">

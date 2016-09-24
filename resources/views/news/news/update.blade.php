@@ -1,6 +1,8 @@
 @extends('layouts.master')
-
 @section('content')
+    <style>
+        .newsType .checker span .checker span{background-position: -76px -240px;}
+    </style>
     <div id="breadcrumb">
         <a href="{{url('news/index')}}" title="新闻列表" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
         <a href="#" class="current">编辑新闻</a>
@@ -20,7 +22,7 @@
                     </span>
                     <h5>编辑新闻</h5>
                 </div>
-                <div class="widget-content nopadding">
+                <div class="widget-content nopadding" >
                     <form method="post" action="{{asset('news/saveupdate')}}" class="form-horizontal" />
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="newsid" value="{{$datas->NewsID}}">
@@ -32,7 +34,7 @@
                     </div>
                     <div class="control-group">
                         <label class="control-label">新闻类型</label>
-                        <div class="controls">
+                        <div class="controls newsType">
                             @foreach($types as $type)
                                 <input type="checkbox" name="type[]" value="{{$type->id}}" @if(in_array($type->id,$count)) checked="checked" @endif />{{$type->TypeName}}
                             @endforeach
@@ -41,11 +43,11 @@
                     <div class="control-group">
                         <label class="control-label">摘要</label>
                         <div class="controls">
-                            <textarea name="description" >{{$datas->Brief}}</textarea>
+                            <textarea name="description"  maxlength="200" placeholder="请您输入200个字数之内">{{$datas->Brief}}</textarea>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">新闻封面</label>
+                        <label class="control-label">列表图片(比例1:1)</label>
                         <div class="controls">
                             <input type="hidden" id="filepath" name="newslogo" value="{{$datas->NewsLogo}}">
                             <input id="file_upload" name="file_upload"  multiple="true">
@@ -55,9 +57,25 @@
                         </div>
                     </div>
                     <div class="control-group">
+                        <label class="control-label">首页图片(比例3:2)</label>
+                        <div class="controls">
+                            <input type="hidden" id="filepath1" name="newsThumb" value="{{$datas->NewsThumb}}">
+                            <input id="file_upload1" name="file_upload1"  multiple="true">
+                        </div>
+                        <div class="controls  span4">
+                            <img src="{{'Http://images.ziyawang.com'.$datas->NewsThumb}}" id="thumb" alt=""/>
+                        </div>
+                    </div>
+                    <div class="control-group">
                         <label class="control-label">新闻内容</label>
                         <div class="controls">
                             <textarea name="content" class="ckeditor">{{$datas->NewsContent}}</textarea>
+                        </div>
+                    </div>
+                    <div class="control-group span4" >
+                        <label class="control-label">修改顺序</label>
+                        <div class="controls"  >
+                            <input type="text" name="order"  value="{{$datas->Order}}"/>
                         </div>
                     </div>
                     <div class="form-actions">
@@ -86,11 +104,27 @@
                     '_token'     : "{{csrf_token()}}"
                 },
                 'removeCompleted' : true,
-                'fileSizeLimit':"1M",
+                'fileSizeLimit':1024,
                 'uploadScript'     :"{{url('/news/upload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath').val(data);
                     $('#thumb').attr('src', 'Http://images.ziyawang.com'+data);
+                }
+            });
+        });
+        $(function() {
+            $("#file_upload1").uploadifive({
+                'buttonText' : '上传图片',
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    '_token'     : "{{csrf_token()}}"
+                },
+                'removeCompleted' : true,
+                'fileSizeLimit':1024,
+                'uploadScript'     :"{{url('/news/upload')}}",
+                'onUploadComplete' : function(file, data) {
+                    $('#filepath1').val(data);
+                    $('#thumb1').attr('src',"Http://images.ziyawang.com"+data);
                 }
             });
         });

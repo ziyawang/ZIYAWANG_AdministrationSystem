@@ -64,7 +64,8 @@
                                         <option value="产品部">产品部</option>
                                         <option value="销售部">销售部</option>
                                         <option value="人事部">人事部</option>
-
+                                        <option value="客服部">客服部</option>
+                                        <option value="视频部">视频部</option>
                                 </select>
                             </div>
                         </div>

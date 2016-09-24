@@ -116,14 +116,14 @@ class IndexController extends Controller
 
 
         $lastUser=DB::table("users")->whereBetween('created_at', [$lastTime, $nowTime])->count();
-        $services=DB::table("T_U_SERVICEINFO")->count();
-        $lastServices=DB::table("T_U_SERVICEINFO")->whereBetween("created_at", [$lastTime, $nowTime])->count();
+        $services=DB::table("T_U_SERVICEINFO")->leftJoin("T_P_SERVICECERTIFY","T_U_SERVICEINFO.ServiceID","=","T_P_SERVICECERTIFY.ServiceID")->where("State",1)->count();
+        $lastServices=DB::table("T_U_SERVICEINFO")->leftJoin("T_P_SERVICECERTIFY","T_U_SERVICEINFO.ServiceID","=","T_P_SERVICECERTIFY.ServiceID")->where("State",1)->whereBetween("T_U_SERVICEINFO.created_at", [$lastTime, $nowTime])->count();
         $hots=DB::table("T_P_RUSHPROJECT")->where("CooperateFlag",0)->count();
         $togethers=DB::table("T_P_RUSHPROJECT")->where("CooperateFlag",1)->count();
-        $projectinfos=DB::table("T_P_PROJECTINFO")->count();
+        $projectinfos=DB::table("T_P_PROJECTINFO")->where("CertifyState",1)->count();
         $users=DB::table("users")->count();
-        $orders=DB::table("T_P_RUSHPROJECT")->count();
-        $lastOrders=DB::table("T_P_RUSHPROJECT")->whereBetween("created_at", [$lastTime, $nowTime])->count();
+        $orders=DB::table("T_P_RUSHPROJECT")->where("CooperateFlag","<>",3)->count();
+        $lastOrders=DB::table("T_P_PROJECTINFO")->where("CertifyState",1)->whereBetween("PublishTime", [$lastTime, $nowTime])->count();
 
         $data=array(
             "users"=>$users,

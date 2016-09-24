@@ -1,7 +1,9 @@
 @extends('layouts.master')
 
 @section('content')
-
+    <style>
+        .newsType .checker span .checker span{background-position: -76px -240px;}
+    </style>
     <div id="breadcrumb">
         <a href="{{url('news/index')}}" title="新闻列表" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
         <a href="#" class="current">添加新闻</a>
@@ -32,7 +34,7 @@
                     </div>
                     <div class="control-group">
                         <label class="control-label">新闻类型</label>
-                        <div class="controls">
+                        <div class="controls newsType">
                             @foreach($datas as $data)
                             <input type="checkbox" name="type[]" value="{{$data->id}}" />{{$data->TypeName}}
                           @endforeach
@@ -41,11 +43,11 @@
                     <div class="control-group">
                         <label class="control-label">摘要</label>
                         <div class="controls">
-                            <textarea name="description" ></textarea>
+                            <textarea name="description" maxlength="200" placeholder="请您输入200个字数之内" ></textarea>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">新闻封面</label>
+                        <label class="control-label">列表图片(比例1:1)</label>
                         <div class="controls">
                             <input type="hidden" id="filepath" name="newslogo">
                             <input id="file_upload" name="file_upload"  multiple="true">
@@ -55,9 +57,25 @@
                         </div>
                     </div>
                     <div class="control-group">
+                        <label class="control-label">首页图片(比例3:2)</label>
+                        <div class="controls">
+                            <input type="hidden" id="filepath1" name="NewsThumb">
+                            <input id="file_upload1" name="file_upload1"  multiple="true">
+                        </div>
+                        <div class="controls  span4">
+                            <img src="" id="thumb1" alt=""/>
+                        </div>
+                    </div>
+                    <div class="control-group">
                         <label class="control-label">新闻内容</label>
                         <div class="controls">
                             <textarea name="content" class="ckeditor"></textarea>
+                        </div>
+                    </div>
+                    <div class="control-group span4" >
+                        <label class="control-label">顺序</label>
+                        <div class="controls"  >
+                            <input type="text" name="order"  value=""/>
                         </div>
                     </div>
                     <div class="form-actions">
@@ -87,11 +105,27 @@
                     '_token'     : "{{csrf_token()}}"
                 },
                 'removeCompleted' : true,
-                'fileSizeLimit':"1M",
+                'fileSizeLimit':1024,
                 'uploadScript'     :"{{url('/news/upload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath').val(data);
                     $('#thumb').attr('src',"Http://images.ziyawang.com"+data);
+                }
+            });
+        });
+        $(function() {
+            $("#file_upload1").uploadifive({
+                'buttonText' : '上传图片',
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    '_token'     : "{{csrf_token()}}"
+                },
+                'removeCompleted' : true,
+                'fileSizeLimit':1024,
+                'uploadScript'     :"{{url('/news/upload')}}",
+                'onUploadComplete' : function(file, data) {
+                    $('#filepath1').val(data);
+                    $('#thumb1').attr('src',"Http://images.ziyawang.com"+data);
                 }
             });
         });

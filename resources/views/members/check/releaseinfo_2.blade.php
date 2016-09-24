@@ -1,9 +1,22 @@
 @extends('layouts.master')
 @section('content')
+    <style>
+        .radio input[type="radio"] {
+            float: left;
+            margin-left: 0px;
+        }
+
+    </style>
     <div id="breadcrumb" style="position:relative">
         <a href="{{asset('check/index')}}" title="审核列表" class="tip-bottom"><i class="icon-home"></i>审核</a>
         <a href="#" class="current">审核详情</a>
     </div>
+    @if(session("msg"))
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>{{session("msg")}}</strong>
+        </div>
+    @endif
     <div class="row-fluid">
         <div class="span12">
             <div class="widget-box">
@@ -31,9 +44,9 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">服务类型</label>
+                            <label class="control-label">信息类型</label>
                             <div class="controls">
-                                <input type="text" name="type" id="type" value="{{$data->TypeName}}"readonly/>
+                                <input type="text" name="type" id="type" value="{{$data->TypeName}}"/>
                             </div>
                         </div>
                         <div class="control-group">
@@ -51,8 +64,7 @@
                         <div class="control-group">
                             <label class="control-label">文字描述</label>
                             <div class="controls">
-                                <input type="text" name="wordDes" id="eordDes" value="{{$data->WordDes}}"
-                                       readonly/>
+                                <textarea name="wordDes" id="eordDes" >{{$data->WordDes}}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
@@ -116,12 +128,47 @@
                             </div>
                         </div>
                         <div class="control-group">
+                            <label class="control-label">信息类型</label>
+                            <div class="controls">
+                                <input type="radio" name="member" id="member_0" value="0" @if($data->Member==0) checked="checked" @endif/>普通
+                                <input type="radio" name="member"  id="member_1" value="1"  @if($data->Member==1) checked="checked" @endif />vip
+                                <input type="radio" name="member"  id="member_2" value="2"  @if($data->Member==2) checked="checked" @endif />收费
+                            </div>
+                        </div>
+                        @if($data->Member==2)
+                            <div class="control-group" id="goldId" >
+                                <label class="control-label">牙币</label>
+                                <div class="controls">
+                                    <input type="number" name="gold" id="gold"    value="{{$data->Gold}}"/>
+                                </div>
+                            </div>
+
+                        @else
+                            <div class="control-group" id="goldId" style="display: none">
+                                <label class="control-label">牙币</label>
+                                <div class="controls">
+                                    <input type="number" name="gold" id="gold"    value=""/>
+                                </div>
+                            </div>
+                        @endif
+                        <div class="control-group">
+                            <label class="control-label">公司描述</label>
+                            <div class="controls">
+                                @if(!empty($data->CompanyDes))
+                                    <textarea name="companyDes" id="comDes" /> {{$data->CompanyDes}}</textarea>
+                                @else
+                                    <textarea name="companyDes" id="comDes" value=""/></textarea>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="control-group">
                             <label class="control-label">审核状态</label>
                             <div class="controls">
                                 <select name="state" id="state">
                                     <option value="0" >-请选择-</option>
                                     <option value="1" @if($data->CertifyState==1)selected="selected" @endif>已审核</option>
                                     <option value="2" @if($data->CertifyState==2)selected="selected" @endif>拒审核</option>
+                                    <option value="3" @if($data->CertifyState==3)selected="selected" @endif>删除</option>
                                 </select>
                             </div>
                         </div>
@@ -134,7 +181,7 @@
                     @endforeach
                     <div class="form-actions">
                         <input type="submit" value="修改" class="btn btn-primary"/>
-                        <a href="{{url('check/index')}}"><input type=button value="返回" class="btn btn-primary"/></a>
+                        <a href="#"><input type=button value="返回" class="btn btn-primary" onclick="javascript:history.back(-1);"/></a>
                     </div>
                     </form>
                 </div>
@@ -142,6 +189,14 @@
         </div>
     </div>
     <script>
+        $("input[type='radio']").on("click",function(){
+            var type=$("input[type='radio']:checked").val();
+            if(type==2){
+                $("#goldId").css("display","block");
+            }else{
+                $("#goldId").css("display","none");
+            }
+        });
 
         $("#state").on("change", function () {
             var result2 = $(this).val();
@@ -154,52 +209,24 @@
         $(function(){
             $(".PictureDes1").on("click",function(){
                 var id=$("input[name='id']").val();
-                $.ajax({
-                    url:"{{asset('check/handle')}}",
-                    data:{"data":id,"title":"PictureDes1","_token":"{{ csrf_token() }}"},
-                    dataType:"json",
-                    type:"post",
-                    success:function(mag){
-                        if(mag.state==1){
-                            $("#PictureDes1").removeAttrs("src")
-                            $(".PictureDes1").hide();
-                        }
-                    }
-                });
+                $("#PictureDes1").removeAttrs("src")
+                $(".PictureDes1").hide();
+
             });
         });
         $(function(){
             $(".PictureDes2").on("click",function(){
                 var id=$("input[name='id']").val();
-                $.ajax({
-                    url:"{{asset('check/handle')}}",
-                    data:{"data":id,"title":"PictureDes2","_token":"{{ csrf_token() }}"},
-                    dataType:"json",
-                    type:"post",
-                    success:function(mag){
-                        if(mag.state==1){
-                            $("#PictureDes2").removeAttrs("src");
-                            $(".PictureDes2").hide();
-                        }
-                    }
-                });
+                $("#PictureDes2").removeAttrs("src");
+                $(".PictureDes2").hide();
             });
         });
         $(function(){
             $(".PictureDes3").on("click",function(){
                 var id=$("input[name='id']").val();
-                $.ajax({
-                    url:"{{asset('check/handle')}}",
-                    data:{"data":id,"title":"PictureDes3","_token":"{{ csrf_token() }}"},
-                    dataType:"json",
-                    type:"post",
-                    success:function(mag){
-                        if(mag.state==1){
-                            $("#PictureDes3").removeAttrs("src");
-                            $(".PictureDes3").hide();
-                        }
-                    }
-                });
+                $("#PictureDes3").removeAttrs("src");
+                $(".PictureDes3").hide();
+
             });
         });
         <?php $timestamp = time();?>
@@ -211,8 +238,8 @@
                     '_token'     : "{{csrf_token()}}"
                 },
                 'removeCompleted' : true,
-                'fileSizeLimit':"1M",
-                'uploadLimit'     : 10,
+                'fileSizeLimit':1024,
+                'uploadLimit'     :3,
                 'uploadScript'     :"{{url('/check/upload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath').val(data);

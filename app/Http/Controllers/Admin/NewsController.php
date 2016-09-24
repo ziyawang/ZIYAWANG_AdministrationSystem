@@ -35,6 +35,20 @@ class NewsController extends Controller
             $typeIds=$_POST['type'];
             foreach ($typeIds  as $typeId ){
                $typeNames= DB::table("T_CONFIG_TYPE")->select("TypeName")->where("id",$typeId)->get();
+                foreach ($typeNames as $typeName){
+                    $name=$typeName->TypeName;
+                    switch($name){
+                        case "行业动态":
+                            $typeName->TypeName="hydt";
+                            break;
+                        case "财经资讯":
+                            $typeName->TypeName="cjzx";
+                            break;
+                        case "资芽新闻":
+                            $typeName->TypeName="zyxw";
+                            break;
+                    }
+                }
                     foreach ($typeNames as $typeName){
                         $arr[]=$typeName->TypeName;
                     }
@@ -45,7 +59,9 @@ class NewsController extends Controller
                     'NewsContent' => $_POST['content'],
                     'Brief' => $_POST['description'],
                     'NewsLogo' => $_POST['newslogo'],
+                    'NewsThumb'=>$_POST['NewsThumb'],
                     'Flag' => $type,
+                    "Order"=>!empty($_POST['order']) ? $_POST['order'] : "",
                     "NewsLabel"=>$newLab,
                     'created_at' => date("Y-m-d H:i:s", time()),
                     "PublishTime"=>date("Y-m-d H:i:s", time()),
@@ -56,7 +72,9 @@ class NewsController extends Controller
                     DB::table("T_CONFIG_ITEMTYPE")->insert([
                         "ModuleID" => $db,
                         "TypeID" => $value,
-                        "Module" => 1
+                        "Module" => 1,
+                    'created_at' => date("Y-m-d H:i:s", time()),
+                    "updated_at"=>date("Y-m-d H:i:s", time()),
                     ]);
                 }
 
@@ -75,6 +93,20 @@ class NewsController extends Controller
             foreach ($typeIds  as $typeId ){
                 $typeNames= DB::table("T_CONFIG_TYPE")->select("TypeName")->where("id",$typeId)->get();
                 foreach ($typeNames as $typeName){
+                    $name=$typeName->TypeName;
+                    switch($name){
+                        case "行业动态":
+                            $typeName->TypeName="hydt";
+                            break;
+                        case "财经资讯":
+                            $typeName->TypeName="cjzx";
+                            break;
+                        case "资芽新闻":
+                            $typeName->TypeName="zyxw";
+                            break;
+                    }
+                }
+                foreach ($typeNames as $typeName){
                     $arr[]=$typeName->TypeName;
                 }
             }
@@ -84,6 +116,8 @@ class NewsController extends Controller
                     'NewsContent' => $_POST['content'],
                     'Brief' => $_POST['description'],
                     'NewsLogo' => $_POST['newslogo'],
+                    'NewsThumb'=>$_POST['newsThumb'],
+                    "Order"=>!empty($_POST['order']) ? $_POST['order'] : "",
                     'NewsLabel'=>$newLab,
                     'Flag' => $type,
                     'updated_at' => date("Y-m-d H:i:s", time())

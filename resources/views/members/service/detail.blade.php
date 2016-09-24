@@ -1,5 +1,8 @@
 @extends('layouts.master')
 @section('content')
+    <style>
+        .newsType .checker span .checker span{background-position: -76px -240px;}
+    </style>
     <div id="breadcrumb" style="position:relative">
         <a href="{{asset("service/index")}}" title="服务方列表" class="tip-bottom"><i class="icon-home"></i>服务方</a>
         <a href="#" class="current">服务方详情</a>
@@ -14,15 +17,21 @@
                         <h5>服务方详情</h5>
                     </div>
                     <div class="widget-content nopadding">
-                        <form class="form-horizontal" method="post" action="{{asset('service/update')}}"
-                              />
+                        <form class="form-horizontal" method="post" action="{{asset('service/update')}}"/>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         @foreach($datas as $data)
                             <input type="hidden" name="id" value="{{$id}}">
                             <div class="control-group">
                                 <label class="control-label">公司名称</label>
                                 <div class="controls">
-                                    <input type="text" name="name" id="required" value="{{$data->ServiceName}}"
+                                    <input type="text" name="serviceName" id="serviceName" value="{{$data->ServiceName}}"
+                                           />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">联系人</label>
+                                <div class="controls">
+                                    <input type="text" name="connectPerson" id="connectPerson" value="{{$data->ConnectPerson}}"
                                            readonly/>
                                 </div>
                             </div>
@@ -30,7 +39,7 @@
                                 <label class="control-label">联系方式</label>
                                 <div class="controls">
                                     <input type="text" name="number" id="number" value="{{$data->ConnectPhone}}"
-                                           readonly/>
+                                         />
                                 </div>
                             </div>
 
@@ -44,8 +53,22 @@
                             <div class="control-group">
                                 <label class="control-label">服务类型</label>
                                 <div class="controls">
-                                    <input type="text" name="type" id="type" value="{{$data->ServiceType}}"
-                                           readonly/>
+                                    <input type="text" name="type" id="type" value="{{$data->ServiceType}}"/>
+                                </div>
+                            </div>
+                            <div class="control-group" style="display: none;" id="changeType">
+                                <label class="control-label">修改服务类型</label>
+                                <div class="controls newsType">
+                                    <input type="checkbox" name="types[]" value="01" @if(in_array("01",$serviceType))checked="checked" @endif />资产包收购
+                                    <input type="checkbox" name="types[]" value="02" @if(in_array("02",$serviceType))checked="checked" @endif />催收机构
+                                    <input type="checkbox" name="types[]" value="03" @if(in_array("03",$serviceType))checked="checked" @endif />律师事务所
+                                    <input type="checkbox" name="types[]" value="04" @if(in_array("04",$serviceType))checked="checked" @endif />保理公司
+                                    <input type="checkbox" name="types[]" value="05" @if(in_array("05",$serviceType))checked="checked" @endif />典当担保
+                                    <input type="checkbox" name="types[]" value="06"  @if(in_array("06",$serviceType))checked="checked" @endif/>投融资服务
+                                    <input type="checkbox" name="types[]" value="10" @if(in_array("10",$serviceType))checked="checked" @endif />尽职调查
+                                    <input type="checkbox" name="types[]" value="12" @if(in_array("12",$serviceType))checked="checked" @endif />资产收购
+                                    <input type="checkbox" name="types[]" value="13"  @if(in_array("13",$serviceType))checked="checked" @endif/>资金过桥
+                                    <input type="checkbox" name="types[]" value="14" @if(in_array("14",$serviceType))checked="checked" @endif />债权收购
                                 </div>
                             </div>
                             <div class="control-group">
@@ -66,7 +89,7 @@
                                 <label class="control-label">公司简介</label>
                                 <div class="controls">
                                     <input type="text" name="SerInt" id="url" value="{{$data->ServiceIntroduction}}"
-                                           readonly/>
+                                           />
                                 </div>
                             </div>
                             <div class="control-group">
@@ -111,13 +134,12 @@
                         @endforeach
                         <div class="form-actions">
                             <input type="submit" value="修改" class="btn btn-primary"/>
-                            <a href="{{url('service/index')}}"><input type=button value="返回"
-                                                                      class="btn btn-primary"/></a>
+                            <a href="javascript:void(0)" id="back"><input type=button value="返回"
+                                                                      class="btn btn-primary" onclick="javascript:history.back(-1);"/></a>
                         </div>
                         </form>
                     </div>
                 </div>
-            </div>
         </div>
         <script type="text/javascript">
             $("#state").on("change", function () {
@@ -131,53 +153,22 @@
             $(function(){
                 $(".confirmationP1").on("click",function(){
                     var id=$("input[name='id']").val();
-                    $.ajax({
-                        url:"{{asset('service/handle')}}",
-                        data:{"data":id,"title":"ConfirmationP1","_token":"{{ csrf_token() }}"},
-                        dataType:"json",
-                        type:"post",
-                        success:function(mag){
-                            if(mag.state==1){
-                                $("#confirmationP1").removeAttrs("src");
-                                $(".confirmationP1").hide();
-
-                            }
-                        }
-                        });
+                    $("#confirmationP1").removeAttrs("src");
+                    $(".confirmationP1").hide();
                 });
             });
             $(function(){
                 $(".confirmationP2").on("click",function(){
                     var id=$("input[name='id']").val();
-                    $.ajax({
-                        url:"{{asset('service/handle')}}",
-                        data:{"data":id,"title":"ConfirmationP2","_token":"{{ csrf_token() }}"},
-                        dataType:"json",
-                        type:"post",
-                        success:function(mag){
-                            if(mag.state==1){
-                                $("#confirmationP2").removeAttrs("src")
-                                $(".confirmationP2").hide();
-                            }
-                        }
-                    });
+                    $("#confirmationP2").removeAttrs("src")
+                    $(".confirmationP2").hide();
                 });
             });
             $(function(){
                 $(".confirmationP3").on("click",function(){
                     var id=$("input[name='id']").val();
-                    $.ajax({
-                        url:"{{asset('service/handle')}}",
-                        data:{"data":id,"title":"ConfirmationP3","_token":"{{ csrf_token() }}"},
-                        dataType:"json",
-                        type:"post",
-                        success:function(mag){
-                            if(mag.state==1){
-                                $("#confirmationP3").removeAttrs("src")
-                                $(".confirmationP3").hide();
-                            }
-                        }
-                    });
+                        $("#confirmationP3").removeAttrs("src")
+                         $(".confirmationP3").hide();
                 });
             });
             <?php $timestamp = time();?>
@@ -190,7 +181,7 @@
                         '_token'     : "{{csrf_token()}}"
                     },
                     'removeCompleted' : true,
-                    'fileSizeLimit': "1M",
+                    'fileSizeLimit': 1024,
                     'uploadLimit'     : 3,
                     'uploadScript'     :"{{url('/service/upload')}}",
                     'onUploadComplete' : function(file, data) {
@@ -250,6 +241,9 @@
                         }
                     }
                 });
+            });
+            $("#type").on("click",function(){
+                $("#changeType").css("display","block");
             });
     </script>
 

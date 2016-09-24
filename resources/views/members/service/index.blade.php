@@ -1,33 +1,19 @@
 @extends('layouts.master')
-
 @section('content')
-    <style type="text/css">
-        .form-actions {
-            padding: 0px 20px 20px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            background-color: #f5f5f5;
-            border-top: 0px solid #e5e5e5;
-            *zoom: 1;
-        }
-        .form-horizontal .form-actions {
-            margin-bottom: 0;
-            margin-right: 100px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>服务方</a>
         <a href="#" class="current">服务方列表</a>
-        <a href="#" class="pull-right" id="export"> <div class="btn btn-success ">导出</div></a>
+        <a href="#" class="pull-right" id="export"> <div class="btn btn-primary">导出</div></a>
     </div>
     <div class="widget-content nopadding">
         <form class="form-horizontal" method="post" action="{{asset('service/index')}}" name="basic_validate"  novalidate="novalidate" />
-        <table  class="table table-bordered table-striped">
+        <table  class="table table-bordered table-striped servicerTable">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <td>
                 <div class="control-group">
-                    <label class="control-label">审核状态</label>
-                    <div class="controls" >
+                    <label class="control-label checkState">审核状态</label>
+                    <div class="controls selectBox" >
                         <select  name="state" id="state"/>
                         <option value="3">--全部--<option>
                         <option value="1" @if(isset($state) && $state==1) selected="selected" @endif>已审核</option>
@@ -39,60 +25,50 @@
             </td>
             <td>
                 <div class="control-group">
-                    <label class="control-label">类型</label>
-                    <div class="controls" >
+                    <label class="control-label checkState">类型</label>
+                    <div class="controls selectBox" >
                         <select  name="typeName" id="typeName"/>
                         <option value="0" class="select1">---全部---</option>
-                        @foreach($results as $result)
-                            <option value="{{$result->TypeID}}" @if(!empty($typeName) && $typeName==$result->TypeID) selected="selected" @endif>{{$result->TypeName}}</option>
-                            @endforeach
-                            </select>
+                        <option value="01" @if(!empty($typeName) && $typeName=="01") selected="selected" @endif>资产包收购</option>
+                        <option value="02" @if(!empty($typeName) && $typeName=="02") selected="selected" @endif>催收机构</option>
+                        <option value="03" @if(!empty($typeName) && $typeName=="03") selected="selected" @endif>律师事务所</option>
+                        <option value="04" @if(!empty($typeName) && $typeName=="04") selected="selected" @endif>保理公司</option>
+                        <option value="05" @if(!empty($typeName) && $typeName=="05") selected="selected" @endif>典当担保</option>
+                        <option value="06" @if(!empty($typeName) && $typeName=="06") selected="selected" @endif>投融资服务</option>
+                        <option value="10" @if(!empty($typeName) && $typeName=="10") selected="selected" @endif>尽职调查</option>
+                        <option value="12" @if(!empty($typeName) && $typeName=="12") selected="selected" @endif>资产收购</option>
+                        <option value="13" @if(!empty($typeName) && $typeName=="13") selected="selected" @endif>资金过桥</option>
+                        <option value="14" @if(!empty($typeName) && $typeName=="14") selected="selected" @endif>债权收购</option>
+                        </select>
+                    </div>
+                </div>
+            </td>
+           <td>
+                <div class="control-group">
+                    <label class="control-label checkState">手机号</label>
+                    <div class="controls selectBox" >
+                        @if(!empty($connectPhone))
+                            <input type="text" name="connectPhone"  id="connectPhone" value="{{$connectPhone}}"  style="width:100px"/>
+                        @else
+                            <input type="text" name="connectPhone" id="connectPhone" value="" style="width:100px"/>
+                        @endif
                     </div>
                 </div>
             </td>
             <td>
                 <div class="control-group">
-                    <label class="control-label">服务地区</label>
-                    <div class="controls" >
-                        <select  name="province" id="province"/>
-                        <option   value="全国" @if(!empty($province) && $province=="全国") selected="selected" @endif>--全国--</option>
-                        <option value="北京" @if(!empty($province) && $province=="北京") selected="selected" @endif>北京</option>
-                        <option value="上海" @if(!empty($province) && $province=="上海") selected="selected" @endif>上海</option>
-                        <option value="广东" @if(!empty($province) && $province=="广东") selected="selected" @endif>广东</option>
-                        <option value="江苏" @if(!empty($province) && $province=="江苏") selected="selected" @endif>江苏</option>
-                        <option value="山东" @if(!empty($province) && $province=="山东") selected="selected" @endif>山东</option>
-                        <option value="浙江" @if(!empty($province) && $province=="浙江") selected="selected" @endif>浙江</option>
-                        <option value="河南" @if(!empty($province) && $province=="河南") selected="selected" @endif>河南</option>
-                        <option value="河北" @if(!empty($province) && $province=="河北") selected="selected" @endif>河北</option>
-                        <option value="辽宁" @if(!empty($province) && $province=="辽宁") selected="selected" @endif>辽宁</option>
-                        <option value="四川" @if(!empty($province) && $province=="四川") selected="selected" @endif>四川</option>
-                        <option value="湖北" @if(!empty($province) && $province=="湖南") selected="selected" @endif>湖北</option>
-                        <option value="湖南" @if(!empty($province) && $province=="湖南") selected="selected" @endif>湖南</option>
-                        <option value="福建" @if(!empty($province) && $province=="福建") selected="selected" @endif>福建</option>
-                        <option value="安徽" @if(!empty($province) && $province=="安徽") selected="selected" @endif>安徽</option>
-                        <option value="陕西" @if(!empty($province) && $province=="陕西") selected="selected" @endif>陕西</option>
-                        <option value="天津" @if(!empty($province) && $province=="天津") selected="selected" @endif >天津</option>
-                        <option value="江西" @if(!empty($province) && $province=="江西") selected="selected" @endif>江西</option>
-                        <option value="广西" @if(!empty($province) && $province=="广西") selected="selected" @endif>广西</option>
-                        <option value="重庆" @if(!empty($province) && $province=="重庆") selected="selected" @endif>重庆</option>
-                        <option value="吉林" @if(!empty($province) && $province=="吉林") selected="selected" @endif>吉林</option>
-                        <option value="云南" @if(!empty($province) && $province=="云南") selected="selected" @endif>云南</option>
-                        <option value="山西" @if(!empty($province) && $province=="山西") selected="selected" @endif>山西</option>
-                        <option value="新疆" @if(!empty($province) && $province=="新疆") selected="selected" @endif>新疆</option>
-                        <option value="贵州" @if(!empty($province) && $province=="贵州") selected="selected" @endif>贵州</option>
-                        <option value="甘肃" @if(!empty($province) && $province=="甘肃") selected="selected" @endif>甘肃</option>
-                        <option value="海南" @if(!empty($province) && $province=="海南") selected="selected" @endif>海南</option>
-                        <option value="宁夏" @if(!empty($province) && $province=="宁夏") selected="selected" @endif>宁夏</option>
-                        <option value="青海" @if(!empty($province) && $province=="青海") selected="selected" @endif>青海</option>
-                        <option value="西藏" @if(!empty($province) && $province=="西藏") selected="selected" @endif>西藏</option>
-                        <option value="黑龙江" @if(!empty($province) && $province=="黑龙江") selected="selected" @endif>黑龙江</option>
-                        <option value="内蒙古" @if(!empty($province) && $province=="内蒙古") selected="selected" @endif>内蒙古</option>
-                    </select>
+                    <label class="control-label checkState">公司名称</label>
+                    <div class="controls selectBox" >
+                        @if(!empty($serviceName))
+                            <input type="text" name="serviceName"  id="serviceName" value="{{$serviceName}}"  style="width:100px"/>
+                        @else
+                            <input type="text" name="serviceName" id="serviceName" value="" style="width:100px"/>
+                        @endif
                     </div>
                 </div>
             </td>
-            <td>
-                <div class="form-actions">
+            <td class="tdSearch">
+                <div class="form-actions searchBox">
                     <input type="submit" value="搜索" class="btn btn-success" />
                 </div>
             </td>
@@ -103,25 +79,28 @@
         $(function(){
             var type = $('#typeName').val();
             var state=$("#state").val();
-            var province=$("#province").val();
-            var url = 'http://admin.ziyawang.com/service/export?type='+type+"&state="+state+"&province="+province;
+            var connectPhone=$("#connectPhone").val();
+            var serviceName=$("#serviceName").val();
+            var url = 'http://admin.ziyawang.com/service/export?type='+type+"&state="+state+"&connectPhone="+connectPhone+"&serviceName="+serviceName;
             $('#export').attr('href',url);
         });
     </script>
     <div  class="container-fluid">
         <div class="widget-content nopadding">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped servicerInfoTable">
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>公司名称</th>
-                    <th>联系方式</th>
-                    <th>地区</th>
-                    <th>服务类型</th>
-                    <th>服务地区</th>
-                    <th>公司介绍</th>
-                    <th>审核状态</th>
-                    <th>操作</th>
+                    <th class="w1">ID</th>
+                    <th class="w2">公司名称</th>
+                    <th class="w3">注册手机号</th>
+                    <th class="w4">地区</th>
+                    <th class="w5">服务类型</th>
+                    <th class="w6">服务地区</th>
+                    <th class="w7">公司介绍</th>
+                    <th class="w8">完善时间</th>
+                    <th class="w8">审核时间</th>
+                    <th class="w9">审核状态</th>
+                    <th class="w10">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -129,11 +108,13 @@
                     <tr>
                         <td>{{$data->ServiceID}}</td>
                         <td>{{$data->ServiceName}}</td>
-                        <td>{{$data->ConnectPhone}}</td>
+                        <td>{{$data->phonenumber}}</td>
                         <td>{{$data->ServiceLocation}}</td>
                         <td>{{$data->ServiceType}}</td>
                         <td>{{$data->ServiceArea}}</td>
-                        <td>{{$data->ServiceIntroduction}}</td>
+                        <td class="tdCompanyIntro"><div>{{$data->ServiceIntroduction}}</div></td>
+                        <td>{{$data->created_at}}</td>
+                        <td>{{$data->updated_at}}</td>
                         @if($data->State==2)
                             <td><p style="color: #149bdf">拒审核</p></td>
                             @elseif($data->State==0)
@@ -142,16 +123,15 @@
                             <td><p style="color: #149bdf">已审核</p></td>
                             @endif
 
-                        <td><a href="{{url('service/detail/'.$data->ServiceID)}}">查看</a></td>
+                        <td><a href="{{url('service/detail/'.$data->ServiceID)}}" id="look">查看</a></td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
         <div class="pagination alternate" >
-            {!! $datas->render() !!}
+            {!! $datas->appends(['State'=>$state,"typeName"=>$typeName,"connectPhone"=>$connectPhone,"serviceName"=>$serviceName])->render() !!}
         </div>
-
     </div>
 
     @endsection

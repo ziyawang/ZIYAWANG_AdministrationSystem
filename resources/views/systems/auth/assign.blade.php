@@ -1,5 +1,8 @@
 @extends('layouts.master')
 @section('content')
+    <style>
+        .authentic tr td .checker span .checker span{background-position: -76px -240px;}
+    </style>
     <div id="breadcrumb" style="position:relative">
         <a href="{{asset("auth/index")}}" title="角色列表" class="tip-bottom"><i class="icon-home"></i>权限</a>
         <a href="#" class="current">分配权限</a>
@@ -23,7 +26,7 @@
             <form class="form-horizontal" method="post" action="{{asset('auth/edit')}}" name="basic_validate"  novalidate="novalidate" />
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="id" value="{{$id}}">
-            <table class="table table-bordered table-striped with-check">
+            <table class="table table-bordered table-striped with-check authentic">
                 <thead>
                 <tr>
                     <th>一级权限</th>

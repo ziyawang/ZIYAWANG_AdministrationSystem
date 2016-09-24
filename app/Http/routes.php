@@ -17,7 +17,7 @@ Route::get('/', [
 Route::get('login/index', [
     'as' => 'profile', 'uses' => 'Admin\LoginController@index'
 ]);
-Route::get("index/index","Admin\IndexController@index");
+Route::get("index/index",'Admin\IndexController@index');
 
 Route::post('admin/login','Admin\LoginController@login');
 
@@ -88,6 +88,11 @@ Route::get('refuse/detail/{id}', 'Admin\RefuseController@detail');
 Route::get('refuse/export', 'Admin\RefuseController@export');
 Route::post('refuse/update', 'Admin\RefuseController@update');
 
+//合作管理中的抢单管理的路由
+Route::get('rush/index','Admin\RushController@index');
+Route::get('rush/detail/{projectId}','Admin\RushController@detail');
+
+
 //新闻视频中的新闻管理路由
 Route::any('news/index', 'Admin\NewsController@index');
 Route::get('news/add', 'Admin\NewsController@add');
@@ -110,8 +115,31 @@ Route::any('video/bigupload', 'Admin\VideoController@bigupload');
 Route::any('video/smallupload', 'Admin\VideoController@smallupload');
 
 //推送管理中的推送信息路由
-Route::get('push/index', 'Admin\PushController@index');
+Route::any('push/index/{id?}', 'Admin\PushController@index');
 Route::get('push/detail', 'Admin\PushController@detail');
+Route::any("push/receive",'Admin\PushController@receive');
+Route::any("push/message",'Admin\PushController@message');
+Route::post("push/save",'Admin\PushController@save');
+Route::post("push/sent",'Admin\PushController@sent');
+Route::post("push/contant",'Admin\PushController@contant');
+Route::post("push/title",'Admin\PushController@title');
+Route::get("push/listDetail/{id}",'Admin\PushController@listDetail');
+Route::post("push/receives",'Admin\PushController@receives');
+Route::get("push/clear",'Admin\PushController@clear');
+
+//运维管理中的轮播图处理
+Route::get("operate/index",'Admin\OperateController@index');
+Route::any("operate/upload",'Admin\OperateController@upload');
+Route::post("operate/save",'Admin\OperateController@save');
+
+//运维管理中的数据分析
+Route::get('data/index','Admin\DataController@index');
+Route::get('data/detail/{phoneNumber}','Admin\DataController@detail');
+
+//融云信息中的聊天记录
+Route::any("talk/index",'Admin\TalkController@index');
+Route::get("talk/message/{id}",'Admin\TalkController@message');
+Route::get("talk/showMessage/{targetId}/{fromUserId}",'Admin\TalkController@showMessage');
 
 });
 

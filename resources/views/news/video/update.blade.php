@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
 @section('content')
+    <style>
+        .newsType .checker span .checker span{background-position: -76px -240px;}
+    </style>
     <div id="breadcrumb">
         <a href="{{url('video/index')}}" title="视频列表" class="tip-bottom"><i class="icon-home"></i> 视频</a>
         <a href="#" class="current">编辑视频</a>
@@ -32,29 +35,40 @@
                     </div>
                     <div class="control-group">
                         <label class="control-label">视频类型</label>
-                        <div class="controls">
+                        <div class="controls newsType">
                             @foreach($types as $type)
                                 @if(!isset($count))
                                     <input type="checkbox" name="type[]" value="{{$type->id}}"/>{{$type->TypeName}}
+                                @else
+                                    <input type="checkbox" name="type[]" value="{{$type->id}}" @if(in_array($type->id,$count)) checked="checked" @endif />{{$type->TypeName}}
                                 @endif
-                                <input type="checkbox" name="type[]" value="{{$type->id}}" @if(in_array($type->id,$count)) checked="checked" @endif />{{$type->TypeName}}
                             @endforeach
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">视频简介</label>
                         <div class="controls">
-                            <textarea name="description" >{{$datas->VideoDes}}</textarea>
+                            <textarea name="description" maxlength="200" placeholder="请您输入200个字数之内" >{{$datas->VideoDes}}</textarea>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">视频封面</label>
+                        <label class="control-label">视频封面(737X411)</label>
                         <div class="controls">
                             <input type="hidden" id="filepath" name="videologo" value="{{$datas->VideoLogo}}">
                             <input id="file_uploadvideopic" name="file_uploadvideopic"  multiple="true">
                         </div>
                         <div class="controls  span4">
                             <img src="{{"Http://images.ziyawang.com".$datas->VideoLogo}}" id="thumb" alt=""/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">首页封面(290X188)</label>
+                        <div class="controls">
+                            <input type="hidden" id="filepath3" name="videoThumb" value="{{$datas->VideoThumb}}">
+                            <input id="file_uploadvideopic1" name="file_uploadvideopic1"  multiple="true">
+                        </div>
+                        <div class="controls  span4">
+                            <img src="{{"Http://images.ziyawang.com".$datas->VideoThumb}}" id="thumb1" alt=""/>
                         </div>
                     </div>
                     <div class="control-group">
@@ -79,6 +93,12 @@
                             <video src="{{"Http://videos.ziyawang.com".$datas->VideoLink2}}" id="videolink2" controls="controls" width="400px" height="300px">
                                 your browser does not support the video tag
                             </video>
+                        </div>
+                    </div>
+                    <div class="control-group span4" >
+                        <label class="control-label">修改顺序</label>
+                        <div class="controls"  >
+                            <input type="text" name="order"  value="{{$datas->Order}}"/>
                         </div>
                     </div>
                     <div class="form-actions">
@@ -107,7 +127,6 @@
                     'timestamp' : '<?php echo $timestamp;?>',
                     '_token'     : "{{csrf_token()}}"
                 },
-                'fileSizeLimit' : '100MB',
                 'removeCompleted' : false,
                 'uploadScript'     :"{{url('/video/smallupload')}}",
                 'onUploadComplete' : function(file, data) {
@@ -131,7 +150,6 @@
                 }
             });
         });
-
         $(function() {
             $("#file_uploadvideopic").uploadifive({
                 'buttonText' : '上传图片',
@@ -140,10 +158,27 @@
                     '_token'     : "{{csrf_token()}}"
                 },
                 'removeCompleted' : true,
+                'fileSizeLimit':1024,
                 'uploadScript'     :"{{url('video/upload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath').val(data);
                     $('#thumb').attr('src',"Http://images.ziyawang.com"+data);
+                }
+            });
+        });
+        $(function() {
+            $("#file_uploadvideopic1").uploadifive({
+                'buttonText' : '上传图片',
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    '_token'     : "{{csrf_token()}}"
+                },
+                'removeCompleted' : true,
+                'fileSizeLimit':1024,
+                'uploadScript'     :"{{url('video/upload')}}",
+                'onUploadComplete' : function(file, data) {
+                    $('#filepath3').val(data);
+                    $('#thumb1').attr('src',"Http://images.ziyawang.com"+data);
                 }
             });
         });

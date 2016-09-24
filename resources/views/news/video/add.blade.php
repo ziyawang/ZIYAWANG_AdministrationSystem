@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
 @section('content')
+    <style>
+        .newsType .checker span .checker span{background-position: -76px -240px;}
+    </style>
     <div id="breadcrumb">
         <a href="{{url('video/index')}}" title="视频列表" class="tip-bottom"><i class="icon-home"></i> 视频</a>
         <a href="#" class="current">添加视频</a>
@@ -31,7 +34,7 @@
                     </div>
                     <div class="control-group">
                         <label class="control-label">视频类型</label>
-                        <div class="controls">
+                        <div class="controls newsType">
                             @foreach($datas as $data)
                                 <input type="checkbox" name="type[]" value="{{$data->id}}" />{{$data->TypeName}}
                             @endforeach
@@ -40,17 +43,27 @@
                     <div class="control-group">
                         <label class="control-label">视频简介</label>
                         <div class="controls">
-                            <textarea name="description" ></textarea>
+                            <textarea name="description" maxlength="200" placeholder="请您输入200个字数之内" ></textarea>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">视频封面</label>
+                        <label class="control-label">视频封面(737X411)</label>
                         <div class="controls">
                             <input type="hidden" id="filepath" name="videologo">
                             <input id="file_uploadvideopic" name="file_uploadvideopic"  multiple="true">
                         </div>
                         <div class="controls  span4">
                             <img src="" id="thumb" alt=""/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">首页封面(290X188)</label>
+                        <div class="controls">
+                            <input type="hidden" id="filepath3" name="videoThumb">
+                            <input id="file_uploadvideopic1" name="file_uploadvideopic1"  multiple="true">
+                        </div>
+                        <div class="controls  span4">
+                            <img src="" id="thumb1" alt=""/>
                         </div>
                     </div>
                     <div class="control-group">
@@ -77,7 +90,12 @@
                             </video>
                         </div>
                     </div>
-
+                    <div class="control-group span4" >
+                        <label class="control-label">顺序</label>
+                        <div class="controls"  >
+                            <input type="text" name="order"  value=""/>
+                        </div>
+                    </div>
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary" onClick="savevideo(0)" >保存</button>
                         <button id="publish" type="submit" class="btn btn-primary" onClick="savevideo(1)" >保存并发布</button>
@@ -127,7 +145,6 @@
                 }
             });
         });
-
         $(function() {
             $("#file_uploadvideopic").uploadifive({
                 'buttonText' : '上传图片',
@@ -136,11 +153,27 @@
                     '_token'     : "{{csrf_token()}}"
                 },
                 'removeCompleted' : true,
-                'fileSizeLimit':"1M",
+                'fileSizeLimit':1024,
                 'uploadScript'     :"{{url('video/upload')}}",
                 'onUploadComplete' : function(file, data) {
                     $('#filepath').val(data);
                     $('#thumb').attr('src',"Http://images.ziyawang.com"+data);
+                }
+            });
+        });
+        $(function() {
+            $("#file_uploadvideopic1").uploadifive({
+                'buttonText' : '上传图片',
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    '_token'     : "{{csrf_token()}}"
+                },
+                'removeCompleted' : true,
+                'fileSizeLimit':1024,
+                'uploadScript'     :"{{url('video/upload')}}",
+                'onUploadComplete' : function(file, data) {
+                    $('#filepath3').val(data);
+                    $('#thumb1').attr('src',"Http://images.ziyawang.com"+data);
                 }
             });
         });
