@@ -133,8 +133,12 @@ Route::any("operate/upload",'Admin\OperateController@upload');
 Route::post("operate/save",'Admin\OperateController@save');
 
 //运维管理中的数据分析
-Route::get('data/index','Admin\DataController@index');
+Route::any('data/index','Admin\DataController@index');
 Route::get('data/detail/{phoneNumber}','Admin\DataController@detail');
+Route::get('data/export','Admin\DataController@export');
+Route::get('data/returnBack','Admin\DataController@returnBack');
+
+
 
 //融云信息中的聊天记录
 Route::any("talk/index",'Admin\TalkController@index');
