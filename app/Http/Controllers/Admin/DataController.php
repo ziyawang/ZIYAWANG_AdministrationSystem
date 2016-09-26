@@ -63,6 +63,16 @@ class DataController extends Controller
                 if($data->phonenumber==$db){
                     $data->counts=$counts;
                     $data->lastLogin=$lastLogin;
+                    $userId=$data->userid;
+                    $results=DB::table("T_U_SERVICEINFO")->where('userid',$userId)->count();
+                    $pubs=DB::table("T_P_PROJECTINFO")->where("userid",$userId)->count();
+                    if($results>0){
+                        $data->role=1;
+                    }else if($pubs>0 && $results==0 ){
+                        $data->role=2;
+                    }else{
+                        $data->role=0;
+                    }
                 }
             }
         }

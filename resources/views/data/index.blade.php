@@ -24,6 +24,7 @@
                               {{--  <th>IP</th>--}}
                                 <th>登录次数</th>
                                <th>最后登录时间</th>
+                                <th>角色</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -35,6 +36,13 @@
                                {{--  <td>{{$data->IP}}</td>--}}
                                 <td style="text-align:center">{{$data->counts}}</td>
                                 <td style="text-align:center">{{$data->lastLogin}}</td>
+                                @if($data->role==1)
+                                    <td>服务方</td>
+                                @elseif($data->role==2)
+                                    <td>发布方</td>
+                                @else
+                                    <td>注册</td>
+                                @endif
                                 <td>
                                     <a href="{{url('data/detail/'.$data->phonenumber)}}">查看详情</a>
                                 </td>
