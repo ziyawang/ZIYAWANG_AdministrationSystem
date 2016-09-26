@@ -52,31 +52,6 @@ class DataController extends Controller
                 $shortTime="";
                 $results = DB::table("T_M_RECORD")->select("PhoneNumber")->get();
             }
-<<<<<<< HEAD
-        }
-        $datas=DB::table("users")->whereIn("phonenumber",$dbs)->paginate(20);
-        foreach ($dbs as $db){
-            $counts=DB::table("T_M_RECORD")->where("PhoneNumber",$db)->count();
-            $lastLogin=DB::table("T_M_RECORD")->select("LoginTime")->where("PhoneNumber",$db)->orderBy("LoginTime","desc")->take(1)->get();
-            foreach ($lastLogin as $value){
-                $lastLogin=$value->LoginTime;
-            }
-            foreach($datas as $data){
-                if($data->phonenumber==$db){
-                    $data->counts=$counts;
-                    $data->lastLogin=$lastLogin;
-                    $userId=$data->userid;
-                    $results=DB::table("T_U_SERVICEINFO")->where('userid',$userId)->count();
-                    $pubs=DB::table("T_P_PROJECTINFO")->where("userid",$userId)->count();
-                    if($results>0){
-                        $data->role=1;
-                    }else if($pubs>0 && $results==0 ){
-                        $data->role=2;
-                    }else{
-                        $data->role=0;
-                    }
-                }
-=======
         } elseif(!empty($_GET)){
             if(!empty($_GET['longTime']) && !empty($_GET['shortTime'])){
                 $longTime=$_GET['longTime'];
@@ -86,8 +61,7 @@ class DataController extends Controller
                 $longTime="";
                 $shortTime="";
                 $results = DB::table("T_M_RECORD")->select("PhoneNumber")->get();
->>>>>>> v1.2.0
-            }
+             }
         }else{
             $longTime="";
             $shortTime="";
