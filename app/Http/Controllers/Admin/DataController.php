@@ -77,7 +77,9 @@ class DataController extends Controller
                     $dbs[] = $phoneNumber;
                 }
             }
-            $datas = DB::table("users")->whereIn("phonenumber", $dbs)->paginate(20);
+            $datas = DB::table("users")
+                        ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
+                        ->whereIn("phonenumber", $dbs)->paginate(20);
             foreach ($dbs as $db) {
                 $counts = DB::table("T_M_RECORD")->where("PhoneNumber", $db)->count();
                 $lastLogin = DB::table("T_M_RECORD")->select("LoginTime")->where("PhoneNumber", $db)->orderBy("LoginTime", "desc")->take(1)->get();
@@ -143,7 +145,7 @@ class DataController extends Controller
             return view("data/detail", compact("datas"));
         }
     
-    //用户行为中的导出功能
+    //用户行为中部分数据的导出功能
     public function export(){
         set_time_limit(0);
         ini_set('memory_limit', '512M');
@@ -201,7 +203,9 @@ class DataController extends Controller
                 $dbs[] = $phoneNumber;
             }
         }
-        $datas = DB::table("users")->whereIn("phonenumber", $dbs)->get();
+        $datas = DB::table("users")
+                ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
+                ->whereIn("phonenumber", $dbs)->get();
         foreach ($dbs as $db) {
             $counts = DB::table("T_M_RECORD")->where("PhoneNumber", $db)->count();
             $lastLogin = DB::table("T_M_RECORD")->select("LoginTime")->where("PhoneNumber", $db)->orderBy("LoginTime", "desc")->take(1)->get();
@@ -234,13 +238,14 @@ class DataController extends Controller
         $excel_name = '资芽网用户行为信息' . date("Y-m-d", time());
         $phpExcel->setActiveSheetIndex(0);
         $phpExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
-        $phpExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+        $phpExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
 
         $phpExcel->setActiveSheetIndex(0)
             ->setCellValue('A1', '注册手机')
             ->setCellValue('B1', '角色')
-            ->setCellValue('C1', '登录次数')
-            ->setCellValue('D1', '最后登录');
+            ->setCellValue('C1', '公司名称')
+            ->setCellValue('D1', '登录次数')
+            ->setCellValue('E1', '最后登录');
         foreach ($datas as $key => $data) {
             if($data->role==1){
                 $role="服务方";
@@ -253,8 +258,9 @@ class DataController extends Controller
             $phpExcel->setActiveSheetIndex(0)
                 ->setCellValue('A' . $i, $data->phonenumber)
                 ->setCellValue('B' . $i, $role)
-                ->setCellValue('C' . $i, $data->counts)
-                ->setCellValue('D' . $i, $data->lastLogin);
+                ->setCellValue('C' . $i, $data->ServiceName)
+                ->setCellValue('D' . $i, $data->counts)
+                ->setCellValue('E' . $i, $data->lastLogin);
 
         }
         $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel, 'Excel5');
@@ -269,7 +275,6 @@ class DataController extends Controller
         header("Content-Transfer-Encoding:binary");
         $objWriter->save('php://output');
     }
-    
     //用户反馈信息展示
     public function returnBack(){
         $datas=DB::table("T_U_FEEDBACK")

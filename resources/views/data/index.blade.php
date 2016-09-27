@@ -75,20 +75,18 @@
                                 {{--<th>ID</th>--}}
                                 <th>手机号</th>
                               {{--  <th>IP</th>--}}
-                                <th>登录次数</th>
-                               <th>最后登录时间</th>
                                 <th>角色</th>
+                                <th>名称</th>
+                                <th>公司名称</th>
+                                <th>登录次数</th>
+                                <th>最后登录时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($datas as $data)
                                 <tr>
-                               {{-- <td>{{$data->RecordID}}</td>--}}
                                 <td style="text-align:center">{{$data->phonenumber}}</td>
-                               {{--  <td>{{$data->IP}}</td>--}}
-                                <td style="text-align:center">{{$data->counts}}</td>
-                                <td style="text-align:center">{{$data->lastLogin}}</td>
                                 @if($data->role==1)
                                     <td>服务方</td>
                                 @elseif($data->role==2)
@@ -96,6 +94,18 @@
                                 @else
                                     <td>注册</td>
                                 @endif
+                                @if(!empty($data->username))
+                                    <td style="text-align:center">{{$data->username}}</td>
+                                @else
+                                    <td style="text-align:center"></td>
+                                @endif
+                                @if(!empty($data->ServiceName))
+                                    <td style="text-align:center">{{$data->ServiceName}}</td>
+                                @else
+                                    <td style="text-align:center"></td>
+                                @endif
+                                <td style="text-align:center">{{$data->counts}}</td>
+                                <td style="text-align:center">{{$data->lastLogin}}</td>
                                 <td>
                                     <a href="{{url('data/detail/'.$data->phonenumber)}}">查看详情</a>
                                 </td>
