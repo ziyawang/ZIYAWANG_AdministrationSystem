@@ -2,9 +2,17 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/talk.css ')}}"/>
     <div id="breadcrumb">
-        <a data-original-title="Go to Home" href="{{asset('talk/index')}}" class="tip-bottom"><i class="icon-home"></i>融云信息</a>
+        <a data-original-title="Go to Home" id="talkMessage" class="tip-bottom"><i class="icon-home"></i>融云信息</a>
         <a href="#" class="current">聊天记录</a>
     </div>
+    <input type="hidden" name="showMessageUrl" id="showMessageUrl" value="{{$showMessageUrl}}">
+    <script>
+        $("#talkMessage").on("click",function(){
+            var showMessageUrl=$("#showMessageUrl").val()
+            var url=showMessageUrl;
+            $("#talkMessage").attr('href',url);
+        })
+    </script>
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span12">

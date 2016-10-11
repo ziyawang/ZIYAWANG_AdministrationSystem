@@ -132,16 +132,19 @@ Route::get("operate/index",'Admin\OperateController@index');
 Route::any("operate/upload",'Admin\OperateController@upload');
 Route::post("operate/save",'Admin\OperateController@save');
 
-//运维管理中的数据分析
+//运维管理中的用户分析和用户反馈
 Route::any('data/index','Admin\DataController@index');
 Route::get('data/detail/{phoneNumber}','Admin\DataController@detail');
 Route::get('data/export','Admin\DataController@export');
 Route::get('data/returnBack','Admin\DataController@returnBack');
-
-
+    
+//运维管理中的统计分析
+Route::any("count/index",'Admin\CountController@index');
+Route::any("count/mapCounts",'Admin\CountController@mapCounts');
 
 //融云信息中的聊天记录
 Route::any("talk/index",'Admin\TalkController@index');
+Route::any("talk/ajaxData",'Admin\TalkController@ajaxData');
 Route::get("talk/message/{id}",'Admin\TalkController@message');
 Route::get("talk/showMessage/{targetId}/{fromUserId}",'Admin\TalkController@showMessage');
 

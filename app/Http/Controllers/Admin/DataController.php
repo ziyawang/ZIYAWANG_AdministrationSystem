@@ -77,9 +77,43 @@ class DataController extends Controller
                     $dbs[] = $phoneNumber;
                 }
             }
-            $datas = DB::table("users")
+            if(isset($_POST['_token'])){
+                $serviceName=!empty($_POST['serviceName']) ? $_POST['serviceName'] : "";
+                if(!empty($_POST['serviceName'])){
+                    $datas = DB::table("users")
                         ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
-                        ->whereIn("phonenumber", $dbs)->paginate(20);
+                        ->where("ServiceName","like","%".$serviceName."%")
+                        ->whereIn("phonenumber", $dbs)
+                        ->paginate(20);
+                }else{
+                    $datas = DB::table("users")
+                        ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
+                        ->whereIn("phonenumber", $dbs)
+                        ->paginate(20);
+                }
+            }elseif(!empty($_GET)){
+                $serviceName=!empty($_GET['serviceName']) ? $_GET['serviceName'] : "";
+                if(!empty($_GET['serviceName'])){
+                    $datas = DB::table("users")
+                        ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
+                        ->where('serviceName',"like","%".$serviceName."%")
+                        ->whereIn("phonenumber", $dbs)
+                        ->paginate(20);
+                }else{
+                    $serviceName="";
+                    $datas = DB::table("users")
+                        ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
+                        ->whereIn("phonenumber", $dbs)
+                        ->paginate(20);
+                }
+            }else{
+                $serviceName="";
+                $datas = DB::table("users")
+                    ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
+                    ->whereIn("phonenumber", $dbs)
+                    ->paginate(20);
+            }
+
             foreach ($dbs as $db) {
                 $counts = DB::table("T_M_RECORD")->where("PhoneNumber", $db)->count();
                 $lastLogin = DB::table("T_M_RECORD")->select("LoginTime")->where("PhoneNumber", $db)->orderBy("LoginTime", "desc")->take(1)->get();
@@ -95,6 +129,17 @@ class DataController extends Controller
                         $pubs = DB::table("T_P_PROJECTINFO")->where("userid", $userId)->count();
                         if ($results > 0) {
                             $data->role = 1;
+                            $serviceTypes = $data->ServiceType;
+                            $serviceType = explode(",", $serviceTypes);
+                            $types = DB::table("T_P_PROJECTTYPE")->select("SerName")
+                                    ->whereIn("TypeID", $serviceType)
+                                    ->get();
+                                $arr = array();
+                                foreach ($types as $value) {
+                                    $arr[] = $value->SerName;
+                                }
+                                $type = implode(",", $arr);
+                                $data->ServiceType = $type;
                         } else if ($pubs > 0 && $results == 0) {
                             $data->role = 2;
                         } else {
@@ -103,7 +148,7 @@ class DataController extends Controller
                     }
                 }
             }
-            return view("data/index", compact("datas","longTime","shortTime"));
+            return view("data/index", compact("datas","longTime","shortTime","serviceName"));
     }
     //上一天的数据
     public function lastData()
@@ -203,9 +248,28 @@ class DataController extends Controller
                 $dbs[] = $phoneNumber;
             }
         }
-        $datas = DB::table("users")
+        if(!empty($_GET)){
+            $serviceName=!empty($_GET['serviceName']) ? $_GET['serviceName'] : "";
+            if(!empty($_GET['serviceName'])){
+                $datas = DB::table("users")
+                    ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
+                    ->where('serviceName',"like","%".$serviceName."%")
+                    ->whereIn("phonenumber", $dbs)
+                    ->get();
+            }else{
+                $serviceName="";
+                $datas = DB::table("users")
+                    ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
+                    ->whereIn("phonenumber", $dbs)
+                    ->get();
+            }
+        }else{
+            $serviceName="";
+            $datas = DB::table("users")
                 ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
-                ->whereIn("phonenumber", $dbs)->get();
+                ->whereIn("phonenumber", $dbs)
+                ->get();
+        }
         foreach ($dbs as $db) {
             $counts = DB::table("T_M_RECORD")->where("PhoneNumber", $db)->count();
             $lastLogin = DB::table("T_M_RECORD")->select("LoginTime")->where("PhoneNumber", $db)->orderBy("LoginTime", "desc")->take(1)->get();
@@ -221,6 +285,17 @@ class DataController extends Controller
                     $pubs = DB::table("T_P_PROJECTINFO")->where("userid", $userId)->count();
                     if ($results > 0) {
                         $data->role = 1;
+                        $serviceTypes = $data->ServiceType;
+                        $serviceType = explode(",", $serviceTypes);
+                        $types = DB::table("T_P_PROJECTTYPE")->select("SerName")
+                            ->whereIn("TypeID", $serviceType)
+                            ->get();
+                        $arr = array();
+                        foreach ($types as $value) {
+                            $arr[] = $value->SerName;
+                        }
+                        $type = implode(",", $arr);
+                        $data->ServiceType = $type;
                     } else if ($pubs > 0 && $results == 0) {
                         $data->role = 2;
                     } else {
@@ -238,14 +313,15 @@ class DataController extends Controller
         $excel_name = '资芽网用户行为信息' . date("Y-m-d", time());
         $phpExcel->setActiveSheetIndex(0);
         $phpExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
-        $phpExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
-
+        $phpExcel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
+        $phpExcel->getActiveSheet()->getColumnDimension('F')->setWidth(20);
         $phpExcel->setActiveSheetIndex(0)
             ->setCellValue('A1', '注册手机')
             ->setCellValue('B1', '角色')
             ->setCellValue('C1', '公司名称')
             ->setCellValue('D1', '登录次数')
-            ->setCellValue('E1', '最后登录');
+            ->setCellValue('E1', '服务类型')
+            ->setCellValue('F1', '最后登录');
         foreach ($datas as $key => $data) {
             if($data->role==1){
                 $role="服务方";
@@ -260,7 +336,8 @@ class DataController extends Controller
                 ->setCellValue('B' . $i, $role)
                 ->setCellValue('C' . $i, $data->ServiceName)
                 ->setCellValue('D' . $i, $data->counts)
-                ->setCellValue('E' . $i, $data->lastLogin);
+                ->setCellValue('E' . $i, $data->ServiceType)
+                ->setCellValue('F' . $i, $data->lastLogin);
 
         }
         $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel, 'Excel5');

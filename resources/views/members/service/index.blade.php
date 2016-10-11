@@ -99,6 +99,8 @@
                     <th class="w7">公司介绍</th>
                     <th class="w8">完善时间</th>
                     <th class="w8">审核时间</th>
+                    <th class="w1">浏览次数</th>
+                    <th class="w1">收藏次数</th>
                     <th class="w9">审核状态</th>
                     <th class="w10">操作</th>
                 </tr>
@@ -115,6 +117,8 @@
                         <td class="tdCompanyIntro"><div>{{$data->ServiceIntroduction}}</div></td>
                         <td>{{$data->created_at}}</td>
                         <td>{{$data->updated_at}}</td>
+                        <td>{{$data->ViewCount}}</td>
+                        <td>{{$data->CollectionCount}}</td>
                         @if($data->State==2)
                             <td><p style="color: #149bdf">拒审核</p></td>
                             @elseif($data->State==0)

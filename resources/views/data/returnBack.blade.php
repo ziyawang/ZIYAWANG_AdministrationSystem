@@ -74,8 +74,9 @@
                 <tr>
                     {{--<th>ID</th>--}}
                     <th>手机号</th>
-                    {{--  <th>IP</th>--}}
+                      <th>角色</th>
                     <th>内容</th>
+                    <th>图片</th>
                     <th>时间</th>
                 </tr>
                 </thead>
@@ -93,6 +94,15 @@
                         @endif
                         {{--  <td>{{$data->IP}}</td>--}}
                         <td style="text-align:center">{{$data->Content}}</td>
+                        @if(!empty($data->Picture))
+                       <td width="60" height="50">
+                           <a href="{{env('IMAGES').$data->Picture}}">
+                           <img src="{{env('IMAGES').$data->Picture}}">
+                           </a>
+                       </td>
+                        @else
+                            <td></td>
+                        @endif
                         <td style="text-align:center">{{$data->FBTime}}</td>
                     </tr>
                 @endforeach

@@ -2,7 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/news.css ')}}"/>
     <div id="breadcrumb" >
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>用户行为</a>
+        <a href="{{asset('data/index')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>用户行为</a>
         <a href="#" class="current">用户行为</a>
         <a href="#" class="pull-right" id="export">
            {{-- <div class="btn btn-primary" >导出</div>--}}

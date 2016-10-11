@@ -14,6 +14,12 @@ class TalkController extends Controller
 {
     //获取发送人的信息
     public function index(){
+        if(!empty(session('PROJECTID'))){
+            $projectId=session('PROJECTID');
+            session(['PROJECTID'=>""]);
+        }else{
+            $projectId="";
+        }
         if(!empty($_POST)){
             $phoneNumber=$_POST['phoneNumber'];
             $usersId=$_POST['usersId'];
@@ -66,9 +72,8 @@ class TalkController extends Controller
                    }
                }
            }
-            return view("talk/index",compact("datas","phoneNumber","usersId","state"));
+            return view("talk/index",compact("datas","phoneNumber","usersId","state","projectId"));
         }
-
         if(!empty($_GET)){
             $phoneNumber=$_GET['phonenumber'];
             $usersId=$_GET["userid"];
@@ -120,7 +125,7 @@ class TalkController extends Controller
                     }
                 }
             }
-            return view("talk/index",compact("datas","phoneNumber","usersId","state"));
+            return view("talk/index",compact("datas","phoneNumber","usersId","state","projectId"));
         }
             $phoneNumber="";
             $usersId="";
@@ -138,12 +143,17 @@ class TalkController extends Controller
                 $data->role=0;
             }
         }
-            return view("talk/index",compact("datas","phoneNumber","usersId","state"));
+            return view("talk/index",compact("datas","phoneNumber","usersId","state","projectId"));
 
     }
 
     //获取发送人对应的收信人
     public function message($id){
+       session(["talkUrl"=>$_SERVER["HTTP_REFERER"]]);
+        $talkUrl=session('talkUrl');
+        if($talkUrl=="http://admin.ziyawang.com/talk/index"){
+            $talkUrl='http://admin.ziyawang.com/talk/index?phonenumber=&userid=&state=1';
+        }
         $fromUserId=$id;
         $results=History::select()->where("fromUserId",$fromUserId)->get()->toArray();
         if(empty($results)){
@@ -170,11 +180,16 @@ class TalkController extends Controller
             }
         }
      
-        return view ("talk/message",compact("datas","system","fromUserId"));
+        return view ("talk/message",compact("datas","system","fromUserId","talkUrl"));
     }
 
     //获取发信人和收信人的聊天记录
     public function showMessage($targetIds,$fromUserIds){
+        
+        $showMessageUrl=session('talkUrl');
+        if($showMessageUrl=="http://admin.ziyawang.com/talk/index"){
+            $showMessageUrl='http://admin.ziyawang.com/talk/index?phonenumber=&userid=&state=1';
+        }
         $fromUserId=$fromUserIds;
         $frominfos=User::select("phonenumber","UserPicture")->where("userid",$fromUserId)->get()->toArray();
         if($targetIds!=0){
@@ -217,8 +232,16 @@ class TalkController extends Controller
                 }
                 $messages[]=$message;
         }
-        return view ("talk/showMessage",compact("datas","system","fromUserId","messages","targetId","frominfos","targetinfos"));
+        return view ("talk/showMessage",compact("datas","system","fromUserId","messages","targetId","frominfos","targetinfos","showMessageUrl"));
        
+    }
+    //ajax向后台传送数据
+    public function ajaxData(){
+        if(!empty($_POST['data'])){
+            $projectId ="project_".$_POST['data'];
+            session(["PROJECTID"=>$projectId]);
+        }
+
     }
     
 }

@@ -22,6 +22,18 @@
                     </div>
                 </div>
             </td>--}}
+            <td>
+                <div class="control-group">
+                    <label class="control-label checkState">公司名称</label>
+                    <div class="controls selectBox" >
+                        @if(!empty($serviceName))
+                            <input type="text" name="serviceName"  id="serviceName" value="{{$serviceName}}"  style="width:100px"/>
+                        @else
+                            <input type="text" name="serviceName" id="serviceName" value="" style="width:100px"/>
+                        @endif
+                    </div>
+                </div>
+            </td>
             <td class="tdTime">
                 <div class="control-group ">
                     <label class="control-label">时间</label>
@@ -63,7 +75,8 @@
            // var connectPhone = $('#connectPhone').val();
             var shortTime=$("#shortTime").val();
             var longTime=$("#longTime").val();
-            var url = 'http://admin.ziyawang.com/data/export?shortTime='+shortTime+"&longTime="+longTime;
+            var serviceName=$("#serviceName").val()
+            var url = 'http://admin.ziyawang.com/data/export?shortTime='+shortTime+"&longTime="+longTime+"&serviceName="+serviceName;
             $('#export').attr('href',url);
         });
     </script>
@@ -78,6 +91,7 @@
                                 <th>角色</th>
                                 <th>名称</th>
                                 <th>公司名称</th>
+                                <th>服务类型</th>
                                 <th>登录次数</th>
                                 <th>最后登录时间</th>
                                 <th>操作</th>
@@ -104,6 +118,11 @@
                                 @else
                                     <td style="text-align:center"></td>
                                 @endif
+                                @if($data->role==1)
+                                    <td style="text-align:center">{{$data->ServiceType}}</td>
+                                @else
+                                    <td style="text-align:center"></td>
+                                @endif
                                 <td style="text-align:center">{{$data->counts}}</td>
                                 <td style="text-align:center">{{$data->lastLogin}}</td>
                                 <td>
@@ -115,7 +134,7 @@
                         </table>
                     </div>
                     <div class="pagination alternate">
-                        {!! $datas->appends(["shortTime"=>$shortTime,"longTime"=>$longTime])->render() !!}
+                        {!! $datas->appends(["shortTime"=>$shortTime,"longTime"=>$longTime,"serviceName"=>$serviceName])->render() !!}
                     </div>
                 </div>
 @endsection

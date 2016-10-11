@@ -1,9 +1,16 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb">
-        <a data-original-title="Go to Home" href="#" class="tip-bottom" href="{{asset('talk/index')}}"><i class="icon-home"></i>融云信息</a>
+        <a data-original-title="Go to Home"  class="tip-bottom" id="talkMessage"><i class="icon-home"></i>融云信息</a>
         <a href="#" class="current">聊天记录</a>
     </div>
+    <input type="hidden" name="talkUrl" id="talkUrl" value="{{$talkUrl}}">
+    <script>
+        $("#talkMessage").on("click",function(){
+            var url=$("#talkUrl").val();
+            $("#talkMessage").attr('href',url);
+        })
+    </script>
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span12">

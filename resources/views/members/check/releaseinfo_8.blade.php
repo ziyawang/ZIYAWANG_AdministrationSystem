@@ -145,7 +145,7 @@
                             <div class="control-group" id="goldId" >
                                 <label class="control-label">牙币</label>
                                 <div class="controls">
-                                    <input type="number" name="gold" id="gold"    value="{{$data->Gold}}"/>
+                                    <input type="number" name="gold" id="gold"    value="{{$data->Price}}"/>
                                 </div>
                             </div>
 

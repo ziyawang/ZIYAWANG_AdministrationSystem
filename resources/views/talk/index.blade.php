@@ -1,6 +1,11 @@
 @extends('layouts.master')
 @section('content')
     <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
+    <style>
+        .red{
+            color: red;
+        }
+    </style>
     <div id="breadcrumb" style="position:relative">
         <a href="{{asset('talk/index')}}" title="融云信息" class="tip-bottom"><i class="icon-home"></i>融云信息</a>
         <a href="#" class="current">选择发送人</a>
@@ -70,6 +75,11 @@
                     <div  class="container-fluid">
                         <div class="widget-content nopadding">
                             <table class="table table-bordered table-striped">
+                                @if(!empty($projectId))
+                                <input type="hidden" name="projectID" id="projectID" value="{{$projectId}}">
+                                    @else
+                                    <input type="hidden" name="projectID" id="projectID" value="">
+                                @endif
                                 <thead>
                                 <tr>
                                     <th>ID</th>
@@ -92,8 +102,8 @@
                                         @else
                                             <td>注册</td>
                                         @endif
-                                        <td>
-                                            <a href="{{url('talk/message/'.$data->userid)}}">查看聊天记录</a>
+                                        <td class="talkMessage"  >
+                                            <a href="{{url('talk/message/'.$data->userid)}}" id="project_{{$data->userid}}" >查看聊天记录</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -103,5 +113,27 @@
                         <div class="pagination alternate">
                             {!! $datas->appends(["phonenumber"=>$phoneNumber,"userid"=>$usersId,"state"=>$state])->render() !!}
                         </div>
+                        <script>
+                            $(function(){
+                                $(".talkMessage a").on("focus",function(){
+                                    var urlName=$(this).attr("href");
+                                    var number=urlName.lastIndexOf('/');
+                                    var id=urlName.substring(number+1);
+                                    $.ajax({
+                                        url:"{{asset('talk/ajaxData')}}",
+                                        data:{data:id,_token:"{{ csrf_token() }}"},
+                                        dataType:"json",
+                                        type:"post",
+                                        success:function(msg){
+
+                                        }
+                                    })
+                                });
+                                var projectId=$("#projectID").val();
+                                if(projectId){
+                                    $("#"+projectId).addClass('red')
+                                }
+                            })
+                        </script>
                     </div>
-@endsection
+ @endsection
