@@ -89,6 +89,13 @@
                             </div>
                         </div>
                         <div class="control-group">
+                            <label class="control-label">发布方式</label>
+                            <div class="controls">
+                                <input type="radio" name="publisher" id="publisher_0" value="0" @if($data->Publisher==0) checked="checked" @endif/>自然发布
+                                <input type="radio" name="publisher"  id="publisher_1" value="1"  @if($data->Publisher==1) checked="checked" @endif />委托发布
+                            </div>
+                        </div>
+                        <div class="control-group">
                             <label class="control-label">审核时间</label>
                             <div class="controls">
                                 <input type="text" name="CertifyTime" id="CertifyTime" value="{{$data->CertifyTime}}"
@@ -136,7 +143,7 @@
                         </div>
                         <div class="control-group">
                             <label class="control-label">信息类型</label>
-                            <div class="controls">
+                            <div class="controls" id="messageType">
                                 <input type="radio" name="member" id="member_0" value="0" @if($data->Member==0) checked="checked" @endif/>普通
                                 <input type="radio" name="member"  id="member_1" value="1"  @if($data->Member==1) checked="checked" @endif />vip
                                 <input type="radio" name="member"  id="member_2" value="2"  @if($data->Member==2) checked="checked" @endif />收费
@@ -144,7 +151,7 @@
                         </div>
                         @if($data->Member==2)
                             <div class="control-group" id="goldId" >
-                                <label class="control-label">牙币</label>
+                                <label class="control-label">芽币</label>
                                 <div class="controls">
                                     <input type="number" name="gold" id="gold"    value="{{$data->Price}}"/>
                                 </div>
@@ -152,14 +159,14 @@
 
                         @else
                             <div class="control-group" id="goldId" style="display: none">
-                                <label class="control-label">牙币</label>
+                                <label class="control-label">芽币</label>
                                 <div class="controls">
                                     <input type="number" name="gold" id="gold"    value=""/>
                                 </div>
                             </div>
                         @endif
                         <div class="control-group">
-                            <label class="control-label">公司描述</label>
+                            <label class="control-label">备注信息</label>
                             <div class="controls">
                                 @if(!empty($data->CompanyDes))
                                     <textarea name="companyDes" id="comDes" /> {{$data->CompanyDes}}</textarea>
@@ -197,7 +204,7 @@
     </div>
     <script>
         $("input[type='radio']").on("click",function(){
-            var type=$("input[type='radio']:checked").val();
+            var type=$("#messageType input[type='radio']:checked").val();
             if(type==2){
                 $("#goldId").css("display","block");
             }else{
