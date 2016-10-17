@@ -93,6 +93,7 @@
                                 <th>公司名称</th>
                                 <th>服务类型</th>
                                 <th>登录次数</th>
+                                <th>注册时间</th>
                                 <th>最后登录时间</th>
                                 <th>操作</th>
                             </tr>
@@ -124,6 +125,7 @@
                                     <td style="text-align:center"></td>
                                 @endif
                                 <td style="text-align:center">{{$data->counts}}</td>
+                                 <td style="text-align:center">{{$data->created_at}}</td>
                                 <td style="text-align:center">{{$data->lastLogin}}</td>
                                 <td>
                                     <a href="{{url('data/detail/'.$data->phonenumber)}}">查看详情</a>

@@ -119,6 +119,7 @@
                     <th>发布时间</th>
                     <th>地址</th>
                     <th>信息类型</th>
+                    <th>约谈次数</th>
                     <th>浏览次数</th>
                     <th>收藏次数</th>
                     <th>审核状态</th>
@@ -134,6 +135,7 @@
                         <td>{{$data->PublishTime}}</td>
                         <td>{{$data->ProArea}}</td>
                         <td>{{$data->TypeName}}</td>
+                        <td>{{$data->counts}}</td>
                         <td>{{$data->ViewCount}}</td>
                         <td>{{$data->CollectionCount}}</td>
                         @if($data->State==0)

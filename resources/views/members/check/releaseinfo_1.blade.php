@@ -181,16 +181,16 @@
                                     </div>
                                 </div>
                             @endif
-                            <div class="control-group">
-                                <label class="control-label">备注信息</label>
-                                <div class="controls">
-                                    @if(!empty($data->CompanyDes))
-                                        <textarea name="companyDes" id="comDes" /> {{$data->CompanyDes}}</textarea>
-                                    @else
-                                        <textarea name="companyDes" id="comDes" value=""/></textarea>
-                                    @endif
-                                </div>
+                        <div class="control-group">
+                            <label class="control-label">备注信息</label>
+                            <div class="controls">
+                                @if(!empty($data->CompanyDes))
+                                    <textarea name="companyDes" class="ckeditor" id="comDes">{{$data->CompanyDes}}</textarea>
+                                @else
+                                    <textarea name="companyDes" class="ckeditor" id="comDes" ></textarea>
+                                @endif
                             </div>
+                        </div>
                         <div class="control-group">
                             <label class="control-label">审核状态</label>
                             <div class="controls">

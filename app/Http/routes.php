@@ -148,6 +148,11 @@ Route::any("talk/ajaxData",'Admin\TalkController@ajaxData');
 Route::get("talk/message/{id}",'Admin\TalkController@message');
 Route::get("talk/showMessage/{targetId}/{fromUserId}",'Admin\TalkController@showMessage');
 
+    //芽币统计
+Route::any("money/index",'Admin\MoneyController@index');
+Route::any("money/detail/{userId}",'Admin\MoneyController@detail');
+Route::any("money/ajax",'Admin\MoneyController@ajax');   
+Route::any("money/resultData",'Admin\MoneyController@ajaxData');
 });
 
 

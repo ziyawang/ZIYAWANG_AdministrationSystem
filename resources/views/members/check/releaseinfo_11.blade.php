@@ -191,9 +191,9 @@
                             <label class="control-label">备注信息</label>
                             <div class="controls">
                                 @if(!empty($data->CompanyDes))
-                                    <textarea name="companyDes" id="comDes" /> {{$data->CompanyDes}}</textarea>
+                                    <textarea name="companyDes" class="ckeditor" id="comDes">{{$data->CompanyDes}}</textarea>
                                 @else
-                                    <textarea name="companyDes" id="comDes" value=""/></textarea>
+                                    <textarea name="companyDes" class="ckeditor" id="comDes" ></textarea>
                                 @endif
                             </div>
                         </div>
