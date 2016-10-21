@@ -111,7 +111,9 @@ class ServiceController extends Controller
                 }
             }
             $db = array();
+            $number=1;
             foreach ($datas as $data) {
+                $data->number=$number;
                 $serviceTypes = $data->ServiceType;
                 $serviceType = explode(",", $serviceTypes);
                 $types = DB::table("T_P_PROJECTTYPE")->select("SerName")
@@ -124,6 +126,7 @@ class ServiceController extends Controller
                 $type = implode(",", $arr);
                 $data->ServiceType = $type;
                 $db[] = $data;
+                $number++;
             }
 
             $results = DB::table("T_P_PROJECTTYPE")->get();
@@ -225,8 +228,10 @@ class ServiceController extends Controller
                 }
             }
             $db = array();
+            $number=1;
             foreach ($datas as $data) {
                 $serviceTypes = $data->ServiceType;
+                $data->number=$number;
                 $serviceType = explode(",", $serviceTypes);
 
                 $types = DB::table("T_P_PROJECTTYPE")->select("SerName")
@@ -239,6 +244,7 @@ class ServiceController extends Controller
                 $type = implode(",", $arr);
                 $data->ServiceType = $type;
                 $db[] = $data;
+                $number++;
             }
             $results = DB::table("T_P_PROJECTTYPE")->get();
             return view("members/service/index", compact('datas', 'db', "results", "state", "typeName", "connectPhone", "serviceName"));
@@ -254,8 +260,10 @@ class ServiceController extends Controller
             //->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
             ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
         $db = array();
+        $number=1;
         foreach ($datas as $data) {
             $serviceTypes = $data->ServiceType;
+            $data->number=$number;
             $serviceType = explode(",", $serviceTypes);
 
             $types = DB::table("T_P_PROJECTTYPE")->select("SerName")
@@ -268,6 +276,7 @@ class ServiceController extends Controller
             $type = implode(",", $arr);
             $data->ServiceType = $type;
             $db[] = $data;
+            $number++;
         }
         $results = DB::table("T_P_PROJECTTYPE")->get();
         return view("members/service/index", compact('datas', 'db', "results", "state", "typeName", "connectPhone", "serviceName"));

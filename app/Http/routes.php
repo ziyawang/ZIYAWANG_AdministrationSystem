@@ -141,6 +141,7 @@ Route::get('data/returnBack','Admin\DataController@returnBack');
 //运维管理中的统计分析
 Route::any("count/index",'Admin\CountController@index');
 Route::any("count/mapCounts",'Admin\CountController@mapCounts');
+Route::any("count/numMoneyCount",'Admin\CountController@numMoneyCount');
 
 //融云信息中的聊天记录
 Route::any("talk/index",'Admin\TalkController@index');

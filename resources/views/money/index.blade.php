@@ -213,7 +213,7 @@
             </table>
         </div>
         <div class="pagination alternate">
-            {!! $datas->render() !!}
+            {!! $datas->appends(["value"=>$value,"shortTime"=>$shortTime,"longTime"=>$longTime])->render() !!}
         </div>
     </div>
 @endsection

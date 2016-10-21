@@ -26,6 +26,19 @@
             </td>
             <td>
                 <div class="control-group">
+                    <label class="control-label checkState" >信息等级</label>
+                    <div class="controls selectBox" >
+                        <select  name="member" id="member"/>
+                        <option value="3">--全部--<option>
+                        <option value="1" @if(isset($member) && $member==1) selected="selected" @endif>vip信息</option>
+                        <option value="0" @if(isset($member) && $member==0) selected="selected" @endif>普通信息</option>
+                        <option value="2" @if(isset($member) && $member==2) selected="selected" @endif>收费信息</option>
+                        </select>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="control-group">
                     <label class="control-label checkState">手机号</label>
                     <div class="controls selectBox" >
                         @if(!empty($phoneNumber))
@@ -104,7 +117,8 @@
             var province=$("#province").val();
             var state=$("#state").val();
             var phoneNumber=$("#phoneNumber").val();
-            var url = 'http://admin.ziyawang.com/check/export?type='+type+"&province="+province+"&state="+state+"&phoneNumber="+phoneNumber;
+            var member=$("#member").val();
+            var url = 'http://admin.ziyawang.com/check/export?type='+type+"&province="+province+"&state="+state+"&phoneNumber="+phoneNumber+"&member="+member;
             $('#export').attr('href',url);
         });
     </script>
@@ -112,8 +126,8 @@
         <div class="widget-content nopadding">
             <table class="table table-bordered table-striped checkTable">
                 <thead>
-
                 <tr>
+                    <th>编号</th>
                     <th>ID</th>
                     <th>联系方式</th>
                     <th>发布时间</th>
@@ -130,6 +144,7 @@
                 <tbody>
                 @foreach($datas as $data)
                     <tr>
+                        <td>{{$data->number}}</td>
                         <td>{{$data->ProjectID}}</td>
                         <td>{{$data->phonenumber}}</td>
                         <td>{{$data->PublishTime}}</td>
@@ -153,7 +168,7 @@
             </table>
         </div>
         <div class="pagination alternate">
-            {!! $datas->appends(["state"=>$state,"province"=>$province,"typeName"=>$typeName,"phoneNumber"=>$phoneNumber])->render() !!}
+            {!! $datas->appends(["state"=>$state,"province"=>$province,"typeName"=>$typeName,"phoneNumber"=>$phoneNumber,"member"=>$member])->render() !!}
         </div>
     </div>
     @endsection

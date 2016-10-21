@@ -90,6 +90,7 @@
             <table class="table table-bordered table-striped servicerInfoTable">
                 <thead>
                 <tr>
+                    <th>编号</th>
                     <th class="w1">ID</th>
                     <th class="w2">公司名称</th>
                     <th class="w3">注册手机号</th>
@@ -108,6 +109,7 @@
                 <tbody>
                 @foreach($datas as $data)
                     <tr>
+                        <td>{{$data->number}}</td>
                         <td>{{$data->ServiceID}}</td>
                         <td>{{$data->ServiceName}}</td>
                         <td>{{$data->phonenumber}}</td>

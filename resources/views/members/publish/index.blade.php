@@ -104,6 +104,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
+                    <th>编号</th>
                     <th>ID</th>
                     <th>姓名</th>
                     <th>注册手机</th>
@@ -116,6 +117,7 @@
                 <tbody>
                 @foreach($datas as $data)
                     <tr>
+                        <td>{{$data->number}}</td>
                         <td>{{$data->userid}}</td>
                         <td>{{$data->username}}</td>
                         <td>{{$data->phonenumber}}</td>

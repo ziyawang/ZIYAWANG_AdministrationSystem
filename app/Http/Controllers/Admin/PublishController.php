@@ -56,7 +56,9 @@ class PublishController extends Controller
                         ->paginate(20);
                 }
             }
+            $number=1;
             foreach($datas as $data){
+                $data->number=$number;
                 $userId=$data->userid;
                 $results=DB::table("T_U_SERVICEINFO")->where('userid',$userId)->count();
                 $pubs=DB::table("T_P_PROJECTINFO")->where("userid",$userId)->count();
@@ -67,6 +69,7 @@ class PublishController extends Controller
                 }else{
                     $data->role=0;
                 }
+                $number++;
             }
             return view("members/publish/index",compact("datas","state","phoneNumber","usersId","shortTime","longTime"));
         }
@@ -112,9 +115,10 @@ class PublishController extends Controller
                             ->paginate(20);
                     }
             }
-
+            $number=1;
             foreach($datas as $data){
                 $userId=$data->userid;
+                $data->number=$number;
                 $results=DB::table("T_U_SERVICEINFO")->where('userid',$userId)->count();
                 $pubs=DB::table("T_P_PROJECTINFO")->where("userid",$userId)->count();
                 if($results>0){
@@ -124,6 +128,7 @@ class PublishController extends Controller
                 }else{
                     $data->role=0;
                 }
+              $number++;
             }
             return view("members/publish/index",compact("datas","state","phoneNumber","usersId","shortTime","longTime"));
         }
@@ -134,8 +139,10 @@ class PublishController extends Controller
         $shortTime="";
         $longTime="";
         $datas=DB::table("users")->orderBy("created_at","desc")->paginate(20);
+        $number=1;
         foreach($datas as $data){
             $userId=$data->userid;
+            $data->number=$number;
             $results=DB::table("T_U_SERVICEINFO")->where('userid',$userId)->count();
             $pubs=DB::table("T_P_PROJECTINFO")->where("userid",$userId)->count();
             if($results>0){
@@ -145,10 +152,12 @@ class PublishController extends Controller
             }else{
                 $data->role=0;
             }
+            $number++;
 
         }
         return view("members/publish/index",compact("datas","state","phoneNumber","usersId","shortTime","longTime"));
     }
+
     //详情
     public function  detail($id){
         session(["url"=>$_SERVER["HTTP_REFERER"]]);
@@ -255,6 +264,7 @@ class PublishController extends Controller
             header("Content-Transfer-Encoding:binary");
             $objWriter->save('php://output');
         }
+
     //发布方编辑信息保存
     public function update(){
         $db= DB::table("users")->where("userid",$_POST['id'])->update([

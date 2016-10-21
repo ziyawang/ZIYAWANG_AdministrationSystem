@@ -24,10 +24,17 @@ class MoneyController extends Controller
         $money=0;
         $realMoney=0;
         $arrayUserIds=array();
+        $results=DB::table("T_U_MONEY")
+            ->where("T_U_MONEY.Type",1)
+            ->where("T_U_MONEY.Flag",1)
+            ->whereNotIn("T_U_MONEY.UserID",[889,1095])
+            ->get();
+        foreach ($results as $result){
+            $money=$money+$result->Money;
+            $realMoney=$realMoney+$result->RealMoney/100;
+        }
         foreach ($datas as $key=>$data){
             $userid=$data->UserID;
-            $money=$money+$data->Money;
-            $realMoney=$realMoney+$data->RealMoney/100;
             if(!in_array($userid,$arrayUserIds)){
                 $arrayUserIds[]=$userid;
                 $recordCounts=DB::table("T_U_MONEY")->where("UserID",$userid)->where("T_U_MONEY.Type",1) ->where("T_U_MONEY.Flag",1)->count();
@@ -48,7 +55,7 @@ class MoneyController extends Controller
                 case "alipay":
                     $channel="支付宝App";
                     break;
-                case "alipay_pub_direct":
+                case "alipay_pc_direct":
                     $channel="支付宝PC";
                     break;
                 case "upacp":
@@ -57,7 +64,7 @@ class MoneyController extends Controller
                 case "upacp_pc":
                     $channel="银联PC";
                     break;
-                case "upacp_pc":
+                case "iap":
                     $channel="苹果";
                     break;
             }
@@ -74,7 +81,10 @@ class MoneyController extends Controller
                 }
 
         }
-        return view("money/index",compact('datas',"money","realMoney"));
+        $value="30";
+        $shortTime="1";
+        $longTime="1";
+        return view("money/index",compact('datas',"money","realMoney","value","shortTime","longTime"));
     }
 
     //平台用户充值和消费记录详情
@@ -101,7 +111,7 @@ class MoneyController extends Controller
                 case "alipay":
                     $channel="支付宝App";
                     break;
-                case "alipay_pub_direct":
+                case "alipay_pc_direct":
                     $channel="支付宝PC";
                     break;
                 case "upacp":
@@ -110,11 +120,8 @@ class MoneyController extends Controller
                 case "upacp_pc":
                     $channel="银联PC";
                     break;
-                case "upacp_pc":
-                    $channel="苹果";
-                    break;
-                case "":
-                    $channel="";
+                case "iap":
+                    $channel="苹果app";
                     break;
             }
             $data->Channel=$channel;
@@ -162,14 +169,24 @@ class MoneyController extends Controller
        }
         
     }
+    
+    //根据筛选添加获取数据
     public  function ajaxData(){
-       
-        $MoneyTotal=session("MoneyTotal");
-        $value=$MoneyTotal['value'];
+       if(!empty($_GET)){
+           $value=$_GET['value'];
+           $shortTimes=$_GET['shortTime'];
+           $longTimes=$_GET['longTime'];
+       }else{
+           $MoneyTotal=session("MoneyTotal");
+           $value=$MoneyTotal['value'];
+           $shortTimes=$MoneyTotal['shortTime'];
+           $longTimes=$MoneyTotal['longTime'];
+       }
+
         if($value==7){
             $chooseTime=time()-7*24*60*60;
-            $shortTime=$MoneyTotal['shortTime'];
-            $longTime=$MoneyTotal['longTime'];
+            $shortTime=$shortTimes;
+            $longTime=$longTimes;
             $datas=DB::table("T_U_MONEY")
                 ->leftJoin("users","users.userid","=","T_U_MONEY.UserID")
                 ->leftJoin("T_U_SERVICEINFO","T_U_SERVICEINFO.UserID","=","T_U_MONEY.UserID")
@@ -180,9 +197,15 @@ class MoneyController extends Controller
                 ->whereNotIn("T_U_MONEY.UserID",[889,1095])
                 ->orderBy("T_U_MONEY.created_at","desc")
                 ->paginate(20);
+            $results=DB::table("T_U_MONEY")
+                ->where("T_U_MONEY.Type",1)
+                ->where("T_U_MONEY.Flag",1)
+                ->where("timestamp",">",$chooseTime)
+                ->whereNotIn("T_U_MONEY.UserID",[889,1095])
+                ->get();
         }else if($value==30){
-            $shortTime=$MoneyTotal['shortTime'];
-            $longTime=$MoneyTotal['longTime'];
+            $shortTime=$shortTimes;
+            $longTime=$longTimes;
             $datas=DB::table("T_U_MONEY")
                 ->leftJoin("users","users.userid","=","T_U_MONEY.UserID")
                 ->leftJoin("T_U_SERVICEINFO","T_U_SERVICEINFO.UserID","=","T_U_MONEY.UserID")
@@ -192,9 +215,15 @@ class MoneyController extends Controller
                 ->whereNotIn("T_U_MONEY.UserID",[889,1095])
                 ->orderBy("T_U_MONEY.created_at","desc")
                 ->paginate(20);
+            $results=DB::table("T_U_MONEY")
+                ->where("T_U_MONEY.Type",1)
+                ->where("T_U_MONEY.Flag",1)
+                ->whereNotIn("T_U_MONEY.UserID",[889,1095])
+                ->get();
+
         }else{
-            $shortTime=strtotime($MoneyTotal['shortTime']);
-            $longTime=strtotime($MoneyTotal['longTime'])+24*60*60;
+            $shortTime=strtotime($shortTimes);
+            $longTime=strtotime($longTimes)+24*60*60;
             $datas=DB::table("T_U_MONEY")
                 ->leftJoin("users","users.userid","=","T_U_MONEY.UserID")
                 ->leftJoin("T_U_SERVICEINFO","T_U_SERVICEINFO.UserID","=","T_U_MONEY.UserID")
@@ -205,16 +234,24 @@ class MoneyController extends Controller
                 ->whereNotIn("T_U_MONEY.UserID",[889,1095])
                 ->orderBy("T_U_MONEY.created_at","desc")
                 ->paginate(20);
-            $shortTime=($MoneyTotal['shortTime']);
-            $longTime=($MoneyTotal['longTime']);
+            $results=DB::table("T_U_MONEY")
+                ->where("T_U_MONEY.Type",1)
+                ->where("T_U_MONEY.Flag",1)
+                ->whereBetween("timestamp",[$shortTime,$longTime])
+                ->whereNotIn("T_U_MONEY.UserID",[889,1095])
+                ->get();
+            $shortTime=$shortTimes;
+            $longTime=$longTimes;
         }
         $money=0;
         $realMoney=0;
         $arrayUserIds=array();
+        foreach ($results as $result){
+            $money=$money+$result->Money;
+            $realMoney=$realMoney+$result->RealMoney/100;
+        }
         foreach ($datas as $key=>$data){
             $userid=$data->UserID;
-            $money=$money+$data->Money;
-            $realMoney=$realMoney+$data->RealMoney/100;
             if(!in_array($userid,$arrayUserIds)){
                 $arrayUserIds[]=$userid;
                 $recordCounts=DB::table("T_U_MONEY")->where("UserID",$userid)->where("T_U_MONEY.Type",1) ->where("T_U_MONEY.Flag",1)->count();
@@ -235,7 +272,7 @@ class MoneyController extends Controller
                 case "alipay":
                     $channel="支付宝App";
                     break;
-                case "alipay_pub_direct":
+                case "alipay_pc_direct":
                     $channel="支付宝PC";
                     break;
                 case "upacp":
@@ -244,8 +281,8 @@ class MoneyController extends Controller
                 case "upacp_pc":
                     $channel="银联PC";
                     break;
-                case "upacp_pc":
-                    $channel="苹果";
+                case "iap":
+                    $channel="苹果app";
                     break;
             }
             $data->Channel=$channel;

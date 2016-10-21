@@ -117,7 +117,7 @@
                         <td style="text-align:center">{{$data->created_at}}</td>
                         <td>
                             @if(!empty($data->ProjectID))
-                            <a href="http://ziyawang.com/project/{{$data->ProjectID}}">{{$data->Operates}}</a>
+                            <a href="http://ziyawang.com/project/{{$data->ProjectID}}" target="_blank">{{$data->Operates}}</a>
                             @else
                                 {{$data->Operates}}
                             @endif
