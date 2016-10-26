@@ -1,8 +1,8 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="{{asset('publish/index')}}" title="发布方列表" class="tip-bottom"><i class="icon-home"></i>发布方</a>
-        <a href="#" class="current">发布方详情</a>
+        <a href="{{asset('publish/index')}}" title="发布方列表" class="tip-bottom"><i class="icon-home"></i>用户</a>
+        <a href="#" class="current">用户详情</a>
     </div>
     @if(session("msg"))
         <div class="alert alert-success alert-dismissible" role="alert">

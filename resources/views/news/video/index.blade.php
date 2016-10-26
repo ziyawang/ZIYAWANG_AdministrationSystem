@@ -48,7 +48,11 @@
                         <td>{{$data->VideoTitle}}</td>
                         <td>{{$data->VideoDes}}</td>
                         <td>{{$data->Order}}</td>
-                        <td>{{$data->Flag}}</td>
+                        @if($data->Flag==0)
+                            <td>保存</td>
+                        @elseif($data->Flag==1)
+                            <td>保存并发布</td>
+                        @endif
                         <td>{{$data->PublishTime}}</td>
                         <td class="text-center">
                             <a class="btn btn-primary" href="{{url('video/update/'.$data->VideoID)}}"><i class="icon-pencil icon-white"></i></a>

@@ -442,7 +442,8 @@ class ServiceController extends Controller
             ->setCellValue('H1', '完善时间')
             ->setCellValue('I1', '审核时间')
             ->setCellValue('J1', '浏览次数')
-            ->setCellValue('K1', '收藏次数');
+            ->setCellValue('K1', '收藏次数')
+            ->setCellValue('L1', '查看次数');
         foreach ($datas as $key => $data) {
             if ($data->State == 0) {
                 $status = "待审核";
@@ -463,7 +464,8 @@ class ServiceController extends Controller
                 ->setCellValue('H' . $i, $data->created_at)
                 ->setCellValue('I' . $i, $data->updated_at)
                 ->setCellValue('J' . $i, $data->ViewCount)
-                ->setCellValue('K' . $i, $data->CollectionCount);
+                ->setCellValue('K' . $i, $data->CollectionCount)
+                ->setCellValue('L' . $i, $data->CheckCount);
         }
         $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel, 'Excel5');
         header("Pragma: public");

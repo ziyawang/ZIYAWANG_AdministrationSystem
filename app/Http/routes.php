@@ -75,6 +75,8 @@ Route::post('check/update', 'Admin\CheckController@update');
 Route::any('check/upload', 'Admin\CheckController@upload');
 Route::post('check/handle', 'Admin\CheckController@handle');
 Route::post('check/editHandle', 'Admin\CheckController@editHandle');
+Route::get('check/collectDetail/{projectId}', 'Admin\CheckController@collectDetail');
+Route::get('check/viewDetail/{projectId}', 'Admin\CheckController@viewDetail');
 
 //合作管理中的订单管理路由
 Route::any('order/index', 'Admin\OrderController@index');
@@ -154,6 +156,9 @@ Route::any("money/index",'Admin\MoneyController@index');
 Route::any("money/detail/{userId}",'Admin\MoneyController@detail');
 Route::any("money/ajax",'Admin\MoneyController@ajax');   
 Route::any("money/resultData",'Admin\MoneyController@ajaxData');
+Route::any("money/consume",'Admin\MoneyController@consume');
+Route::any("money/conDetail/{userId}",'Admin\MoneyController@conDetail');
+Route::any("money/consumeData",'Admin\MoneyController@consumeData');
 });
 
 

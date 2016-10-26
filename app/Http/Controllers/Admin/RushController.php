@@ -12,19 +12,32 @@ class RushController extends Controller
 {
     //已经被抢单的信息
     public  function index(){
-        $datas=DB::table("T_P_RUSHPROJECT")
-                    ->leftJoin("T_P_PROJECTINFO","T_P_RUSHPROJECT.ProjectID","=","T_P_PROJECTINFO.ProjectID")
-                    ->leftJoin("users","T_P_PROJECTINFO.UserID","=","users.userid")
-                    ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTINFO.TypeID","=","T_P_PROJECTTYPE.TypeID")
-                    ->select("T_P_RUSHPROJECT.ProjectID","T_P_PROJECTTYPE.TypeName","users.phonenumber")
+        $results=DB::table("T_P_RUSHPROJECT")
                     ->where("T_P_RUSHPROJECT.CooperateFlag",0)
-                    ->orderBy("T_P_RUSHPROJECT.ProjectID","desc")
-                    ->distinct()
-                    ->paginate(20);
-        foreach($datas as $result){
-            $projectId=$result->ProjectID;
+                    ->orderBy("T_P_RUSHPROJECT.RushTime","desc")
+                    ->get();
+        $projectArr=array();
+        $rushProIds=array();
+        foreach ($results as $result){
+            $projectid=$result->ProjectID;
+            if(!in_array($projectid,$projectArr)){
+                $projectArr[]=$projectid;
+                $rushProIds[]=$result->RushProID;
+            }
+        }
+        $datas=DB::table("T_P_RUSHPROJECT")
+            ->leftJoin("T_P_PROJECTINFO","T_P_RUSHPROJECT.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+            ->leftJoin("users","T_P_PROJECTINFO.UserID","=","users.userid")
+            ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTINFO.TypeID","=","T_P_PROJECTTYPE.TypeID")
+            ->select("T_P_RUSHPROJECT.ProjectID","T_P_PROJECTTYPE.TypeName","users.phonenumber")
+            ->where("T_P_RUSHPROJECT.CooperateFlag",0)
+            ->whereIn("T_P_RUSHPROJECT.RushProID",$rushProIds)
+            ->orderBy("T_P_RUSHPROJECT.ProjectID","desc")
+            ->paginate(20);
+        foreach($datas as $data){
+            $projectId=$data->ProjectID;
             $counts=DB::table("T_P_RUSHPROJECT")->where("ProjectID",$projectId)->count();
-            $result->count=$counts;
+            $data->count=$counts;
         }
         return view("together/rush/index",compact("datas"));
 

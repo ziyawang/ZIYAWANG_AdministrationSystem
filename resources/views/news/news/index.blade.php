@@ -48,7 +48,11 @@
                             <td class="newsTitle">{{$data->NewsTitle}}</td>
                             <td class="newsAbstract"><div>{{$data->Brief}}</div></td>
                             <td>{{$data->NewsAuthor}}</td>
-                            <td>{{$data->Flag}}</td>
+                            @if($data->Flag==0)
+                                <td>保存</td>
+                            @elseif($data->Flag==1)
+                                <td>保存并发布</td>
+                            @endif
                             <td class="newsReleasetime">{{$data->PublishTime}}</td>
                             <td class="newsBtn">
                                 <a class="btn btn-primary" href="{{url('news/update/'.$data->NewsID)}}"><i class="icon-pencil icon-white"></i></a>

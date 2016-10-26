@@ -2,8 +2,8 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
     <div id="breadcrumb">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>发布方</a>
-        <a href="#" class="current">发布方列表</a>
+        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>用户</a>
+        <a href="#" class="current">用户列表</a>
         <a href="#" class="pull-right" id="export"> <div class=" btn btn-primary ">导出</div></a>
     </div>
     @if(session("msg"))
@@ -111,6 +111,7 @@
                     <th>注册时间</th>
                     <th>当前状态</th>
                     <th>角色</th>
+                    <th>注册渠道</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -134,6 +135,7 @@
                         @else
                             <td>注册</td>
                         @endif
+                        <td>{{$data->Channel}}</td>
                         <td>
                             <a href="{{url('publish/detail/'.$data->userid)}}">查看</a>
                         </td>

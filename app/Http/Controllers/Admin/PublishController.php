@@ -58,6 +58,18 @@ class PublishController extends Controller
             }
             $number=1;
             foreach($datas as $data){
+                $channel=$data->Channel;
+                switch($channel){
+                    case "PC":
+                        $data->Channel="电脑";
+                        break;
+                    case "IOS":
+                        $data->Channel="苹果";
+                        break;
+                    case "ANDROID":
+                        $data->Channel="安卓";
+                        break;
+                }
                 $data->number=$number;
                 $userId=$data->userid;
                 $results=DB::table("T_U_SERVICEINFO")->where('userid',$userId)->count();
@@ -117,6 +129,18 @@ class PublishController extends Controller
             }
             $number=1;
             foreach($datas as $data){
+                $channel=$data->Channel;
+                switch($channel){
+                    case "PC":
+                        $data->Channel="电脑";
+                        break;
+                    case "IOS":
+                        $data->Channel="苹果";
+                        break;
+                    case "ANDROID":
+                        $data->Channel="安卓";
+                        break;
+                }
                 $userId=$data->userid;
                 $data->number=$number;
                 $results=DB::table("T_U_SERVICEINFO")->where('userid',$userId)->count();
@@ -141,6 +165,18 @@ class PublishController extends Controller
         $datas=DB::table("users")->orderBy("created_at","desc")->paginate(20);
         $number=1;
         foreach($datas as $data){
+            $channel=$data->Channel;
+            switch($channel){
+                case "PC":
+                    $data->Channel="电脑";
+                    break;
+                case "IOS":
+                    $data->Channel="苹果";
+                    break;
+                case "ANDROID":
+                    $data->Channel="安卓";
+                    break;
+            }
             $userId=$data->userid;
             $data->number=$number;
             $results=DB::table("T_U_SERVICEINFO")->where('userid',$userId)->count();
@@ -209,6 +245,18 @@ class PublishController extends Controller
             }
         }
         foreach($datas as $data){
+            $channel=$data->Channel;
+            switch($channel){
+                case "PC":
+                    $data->Channel="电脑";
+                    break;
+                case "IOS":
+                    $data->Channel="苹果";
+                    break;
+                case "ANDROID":
+                    $data->Channel="安卓";
+                    break;
+            }
             $userId=$data->userid;
             $results=DB::table("T_U_SERVICEINFO")->where('userid',$userId)->count();
             $pubs=DB::table("T_P_PROJECTINFO")->where("userid",$userId)->count();
@@ -235,7 +283,8 @@ class PublishController extends Controller
                 ->setCellValue('A1', '姓名')
                 ->setCellValue('B1', '注册手机')
                 ->setCellValue('C1', '注册时间')
-                ->setCellValue('D1', '角色');
+                ->setCellValue('D1', '角色')
+                ->setCellValue('E1', '注册渠道');
         foreach ($datas as $key => $data) {
                 if($data->role==1){
                     $role="服务方";
@@ -249,7 +298,8 @@ class PublishController extends Controller
                     ->setCellValue('A' . $i, $data->username)
                     ->setCellValue('B' . $i, $data->phonenumber)
                     ->setCellValue('C' . $i, $data->created_at)
-                    ->setCellValue('D' . $i, $role);
+                    ->setCellValue('D' . $i, $role)
+                    ->setCellValue('E' . $i, $data->Channel);
 
             }
             $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel, 'Excel5');

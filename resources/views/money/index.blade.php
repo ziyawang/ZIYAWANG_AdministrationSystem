@@ -15,54 +15,6 @@
         <a href="#" class="current">芽币统计</a>
         {{--<a href="#" class="pull-right" id="export"> <div class=" btn btn-primary ">导出</div></a>--}}
     </div>
-    {{--<div class="widget-content nopadding">
-        <form class="form-horizontal" method="post" action="{{asset('data/index')}}" name="basic_validate"  novalidate="novalidate" />
-        <table  class="table table-bordered table-striped publishTable">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            --}}{{-- <td>
-                 <div class="control-group">
-                     <label class="control-label">手机号</label>
-                     <div class="controls" >
-                         @if(!empty($phoneNumber))
-                             <input type="text" name="connectPhone"  id="connectPhone" value="{{$phoneNumber}}"  style="width:100px"/>
-                         @else
-                             <input type="text" name="connectPhone" id="connectPhone" value="" style="width:100px"/>
-                         @endif
-                     </div>
-                 </div>
-             </td>--}}{{--
-            <td>
-                <div class="control-group">
-                    <label class="control-label checkState">公司名称</label>
-                    <div class="controls selectBox" >
-                        @if(!empty($serviceName))
-                            <input type="text" name="serviceName"  id="serviceName" value="{{$serviceName}}"  style="width:100px"/>
-                        @else
-                            <input type="text" name="serviceName" id="serviceName" value="" style="width:100px"/>
-                        @endif
-                    </div>
-                </div>
-            </td>
-            <td class="tdTime">
-                <div class="control-group ">
-                    <label class="control-label">时间</label>
-                    <div class="controls" >
-                        @if(!empty($longTime) && !empty($shortTime))
-                            <input type="text" name="shortTime"  id="shortTime" value="{{$shortTime}}"  style="width:100px"/>&nbsp&nbsp&nbsp&nbsp~&nbsp&nbsp&nbsp&nbsp <input type="text" name="longTime"  id="longTime" value="{{$longTime}}"  style="width:100px"/>
-                        @else
-                            <input type="text" name="shortTime" id="shortTime" value="" style="width:100px"/>&nbsp&nbsp&nbsp&nbsp~&nbsp&nbsp&nbsp&nbsp <input type="text" name="longTime"  id="longTime" value=""  style="width:100px"/>
-                        @endif
-                    </div>
-                </div>
-            </td>
-            <td class="tdSearch">
-                <div class="form-actions searchBox">
-                    <input type="submit" value="搜索" class="btn btn-success" />
-                </div>
-            </td>
-        </table>
-        </form>
-    </div>--}}
     <div style="height:120px;margin-bottom:15px;margin-top: 5px;">
         <div style="height:60px;margin-left:40px;">
             <div style="float: right">
@@ -121,18 +73,18 @@
        $(function () {
             var value=$("input[type='radio']:checked").val();
            if(value==1){
-               var longDataTime=$("#longTime").val();
-               var shortDataTime=$("#shortTime").val();
+               var longdataMoneyTime=$("#longTime").val();
+               var shortdataMoneyTime=$("#shortTime").val();
            }else{
                var date = new Date();
                var Y = date.getFullYear() + '-';
                var  M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
                var D = date.getDate() + ' ';
-               var longDataTime = Y+M+D;
-               var shortDataTime=Y+M+D;
+               var longdataMoneyTime = Y+M+D;
+               var shortdataMoneyTime=Y+M+D;
            }
-           $("#longTime").val(longDataTime);
-           $("#shortTime").val(shortDataTime);
+           $("#longTime").val(longdataMoneyTime);
+           $("#shortTime").val(shortdataMoneyTime);
            $('#longTime').datetimepicker({
                minView: "month", //选择日期后，不会再跳转去选择时分秒
                format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
@@ -155,7 +107,7 @@
              var shortTime=$("#shortTime").val();
              var longTime=$("#longTime").val();
              var serviceName=$("#serviceName").val()
-             var url = 'http://admin.ziyawang.com/data/export?shortTime='+shortTime+"&longTime="+longTime+"&serviceName="+serviceName;
+             var url = 'http://admin.ziyawang.com/dataMoney/export?shortTime='+shortTime+"&longTime="+longTime+"&serviceName="+serviceName;
              $('#export').attr('href',url);
          });
      </script>--}}
@@ -178,34 +130,34 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($datas as $data)
+                @foreach($dataMoneys as $dataMoney)
                     <tr>
-                        <td style="text-align:center">{{$data->phonenumber}}</td>
-                        @if($data->role==1)
+                        <td style="text-align:center">{{$dataMoney->phonenumber}}</td>
+                        @if($dataMoney->role==1)
                             <td>服务方</td>
-                        @elseif($data->role==2)
+                        @elseif($dataMoney->role==2)
                             <td>发布方</td>
                         @else
                             <td>注册</td>
                         @endif
-                        @if(!empty($data->username))
-                            <td style="text-align:center">{{$data->username}}</td>
+                        @if(!empty($dataMoney->username))
+                            <td style="text-align:center">{{$dataMoney->username}}</td>
                         @else
                             <td style="text-align:center"></td>
                         @endif
-                        @if(!empty($data->ServiceName))
-                            <td style="text-align:center"><a href="http://ziyawang.com/service/{{$data->ServiceID}}" target="_blank">{{$data->ServiceName}}</a></td>
+                        @if(!empty($dataMoney->ServiceName))
+                            <td style="text-align:center"><a href="http://ziyawang.com/service/{{$dataMoney->ServiceID}}" target="_blank">{{$dataMoney->ServiceName}}</a></td>
                         @else
                             <td style="text-align:center"></td>
                         @endif
-                        <td style="text-align:center">{{$data->Money}}</td>
-                        <td style="text-align:center">{{$data->RealMoney/100}}</td>
-                        <td style="text-align:center">{{$data->Channel}}</td>
-                        <td style="text-align:center">{{$data->OrderNumber}}</td>
-                        <td style="text-align:center">{{$data->created_at}}</td>
-                        <td style="text-align:center">{{$data->recordCounts}}</td>
+                        <td style="text-align:center">{{$dataMoney->Money}}</td>
+                        <td style="text-align:center">{{$dataMoney->RealMoney/100}}</td>
+                        <td style="text-align:center">{{$dataMoney->Channel}}</td>
+                        <td style="text-align:center">{{$dataMoney->OrderNumber}}</td>
+                        <td style="text-align:center">{{$dataMoney->created_at}}</td>
+                        <td style="text-align:center">{{$dataMoney->recordCounts}}</td>
                         <td>
-                            <a href="{{asset('money/detail/'.$data->UserID)}}">查看详情</a>
+                            <a href="{{asset('money/detail/'.$dataMoney->UserID)}}">查看详情</a>
                         </td>
                     </tr>
                 @endforeach
@@ -213,7 +165,7 @@
             </table>
         </div>
         <div class="pagination alternate">
-            {!! $datas->appends(["value"=>$value,"shortTime"=>$shortTime,"longTime"=>$longTime])->render() !!}
+            {!! $dataMoneys->appends(["value"=>$value,"shortTime"=>$shortTime,"longTime"=>$longTime])->render() !!}
         </div>
     </div>
 @endsection

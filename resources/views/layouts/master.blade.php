@@ -53,6 +53,7 @@
             $Auths = unserialize(Session::get('Auths'));
 
         ?>
+        @if(is_array($pAuths) ? $pAuths : array())
         @foreach($pAuths as $pAuth)
             <li class="submenu">
                 <a href="#"><i class="{{$pAuth->Class}}"></i> <span>{{$pAuth->AuthName}}</span></a>
@@ -65,6 +66,7 @@
             </ul>
         </li>
         @endforeach
+        @endif
     </ul>
 
 </div>

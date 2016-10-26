@@ -136,6 +136,7 @@
                     <th>约谈次数</th>
                     <th>浏览次数</th>
                     <th>收藏次数</th>
+                    <th>发布渠道</th>
                     <th>审核状态</th>
                     <th>备注</th>
                     <th>操作</th>
@@ -150,9 +151,10 @@
                         <td>{{$data->PublishTime}}</td>
                         <td>{{$data->ProArea}}</td>
                         <td>{{$data->TypeName}}</td>
-                        <td>{{$data->counts}}</td>
-                        <td>{{$data->ViewCount}}</td>
-                        <td>{{$data->CollectionCount}}</td>
+                        <td><a href="{{asset("rush/detail/".$data->ProjectID)}}">{{$data->counts}}</a></td>
+                        <td><a href="{{asset("check/viewDetail/".$data->ProjectID)}}">{{$data->ViewCount}}</a></td>
+                        <td><a href="{{asset("check/collectDetail/".$data->ProjectID)}}">{{$data->CollectionCount}}</a></td>
+                        <td>{{$data->Channel}}</td>
                         @if($data->State==0)
                             <td><p style="color: #149bdf">待审核</p></td>
                         @elseif($data->State==1)

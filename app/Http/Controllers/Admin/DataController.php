@@ -12,10 +12,7 @@ class DataController extends Controller
 {
     //获取log内容,并在后台展示
     public function index(){
-        $this->lastData();
-        $date = date("Ymd", time());
-        $path = '/var/www/html/ziyaapi/storage/logs/data/' . $date . '.log';
-        // $contents=unserialize($contents);
+        $path = '/var/www/html/ziyaapi/storage/logs/data/login.log';
         $fp = fopen($path, "r");
         if ($fp) {
             $contents = array();
@@ -23,13 +20,13 @@ class DataController extends Controller
                 $content = unserialize(fgets($fp));
                 $contents[] = $content;
             }
+
         } else {
             echo "打开文件失败";
         }
         fclose($fp);
-        // var_dump($contents);die;
+        file_put_contents($path,"");
         foreach ($contents as $value) {
-            // var_dump($value['phonenumber']);die;
             if ($value) {
                 $time = date("Y-m-d H:i:s", $value['time']);
                 $counts = DB::table("T_M_RECORD")->where(['PhoneNumber' => $value['phonenumber'], "LoginTime" => $time])->count();
@@ -44,91 +41,100 @@ class DataController extends Controller
         }
         if(isset($_POST['_token'])){
             if(!empty($_POST["longTime"]) && !empty($_POST['shortTime'])){
-                $longTime=$_POST['longTime'];
+                $longTimes=strtotime($_POST['longTime'])+24*60*60;
+                $longTime=date("Y-m-d",$longTimes);
                 $shortTime=$_POST['shortTime'];
-                $results = DB::table("T_M_RECORD")->select("PhoneNumber")->whereBetween("LoginTime",[$shortTime,$longTime])->get();
+                $results = DB::table("T_M_RECORD")->select("PhoneNumber","RecordID")->whereBetween("LoginTime",[$shortTime,$longTime])->orderBy("LoginTime","desc")->get();
+                $longTime=$_POST['longTime'];
             }else{
                 $longTime="";
                 $shortTime="";
-                $results = DB::table("T_M_RECORD")->select("PhoneNumber")->get();
+                $results = DB::table("T_M_RECORD")->select("PhoneNumber","RecordID")->orderBy("LoginTime","desc")->get();
             }
         } elseif(!empty($_GET)){
             if(!empty($_GET['longTime']) && !empty($_GET['shortTime'])){
-                $longTime=$_GET['longTime'];
+                $longTimes=strtotime($_GET['longTime'])+24*60*60;
+                $longTime=date("Y-m-d",$longTimes);
                 $shortTime=$_GET['shortTime'];
-                $results = DB::table("T_M_RECORD")->select("PhoneNumber")->whereBetween("LoginTime",[$shortTime,$longTime])->get();
+                $results = DB::table("T_M_RECORD")->select("PhoneNumber","RecordID")->whereBetween("LoginTime",[$shortTime,$longTime])->orderBy("LoginTime","desc")->get();
+                $longTime=$_GET['longTime'];
             }else{
                 $longTime="";
                 $shortTime="";
-                $results = DB::table("T_M_RECORD")->select("PhoneNumber")->get();
+                $results = DB::table("T_M_RECORD")->select("PhoneNumber","RecordID")->orderBy("LoginTime","desc")->get();
              }
         }else{
             $longTime="";
             $shortTime="";
-            $results = DB::table("T_M_RECORD")->select("PhoneNumber")->get();
+            $results = DB::table("T_M_RECORD")->select("PhoneNumber","RecordID")->orderBy("LoginTime","desc")->get();
         }
 
             $dbs = array();
+            $recordIds=array();
             foreach ($results as $result) {
                 $phoneNumber = $result->PhoneNumber;
-                if (in_array($phoneNumber, $dbs)) {
-                    continue;
-                } else {
+                if (!in_array($phoneNumber, $dbs)) {
                     $dbs[] = $phoneNumber;
+                    $recordIds[]=$result->RecordID;
                 }
             }
             if(isset($_POST['_token'])){
                 $serviceName=!empty($_POST['serviceName']) ? $_POST['serviceName'] : "";
                 if(!empty($_POST['serviceName'])){
-                    $datas = DB::table("users")
+                    $datas = DB::table("T_M_RECORD")
+                        ->leftJoin("users","users.phonenumber","=","T_M_RECORD.PhoneNumber")
                         ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
-                        ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at")
+                        ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
                         ->where("ServiceName","like","%".$serviceName."%")
-                        ->whereIn("phonenumber", $dbs)
+                        ->whereIn("RecordID",  $recordIds)
+                        ->orderBy("LoginTime","desc")
                         ->paginate(20);
                 }else{
-                    $datas = DB::table("users")
+                    $datas = DB::table("T_M_RECORD")
+                        ->leftJoin("users","users.phonenumber","=","T_M_RECORD.PhoneNumber")
                         ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
-                        ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at")
-                        ->whereIn("phonenumber", $dbs)
+                        ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
+                        ->whereIn("RecordID",  $recordIds)
+                        ->orderBy("LoginTime","desc")
                         ->paginate(20);
                 }
             }elseif(!empty($_GET)){
                 $serviceName=!empty($_GET['serviceName']) ? $_GET['serviceName'] : "";
                 if(!empty($_GET['serviceName'])){
-                    $datas = DB::table("users")
+                    $datas = DB::table("T_M_RECORD")
+                        ->leftJoin("users","users.phonenumber","=","T_M_RECORD.PhoneNumber")
                         ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
-                        ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at")
+                        ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
                         ->where('serviceName',"like","%".$serviceName."%")
-                        ->whereIn("phonenumber", $dbs)
+                        ->whereIn("RecordID",  $recordIds)
+                        ->orderBy("LoginTime","desc")
                         ->paginate(20);
                 }else{
                     $serviceName="";
-                    $datas = DB::table("users")
+                    $datas = DB::table("T_M_RECORD")
+                        ->leftJoin("users","users.phonenumber","=","T_M_RECORD.PhoneNumber")
                         ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
-                        ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at")
-                        ->whereIn("phonenumber", $dbs)
+                        ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
+                        ->whereIn("RecordID",  $recordIds)
+                        ->orderBy("LoginTime","desc")
                         ->paginate(20);
                 }
             }else{
                 $serviceName="";
-                $datas = DB::table("users")
+                $datas = DB::table("T_M_RECORD")
+                    ->leftJoin("users","users.phonenumber","=","T_M_RECORD.PhoneNumber")
                     ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
-                    ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at")
-                    ->whereIn("phonenumber", $dbs)
+                    ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
+                    ->whereIn("RecordID",  $recordIds)
+                    ->orderBy("LoginTime","desc")
                     ->paginate(20);
             }
 
             foreach ($dbs as $db) {
                 $counts = DB::table("T_M_RECORD")->where("PhoneNumber", $db)->count();
-                $lastLogin = DB::table("T_M_RECORD")->select("LoginTime")->where("PhoneNumber", $db)->orderBy("LoginTime", "desc")->take(1)->get();
-                foreach ($lastLogin as $value) {
-                    $lastLogin = $value->LoginTime;
-                }
                 foreach ($datas as $data) {
                     if ($data->phonenumber == $db) {
                         $data->counts = $counts;
-                        $data->lastLogin = $lastLogin;
                         $userId = $data->userid;
                         $results = DB::table("T_U_SERVICEINFO")->where('userid', $userId)->count();
                         $pubs = DB::table("T_P_PROJECTINFO")->where("userid", $userId)->count();
@@ -197,97 +203,90 @@ class DataController extends Controller
     
     //用户行为中部分数据的导出功能
     public function export(){
-        set_time_limit(0);
-        ini_set('memory_limit', '512M');
-        $this->lastData();
-        $date = date("Ymd", time());
-        $path = '/var/www/html/ziyaapi/storage/logs/data/' . $date . '.log';
-        // $contents=unserialize($contents);
-        $fp = fopen($path, "r");
-        if ($fp) {
-            $contents = array();
-            for ($i = 1; !feof($fp); $i++) {
-                $content = unserialize(fgets($fp));
-                $contents[] = $content;
-            }
-        } else {
-            echo "打开文件失败";
-        }
-        fclose($fp);
-        // var_dump($contents);die;
-        foreach ($contents as $value) {
-            // var_dump($value['phonenumber']);die;
-            if ($value) {
-                $time = date("Y-m-d H:i:s", $value['time']);
-                $counts = DB::table("T_M_RECORD")->where(['PhoneNumber' => $value['phonenumber'], "LoginTime" => $time])->count();
-                if (!$counts) {
-                    $inserts = DB::table("T_M_RECORD")->insert([
-                        "PhoneNumber" => $value['phonenumber'],
-                        "LoginTime" => $time,
-                        "IP" => $value['ip']
-                    ]);
-                }
-            }
-        }
         if(!empty($_GET)){
             if(!empty($_GET['longTime']) && !empty($_GET['shortTime'])){
-                $longTime=$_GET['longTime'];
+                $longTimes=strtotime($_GET['longTime'])+24*60*60;
+                $longTime=date("Y-m-d",$longTimes);
                 $shortTime=$_GET['shortTime'];
-                $results = DB::table("T_M_RECORD")->select("PhoneNumber")->whereBetween("LoginTime",[$shortTime,$longTime])->get();
+                $results = DB::table("T_M_RECORD")->select("PhoneNumber","RecordID")->whereBetween("LoginTime",[$shortTime,$longTime])->orderBy("LoginTime","desc")->get();
+                $longTime=$_GET['longTime'];
             }else{
                 $longTime="";
                 $shortTime="";
-                $results = DB::table("T_M_RECORD")->select("PhoneNumber")->get();
+                $results = DB::table("T_M_RECORD")->select("PhoneNumber","RecordID")->orderBy("LoginTime","desc")->get();
             }
         }else{
             $longTime="";
-           $shortTime="";
-           $results = DB::table("T_M_RECORD")->select("PhoneNumber")->get();
+            $shortTime="";
+            $results = DB::table("T_M_RECORD")->select("PhoneNumber","RecordID")->orderBy("LoginTime","desc")->get();
         }
+
         $dbs = array();
+        $recordIds=array();
         foreach ($results as $result) {
             $phoneNumber = $result->PhoneNumber;
-            if (in_array($phoneNumber, $dbs)) {
-                continue;
-            } else {
+            if (!in_array($phoneNumber, $dbs)) {
                 $dbs[] = $phoneNumber;
+                $recordIds[]=$result->RecordID;
             }
         }
-        if(!empty($_GET)){
+        if(isset($_POST['_token'])){
+            $serviceName=!empty($_POST['serviceName']) ? $_POST['serviceName'] : "";
+            if(!empty($_POST['serviceName'])){
+                $datas = DB::table("T_M_RECORD")
+                    ->leftJoin("users","users.phonenumber","=","T_M_RECORD.PhoneNumber")
+                    ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
+                    ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
+                    ->where("ServiceName","like","%".$serviceName."%")
+                    ->whereIn("RecordID",  $recordIds)
+                    ->orderBy("LoginTime","desc")
+                    ->get();
+            }else{
+                $datas = DB::table("T_M_RECORD")
+                    ->leftJoin("users","users.phonenumber","=","T_M_RECORD.PhoneNumber")
+                    ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
+                    ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
+                    ->whereIn("RecordID",  $recordIds)
+                    ->orderBy("LoginTime","desc")
+                    ->get();
+            }
+        }elseif(!empty($_GET)){
             $serviceName=!empty($_GET['serviceName']) ? $_GET['serviceName'] : "";
             if(!empty($_GET['serviceName'])){
-                $datas = DB::table("users")
+                $datas = DB::table("T_M_RECORD")
+                    ->leftJoin("users","users.phonenumber","=","T_M_RECORD.PhoneNumber")
                     ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
-                    ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at")
+                    ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
                     ->where('serviceName',"like","%".$serviceName."%")
-                    ->whereIn("phonenumber", $dbs)
+                    ->whereIn("RecordID",  $recordIds)
+                    ->orderBy("LoginTime","desc")
                     ->get();
             }else{
                 $serviceName="";
-                $datas = DB::table("users")
+                $datas = DB::table("T_M_RECORD")
+                    ->leftJoin("users","users.phonenumber","=","T_M_RECORD.PhoneNumber")
                     ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
-                    ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at")
-                    ->whereIn("phonenumber", $dbs)
+                    ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
+                    ->whereIn("RecordID",  $recordIds)
+                    ->orderBy("LoginTime","desc")
                     ->get();
             }
         }else{
             $serviceName="";
-            $datas = DB::table("users")
+            $datas = DB::table("T_M_RECORD")
+                ->leftJoin("users","users.phonenumber","=","T_M_RECORD.PhoneNumber")
                 ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
-                ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at")
-                ->whereIn("phonenumber", $dbs)
+                ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
+                ->whereIn("RecordID",  $recordIds)
+                ->orderBy("LoginTime","desc")
                 ->get();
         }
+
         foreach ($dbs as $db) {
             $counts = DB::table("T_M_RECORD")->where("PhoneNumber", $db)->count();
-            $lastLogin = DB::table("T_M_RECORD")->select("LoginTime")->where("PhoneNumber", $db)->orderBy("LoginTime", "desc")->take(1)->get();
-            foreach ($lastLogin as $value) {
-                $lastLogin = $value->LoginTime;
-            }
             foreach ($datas as $data) {
                 if ($data->phonenumber == $db) {
                     $data->counts = $counts;
-                    $data->lastLogin = $lastLogin;
                     $userId = $data->userid;
                     $results = DB::table("T_U_SERVICEINFO")->where('userid', $userId)->count();
                     $pubs = DB::table("T_P_PROJECTINFO")->where("userid", $userId)->count();
@@ -348,7 +347,7 @@ class DataController extends Controller
                 ->setCellValue('D' . $i, $data->counts)
                 ->setCellValue('E' . $i, $data->ServiceType)
                 ->setCellValue('F' . $i, $data->created_at)
-                ->setCellValue('G' . $i, $data->lastLogin);
+                ->setCellValue('G' . $i, $data->LoginTime);
 
         }
         $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel, 'Excel5');

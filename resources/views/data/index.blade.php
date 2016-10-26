@@ -126,7 +126,7 @@
                                 @endif
                                 <td style="text-align:center">{{$data->counts}}</td>
                                  <td style="text-align:center">{{$data->created_at}}</td>
-                                <td style="text-align:center">{{$data->lastLogin}}</td>
+                                <td style="text-align:center">{{$data->LoginTime}}</td>
                                 <td>
                                     <a href="{{url('data/detail/'.$data->phonenumber)}}">查看详情</a>
                                 </td>
