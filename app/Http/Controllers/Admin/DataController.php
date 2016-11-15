@@ -34,7 +34,8 @@ class DataController extends Controller
                     $inserts = DB::table("T_M_RECORD")->insert([
                         "PhoneNumber" => $value['phonenumber'],
                         "LoginTime" => $time,
-                        "IP" => $value['ip']
+                        "IP" => $value['ip'],
+                        "Channel"=>$value['channel']
                     ]);
                 }
             }
@@ -131,7 +132,14 @@ class DataController extends Controller
             }
 
             foreach ($dbs as $db) {
-                $counts = DB::table("T_M_RECORD")->where("PhoneNumber", $db)->count();
+                if(!empty($shortTime) && !empty($longTime)){
+                    $Time=date("Y-m-d",strtotime($longTime)+24*60*60);
+                    $counts = DB::table("T_M_RECORD")->where("PhoneNumber", $db)->whereBetween("LoginTime",[$shortTime,$Time])->count();
+                    $longTime=$longTime;
+                }else{
+                    $counts = DB::table("T_M_RECORD")->where("PhoneNumber", $db)->count();
+                }
+
                 foreach ($datas as $data) {
                     if ($data->phonenumber == $db) {
                         $data->counts = $counts;
@@ -162,11 +170,9 @@ class DataController extends Controller
         return view("data/index", compact("datas","longTime","shortTime","serviceName"));
     }
     //上一天的数据
-    public function lastData()
+    public function view($userid)
         {
-            $date = date("Ymd", time() - 60 * 60 * 24);
-            $path = '/var/www/html/ziyaapi/storage/logs/data/' . $date . '.log';
-            // $contents=unserialize($contents);
+            $path = '/var/www/html/ziyaapi/storage/logs/data/check.log';
             $fp = fopen($path, "r");
             if ($fp) {
                 $contents = array();
@@ -174,32 +180,52 @@ class DataController extends Controller
                     $content = unserialize(fgets($fp));
                     $contents[] = $content;
                 }
+
             } else {
                 echo "打开文件失败";
             }
             fclose($fp);
-            // var_dump($contents);die;
+            file_put_contents($path,"");
             foreach ($contents as $value) {
-                // var_dump($value['phonenumber']);die;
                 if ($value) {
                     $time = date("Y-m-d H:i:s", $value['time']);
-                    $counts = DB::table("T_M_RECORD")->where(['PhoneNumber' => $value['phonenumber'], "LoginTime" => $time])->count();
+                    $counts = DB::table("T_M_VIEW")->where(["UserID" => $value['userid'], "created_at" => $time])->count();
                     if (!$counts) {
-                        $results = DB::table("T_M_RECORD")->insert([
-                            "PhoneNumber" => $value['phonenumber'],
-                            "LoginTime" => $time,
-                            "IP" => $value['ip']
+                        $inserts = DB::table("T_M_VIEW")->insert([
+                            "UserID" => $value['userid'],
+                            "Type"=>$value['type'],
+                            "ItemID"=>$value['itemid'],
+                            "IP" => $value['ip'],
+                            "created_at"=>$time
                         ]);
                     }
                 }
             }
+            $datas=DB::table("T_M_VIEW")->where("UserID",$userid)->orderBy("created_at","desc")->paginate(20);
+            return view("data/view",compact('datas'));
+            
+            
         }
     
     //用户登录平台的详细行为
-    public function detail($phoneNumber){
-            $datas = DB::table("T_M_RECORD")->where("PhoneNumber", $phoneNumber)->orderBy("LoginTime", "desc")->paginate(20);
+    public function detail($phoneNumber,$longTime,$shortTime){
+        $longTimes=date("Y-m-d",strtotime($longTime)+24*60*60);
+        $shortTimes=$shortTime;
+            $datas = DB::table("T_M_RECORD")
+                ->where("PhoneNumber", $phoneNumber)
+                ->whereBetween("LoginTime",[$shortTimes,$longTimes])
+                ->orderBy("LoginTime", "desc")
+                ->paginate(20);
             return view("data/detail", compact("datas"));
         }
+    //用户登录平台的详细行为
+    public function countDetail($phoneNumber){
+        $datas = DB::table("T_M_RECORD")
+            ->where("PhoneNumber", $phoneNumber)
+            ->orderBy("LoginTime", "desc")
+            ->paginate(20);
+        return view("data/detail", compact("datas"));
+    }
     
     //用户行为中部分数据的导出功能
     public function export(){
@@ -209,7 +235,7 @@ class DataController extends Controller
                 $longTime=date("Y-m-d",$longTimes);
                 $shortTime=$_GET['shortTime'];
                 $results = DB::table("T_M_RECORD")->select("PhoneNumber","RecordID")->whereBetween("LoginTime",[$shortTime,$longTime])->orderBy("LoginTime","desc")->get();
-                $longTime=$_GET['longTime'];
+
             }else{
                 $longTime="";
                 $shortTime="";
@@ -221,14 +247,10 @@ class DataController extends Controller
             $results = DB::table("T_M_RECORD")->select("PhoneNumber","RecordID")->orderBy("LoginTime","desc")->get();
         }
 
-        $dbs = array();
+
         $recordIds=array();
         foreach ($results as $result) {
-            $phoneNumber = $result->PhoneNumber;
-            if (!in_array($phoneNumber, $dbs)) {
-                $dbs[] = $phoneNumber;
-                $recordIds[]=$result->RecordID;
-            }
+            $recordIds[]=$result->RecordID;
         }
         if(isset($_POST['_token'])){
             $serviceName=!empty($_POST['serviceName']) ? $_POST['serviceName'] : "";
@@ -238,7 +260,7 @@ class DataController extends Controller
                     ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
                     ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
                     ->where("ServiceName","like","%".$serviceName."%")
-                    ->whereIn("RecordID",  $recordIds)
+                    ->whereIn("RecordID",$recordIds)
                     ->orderBy("LoginTime","desc")
                     ->get();
             }else{
@@ -246,7 +268,7 @@ class DataController extends Controller
                     ->leftJoin("users","users.phonenumber","=","T_M_RECORD.PhoneNumber")
                     ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
                     ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
-                    ->whereIn("RecordID",  $recordIds)
+                   ->whereIn("RecordID",$recordIds)
                     ->orderBy("LoginTime","desc")
                     ->get();
             }
@@ -258,7 +280,7 @@ class DataController extends Controller
                     ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
                     ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
                     ->where('serviceName',"like","%".$serviceName."%")
-                    ->whereIn("RecordID",  $recordIds)
+                    ->whereIn("RecordID",$recordIds)
                     ->orderBy("LoginTime","desc")
                     ->get();
             }else{
@@ -267,7 +289,7 @@ class DataController extends Controller
                     ->leftJoin("users","users.phonenumber","=","T_M_RECORD.PhoneNumber")
                     ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
                     ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
-                    ->whereIn("RecordID",  $recordIds)
+                    ->whereIn("RecordID",$recordIds)
                     ->orderBy("LoginTime","desc")
                     ->get();
             }
@@ -277,17 +299,15 @@ class DataController extends Controller
                 ->leftJoin("users","users.phonenumber","=","T_M_RECORD.PhoneNumber")
                 ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
                 ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
-                ->whereIn("RecordID",  $recordIds)
+                ->whereIn("RecordID",$recordIds)
                 ->orderBy("LoginTime","desc")
                 ->get();
         }
 
-        foreach ($dbs as $db) {
-            $counts = DB::table("T_M_RECORD")->where("PhoneNumber", $db)->count();
+
+
             foreach ($datas as $data) {
-                if ($data->phonenumber == $db) {
-                    $data->counts = $counts;
-                    $userId = $data->userid;
+                $userId = $data->userid;
                     $results = DB::table("T_U_SERVICEINFO")->where('userid', $userId)->count();
                     $pubs = DB::table("T_P_PROJECTINFO")->where("userid", $userId)->count();
                     if ($results > 0) {
@@ -308,9 +328,9 @@ class DataController extends Controller
                     } else {
                         $data->role = 0;
                     }
-                }
+
             }
-        }
+
         require_once '../vendor/PHPExcel.class.php';
         require_once '../vendor/PHPExcel/IOFactory.php';
         require_once '../vendor/PHPExcel/Reader/Excel5.php';
@@ -327,10 +347,9 @@ class DataController extends Controller
             ->setCellValue('A1', '注册手机')
             ->setCellValue('B1', '角色')
             ->setCellValue('C1', '公司名称')
-            ->setCellValue('D1', '登录次数')
-            ->setCellValue('E1', '服务类型')
-            ->setCellValue('F1', '注册时间')
-            ->setCellValue('G1', '最后登录');
+            ->setCellValue('D1', '服务类型')
+            ->setCellValue('E1', '注册时间')
+            ->setCellValue('F1', '登录时间');
         foreach ($datas as $key => $data) {
             if($data->role==1){
                 $role="服务方";
@@ -344,10 +363,9 @@ class DataController extends Controller
                 ->setCellValue('A' . $i, $data->phonenumber)
                 ->setCellValue('B' . $i, $role)
                 ->setCellValue('C' . $i, $data->ServiceName)
-                ->setCellValue('D' . $i, $data->counts)
-                ->setCellValue('E' . $i, $data->ServiceType)
-                ->setCellValue('F' . $i, $data->created_at)
-                ->setCellValue('G' . $i, $data->LoginTime);
+                ->setCellValue('D' . $i, $data->ServiceType)
+                ->setCellValue('E' . $i, $data->created_at)
+                ->setCellValue('F' . $i, $data->LoginTime);
 
         }
         $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel, 'Excel5');
@@ -366,7 +384,8 @@ class DataController extends Controller
     public function returnBack(){
         $datas=DB::table("T_U_FEEDBACK")
             ->leftJoin("users","T_U_FEEDBACK.userid","=","users.userid")
-            ->orderBy("FBTime","desc")->paginate(20);
+            ->orderBy("FBTime","desc")
+            ->paginate(20);
         foreach($datas as $data){
             $userId=$data->userid;
             $results=DB::table("T_U_SERVICEINFO")->where('userid',$userId)->count();
@@ -380,5 +399,35 @@ class DataController extends Controller
             }
         }
         return view("data/returnBack",compact("datas"));
+    }
+
+    //ajax获取用户登录的数据
+    public function getCounts()
+    {
+        $longTime = $_POST['longTime'];
+        $shortTime = $_POST['shortTime'];
+        $longTimes=date("Y-m-d",strtotime($longTime)+24*60*60);
+        if (empty($longTime) && empty($longTime)) {
+            $allCount = DB::table("T_M_RECORD")->count();
+            $pcCount = DB::table("T_M_RECORD")->where("Channel", "PC")->count();
+            $androadCount = DB::table("T_M_RECORD")->where("Channel", "ANDROID")->count();
+            $iosCount = DB::table("T_M_RECORD")->where("Channel", "IOS")->count();
+            $count["allCount"] = $allCount;
+            $count['pcCount'] = $pcCount;
+            $count['androadCount'] = $androadCount;
+            $count['iosCount'] = $iosCount;
+            return json_encode($count);
+        } else {
+            $allCount = DB::table("T_M_RECORD")->whereBetween("LoginTime", [$shortTime, $longTimes])->count();
+            $pcCount = DB::table("T_M_RECORD")->where("Channel", "PC")->whereBetween("LoginTime", [$shortTime, $longTimes])->count();
+            $androadCount = DB::table("T_M_RECORD")->where("Channel", "ANDROID")->whereBetween("LoginTime", [$shortTime, $longTimes])->count();
+            $iosCount = DB::table("T_M_RECORD")->where("Channel", "IOS")->whereBetween("LoginTime", [$shortTime, $longTimes])->count();
+            $count["allCount"] = $allCount;
+            $count['pcCount'] = $pcCount;
+            $count['androadCount'] = $androadCount;
+            $count['iosCount'] = $iosCount;
+            return json_encode($count);
+        }
+
     }
 }

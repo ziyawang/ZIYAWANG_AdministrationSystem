@@ -18,6 +18,7 @@ class PublishController extends Controller
         if(isset($_POST["_token"])){
             $state=$_POST['state'];
             $longTime=$_POST['longTime'];
+            $longTimes=date("Y-m-d",strtotime($longTime)+24*60*60);
             $shortTime=$_POST['shortTime'];
             $usersId=!empty($_POST['usersId']) ? $_POST['usersId'] : "";
             $phoneNumber=$_POST['connectPhone'];
@@ -29,9 +30,16 @@ class PublishController extends Controller
                           ->where($stateWhere)
                           ->where($userIdWhere)
                           ->where("phonenumber","like","%".$phoneNumber."%")
-                          ->whereBetween("created_at",[$shortTime,$longTime])
+                          ->whereBetween("created_at",[$shortTime,$longTimes])
                           ->orderBy("created_at","desc")
                           ->paginate(20);
+                      $total=DB::table("users")->select("users.*")
+                          ->where($stateWhere)
+                          ->where($userIdWhere)
+                          ->where("phonenumber","like","%".$phoneNumber."%")
+                          ->whereBetween("created_at",[$shortTime,$longTimes])
+                          ->orderBy("created_at","desc")
+                          ->count();
                   }else{
                       $datas=DB::table("users")->select("users.*")
                           ->where($stateWhere)
@@ -39,24 +47,41 @@ class PublishController extends Controller
                           ->where("phonenumber","like","%".$phoneNumber."%")
                           ->orderBy("created_at","desc")
                           ->paginate(20);
+                      $total=DB::table("users")->select("users.*")
+                          ->where($stateWhere)
+                          ->where($userIdWhere)
+                          ->where("phonenumber","like","%".$phoneNumber."%")
+                          ->orderBy("created_at","desc")
+                          ->count();
                   }
             }else{
                 if(!empty($longTime) && !empty($shortTime)){
                     $datas=DB::table("users")->select("users.*")
                         ->where($stateWhere)
                         ->where($userIdWhere)
-                        ->whereBetween("created_at",[$shortTime,$longTime])
+                        ->whereBetween("created_at",[$shortTime,$longTimes])
                         ->orderBy("created_at","desc")
                         ->paginate(20);
+                    $total=DB::table("users")->select("users.*")
+                        ->where($stateWhere)
+                        ->where($userIdWhere)
+                        ->whereBetween("created_at",[$shortTime,$longTimes])
+                        ->orderBy("created_at","desc")
+                        ->count();
                 }else{
                     $datas=DB::table("users")->select("users.*")
                         ->where($stateWhere)
                         ->where($userIdWhere)
                         ->orderBy("created_at","desc")
                         ->paginate(20);
+                    $total=DB::table("users")->select("users.*")
+                        ->where($stateWhere)
+                        ->where($userIdWhere)
+                        ->orderBy("created_at","desc")
+                        ->count();
                 }
             }
-            $number=1;
+            $number=$total;
             foreach($datas as $data){
                 $channel=$data->Channel;
                 switch($channel){
@@ -81,7 +106,7 @@ class PublishController extends Controller
                 }else{
                     $data->role=0;
                 }
-                $number++;
+                $number--;
             }
             return view("members/publish/index",compact("datas","state","phoneNumber","usersId","shortTime","longTime"));
         }
@@ -93,6 +118,7 @@ class PublishController extends Controller
             $longTime=!empty($_GET['longTime']) ? $_GET['longTime'] : "";
             $userIdWhere=!empty($_GET['usersId']) ? array("userid"=>$usersId) : array();
             $stateWhere=$_GET['state']!=2 ? array("Status"=>$state) :array();
+            $longTimes=date("Y-m-d",strtotime($longTime)+24*60*60);
             $datas=array();
             if(!empty($_GET['phoneNumber'])){
                   if(!empty($longTime) && !empty($shortTime)){
@@ -100,9 +126,16 @@ class PublishController extends Controller
                           ->where($stateWhere)
                           ->where($userIdWhere)
                           ->where("phonenumber","like","%".$phoneNumber."%")
-                          ->whereBetween("created_at",[$shortTime,$longTime])
+                          ->whereBetween("created_at",[$shortTime,$longTimes])
                           ->orderBy("created_at","desc")
                           ->paginate(20);
+                      $total=DB::table("users")
+                          ->where($stateWhere)
+                          ->where($userIdWhere)
+                          ->where("phonenumber","like","%".$phoneNumber."%")
+                          ->whereBetween("created_at",[$shortTime,$longTimes])
+                          ->orderBy("created_at","desc")
+                          ->count();
                   }else{
                       $datas=DB::table("users")
                           ->where($stateWhere)
@@ -110,24 +143,41 @@ class PublishController extends Controller
                           ->where("phonenumber","like","%".$phoneNumber."%")
                           ->orderBy("created_at","desc")
                           ->paginate(20);
+                      $total=DB::table("users")
+                          ->where($stateWhere)
+                          ->where($userIdWhere)
+                          ->where("phonenumber","like","%".$phoneNumber."%")
+                          ->orderBy("created_at","desc")
+                          ->count();
                   }
             }else{
                     if(!empty($longTime) && !empty($shortTime)){
                         $datas=DB::table("users")
                             ->where($stateWhere)
                             ->where($userIdWhere)
-                            ->whereBetween("created_at",[$shortTime,$longTime])
+                            ->whereBetween("created_at",[$shortTime,$longTimes])
                             ->orderBy("created_at","desc")
                             ->paginate(20);
+                        $total=DB::table("users")
+                            ->where($stateWhere)
+                            ->where($userIdWhere)
+                            ->whereBetween("created_at",[$shortTime,$longTimes])
+                            ->orderBy("created_at","desc")
+                            ->count();
                     }else{
                         $datas=DB::table("users")
                             ->where($stateWhere)
                             ->where($userIdWhere)
                             ->orderBy("created_at","desc")
                             ->paginate(20);
+                        $total=DB::table("users")
+                            ->where($stateWhere)
+                            ->where($userIdWhere)
+                            ->orderBy("created_at","desc")
+                            ->count();
                     }
             }
-            $number=1;
+            $number=$total-20*($_GET['page']-1);
             foreach($datas as $data){
                 $channel=$data->Channel;
                 switch($channel){
@@ -152,7 +202,7 @@ class PublishController extends Controller
                 }else{
                     $data->role=0;
                 }
-              $number++;
+              $number--;
             }
             return view("members/publish/index",compact("datas","state","phoneNumber","usersId","shortTime","longTime"));
         }
@@ -163,7 +213,8 @@ class PublishController extends Controller
         $shortTime="";
         $longTime="";
         $datas=DB::table("users")->orderBy("created_at","desc")->paginate(20);
-        $number=1;
+        $total=DB::table("users")->orderBy("created_at","desc")->count();
+        $number=$total;
         foreach($datas as $data){
             $channel=$data->Channel;
             switch($channel){
@@ -188,7 +239,7 @@ class PublishController extends Controller
             }else{
                 $data->role=0;
             }
-            $number++;
+            $number--;
 
         }
         return view("members/publish/index",compact("datas","state","phoneNumber","usersId","shortTime","longTime"));
@@ -335,6 +386,77 @@ class PublishController extends Controller
            return Redirect::to("publish/detail/".$_POST['id']);
         }
     }
- 
+
+    //ajax获取注册用户的数据
+    public function getCounts()
+    {
+        $longTime = $_POST['longTime'];
+        $shortTime = $_POST['shortTime'];
+        $longTimes=date("Y-m-d",strtotime($longTime)+24*60*60);
+        if (empty($longTime) && empty($longTime)) {
+            $allCount = DB::table("users")->where("Status", 0)->count();
+            $pcCount = DB::table("users")->where("Status", 0)->where("Channel", "PC")->count();
+            $androadCount = DB::table("users")->where("Status", 0)->where("Channel", "ANDROID")->count();
+            $iosCount = DB::table("users")->where("Status", 0)->where("Channel", "IOS")->count();
+            $count["allCount"] = $allCount;
+            $count['pcCount'] = $pcCount;
+            $count['androadCount'] = $androadCount;
+            $count['iosCount'] = $iosCount;
+            return json_encode($count);
+        } else {
+            $allCount = DB::table("users")->where("Status", 0)->whereBetween("created_at", [$shortTime, $longTimes])->count();
+            $pcCount = DB::table("users")->where("Status", 0)->where("Channel", "PC")->whereBetween("created_at", [$shortTime, $longTimes])->count();
+            $androadCount = DB::table("users")->where("Status", 0)->where("Channel", "ANDROID")->whereBetween("created_at", [$shortTime, $longTimes])->count();
+            $iosCount = DB::table("users")->where("Status", 0)->where("Channel", "IOS")->whereBetween("created_at", [$shortTime, $longTimes])->count();
+            $count["allCount"] = $allCount;
+            $count['pcCount'] = $pcCount;
+            $count['androadCount'] = $androadCount;
+            $count['iosCount'] = $iosCount;
+            return json_encode($count);
+        }
+
+    }
+
+    //用户注册走势图
+    public function regDirection($channel){
+       $channel=$channel;
+        $longTime=date("Y-m-d",time());
+        $shortTime=date("Y-m-d",time()-24*60*60*6);
+        return view("members/publish/regDirection",compact("channel","longTime","shortTime"));
+    }
+
+    //ajax获取走势图所需数据
+    public function  dataDirection(){
+        $channel=$_POST['channel'];
+        $longTime=$_POST['longTime'];
+        $shortTime=$_POST['shortTime'];
+       // $nowTime=date("Y/m/d",time());
+        $numbers=strtotime($longTime)-strtotime($shortTime);
+        $number=$numbers/(24*60*60);
+        $register=array();
+        for($i=$number;$i>=0;$i--){
+            $time=date("Y/m/d",strtotime($longTime)-24*60*60*$i);
+           $chooseLongTime=date("Y-m-d",strtotime($time)+24*60*60);
+            $chooseShortTime=date("Y-m-d",strtotime($time));
+            switch($channel){
+                case "全部":
+                    $counts = DB::table("users")->where("Status", 0) ->whereBetween("created_at",[$chooseShortTime,$chooseLongTime])->count();
+                    break;
+                case "电脑":
+                    $counts = DB::table("users")->where("Status", 0)->where("Channel", "PC")  ->whereBetween("created_at",[$chooseShortTime,$chooseLongTime])->count();
+                    break;
+                case "安卓":
+                    $counts = DB::table("users")->where("Status", 0)->where("Channel", "ANDROID")  ->whereBetween("created_at",[$chooseShortTime,$chooseLongTime])->count();
+                    break;
+                case "苹果":
+                    $counts = DB::table("users")->where("Status", 0)->where("Channel", "IOS")  ->whereBetween("created_at",[$chooseShortTime,$chooseLongTime])->count();
+                    break;
+            }
+            $register[$time]=$counts;
+            
+        }
+        return json_encode($register);
+
+    }
 
 }

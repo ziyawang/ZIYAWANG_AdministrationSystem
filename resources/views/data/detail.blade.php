@@ -48,6 +48,7 @@
                     <th>手机号</th>
                     <th>IP</th>
                     <th>登录时间</th>
+                    <th>登录渠道</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -56,6 +57,13 @@
                         <td>{{$data->PhoneNumber}}</td>
                         <td>{{$data->IP}}</td>
                         <td>{{$data->LoginTime}}</td>
+                        @if($data->Channel=="ANDROID")
+                            <td>安卓</td>
+                        @elseif($data->Channel=="IOS")
+                            <td>苹果</td>
+                        @else
+                            <td>电脑</td>
+                        @endif
                     </tr>
                 @endforeach
                 </tbody>

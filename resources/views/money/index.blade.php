@@ -11,7 +11,7 @@
         }
     </style>
     <div id="breadcrumb" style="position:relative;height: 42px;">
-        <a href="" title="数据分析" class="tip-bottom"><i class="icon-home"></i>芽币统计</a>
+        <a href="" title="芽币统计" class="tip-bottom"><i class="icon-home"></i>芽币统计</a>
         <a href="#" class="current">芽币统计</a>
         {{--<a href="#" class="pull-right" id="export"> <div class=" btn btn-primary ">导出</div></a>--}}
     </div>
@@ -120,10 +120,8 @@
                     <th>角色</th>
                     <th>名称</th>
                     <th>公司名称</th>
-                    <th>充值芽币</th>
-                    <th>充值金额</th>
-                    <th>支付渠道</th>
-                    <th>订单号</th>
+                    <th>充值芽币(单位/个)</th>
+                    <th>充值金额(单位/元)</th>
                     <th>充值时间</th>
                     <th>充值次数</th>
                     <th>操作</th>
@@ -150,14 +148,16 @@
                         @else
                             <td style="text-align:center"></td>
                         @endif
-                        <td style="text-align:center">{{$dataMoney->Money}}</td>
-                        <td style="text-align:center">{{$dataMoney->RealMoney/100}}</td>
-                        <td style="text-align:center">{{$dataMoney->Channel}}</td>
-                        <td style="text-align:center">{{$dataMoney->OrderNumber}}</td>
+                     <td style="text-align:center">{{$dataMoney->personalMoney}}</td>
+                        <td style="text-align:center">{{$dataMoney->realPerMoney/100}}</td>
+                       {{-- <td style="text-align:center">{{$dataMoney->Money}}</td>
+                      <td style="text-align:center">{{$dataMoney->RealMoney/100}}</td>--}}
+                       {{-- <td style="text-align:center">{{$dataMoney->Channel}}</td>
+                        <td style="text-align:center">{{$dataMoney->OrderNumber}}</td>--}}
                         <td style="text-align:center">{{$dataMoney->created_at}}</td>
                         <td style="text-align:center">{{$dataMoney->recordCounts}}</td>
                         <td>
-                            <a href="{{asset('money/detail/'.$dataMoney->UserID)}}">查看详情</a>
+                            <a href="{{asset('money/detail/'.$dataMoney->UserID.'/'.$value.'/'.$longTime.'/'.$shortTime)}}">查看详情</a>
                         </td>
                     </tr>
                 @endforeach

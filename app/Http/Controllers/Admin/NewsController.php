@@ -47,6 +47,12 @@ class NewsController extends Controller
                         case "资芽新闻":
                             $typeName->TypeName="zyxw";
                             break;
+                        case "行业研究":
+                            $typeName->TypeName="hyyj";
+                            break;
+                        case "资芽讲堂":
+                            $typeName->TypeName="zyjt";
+                            break;
                     }
                 }
                     foreach ($typeNames as $typeName){
@@ -104,6 +110,12 @@ class NewsController extends Controller
                         case "资芽新闻":
                             $typeName->TypeName="zyxw";
                             break;
+                        case "行业研究":
+                            $typeName->TypeName="hyyj";
+                            break;
+                        case "资芽讲堂":
+                            $typeName->TypeName="zyjt";
+                            break;
                     }
                 }
                 foreach ($typeNames as $typeName){
@@ -145,11 +157,13 @@ class NewsController extends Controller
     //编辑新闻信息
     public function update($id)
     {
+
         $datas = DB::table("T_N_NEWSINFO")->where('newsid', $id)->first();
         $results = DB::table("T_CONFIG_ITEMTYPE")->select("TypeID")->where("ModuleID", $id)->get();
         foreach ($results as $result) {
             $count[] = $result->TypeID;
         }
+
         $types = DB::table("T_CONFIG_TYPE")->where("Module", 1)->get();
         return view("news/news/update", compact('datas', "count", "types"));
     }
@@ -196,7 +210,7 @@ class NewsController extends Controller
             $callback = $_REQUEST["CKEditorFuncNum"];
             echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($callback,'http://images.ziyawang.com'+'" . $previewname . "','');</script>";
         } else {
-            echo "<font color=\"red\"size=\"2\">*文件格式不正确（必须为.jpg/.gif/.bmp/.png文件）</font>";
+            echo "<font color='red'size='2'>*文件格式不正确（必须为.jpg/.gif/.bmp/.png文件）</font>";
         }
 
 

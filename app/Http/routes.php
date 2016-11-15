@@ -56,6 +56,9 @@ Route::any('publish/index', 'Admin\PublishController@index');
 Route::get('publish/detail/{id}', 'Admin\PublishController@detail');
 Route::get('publish/export', 'Admin\PublishController@export');
 Route::post('publish/update', 'Admin\PublishController@update');
+Route::post('publish/getCounts', 'Admin\PublishController@getCounts');
+Route::get('publish/regDirection/{channel}', 'Admin\PublishController@regDirection');
+Route::post('publish/dataDirection', 'Admin\PublishController@dataDirection');
 
 
 //会员管理中的服务方管理路由
@@ -133,18 +136,34 @@ Route::get("push/clear",'Admin\PushController@clear');
 Route::get("operate/index",'Admin\OperateController@index');
 Route::any("operate/upload",'Admin\OperateController@upload');
 Route::post("operate/save",'Admin\OperateController@save');
+Route::get("operate/export",'Admin\OperateController@export');
+Route::get("operate/report",'Admin\OperateController@report');
+Route::post("operate/handle",'Admin\OperateController@handle');
+Route::post("operate/getDate",'Admin\OperateController@getDate');
 
 //运维管理中的用户分析和用户反馈
 Route::any('data/index','Admin\DataController@index');
-Route::get('data/detail/{phoneNumber}','Admin\DataController@detail');
+Route::get('data/detail/{phoneNumber}/{longTime?}/{shortTime?}','Admin\DataController@detail');
+Route::get('data/countDetail/{phoneNumber}','Admin\DataController@countDetail');
 Route::get('data/export','Admin\DataController@export');
 Route::get('data/returnBack','Admin\DataController@returnBack');
+Route::post('data/getCounts', 'Admin\DataController@getCounts');
+Route::get('data/view/{userid}', 'Admin\DataController@view');
     
 //运维管理中的统计分析
 Route::any("count/index",'Admin\CountController@index');
 Route::any("count/mapCounts",'Admin\CountController@mapCounts');
 Route::any("count/numMoneyCount",'Admin\CountController@numMoneyCount');
 
+
+//运维管理中的服务方分析
+Route::any("count/serCount",'Admin\CountController@serCount');    
+
+    
+    
+    //运维管理中的导出报表
+Route::any("export/index",'Admin\ExportController@index');
+Route::any("export/export",'Admin\ExportController@export');
 //融云信息中的聊天记录
 Route::any("talk/index",'Admin\TalkController@index');
 Route::any("talk/ajaxData",'Admin\TalkController@ajaxData');
@@ -153,11 +172,11 @@ Route::get("talk/showMessage/{targetId}/{fromUserId}",'Admin\TalkController@show
 
     //芽币统计
 Route::any("money/index",'Admin\MoneyController@index');
-Route::any("money/detail/{userId}",'Admin\MoneyController@detail');
+Route::any("money/detail/{userId}/{value}/{longTime}/{shortTime}",'Admin\MoneyController@detail');
 Route::any("money/ajax",'Admin\MoneyController@ajax');   
 Route::any("money/resultData",'Admin\MoneyController@ajaxData');
 Route::any("money/consume",'Admin\MoneyController@consume');
-Route::any("money/conDetail/{userId}",'Admin\MoneyController@conDetail');
+Route::any("money/conDetail/{projectId}/{value}/{longTime}/{shortTime}",'Admin\MoneyController@conDetail');
 Route::any("money/consumeData",'Admin\MoneyController@consumeData');
 });
 

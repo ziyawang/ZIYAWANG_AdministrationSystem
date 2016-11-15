@@ -38,7 +38,6 @@
     <h1>资芽网后台管理系统</h1>
 </div>
 
-
 <div id="user-nav" class="navbar navbar-inverse">
     <ul class="nav btn-group">
         <li class="btn btn-inverse"><a title="" href="{{url("login/index")}}"><i class="icon icon-share-alt"></i> <span class="text" >退出</span></a></li>

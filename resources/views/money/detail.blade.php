@@ -11,7 +11,7 @@
         }
     </style>
     <div id="breadcrumb" style="position:relative;height: 42px;">
-        <a href="{{asset('money/index')}}" title="数据分析" class="tip-bottom"><i class="icon-home"></i>芽币统计</a>
+        <a href="{{asset('money/index')}}" title="芽币统计" class="tip-bottom"><i class="icon-home"></i>芽币统计</a>
         <a href="#" class="current">芽币统计</a>
     </div>
    {{-- <div style="height:120px;margin-bottom:15px;margin-top: 5px;">
@@ -128,7 +128,7 @@
             </table>
         </div>
         <div class="pagination alternate">
-            {!! $datas->render() !!}
+            {!! $datas->appends(["value"=>$value,"shortTime"=>$shortTime,"longTime"=>$longTime])->render() !!}
         </div>
     </div>
 @endsection

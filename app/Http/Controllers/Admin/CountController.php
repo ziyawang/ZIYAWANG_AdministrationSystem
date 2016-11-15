@@ -124,8 +124,14 @@ class CountController extends Controller
             $counts["total"]["信息总量"]=$totalCounts;
             $counts["total"]["金额总量"]=$totalsMoney;
             
+            
 
         }
         return json_encode($counts);
+    }
+    
+    //服务方统计
+    public function serCount(){
+        
     }
 }

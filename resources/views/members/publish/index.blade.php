@@ -2,7 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
     <div id="breadcrumb">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>用户</a>
+        <a href="#" title="用户注册" class="tip-bottom"><i class="icon-home"></i>用户</a>
         <a href="#" class="current">用户列表</a>
         <a href="#" class="pull-right" id="export"> <div class=" btn btn-primary ">导出</div></a>
     </div>
@@ -98,6 +98,94 @@
             var url = 'http://admin.ziyawang.com/publish/export?state='+state+"&connectPhone="+connectPhone+"&usersId="+usersId+"&shortTime="+shortTime+"&longTime="+longTime;
             $('#export').attr('href',url);
         });
+    </script>
+        <div class="clearfix">
+            <div id="main" style="width: 100%;height:400px; float:left;"></div>
+        </div>
+        <script src="{{asset('js/echarts.js')}}"></script>
+        <script src="{{asset('js/china.js')}}"></script>
+    <script>
+        $(function(){
+            var longTime=$("#longTime").val();
+            var shortTime=$("#shortTime").val();
+            $.ajax({
+                url:"{{asset('publish/getCounts')}}",
+                data:{"longTime":longTime,"shortTime":shortTime},
+                dataType:"json",
+                 type:"post",
+                success:function(msg){
+                    var count= new Array();
+                    $.each(msg,function(item,value){
+                        count=count.concat(value);
+                    });
+                    var myChart = echarts.init(document.getElementById('main'));
+                    option = {
+                        color: ['#3398DB'],
+                        tooltip : {
+                            trigger: 'axis',
+                            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        legend: {
+                            data:['用户注册量']
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        xAxis : [
+                            {
+                                type : 'category',
+                                data : ['全部', '电脑', '安卓', '苹果'],
+                                axisTick: {
+                                    alignWithLabel: true
+                                }
+                            }
+                        ],
+                        yAxis : [
+                            {
+                                type : 'value'
+                            }
+                        ],
+                        series : [
+                            {
+                                name:'用户注册量',
+                                type:'bar',
+                                barWidth: '30%',
+                                data:count,
+                            }
+                        ]
+                    };
+                    myChart.setOption(option);
+                    window.onresize = myChart.resize;
+                    myChart.on('click', function (params) {
+                        if (typeof params.seriesIndex != 'undefined') {
+                            switch (params.name) {
+                                case "全部":
+                                    //window.location.href = "http://www.sina.com";
+                                    window.open("http://admin.ziyawang.com/publish/regDirection/全部", "_blank");//在新页面打开
+                                    break;
+                                case "电脑":
+                                    window.open("http://admin.ziyawang.com/publish/regDirection/电脑", "_blank");//在新页面打开
+                                    break;
+                                case "安卓":
+                                    window.open("http://admin.ziyawang.com/publish/regDirection/安卓", "_blank");
+                                    break;
+                                case "苹果":
+                                    window.open("http://admin.ziyawang.com/publish/regDirection/苹果", "_blank");
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    });
+                }
+
+            })
+        })
     </script>
     <div  class="container-fluid">
         <div class="widget-content nopadding">

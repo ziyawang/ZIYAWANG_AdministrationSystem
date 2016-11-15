@@ -62,6 +62,7 @@
                                     <option value="人事部"  @if($datas['Department']=='人事部') selected="selected" @endif>人事部</option>
                                     <option value="客服部" @if($datas['Department']=='客服部') selected="selected" @endif>客服部</option>
                                     <option value="视频部" @if($datas['Department']=='视频部') selected="selected" @endif>视频部</option>
+                                    <option value="财务部" @if($datas['Department']=='财务部') selected="selected" @endif>财务部</option>
                                 </select>
                             </div>
                         </div>

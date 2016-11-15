@@ -249,25 +249,58 @@
                 $("#remark").hide();
             }
         });
-        $(function () {
-            $(".PictureDes1").on("click", function () {
-                var id = $("input[name='id']").val();
-                $("#PictureDes1").removeAttrs("src")
-                $(".PictureDes1").hide();
+        $(function(){
+            $(".icon-trash.PictureDes1").on("click",function(){
+                var id=$("input[name='id']").val();
+                var title=$("#PictureDes1").attr("id")
+                $.ajax({
+                    url:"{{asset('check/handle')}}",
+                    data:{"id":id,"title":title,"_token":"{{ csrf_token() }}"},
+                    dataType:"json",
+                    type:"post",
+                    success:function(msg){
+                        if(msg.state==1){
+                            $("#PictureDes1").removeAttrs("src");
+                            $(".PictureDes1").hide();
+                        }
+                    }
+                });
             });
         });
-        $(function () {
-            $(".PictureDes2").on("click", function () {
-                var id = $("input[name='id']").val();
-                $("#PictureDes2").removeAttrs("src");
-                $(".PictureDes2").hide();
+        $(function(){
+            $(".icon-trash.PictureDes2").on("click",function(){
+                var id=$("input[name='id']").val();
+                var title=$("#PictureDes2").attr("id")
+                $.ajax({
+                    url:"{{asset('check/handle')}}",
+                    data:{"id":id,"title":title,"_token":"{{ csrf_token() }}"},
+                    dataType:"json",
+                    type:"post",
+                    success:function(msg){
+                        if(msg.state==1){
+                            $("#PictureDes2").removeAttrs("src");
+                            $(".PictureDes2").hide();
+                        }
+                    }
+                });
             });
         });
-        $(function () {
-            $(".PictureDes3").on("click", function () {
-                var id = $("input[name='id']").val();
-                $("#PictureDes3").removeAttrs("src");
-                $(".PictureDes3").hide();
+        $(function(){
+            $(".icon-trash.PictureDes3").on("click",function(){
+                var id=$("input[name='id']").val();
+                var title=$("#PictureDes3").attr("id")
+                $.ajax({
+                    url:"{{asset('check/handle')}}",
+                    data:{"id":id,"title":title,"_token":"{{ csrf_token() }}"},
+                    dataType:"json",
+                    type:"post",
+                    success:function(msg){
+                        if(msg.state==1){
+                            $("#PictureDes3").removeAttrs("src");
+                            $(".PictureDes3").hide();
+                        }
+                    }
+                });
             });
         });
         <?php $timestamp = time();?>

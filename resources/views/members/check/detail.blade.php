@@ -11,12 +11,6 @@
         <a href="{{asset('check/index')}}" title="审核列表" class="tip-bottom"><i class="icon-home"></i>审核</a>
         <a href="#" class="current">审核详情</a>
     </div>
-    @if(session("msg"))
-        <div class="alert alert-success alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>{{session("msg")}}</strong>
-        </div>
-    @endif
     <div class="row-fluid">
         <div class="span12">
             <div class="widget-box">
@@ -251,25 +245,57 @@
             }
         });
         $(function(){
-            $(".PictureDes1").on("click",function(){
+            $(".icon-trash.PictureDes1").on("click",function(){
                 var id=$("input[name='id']").val();
-                $("#PictureDes1").removeAttrs("src")
-                $(".PictureDes1").hide();
-
+                var title=$("#PictureDes1").attr("id")
+                $.ajax({
+                    url:"{{asset('check/handle')}}",
+                    data:{"id":id,"title":title,"_token":"{{ csrf_token() }}"},
+                    dataType:"json",
+                    type:"post",
+                    success:function(msg){
+                        if(msg.state==1){
+                            $("#PictureDes1").removeAttrs("src");
+                            $(".PictureDes1").hide();
+                        }
+                    }
+                });
             });
         });
         $(function(){
-            $(".PictureDes2").on("click",function(){
+            $(".icon-trash.PictureDes2").on("click",function(){
                 var id=$("input[name='id']").val();
-                $("#PictureDes2").removeAttrs("src");
-                $(".PictureDes2").hide();
+                var title=$("#PictureDes2").attr("id")
+                $.ajax({
+                    url:"{{asset('check/handle')}}",
+                    data:{"id":id,"title":title,"_token":"{{ csrf_token() }}"},
+                    dataType:"json",
+                    type:"post",
+                    success:function(msg){
+                        if(msg.state==1){
+                            $("#PictureDes2").removeAttrs("src");
+                            $(".PictureDes2").hide();
+                        }
+                    }
+                });
             });
         });
         $(function(){
-            $(".PictureDes3").on("click",function(){
+            $(".icon-trash.PictureDes3").on("click",function(){
                 var id=$("input[name='id']").val();
-                $("#PictureDes3").removeAttrs("src");
-                $(".PictureDes3").hide();
+                var title=$("#PictureDes3").attr("id")
+                $.ajax({
+                    url:"{{asset('check/handle')}}",
+                    data:{"id":id,"title":title,"_token":"{{ csrf_token() }}"},
+                    dataType:"json",
+                    type:"post",
+                    success:function(msg){
+                        if(msg.state==1){
+                            $("#PictureDes3").removeAttrs("src");
+                            $(".PictureDes3").hide();
+                        }
+                    }
+                });
             });
         });
         <?php $timestamp = time();?>

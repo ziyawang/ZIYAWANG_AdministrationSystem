@@ -11,7 +11,7 @@
         }
     </style>
     <div id="breadcrumb" style="position:relative;height: 42px;">
-        <a href="{{asset('money/index')}}" title="数据分析" class="tip-bottom"><i class="icon-home"></i>芽币消耗</a>
+        <a href="{{asset('money/consume')}}" title="芽币消耗" class="tip-bottom"><i class="icon-home"></i>芽币消耗</a>
         <a href="#" class="current">芽币消耗</a>
     </div>
      <div style="height:120px;margin-bottom:15px;margin-top: 5px;">
@@ -115,14 +115,12 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>手机号</th>
-                    <th>角色</th>
-                    <th>名称</th>
-                    <th>公司名称</th>
-                    <th>芽币</th>
-                    <th>金额</th>
-                    <th>订单号</th>
-                    <th>花费时间</th>
+                    <th>信息编号</th>
+                   {{-- <th>描述</th>--}}
+                    <th>信息类型</th>
+                    <th>单价(单位/个)</th>
+                    <th>总价(单位/个)</th>
+                    <th>查看时间</th>
                     <th>查看次数</th>
                     <th>操作</th>
                 </tr>
@@ -130,31 +128,15 @@
                 <tbody>
                 @foreach($dataMoneys as $dataMoney)
                     <tr>
-                        <td style="text-align:center">{{$dataMoney->phonenumber}}</td>
-                        @if($dataMoney->role==1)
-                            <td>服务方</td>
-                        @elseif($dataMoney->role==2)
-                            <td>发布方</td>
-                        @else
-                            <td>注册</td>
-                        @endif
-                        @if(!empty($dataMoney->username))
-                            <td style="text-align:center">{{$data->username}}</td>
-                        @else
-                            <td style="text-align:center"></td>
-                        @endif
-                        @if(!empty($dataMoney->ServiceName))
-                            <td style="text-align:center"><a href="http://ziyawang.com/service/{{$dataMoney->ServiceID}}" target="_blank">{{$dataMoney->ServiceName}}</a></td>
-                        @else
-                            <td style="text-align:center"></td>
-                        @endif
+                        <td style="text-align:center"> <a href="{{url('check/detail/'.$dataMoney->ProjectID.'/'.$dataMoney->TypeID)}}" target="_blank">{{$dataMoney->ProjectID}}</a></td>
+                       {{-- <td style="text-align:center">{{$dataMoney->WordDes}}</td>--}}
+                        <td style="text-align:center">{{$dataMoney->TypeName}}</td>
                         <td style="text-align:center">{{$dataMoney->Money}}</td>
-                        <td style="text-align:center">{{$dataMoney->Money/10}}</td>
-                        <td style="text-align:center">{{$dataMoney->OrderNumber}}</td>
+                        <td style="text-align:center">{{$dataMoney->Money*$dataMoney->recordCounts}}</td>
                         <td style="text-align:center">{{$dataMoney->created_at}}</td>
                         <td style="text-align:center">{{$dataMoney->recordCounts}}</td>
                         <td>
-                            <a href="{{asset('money/conDetail/'.$dataMoney->UserID)}}">查看详情</a>
+                            <a href="{{asset('money/conDetail/'.$dataMoney->ProjectID.'/'.$value.'/'.$longTime.'/'.$shortTime)}}">查看详情</a>
                         </td>
                     </tr>
                 @endforeach
@@ -162,7 +144,7 @@
             </table>
         </div>
         <div class="pagination alternate">
-            {!! $dataMoneys->render() !!}
+            {!! $dataMoneys->appends(["value"=>$value,"shortTime"=>$shortTime,"longTime"=>$longTime])->render() !!}
         </div>
     </div>
 @endsection

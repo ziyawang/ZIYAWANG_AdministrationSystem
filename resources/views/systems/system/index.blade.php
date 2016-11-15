@@ -2,7 +2,7 @@
 
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="{{url("system/index")}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>用户</a>
+        <a href="{{url("system/index")}}" title="用户列表" class="tip-bottom"><i class="icon-home"></i>用户列表</a>
         <a href="#" class="current">用户列表</a>
         <a href="{{url('system/add')}}" class="pull-right"> <button class="btn btn-success">添加用户</button></a>
     </div>

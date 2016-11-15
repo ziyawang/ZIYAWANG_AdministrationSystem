@@ -93,7 +93,8 @@
                     <th>编号</th>
                     <th class="w1">ID</th>
                     <th class="w2">公司名称</th>
-                    <th class="w3">注册手机号</th>
+                    <th class="w3">注册号</th>
+                    <th class="w3">联系号</th>
                     <th class="w4">地区</th>
                     <th class="w5">服务类型</th>
                     <th class="w6">服务地区</th>
@@ -102,6 +103,7 @@
                     <th class="w1">浏览次数</th>
                     <th class="w1">收藏次数</th>
                     <th class="w1">查看次数</th>
+                    <th class="w1">登录次数</th>
                     <th class="w9">审核状态</th>
                     <th class="w10">操作</th>
                 </tr>
@@ -113,6 +115,7 @@
                         <td>{{$data->ServiceID}}</td>
                         <td>{{$data->ServiceName}}</td>
                         <td>{{$data->phonenumber}}</td>
+                        <td>{{$data->ConnectPhone}}</td>
                         <td>{{$data->ServiceLocation}}</td>
                         <td>{{$data->ServiceType}}</td>
                         <td>{{$data->ServiceArea}}</td>
@@ -122,6 +125,7 @@
                         <td>{{$data->ViewCount}}</td>
                         <td>{{$data->CollectionCount}}</td>
                         <td>{{$data->CheckCount}}</td>
+                        <td>{{$data->loginCounts}}</td>
                         @if($data->State==2)
                             <td><p style="color: #149bdf">拒审核</p></td>
                             @elseif($data->State==0)

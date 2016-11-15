@@ -80,6 +80,73 @@
             $('#export').attr('href',url);
         });
     </script>
+    <div class="clearfix">
+        <div id="main" style="width: 100%;height:400px; float:left;"></div>
+    </div>
+    <script src="{{asset('js/echarts.js')}}"></script>
+    <script src="{{asset('js/china.js')}}"></script>
+    <script>
+        $(function(){
+            var longTime=$("#longTime").val();
+            var shortTime=$("#shortTime").val();
+            $.ajax({
+                url:"{{asset('data/getCounts')}}",
+                data:{"longTime":longTime,"shortTime":shortTime},
+                dataType:"json",
+                type:"post",
+                success:function(msg){
+                    var count= new Array();
+                    $.each(msg,function(item,value){
+                        count=count.concat(value);
+                    });
+                    var myChart = echarts.init(document.getElementById('main'));
+                    option = {
+                        color: ['#3398DB'],
+                        tooltip : {
+                            trigger: 'axis',
+                            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        legend: {
+                            data:['用户渠道登录量']
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        xAxis : [
+                            {
+                                type : 'category',
+                                data : ['全部', '电脑', '安卓', '苹果'],
+                                axisTick: {
+                                    alignWithLabel: true
+                                }
+                            }
+                        ],
+                        yAxis : [
+                            {
+                                type : 'value'
+                            }
+                        ],
+                        series : [
+                            {
+                                name:'用户渠道登录量',
+                                type:'bar',
+                                barWidth: '30%',
+                                data:count,
+                            }
+                        ]
+                    };
+                    myChart.setOption(option);
+                    window.onresize = myChart.resize;
+                }
+
+            })
+        })
+    </script>
                 <div  class="container-fluid">
                     <div class="widget-content nopadding">
                         <table class="table table-bordered table-striped">
@@ -128,7 +195,12 @@
                                  <td style="text-align:center">{{$data->created_at}}</td>
                                 <td style="text-align:center">{{$data->LoginTime}}</td>
                                 <td>
-                                    <a href="{{url('data/detail/'.$data->phonenumber)}}">查看详情</a>
+                                    @if(!empty($longTime) && !empty($shortTime))
+                                        <a href="{{url('data/detail/'.$data->phonenumber.'/'.$longTime.'/'.$shortTime)}}">登录详情</a>&nbsp&nbsp&nbsp&nbsp
+                                    @else
+                                        <a href="{{url('data/countDetail/'.$data->phonenumber)}}">登录详情</a>&nbsp&nbsp&nbsp&nbsp
+                                    @endif
+                                    <a  href="{{url('data/view/'.$data->userid)}}">浏览详情</a>
                                 </td>
                                 </tr>
                             @endforeach

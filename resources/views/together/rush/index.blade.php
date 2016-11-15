@@ -16,7 +16,7 @@
                     <th>编号</th>
                     <th>信息类型</th>
                     <th>发布方</th>
-                    <th>抢单次数</th>
+                    <th>约谈次数</th>
                     <th>操作</th>
                 </tr>
                 </thead>

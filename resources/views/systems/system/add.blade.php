@@ -66,6 +66,7 @@
                                         <option value="人事部">人事部</option>
                                         <option value="客服部">客服部</option>
                                         <option value="视频部">视频部</option>
+                                        <option value="财务部">财务部</option>
                                 </select>
                             </div>
                         </div>
