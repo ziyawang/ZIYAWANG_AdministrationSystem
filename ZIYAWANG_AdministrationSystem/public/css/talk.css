@@ -1,0 +1,30 @@
+#chat-messages-inner .user-neytiri img{
+    float: right;}
+#chat-messages-inner .user-neytiri .msg-block{
+    margin-left:0;
+    margin-right:40px;}
+#chat-messages-inner .user-neytiri .msg-block:before{border-left: 7px solid rgba(0,0,0,0.1);border-right:0 none;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    content: "";
+    display: inline-block;
+    right: -7px;
+    left:auto;
+    position: absolute;
+    top: 11px;}
+#chat-messages-inner .user-neytiri .msg-block:after {
+    border-left: 6px solid #ffffff;
+    border-right:0 none;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    content: "";
+    display: inline-block;
+    right: -6px;
+    left:auto;
+    position: absolute;
+    top: 12px;}
+#chat-messages-inner .user-neytiri .msg-block img{
+    float: none;
+    width:100px;
+    height:auto;
+    display: block;}
