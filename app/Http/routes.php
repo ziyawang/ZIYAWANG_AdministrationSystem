@@ -81,6 +81,16 @@ Route::post('check/editHandle', 'Admin\CheckController@editHandle');
 Route::get('check/collectDetail/{projectId}', 'Admin\CheckController@collectDetail');
 Route::get('check/viewDetail/{projectId}', 'Admin\CheckController@viewDetail');
 
+//会员管理中的委托发布的路由
+Route::get('entrust/index', 'Admin\EntrustController@index');
+Route::post('entrust/change', 'Admin\EntrustController@change');
+
+//会员管理中的会员列表的路由
+Route::get("members/index",'Admin\MembersController@index');
+Route::get("members/recharge",'Admin\MembersController@recharge');
+Route::post("members/saveRecharge",'Admin\MembersController@saveRecharge');
+
+
 //合作管理中的订单管理路由
 Route::any('order/index', 'Admin\OrderController@index');
 Route::get('order/detail/{id}', 'Admin\OrderController@detail');
@@ -156,14 +166,22 @@ Route::any("count/mapCounts",'Admin\CountController@mapCounts');
 Route::any("count/numMoneyCount",'Admin\CountController@numMoneyCount');
 
 
+
+
 //运维管理中的服务方分析
 Route::any("count/serCount",'Admin\CountController@serCount');    
+    
+//运维管理中的评测系统
+Route::any("test/index",'Admin\TestController@index');
+Route::any("test/ajaxChoose",'Admin\TestController@ajaxChoose');
+Route::get("test/add",'Admin\TestController@add');
+    Route::post("test/save",'Admin\TestController@save');
 
-    
-    
-    //运维管理中的导出报表
+//运维管理中的导出报表
 Route::any("export/index",'Admin\ExportController@index');
 Route::any("export/export",'Admin\ExportController@export');
+
+
 //融云信息中的聊天记录
 Route::any("talk/index",'Admin\TalkController@index');
 Route::any("talk/ajaxData",'Admin\TalkController@ajaxData');
@@ -178,6 +196,11 @@ Route::any("money/resultData",'Admin\MoneyController@ajaxData');
 Route::any("money/consume",'Admin\MoneyController@consume');
 Route::any("money/conDetail/{projectId}/{value}/{longTime}/{shortTime}",'Admin\MoneyController@conDetail');
 Route::any("money/consumeData",'Admin\MoneyController@consumeData');
+
+
 });
+Route::any("public/upload",'Admin\PublicController@upload');
+Route::get("public/change",'Admin\PublicController@change');
+Route::get("public/update",'Admin\PublicController@update');
 
 

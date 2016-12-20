@@ -57,13 +57,13 @@ class OperateController extends Controller
     }
 
     //用户举报反馈
-    public function report()
-    {
+    public function report(){
         $ids = array(889, 1095, 44);
         $datas = DB::table("T_U_REPORT")
             ->leftJoin("users", "users.userid", "=", "T_U_REPORT.UserID")
             ->select("users.username", "users.phonenumber", "T_U_REPORT.*")
             ->whereNotIn("T_U_REPORT.UserID", $ids)
+            ->where("T_U_REPORT.UserID","<>",0)
             ->orderBy("T_U_REPORT.created_at","desc")
             ->paginate(20);
         foreach ($datas as $data) {

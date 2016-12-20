@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ccca0d07-4595-4d57-814d-67c4cc68db82" name="Default" comment="">
+<<<<<<< HEAD
       <change type="DELETED" beforePath="$PROJECT_DIR$/.env.example" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.gitattributes" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.gitignore" afterPath="" />
@@ -47,6 +48,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/news/news/update.blade.php" afterPath="$PROJECT_DIR$/resources/views/news/news/update.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/talk/message.blade.php" afterPath="$PROJECT_DIR$/resources/views/talk/message.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/talk/showMessage.blade.php" afterPath="$PROJECT_DIR$/resources/views/talk/showMessage.blade.php" />
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+>>>>>>> v1.0.6
     </list>
     <ignored path="laravel.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -421,12 +425,20 @@
       <workItem from="1474597361189" duration="14686000" />
       <workItem from="1474701741227" duration="799000" />
       <workItem from="1482195997315" duration="418000" />
+<<<<<<< HEAD
       <workItem from="1482196436652" duration="1163000" />
+=======
+      <workItem from="1482196436652" duration="850000" />
+>>>>>>> v1.0.6
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="924673000" />
+=======
+    <option name="totallyTimeSpent" value="924360000" />
+>>>>>>> v1.0.6
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">

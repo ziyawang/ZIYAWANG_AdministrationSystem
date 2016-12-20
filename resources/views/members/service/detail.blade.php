@@ -3,6 +3,7 @@
     <style>
         .newsType .checker span .checker span{background-position: -76px -240px;}
     </style>
+    <script src="{{asset('assets/layer/layer/layer.js')}}"></script>
     <div id="breadcrumb" style="position:relative">
         <a href="{{asset("service/index")}}" title="服务方列表" class="tip-bottom"><i class="icon-home"></i>服务方</a>
         <a href="#" class="current">服务方详情</a>
@@ -20,7 +21,7 @@
                         <form class="form-horizontal" method="post" action="{{asset('service/update')}}"/>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         @foreach($datas as $data)
-                            <input type="hidden" name="id" value="{{$id}}">
+                            <input type="hidden" name="id" value="{{$id}}" id="serviceId">
                             <div class="control-group">
                                 <label class="control-label">公司名称</label>
                                 <div class="controls">
@@ -117,6 +118,48 @@
                                 </div>
                             </div>
                             <div class="control-group">
+                                <label class="control-label">会员类型</label>
+                                <div class="controls">
+                                    <select name="MemberType" id="MemberType">
+                                        <option value="0" > --请选择-- </option>
+                                        <option value="7" >资产包(月)</option>
+                                        <option value="8" >资产包(年)</option>
+                                        <option value="3"  >融资信息(季)</option>
+                                        <option value="4"  >融资信息(年)</option>
+                                        <option value="5" >固定资产(季)</option>
+                                        <option value="6" >固定资产(年)</option>
+                                        <option value="9" >企业商账(季)</option>
+                                        <option value="10" >企业商账(年)</option>
+                                        <option value="1" >个人债权(季)</option>
+                                        <option value="2" >个人债权(年)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        <script>
+                            $("#MemberType").on("change",function(){
+                                    var memberId=$("#MemberType").val();
+                                    var serviceId=$("#serviceId").val();
+                                    layer.open({
+                                        type: 2,
+                                        title: false,
+                                        closeBtn:1,
+                                        area: ['500px', '300px'],
+                                      /* skin: 'layui-layer-nobg', //没有背景色*/
+                                       skin: 'layui-layer-lan',
+                                        shadeClose:false,
+                                        content:"http://admin.ziyawang.com/members/recharge?memberId="+memberId+"&serviceId="+serviceId,
+                                        yes:function(index){
+                                            layer.close(index);
+                                            alert(1)
+                                        },
+                                        btn2:function(index){
+                                            layer.close(index);
+                                           alert(2);
+                                        }
+                                    });
+                                });
+                        </script>
+                            <div class="control-group">
                                 <label class="control-label">审核状态</label>
                                 <div class="controls">
                                     <select name="state" id="state">
@@ -173,7 +216,6 @@
             });
             <?php $timestamp = time();?>
            $(function() {
-
                 $("#file_upload").uploadifive({
                     'buttonText' : '上传图片',
                     'formData'     : {
@@ -186,7 +228,6 @@
                     'uploadScript'     :"{{url('/service/upload')}}",
                     'onUploadComplete' : function(file, data) {
                         $('#filepath').val(data);
-                        //$('#confirmationP1').attr('src', data);
                         var p1=$("#confirmationP1").attr('src');
                         var p2=$("#confirmationP2").attr('src');
                         var p3=$("#confirmationP3").attr('src');

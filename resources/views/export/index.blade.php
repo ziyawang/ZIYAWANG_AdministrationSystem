@@ -2,6 +2,12 @@
 
 @section('content')
     <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
+    @if(session("msg"))
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>{{session("msg")}}</strong>
+        </div>
+    @endif
     <div id="breadcrumb" style="position:relative">
         <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>审核</a>
         <a href="#" class="current">审核列表</a>

@@ -18,9 +18,9 @@
         <div class="span12">
             <div class="widget-box">
                 <div class="widget-title">
-								<span class="icon">
-									<i class="icon-align-justify"></i>
-								</span>
+                    <span class="icon">
+                        <i class="icon-align-justify"></i>
+                    </span>
                     <h5>添加新闻</h5>
                 </div>
                 <div class="widget-content nopadding">
@@ -46,6 +46,18 @@
                             <textarea name="description" maxlength="200" placeholder="请您输入200个字数之内" ></textarea>
                         </div>
                     </div>
+                    <div class="control-group" id="from" style="display: none">
+                        <label class="control-label">来源</label>
+                        <div class="controls">
+                            <input type="text" name="NewsAuthor1" />
+                        </div>
+                    </div>
+                    <div class="control-group" id="NewsAuthor">
+                        <label class="control-label">作者</label>
+                        <div class="controls">
+                            <input type="text" name="NewsAuthor" />
+                        </div>
+                    </div>
                     <div class="control-group">
                         <label class="control-label">列表图片(比例1:1)</label>
                         <div class="controls">
@@ -56,7 +68,7 @@
                             <img src="" id="thumb" alt=""/>
                         </div>
                     </div>
-                    <div class="control-group">
+                    <div class="control-group" id="newsPic">
                         <label class="control-label">首页图片(比例3:2)</label>
                         <div class="controls">
                             <input type="hidden" id="filepath1" name="NewsThumb">
@@ -96,8 +108,7 @@
             var f = document.getElementsByTagName("form")[0];
             f.action=f.action+"/"+para;
         }
-
-        $(function() {
+      $(function() {
             $("#file_upload").uploadifive({
                 'buttonText' : '上传图片',
                 'formData'     : {
@@ -129,5 +140,22 @@
                 }
             });
         });
+    </script>
+    <script>
+        $(function(){
+            $("input[type='checkbox']").on("click",function(){
+                var type=$("input[type='checkbox']:checked").val();
+               if(type==11){
+                    $("#from").show();
+                   $("#NewsAuthor").hide();
+                   $("#newsPic").hide();
+               }else{
+                   $("#from").hide();
+                   $("#NewsAuthor").show();
+                   $("#newsPic").show();
+               }
+            })
+
+        })
     </script>
 @endsection

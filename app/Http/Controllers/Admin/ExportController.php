@@ -125,6 +125,9 @@ class exportController extends Controller
         ini_set('memory_limit', '512M');
 
         $typeName = $_GET['type'];
+        if($typeName==0){
+            return back()->with("msg","请您选择其中一种类型");
+        }
         $typeNameWhere = $_GET['type'] != 0 ? array("T_P_PROJECTINFO.TypeID" => $typeName) : array();
         $types = DB::table("T_P_PROJECTTYPE")->select("TypeID", "TypeName")->whereNotIn("TypeID", [5, 7, 8, 11])->get();
         $counts = array();

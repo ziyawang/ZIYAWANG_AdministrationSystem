@@ -11,7 +11,7 @@
                 <thead>
                 <tr>
 
-                    <th>编号</th>
+                    <th>浏览内容</th>
                     <th>类型</th>
                     <th>IP</th>
                     <th>浏览时间</th>
@@ -20,7 +20,15 @@
                 <tbody>
                 @foreach($datas as $data)
                     <tr>
-                        <td style="text-align:center">{{$data->ItemID}}</td>
+                        @if($data->Type==1)
+                            <td style="text-align:center"><a href="http://ziyawang.com/project/{{$data->ItemID}}">{{$data->ItemID}}</a></td>
+                        @elseif($data->Type==2)
+                            <td style="text-align:center"><a href="http://ziyawang.com/video/{{$data->ItemID}}">{{$data->ItemID}}</a></td>
+                        @elseif($data->Type==3)
+                            <td style="text-align:center"><a href="http://ziyawang.com/news/{{$data->ItemID}}">{{$data->ItemID}}</a></td>
+                        @else
+                            <td style="text-align:center"><a href="http://ziyawang.com/service/{{$data->ItemID}}">{{$data->ItemID}}</a></td>
+                        @endif
                         @if($data->Type==1)
                             <td style="text-align:center">信息</td>
                         @elseif($data->Type==2)
