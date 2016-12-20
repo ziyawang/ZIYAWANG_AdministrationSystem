@@ -211,7 +211,7 @@
                         <td>{{$data->username}}</td>
                         <td>{{$data->phonenumber}}</td>
                         <td>{{$data->created_at}}</td>
-                        @if($data->Status==0)
+                        @if($data->status==0)
                             <td><p style="color:dodgerblue;margin:0 auto">正常</p></td>
                         @else
                            <td><p  style="color:dodgerblue">冻结</p></td>

@@ -26,6 +26,18 @@
             </td>
             <td>
                 <div class="control-group">
+                    <label class="control-label checkState">ID</label>
+                    <div class="controls selectBox" >
+                        @if(!empty($projectId))
+                            <input type="text" name="projectId" id="projectId" value="{{$projectId}}"  style="width:80px" />
+                        @else
+                            <input type="text" name="projectId" id="projectId" value=""   style="width:80px"/>
+                        @endif
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="control-group">
                     <label class="control-label checkState" >信息等级</label>
                     <div class="controls selectBox" >
                         <select  name="member" id="member"/>
@@ -53,11 +65,18 @@
                 <div class="control-group">
                     <label class="control-label checkState">类型</label>
                     <div class="controls selectBox" >
+                       {{-- @foreach($results as $result)
+                            <option value="{{$result->TypeID}}" @if(!empty($typeName) && $typeName==$result->TypeID) selected="selected" @endif>{{$result->TypeName}}</option>
+                        @endforeach--}}
                         <select  name="typeName" id="typeName"/>
                         <option value="0">---全部---</option>
-                        @foreach($results as $result)
-                            <option value="{{$result->TypeID}}" @if(!empty($typeName) && $typeName==$result->TypeID) selected="selected" @endif>{{$result->TypeName}}</option>
-                            @endforeach
+                        <option value="1" @if($typeName=="1") selected="selected" @endif>资产包</option>
+                        <option value="6,17" @if($typeName=="6,17") selected="selected" @endif>融资信息</option>
+                        <option value="12,16" @if($typeName=="12,16") selected="selected" @endif>固定资产</option>
+                        <option value="18" @if($typeName=="18") selected="selected" @endif>企业商账</option>
+                        <option value="19" @if($typeName=="19") selected="selected" @endif>个人债权</option>
+                        <option value="20,21,22" @if($typeName=="20,21,22") selected="selected" @endif>法拍资产</option>
+
                             </select>
                     </div>
                 </div>
@@ -129,7 +148,8 @@
                 <tr>
                     <th>编号</th>
                     <th>ID</th>
-                    <th>联系方式</th>
+                    <th>联系人</th>
+                    <th>注册号</th>
                     <th>发布时间</th>
                     <th>地址</th>
                     <th>信息类型</th>
@@ -147,6 +167,11 @@
                     <tr>
                         <td>{{$data->number}}</td>
                         <td>{{$data->ProjectID}}</td>
+                        @if(!empty($data->ConnectPerson))
+                        <td>{{$data->ConnectPerson}}</td>
+                        @else
+                            <td></td>
+                        @endif
                         <td>{{$data->phonenumber}}</td>
                         <td>{{$data->PublishTime}}</td>
                         <td>{{$data->ProArea}}</td>

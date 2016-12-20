@@ -41,11 +41,38 @@
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">摘要</label>
+                            <label class="control-label">摘要</label>
+                            <div class="controls">
+                                <textarea name="description"  maxlength="200" placeholder="请您输入200个字数之内">{{$datas->Brief}}</textarea>
+                            </div>
+                        </div>
+                @if(in_array(11,$count))
+                        <div class="control-group" id="from" style="display: block">
+                            <label class="control-label" >来源</label>
+                            <div class="controls">
+                                <input type="text" name="NewsAuthor1"  value="{{$datas->NewsAuthor}}"/>
+                            </div>
+                        </div>
+                        <div class="control-group" id="NewsAuthor" style="display: none">
+                        <label class="control-label">作者</label>
                         <div class="controls">
-                            <textarea name="description"  maxlength="200" placeholder="请您输入200个字数之内">{{$datas->Brief}}</textarea>
+                            <input type="text" name="NewsAuthor"  value="{{$datas->NewsAuthor}}"/>
                         </div>
                     </div>
+                    @else
+                        <div class="control-group" id="from" style="display: none">
+                            <label class="control-label" >来源</label>
+                            <div class="controls">
+                                <input type="text" name="NewsAuthor1"  value="{{$datas->NewsAuthor}}"/>
+                            </div>
+                        </div>
+                        <div class="control-group" id="NewsAuthor" style="display:block">
+                            <label class="control-label">作者</label>
+                            <div class="controls">
+                                <input type="text" name="NewsAuthor"  value="{{$datas->NewsAuthor}}"/>
+                            </div>
+                        </div>
+                    @endif
                     <div class="control-group">
                         <label class="control-label">列表图片(比例1:1)</label>
                         <div class="controls">
@@ -56,16 +83,29 @@
                             <img src="{{'Http://images.ziyawang.com'.$datas->NewsLogo}}" id="thumb" alt=""/>
                         </div>
                     </div>
-                    <div class="control-group">
+                 @if(in_array(11,$count))
+                    <div class="control-group" id="newsPic" style="display: none">
                         <label class="control-label">首页图片(比例3:2)</label>
                         <div class="controls">
                             <input type="hidden" id="filepath1" name="newsThumb" value="{{$datas->NewsThumb}}">
                             <input id="file_upload1" name="file_upload1"  multiple="true">
                         </div>
                         <div class="controls  span4">
-                            <img src="{{'Http://images.ziyawang.com'.$datas->NewsThumb}}" id="thumb" alt=""/>
+                            <img src="{{'Http://images.ziyawang.com'.$datas->NewsThumb}}" id="thumb1" alt=""/>
                         </div>
                     </div>
+                     @else
+                        <div class="control-group" id="newsPic" style="display: block">
+                            <label class="control-label">首页图片(比例3:2)</label>
+                            <div class="controls">
+                                <input type="hidden" id="filepath1" name="newsThumb" value="{{$datas->NewsThumb}}">
+                                <input id="file_upload1" name="file_upload1"  multiple="true">
+                            </div>
+                            <div class="controls  span4">
+                                <img src="{{'Http://images.ziyawang.com'.$datas->NewsThumb}}" id="thumb1" alt=""/>
+                            </div>
+                        </div>
+                    @endif
                     <div class="control-group">
                         <label class="control-label">新闻内容</label>
                         <div class="controls">
@@ -128,5 +168,22 @@
                 }
             });
         });
+    </script>
+    <script>
+        $(function(){
+            $("input[type='checkbox']").on("click",function(){
+                var type=$("input[type='checkbox']:checked").val();
+                if(type==11){
+                    $("#from").show();
+                    $("#NewsAuthor").hide();
+                    $("#newsPic").hide();
+                }else{
+                    $("#from").hide();
+                    $("#NewsAuthor").show();
+                    $("#newsPic").show();
+                }
+            })
+
+        })
     </script>
 @endsection

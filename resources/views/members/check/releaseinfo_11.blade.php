@@ -31,6 +31,7 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     @foreach($datas as $data)
                         <input type="hidden" name="id" value="{{$id}}">
+                        <input type="hidden" name="typeId" value="{{ $typeId }}">
                         <div class="control-group">
                             <label class="control-label">联系方式</label>
                             <div class="controls">

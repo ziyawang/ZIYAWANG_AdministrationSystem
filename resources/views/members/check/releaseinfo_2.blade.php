@@ -29,6 +29,7 @@
                 <div class="widget-content nopadding">
                     <form class="form-horizontal" method="post" action="{{asset('check/update')}}" />
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="typeId" value="{{ $typeId }}">
                     @foreach($datas as $data)
                         <input type="hidden" name="id" value="{{$id}}">
                         <div class="control-group">

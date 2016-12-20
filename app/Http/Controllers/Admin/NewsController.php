@@ -53,6 +53,9 @@ class NewsController extends Controller
                         case "资芽讲堂":
                             $typeName->TypeName="zyjt";
                             break;
+                        case "处置公告":
+                            $typeName->TypeName="czgg";
+                            break;
                     }
                 }
                     foreach ($typeNames as $typeName){
@@ -60,12 +63,16 @@ class NewsController extends Controller
                     }
             }
             $newLab=implode(",",$arr);
+            if(!empty($_POST['NewsAuthor1'])){
+                $_POST['NewsAuthor']=$_POST['NewsAuthor1'];
+            }
                 $db = DB::table("T_N_NEWSINFO")->insertGetId([
                     'NewsTitle' => $_POST['title'],
                     'NewsContent' => $_POST['content'],
                     'Brief' => $_POST['description'],
                     'NewsLogo' => $_POST['newslogo'],
-                    'NewsThumb'=>$_POST['NewsThumb'],
+                    'NewsThumb'=>!empty($_POST['NewsThumb']) ? $_POST['NewsThumb'] : "",
+                    "NewsAuthor"=>!empty($_POST['NewsAuthor']) ? $_POST['NewsAuthor'] : "",
                     'Flag' => $type,
                     "Order"=>!empty($_POST['order']) ? $_POST['order'] : "",
                     "NewsLabel"=>$newLab,
@@ -116,6 +123,9 @@ class NewsController extends Controller
                         case "资芽讲堂":
                             $typeName->TypeName="zyjt";
                             break;
+                        case "处置公告":
+                            $typeName->TypeName="czgg";
+                            break;
                     }
                 }
                 foreach ($typeNames as $typeName){
@@ -123,12 +133,16 @@ class NewsController extends Controller
                 }
             }
             $newLab=implode(",",$arr);
+            if(!empty($_POST['NewsAuthor1'])){
+                $_POST['NewsAuthor']=$_POST['NewsAuthor1'];
+            }
                 $db = DB::table("T_N_NEWSINFO")->where('newsid', $_POST['newsid'])->update([
                     'NewsTitle' => $_POST['title'],
                     'NewsContent' => $_POST['content'],
                     'Brief' => $_POST['description'],
                     'NewsLogo' => $_POST['newslogo'],
-                    'NewsThumb'=>$_POST['newsThumb'],
+                    'NewsThumb'=>!empty($_POST['newsThumb']) ? $_POST['newsThumb'] : "",
+                    "NewsAuthor"=>!empty($_POST['NewsAuthor']) ? $_POST['NewsAuthor'] : "",
                     "Order"=>!empty($_POST['order']) ? $_POST['order'] : "",
                     'NewsLabel'=>$newLab,
                     'Flag' => $type,
