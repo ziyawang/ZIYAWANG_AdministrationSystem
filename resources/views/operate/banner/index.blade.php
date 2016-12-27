@@ -6,6 +6,7 @@
         float: left;
         margin-left: 0px;
     }
+
 </style>
     <div id="breadcrumb">
         <a href="{{url('operate/index')}}" title="轮播图" class="tip-bottom"><i class="icon-home"></i> 轮播图</a>

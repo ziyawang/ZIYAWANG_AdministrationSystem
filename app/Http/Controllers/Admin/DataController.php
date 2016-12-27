@@ -252,6 +252,7 @@ class DataController extends Controller
         foreach ($results as $result) {
             $recordIds[]=$result->RecordID;
         }
+        $numArray=array("18610301342","15261176097","13522154362","18366127749","18301684703","15261176097","18810772441","15811535676","18518691160","15810116865","17095058258","17701314132","18210909557");
         if(isset($_POST['_token'])){
             $serviceName=!empty($_POST['serviceName']) ? $_POST['serviceName'] : "";
             if(!empty($_POST['serviceName'])){
@@ -261,6 +262,7 @@ class DataController extends Controller
                     ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
                     ->where("ServiceName","like","%".$serviceName."%")
                     ->whereIn("RecordID",$recordIds)
+                    ->whereNotIn("users.phonenumber",$numArray)
                     ->orderBy("LoginTime","desc")
                     ->get();
             }else{
@@ -269,6 +271,7 @@ class DataController extends Controller
                     ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
                     ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
                    ->whereIn("RecordID",$recordIds)
+                    ->whereNotIn("users.phonenumber",$numArray)
                     ->orderBy("LoginTime","desc")
                     ->get();
             }
@@ -281,6 +284,7 @@ class DataController extends Controller
                     ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
                     ->where('serviceName',"like","%".$serviceName."%")
                     ->whereIn("RecordID",$recordIds)
+                    ->whereNotIn("users.phonenumber",$numArray)
                     ->orderBy("LoginTime","desc")
                     ->get();
             }else{
@@ -290,6 +294,7 @@ class DataController extends Controller
                     ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
                     ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
                     ->whereIn("RecordID",$recordIds)
+                    ->whereNotIn("users.phonenumber",$numArray)
                     ->orderBy("LoginTime","desc")
                     ->get();
             }
@@ -300,6 +305,7 @@ class DataController extends Controller
                 ->leftJoin("T_U_SERVICEINFO","users.userid","=","T_U_SERVICEINFO.UserID")
                 ->select("users.username","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.userid","T_U_SERVICEINFO.ServiceType","users.created_at","T_M_RECORD.*")
                 ->whereIn("RecordID",$recordIds)
+                ->whereNotIn("users.phonenumber",$numArray)
                 ->orderBy("LoginTime","desc")
                 ->get();
         }

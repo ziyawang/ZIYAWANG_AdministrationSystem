@@ -90,6 +90,12 @@ Route::get("members/index",'Admin\MembersController@index');
 Route::get("members/recharge",'Admin\MembersController@recharge');
 Route::post("members/saveRecharge",'Admin\MembersController@saveRecharge');
 
+//会员管理中的服务方认证路由
+Route::get("star/index",'Admin\StarController@index');
+Route::get("star/detail/{starPayId}",'Admin\StarController@detail');
+Route::post("star/save",'Admin\StarController@save');
+Route::any("star/bigupload",'Admin\StarController@bigupload');
+/*Route::get("star/add",'Admin\StarController@add');*/
 
 //合作管理中的订单管理路由
 Route::any('order/index', 'Admin\OrderController@index');

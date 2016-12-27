@@ -14,7 +14,7 @@
             <strong>{{session("msg")}}</strong>
         </div>
     @endif
-    <div id="breadcrumb" style="position:relative">
+    <div id="breadcrumb" style="position:relative">.
         <a href="{{asset('check/index')}}" title="审核列表" class="tip-bottom"><i class="icon-home"></i>审核</a>
         <a href="#" class="current">审核详情</a>
     </div>

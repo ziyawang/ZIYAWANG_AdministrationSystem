@@ -95,7 +95,7 @@
                         {{--  <td>{{$data->IP}}</td>--}}
                         <td style="text-align:center">{{$data->Content}}</td>
                         @if(!empty($data->Picture))
-                       <td width="60" height="50">
+                       <td width="60" height="50"> 
                            <a href="{{env('IMAGES').$data->Picture}}">
                            <img src="{{env('IMAGES').$data->Picture}}">
                            </a>

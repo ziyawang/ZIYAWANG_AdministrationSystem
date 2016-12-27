@@ -104,11 +104,7 @@
                                                 $("#Msg_{{$value['userid']}}").on("click",function(){
                                                     var targetId= $("#Msg_{{$value['userid']}}").children(":first").children(":first").val();
                                                     var fromUserId=$("#fromUserId").val();
-                                                    //var url="http://
-
-
-
-admin.ziyawang.com/talk/showMessage/"+targetId+"/"+fromUserId;
+                                                    //var url="http://admin.ziyawang.cn/talk/showMessage/"+targetId+"/"+fromUserId;
                                                     var url="http://admin.ziyawang.com/talk/showMessage/"+targetId+"/"+fromUserId;
                                                     $("#Msg_{{$value['userid']}}").children(":first").attr("href",url);
                                                 })
@@ -127,11 +123,7 @@ admin.ziyawang.com/talk/showMessage/"+targetId+"/"+fromUserId;
         $("#Msg_0").on("click",function(){
             var targetId=$(this).children(":first").children(":first").val();
             var fromUserId=$("#fromUserId").val();
-           // var url="http://
-
-
-
-admin.ziyawang.com/talk/showMessage/"+targetId+"/"+fromUserId;
+           // var url="http://admin.ziyawang.cn/talk/showMessage/"+targetId+"/"+fromUserId;
             var url="http://admin.ziyawang.com/talk/showMessage/"+targetId+"/"+fromUserId;
             $("#Msg_0").children(":first").attr('href',url);
         });

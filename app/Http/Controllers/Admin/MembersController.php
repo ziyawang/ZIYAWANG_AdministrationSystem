@@ -17,6 +17,8 @@ class MembersController extends Controller
             ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
             ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
             ->where("PayFlag", 1)
+            ->where("Over",0)
+            ->where("T_U_MEMBER.Userid","<>",889)
             ->orderBy("StartTime", "desc")
             ->paginate(20);
         foreach ($datas as $data) {
