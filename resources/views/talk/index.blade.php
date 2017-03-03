@@ -7,7 +7,7 @@
         }
     </style>
     <div id="breadcrumb" style="position:relative">
-        <a href="{{asset('talk/index')}}" title="融云信息" class="tip-bottom"><i class="icon-home"></i>融云信息</a>
+        <a href="{{asset('talk/index')}}" title="聊天记录" class="tip-bottom"><i class="icon-home"></i>聊天记录</a>
         <a href="#" class="current">选择发送人</a>
     </div>
     @if(session("msg"))
@@ -92,17 +92,17 @@
                                 <tbody>
                                 @foreach($datas as $data)
                                     <tr>
-                                        <td>{{$data->userid}}</td>
-                                        <td>{{$data->phonenumber}}</td>
-                                        <td>{{$data->created_at}}</td>
+                                        <td style="text-align: center">{{$data->userid}}</td>
+                                        <td style="text-align: center">{{$data->phonenumber}}</td>
+                                        <td style="text-align: center">{{$data->created_at}}</td>
                                         @if($data->role==1)
-                                            <td>服务方</td>
+                                            <td style="text-align: center">服务方</td>
                                         @elseif($data->role==2)
-                                            <td>发布方</td>
+                                            <td style="text-align: center">发布方</td>
                                         @else
-                                            <td>注册</td>
+                                            <td style="text-align: center">注册</td>
                                         @endif
-                                        <td class="talkMessage"  >
+                                        <td class="talkMessage" style="text-align: center"  >
                                             <a href="{{url('talk/message/'.$data->userid)}}" id="project_{{$data->userid}}" >查看聊天记录</a>
                                         </td>
                                     </tr>

@@ -2,7 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/news.css ')}}"/>
     <div id="breadcrumb" >
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>订单</a>
+        <a href="#" title="订单管理" class="tip-bottom"><i class="icon-home"></i>订单管理</a>
         <a href="#" class="current">订单列表</a>
         <a href="#" class="pull-right" id="export">
             <div class="btn btn-primary" >导出</div>
@@ -56,12 +56,12 @@
                 <tbody>
                 @foreach($datas as $data)
                     <tr>
-                        <td>{{$data->ProjectID}}</td>
-                        <td>{{$data->TypeName}}</td>
-                        <td>{{$data->phonenumber}}</td>
-                        <td>{{$data->ServiceName}}</td>
-                        <td>{{$data->RushTime}}</td>
-                        <td><a href="{{url('order/detail/'.$data->RushProID)}}">查看</a></td>
+                        <td style="text-align: center">{{$data->ProjectID}}</td>
+                        <td style="text-align: center">{{$data->TypeName}}</td>
+                        <td style="text-align: center">{{$data->phonenumber}}</td>
+                        <td style="text-align: center">{{$data->ServiceName}}</td>
+                        <td style="text-align: center">{{$data->RushTime}}</td>
+                        <td style="text-align: center"><a href="{{url('order/detail/'.$data->RushProID)}}">查看</a></td>
                     </tr>
                 @endforeach
                 </tbody>

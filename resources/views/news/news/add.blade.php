@@ -5,7 +5,7 @@
         .newsType .checker span .checker span{background-position: -76px -240px;}
     </style>
     <div id="breadcrumb">
-        <a href="{{url('news/index')}}" title="新闻列表" class="tip-bottom"><i class="icon-home"></i> 新闻</a>
+        <a href="{{url('news/index')}}" title="新闻管理" class="tip-bottom"><i class="icon-home"></i> 新闻管理</a>
         <a href="#" class="current">添加新闻</a>
     </div>
     @if(session("msg"))

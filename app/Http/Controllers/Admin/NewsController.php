@@ -23,8 +23,7 @@ class NewsController extends Controller
     }
 
     //添加新闻
-    public function add()
-    {
+    public function add(){
         $datas = DB::table("T_CONFIG_TYPE")->where("Module", 1)->get();
         return view("news/news/add", compact("datas"));
     }
@@ -183,8 +182,7 @@ class NewsController extends Controller
     }
 
     //删除新闻信息
-    public function delete($id)
-    {
+    public function delete($id){
         DB::table('T_N_NEWSINFO')->where('NewsID', $id)->update([
             'Flag' => 2,
             'updated_at' => date("Y-m-d H:i:s", time())]);

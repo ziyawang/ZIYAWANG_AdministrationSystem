@@ -17,10 +17,9 @@ class MoneyController extends Controller
                 ->select("T_U_MONEY.*","users.phonenumber","T_U_SERVICEINFO.ServiceName","users.username","T_U_SERVICEINFO.ServiceID")
                 ->where("T_U_MONEY.Type",1)
                 ->where("T_U_MONEY.Flag",1)
-                ->whereNotIn("T_U_MONEY.UserID",[889,1095])
+                ->whereNotIn("T_U_MONEY.UserID",[889,1095,46])
                 ->orderBy("T_U_MONEY.created_at","desc")
                 ->get();
-        
         $money=0;
         $realMoney=0;
         $results=DB::table("T_U_MONEY")
@@ -51,6 +50,7 @@ class MoneyController extends Controller
                     ->whereNotIn("T_U_MONEY.UserID",[889,1095])
                     ->orderBy("T_U_MONEY.created_at","desc")
                     ->paginate(20);
+
         foreach ($dataMoneys as $key=> $dataMoney) {
             $dataMoneyId=$dataMoney->UserID;
             $recordCounts=DB::table("T_U_MONEY")->where("UserID",$dataMoneyId)->where("T_U_MONEY.Type",1) ->where("T_U_MONEY.Flag",1)->count();
@@ -99,7 +99,6 @@ class MoneyController extends Controller
                 } else {
                     $dataMoney->role = 0;
                 }
-
         }
         $value="30";
         $shortTime="1";
@@ -177,6 +176,9 @@ class MoneyController extends Controller
                     break;
                 case "iap":
                     $channel="苹果app";
+                    break;
+                case "zjdk":
+                    $channel="直接打款";
                     break;
             }
             $data->Channel=$channel;
@@ -367,6 +369,9 @@ class MoneyController extends Controller
                 case "iap":
                     $channel="苹果";
                     break;
+                case "zjdk":
+                    $channel="直接打款";
+                    break;
             }
             $dataMoney->Channel=$channel;
             $userId = $dataMoney->UserID;
@@ -394,6 +399,7 @@ class MoneyController extends Controller
             ->select("T_U_MONEY.*","T_P_PROJECTINFO.WordDes","T_P_PROJECTINFO.TypeID")
             ->where("T_U_MONEY.Type",2)
             ->whereNotIn("T_U_MONEY.UserID",[889,1095])
+            ->whereIn("T_P_PROJECTINFO.TypeID",[1,6,12,16,17,18,19,20,21,22])
             ->orderBy("T_U_MONEY.created_at","desc")
             ->get();
         $money=0;
@@ -425,17 +431,19 @@ class MoneyController extends Controller
         $dataMoneys=DB::table("T_U_MONEY")
             ->leftJoin("T_P_PROJECTINFO","T_P_PROJECTINFO.ProjectID","=","T_U_MONEY.ProjectID")
             ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
-            ->select("T_U_MONEY.*","T_P_PROJECTINFO.WordDes","T_P_PROJECTTYPE.TypeName","T_P_PROJECTINFO.TypeID")
+            ->select("T_U_MONEY.*","T_P_PROJECTINFO.WordDes","T_P_PROJECTTYPE.TypeName","T_P_PROJECTINFO.TypeID","T_P_PROJECTINFO.Price")
             ->where("T_U_MONEY.Type",2)
             ->whereIn("T_U_MONEY.MoneyID",$moneyIds)
             ->whereNotIn("T_U_MONEY.UserID",[889,1095])
             ->orderBy("T_U_MONEY.created_at","desc")
+            ->whereIn("T_P_PROJECTINFO.TypeID",[1,6,12,16,17,18,19,20,21,22])
             ->paginate(20);
         foreach ($dataMoneys as $dataMoney){
             $projectId= $dataMoney->ProjectID;
             $recordCounts=DB::table("T_U_MONEY")->where("ProjectID",$projectId)->where("Type",2) ->whereNotIn("T_U_MONEY.UserID",[889,1095])->count();
             $dataMoney->recordCounts=$recordCounts;
         }
+
         $value="30";
         $shortTime="1";
         $longTime="1";

@@ -5,7 +5,7 @@
     </style>
     <script src="{{asset('assets/layer/layer/layer.js')}}"></script>
     <div id="breadcrumb" style="position:relative">
-        <a href="{{asset("service/index")}}" title="服务方列表" class="tip-bottom"><i class="icon-home"></i>服务方</a>
+        <a href="{{asset("service/index")}}" title="服务方审核" class="tip-bottom"><i class="icon-home"></i>服务方审核</a>
         <a href="#" class="current">服务方详情</a>
     </div>
     <div class="row-fluid">
@@ -43,11 +43,31 @@
                                          />
                                 </div>
                             </div>
-
                             <div class="control-group">
                                 <label class="control-label">地区</label>
                                 <div class="controls">
                                     <input type="text" name="area" id="area" value="{{$data->ServiceLocation}}"
+                                           readonly/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">规模</label>
+                                <div class="controls">
+                                    <input type="number" name="Size" id="Size" value="{{$data->Size}}"
+                                           />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">注册资金</label>
+                                <div class="controls">
+                                    <input type="number" name="Founds" id="Founds" value="{{$data->Founds}}"
+                                          />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">注册时间</label>
+                                <div class="controls">
+                                    <input type="text" name="area" id="area" value="{{$data->RegTime}}"
                                            readonly/>
                                 </div>
                             </div>

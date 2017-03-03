@@ -2,7 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
     <div id="breadcrumb" style="position:relative">
-        <a href="{{asset('data/index')}}" title="数据分析" class="tip-bottom"><i class="icon-home"></i>用户反馈</a>
+        <a href="#" title="用户反馈" class="tip-bottom"><i class="icon-home"></i>用户反馈</a>
         <a href="#" class="current">用户反馈</a>
        {{-- <a href="#" class="pull-right" id="export"> <div class=" btn btn-primary ">导出</div></a>--}}
     </div>
@@ -86,17 +86,17 @@
                         {{-- <td>{{$data->RecordID}}</td>--}}
                         <td style="text-align:center">{{$data->phonenumber}}</td>
                         @if($data->role==1)
-                            <td>服务方</td>
+                            <td style="text-align: center">服务方</td>
                         @elseif($data->role==2)
-                            <td>发布方</td>
+                            <td style="text-align: center">发布方</td>
                         @else
-                            <td>注册</td>
+                            <td style="text-align: center">注册</td>
                         @endif
                         {{--  <td>{{$data->IP}}</td>--}}
                         <td style="text-align:center">{{$data->Content}}</td>
                         @if(!empty($data->Picture))
                        <td width="60" height="50"> 
-                           <a href="{{env('IMAGES').$data->Picture}}">
+                           <a href="{{env('IMAGES').$data->Picture}}" target="_blank">
                            <img src="{{env('IMAGES').$data->Picture}}">
                            </a>
                        </td>

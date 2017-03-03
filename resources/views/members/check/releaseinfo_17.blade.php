@@ -307,9 +307,14 @@
                         </div>
                         <div class="control-group">
                             <label class="control-label">信息状态</label>
+                            {{-- <div class="controls">
+                                 <input type="radio" name="togetherType" id="togetherType" checked="checked" value="0" @if($data->PublishState==0) checked="checked" @endif/>未合作
+                                 <input type="radio" name="togetherType"  id="togetherType" value="1"  @if($data->PublishState==1) checked="checked" @endif />已合作
+                             </div>--}}
                             <div class="controls">
-                                <input type="radio" name="togetherType" id="togetherType" checked="checked" value="0" @if($data->PublishState==0) checked="checked" @endif/>未合作
-                                <input type="radio" name="togetherType"  id="togetherType" value="1"  @if($data->PublishState==1) checked="checked" @endif />已合作
+                                <input type="radio" name="cooperateState"  checked="checked" value="0" @if($data->CooperateState==0) checked="checked" @endif/>未合作
+                                <input type="radio" name="cooperateState"   value="1"  @if($data->CooperateState==1) checked="checked" @endif />合作中
+                                <input type="radio" name="cooperateState"   value="2"  @if($data->CooperateState==2) checked="checked" @endif />已合作
                             </div>
                         </div>
                         <div class="control-group">

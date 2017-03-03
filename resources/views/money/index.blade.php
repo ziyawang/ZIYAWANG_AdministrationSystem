@@ -132,11 +132,11 @@
                     <tr>
                         <td style="text-align:center">{{$dataMoney->phonenumber}}</td>
                         @if($dataMoney->role==1)
-                            <td>服务方</td>
+                            <td style="text-align: center">服务方</td>
                         @elseif($dataMoney->role==2)
-                            <td>发布方</td>
+                            <td style="text-align: center">发布方</td>
                         @else
-                            <td>注册</td>
+                            <td style="text-align: center">注册</td>
                         @endif
                         @if(!empty($dataMoney->username))
                             <td style="text-align:center">{{$dataMoney->username}}</td>
@@ -156,7 +156,7 @@
                         <td style="text-align:center">{{$dataMoney->OrderNumber}}</td>--}}
                         <td style="text-align:center">{{$dataMoney->created_at}}</td>
                         <td style="text-align:center">{{$dataMoney->recordCounts}}</td>
-                        <td>
+                        <td style="text-align: center">
                             <a href="{{asset('money/detail/'.$dataMoney->UserID.'/'.$value.'/'.$longTime.'/'.$shortTime)}}">查看详情</a>
                         </td>
                     </tr>

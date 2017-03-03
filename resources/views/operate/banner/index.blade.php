@@ -6,7 +6,9 @@
         float: left;
         margin-left: 0px;
     }
-
+    .va-m .radio{
+        vertical-align:-2px;
+    }
 </style>
     <div id="breadcrumb">
         <a href="{{url('operate/index')}}" title="轮播图" class="tip-bottom"><i class="icon-home"></i> 轮播图</a>
@@ -32,10 +34,10 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="control-group">
                         <label class="control-label">类型</label>
-                        <div class="controls">
-                            <input type="radio" name="type" id="type" value="1" />信息
-                            <input type="radio" name="type"  id="type" value="2" />视频
-                            <input type="radio" name="type" id="type" value="4" />服务
+                        <div class="controls va-m">
+                            <input type="radio" name="type"  value="1" />信息
+                            <input type="radio" name="type"  value="2" />视频
+                            <input type="radio" name="type"  value="4" />服务
                         </div>
                     </div>
                     <div class="control-group" id="typeId" style="display:none" >

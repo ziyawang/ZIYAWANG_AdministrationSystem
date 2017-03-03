@@ -1,7 +1,7 @@
 <?php $__env->startSection('content'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('css/news.css ')); ?>"/>
     <div id="breadcrumb">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 视频</a>
+        <a href="#" title="视频管理" class="tip-bottom"><i class="icon-home"></i> 视频管理</a>
         <a href="#" class="current">视频列表</a>
         <a href="<?php echo e(url('video/add')); ?>" class="pull-right"> <button class="btn btn-primary">添加视频</button></a>
     </div>

@@ -52,7 +52,7 @@ class IndexController extends Controller
         $max=$chart[$maxs];
         $mins=array_search(min($chart),$chart);
         $min=$chart[$mins];
-        
+        session(["lds_pId"=>"","lds_Id"=>""]);
         return view("Index/index",compact("data","chart","max","min","times"));
     }
     //后台首页数据
@@ -120,7 +120,7 @@ class IndexController extends Controller
         $lastServices=DB::table("T_U_SERVICEINFO")->leftJoin("T_P_SERVICECERTIFY","T_U_SERVICEINFO.ServiceID","=","T_P_SERVICECERTIFY.ServiceID")->where("State",1)->whereBetween("T_U_SERVICEINFO.created_at", [$lastTime, $nowTime])->count();
         $hots=DB::table("T_P_RUSHPROJECT")->where("CooperateFlag",0)->count();
         $togethers=DB::table("T_P_RUSHPROJECT")->where("CooperateFlag",1)->count();
-        $projectinfos=DB::table("T_P_PROJECTINFO")->where("CertifyState",1)->count();
+        $projectinfos=DB::table("T_P_PROJECTINFO")->whereIn("TypeID",[1,6,12,16,17,18,19,20,21,22])->where("CertifyState",1)->count();
         $users=DB::table("users")->count();
         $orders=DB::table("T_P_RUSHPROJECT")->where("CooperateFlag","<>",3)->count();
         $lastOrders=DB::table("T_P_PROJECTINFO")->where("CertifyState",1)->whereBetween("PublishTime", [$lastTime, $nowTime])->count();
@@ -172,4 +172,19 @@ class IndexController extends Controller
         );
         return $data;
     }
+    //请求菜单中的路由数据
+    protected  function getPath(){
+        $ldsId=$_POST['authId'];
+        $result=DB::table("T_AS_AUTH")->select("Auth_ID","Path","PID")->where("Auth_ID",$ldsId)->get();
+        $arr=array();
+        foreach($result as $value){
+            $arr["lds_path"]=$value->Path;
+            $arr["lds_pId"]=$value->PID;
+            $arr["lds_Id"]=$value->Auth_ID;
+        }
+        session(["lds_pId"=>$arr["lds_pId"],"lds_Id"=>$arr["lds_Id"]]);
+        return json_encode($arr);
+      
+    }
+    
 }

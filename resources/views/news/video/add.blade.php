@@ -5,7 +5,7 @@
         .newsType .checker span .checker span{background-position: -76px -240px;}
     </style>
     <div id="breadcrumb">
-        <a href="{{url('video/index')}}" title="视频列表" class="tip-bottom"><i class="icon-home"></i> 视频</a>
+        <a href="{{url('video/index')}}" title="视频管理" class="tip-bottom"><i class="icon-home"></i>视频管理</a>
         <a href="#" class="current">添加视频</a>
     </div>
     @if(session("msg"))

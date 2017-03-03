@@ -2,7 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
     <div id="breadcrumb" style="position:relative">
-        <a href="{{asset('data/index')}}" title="数据分析" class="tip-bottom"><i class="icon-home"></i>数据分析</a>
+        <a href="{{asset('data/index')}}" title="用户行为" class="tip-bottom"><i class="icon-home"></i>用户行为</a>
         <a href="#" class="current">数据分析</a>
         <a href="#" class="pull-right" id="export"> <div class=" btn btn-primary ">导出</div></a>
     </div>

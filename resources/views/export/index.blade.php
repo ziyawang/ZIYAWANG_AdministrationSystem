@@ -9,8 +9,8 @@
         </div>
     @endif
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>审核</a>
-        <a href="#" class="current">审核列表</a>
+        <a href="#" title="导出报表" class="tip-bottom"><i class="icon-home"></i>导出报表</a>
+        <a href="#" class="current">信息列表</a>
         <a href="#" class="pull-right" id="export"> <div class="btn btn-primary " >导出</div></a>
     </div>
     <div class="widget-content nopadding">
@@ -22,11 +22,18 @@
                     <label class="control-label checkState">类型</label>
                     <div class="controls selectBox" >
                         <select  name="typeName" id="typeName"/>
-                        <option value="0">---全部---</option>
-                        @foreach($results as $result)
-                            <option value="{{$result->TypeID}}" @if(!empty($typeName) && $typeName==$result->TypeID) selected="selected" @endif>{{$result->TypeName}}</option>
-                            @endforeach
-                            </select>
+                            <option value="0">---全部---</option>
+                            <option value="1" @if($typeName=="1") selected="selected" @endif>资产包</option>
+                            <option value="6" @if($typeName=="6") selected="selected" @endif>融资信息</option>
+                            <option value="17" @if($typeName=="17") selected="selected" @endif>融资信息</option>
+                            <option value="12" @if($typeName=="12") selected="selected" @endif>固定资产</option>
+                            <option value="16" @if($typeName=="16") selected="selected" @endif>固定资产</option>
+                            <option value="18" @if($typeName=="18") selected="selected" @endif>企业商账</option>
+                            <option value="19" @if($typeName=="19") selected="selected" @endif>个人债权</option>
+                            <option value="20" @if($typeName=="20") selected="selected" @endif>法拍资产</option>
+                            <option value="21" @if($typeName=="21") selected="selected" @endif>法拍资产</option>
+                            <option value="22" @if($typeName=="22") selected="selected" @endif>法拍资产</option>
+                        </select>
                     </div>
                 </div>
             </td>

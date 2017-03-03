@@ -2,7 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/talk.css ')}}"/>
     <div id="breadcrumb">
-        <a data-original-title="Go to Home" id="talkMessage" class="tip-bottom"><i class="icon-home"></i>融云信息</a>
+        <a href="asset('talk/index')" data-original-title="信息列表" id="talkMessage" class="tip-bottom"><i class="icon-home"></i>融云信息</a>
         <a href="#" class="current">聊天记录</a>
     </div>
     <input type="hidden" name="showMessageUrl" id="showMessageUrl" value="{{$showMessageUrl}}">

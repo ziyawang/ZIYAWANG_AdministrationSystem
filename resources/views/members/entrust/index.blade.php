@@ -3,7 +3,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>委托发布</a>
+        <a href="#" title="委托发布" class="tip-bottom"><i class="icon-home"></i>委托发布</a>
         <a href="#" class="current">列表</a>
     </div>
     <div  class="container-fluid">

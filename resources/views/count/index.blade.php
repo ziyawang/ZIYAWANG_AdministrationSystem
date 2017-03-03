@@ -2,7 +2,7 @@
 @section('content')
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 <div id="breadcrumb" style="position:relative">
-    <a href="{{asset('data/index')}}" title="数据分析" class="tip-bottom"><i class="icon-home"></i>信息统计</a>
+    <a href="{{asset('count/index')}}" title="发布方统计" class="tip-bottom"><i class="icon-home"></i>发布方统计</a>
     <a href="#" class="current">信息统计</a>
 </div>
 <style>
@@ -193,11 +193,11 @@
                         orient: 'vertical',
                         left: 'left',
 
-                        data:['资产包转让','债权转让','固产转让','商业保理','资产求购','融资需求','法律服务','悬赏信息','尽职调查','委外催收','投资需求']
+                        data:['资产包','固定资产','个人债权','企业商账','法拍资产','融资信息',]
                     },
                     visualMap: {
                         min: 0,
-                        max: 600,
+                        max: 800,
                         left: 'left',
                         top: 'bottom',
                         text: ['高','低'],           // 文本，默认为数值文本
@@ -255,12 +255,12 @@
                });
                option = {
                    title : {
-                       text: '资芽信息数量比例统计',
+                       text: '资芽信息数量比例统计(单位/条)',
                        x: 'center'
                    },
                    tooltip: {
                        trigger: 'item',
-                       formatter: "{a} <br/>{b} : {c} ({d}%)"
+                       formatter: "{b} <br/>{a} : {c} ({d}%)"
                    },
                  /*  legend: {
                        orient: 'vertical',
@@ -327,12 +327,12 @@
               });
               option = {
                   title : {
-                      text: '资芽信息金额比例统计',
+                      text: '资芽信息金额比例统计(单位/万)',
                       x: 'center'
                   },
                   tooltip: {
                       trigger: 'item',
-                      formatter: "{a} <br/>{b} : {c} ({d}%)"
+                      formatter: "{b} <br/>{a} : {c} ({d}%)"
                   },
                   /* legend: {
                    orient: 'vertical',
@@ -371,77 +371,6 @@
      });
 
   });
-
-    // 指定图表的配置项和数据
-    /* var option = {
-     title: {
-     text: '资芽信息统计'
-     },
-     tooltip: {},
-     legend: {
-     data:['销量']
-     },
-     xAxis: {
-     data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-     },
-     yAxis: {},
-     series: [{
-     name: '销量',
-     type: 'bar',
-     data: [5, 20, 36, 10, 10, 20]
-     }]
-     };*/
-
-    // 使用刚指定的配置项和数据显示图表。
-    /*  myChart.setOption({
-     series : [
-     {
-     name: '资芽信息统计',
-     type: 'pie',
-     radius: '60%',
-     data:[
-     {value:400, name:'资产包转让'},
-     {value:335, name:'债权转让'},
-     {value:310, name:'固产转让'},
-     {value:274, name:'商业保理'},
-     {value:235, name:'资产求购'},
-     {value:235, name:'融资需求'},
-     {value:235, name:'法律服务'},
-     {value:235, name:'悬赏信息'},
-     {value:235, name:'尽职调查'},
-     {value:235, name:'委外催收'},
-     {value:235, name:'投资需求'}
-     ]
-     }
-     ]
-     })*/
-
-    //自动显示比列的代码
-    /*app.currentIndex = -1;
-
-     app.timeTicket = setInterval(function () {
-     var dataLen = option.series[0].data.length;
-     // 取消之前高亮的图形
-     myChart.dispatchAction({
-     type: 'downplay',
-     seriesIndex: 0,
-     dataIndex: app.currentIndex
-     });
-     app.currentIndex = (app.currentIndex + 1) % dataLen;
-     // 高亮当前图形
-     myChart.dispatchAction({
-     type: 'highlight',
-     seriesIndex: 0,
-     dataIndex: app.currentIndex
-     });
-     // 显示 tooltip
-     myChart.dispatchAction({
-     type: 'showTip',
-     seriesIndex: 0,
-     dataIndex: app.currentIndex
-     });
-     }, 1000);*/
-
 </script>
 
 

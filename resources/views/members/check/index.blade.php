@@ -3,7 +3,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>审核</a>
+        <a href="#" title="信息审核" class="tip-bottom"><i class="icon-home"></i>信息审核</a>
         <a href="#" class="current">审核列表</a>
         <a href="#" class="pull-right" id="export"> <div class="btn btn-primary " >导出</div></a>
     </div>
@@ -69,15 +69,14 @@
                             <option value="{{$result->TypeID}}" @if(!empty($typeName) && $typeName==$result->TypeID) selected="selected" @endif>{{$result->TypeName}}</option>
                         @endforeach--}}
                         <select  name="typeName" id="typeName"/>
-                        <option value="0">---全部---</option>
-                        <option value="1" @if($typeName=="1") selected="selected" @endif>资产包</option>
-                        <option value="6,17" @if($typeName=="6,17") selected="selected" @endif>融资信息</option>
-                        <option value="12,16" @if($typeName=="12,16") selected="selected" @endif>固定资产</option>
-                        <option value="18" @if($typeName=="18") selected="selected" @endif>企业商账</option>
-                        <option value="19" @if($typeName=="19") selected="selected" @endif>个人债权</option>
-                        <option value="20,21,22" @if($typeName=="20,21,22") selected="selected" @endif>法拍资产</option>
-
-                            </select>
+                            <option value="0">---全部---</option>
+                            <option value="1" @if($typeName=="1") selected="selected" @endif>资产包</option>
+                            <option value="6,17" @if($typeName=="6,17") selected="selected" @endif>融资信息</option>
+                            <option value="12,16" @if($typeName=="12,16") selected="selected" @endif>固定资产</option>
+                            <option value="18" @if($typeName=="18") selected="selected" @endif>企业商账</option>
+                            <option value="19" @if($typeName=="19") selected="selected" @endif>个人债权</option>
+                            <option value="20,21,22" @if($typeName=="20,21,22") selected="selected" @endif>法拍资产</option>
+                        </select>
                     </div>
                 </div>
             </td>
@@ -157,8 +156,8 @@
                     <th>浏览次数</th>
                     <th>收藏次数</th>
                     <th>发布渠道</th>
+                    <th>芽币</th>
                     <th>审核状态</th>
-                    <th>备注</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -180,6 +179,7 @@
                         <td><a href="{{asset("check/viewDetail/".$data->ProjectID)}}">{{$data->ViewCount}}</a></td>
                         <td><a href="{{asset("check/collectDetail/".$data->ProjectID)}}">{{$data->CollectionCount}}</a></td>
                         <td>{{$data->Channel}}</td>
+                        <td>{{$data->Price}}</td>
                         @if($data->State==0)
                             <td><p style="color: #149bdf">待审核</p></td>
                         @elseif($data->State==1)
@@ -187,7 +187,6 @@
                         @else
                             <td><p style="color: #149bdf">拒审核</p></td>
                         @endif
-                        <td>{{$data->Remark}}</td>
                         <td><a href="{{url('check/detail/'.$data->ProjectID.'/'.$data->TypeID)}}">查看</a></td>
                     </tr>
                 @endforeach

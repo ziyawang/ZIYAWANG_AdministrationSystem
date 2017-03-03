@@ -57,13 +57,13 @@
 .w1{width:5%;}
 .w2{width:10%;}
 .w3{width:8%;}
-.w4{width:6%;}
-.w5{width:12%;}
-.w6{width:10%}
+.w4{width:10%;}
+.w5{width:8%;}
+.w6{width:8%}
 .w7{width:20%}
 .w8{width:10%;}
 .w9{width:5%}
-.w10{width:5%;}
+.w10{width:12%;}
 .servicerInfoTable tr td{vertical-align: middle;}
 .servicerInfoTable tr td p{margin: 0;}
 .servicerInfoTable .tdCompanyIntro div{display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;height:60px;overflow: hidden;text-overflow:ellipsis;}

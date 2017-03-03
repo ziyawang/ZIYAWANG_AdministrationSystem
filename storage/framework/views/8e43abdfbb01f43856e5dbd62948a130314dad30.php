@@ -48,19 +48,32 @@
 <div id="sidebar">
     <?php /*<a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>*/ ?>
     <ul>
-        <li class="active"><a href="<?php echo e(asset('index/index')); ?>"><i class="icon icon-home"></i> <span>首页</span></a></li>
+        <li><a href="<?php echo e(asset('index/index')); ?>"><i class="icon icon-home"></i> <span>首页</span></a></li>
         <?php $pAuths = unserialize(Session::get('pAuths'));
             $Auths = unserialize(Session::get('Auths'));
+            $lds_pId=Session::get('lds_pId');
+            $lds_Id=Session::get('lds_Id');
 
         ?>
         <?php if(is_array($pAuths) ? $pAuths : array()): ?>
         <?php foreach($pAuths as $pAuth): ?>
-            <li class="submenu">
-                <a href="#"><i class="<?php echo e($pAuth->Class); ?>"></i> <span><?php echo e($pAuth->AuthName); ?></span></a>
-            <ul>
+            <?php if($pAuth->Auth_ID==$lds_pId): ?>
+                <li class="submenu open active">
+                            <a href="#"><i class="<?php echo e($pAuth->Class); ?>"></i> <span><?php echo e($pAuth->AuthName); ?></span></a>
+                    <ul >
+                        <?php else: ?>
+                            <li class="submenu ">
+                                <a href="#"><i class="<?php echo e($pAuth->Class); ?>"></i> <span><?php echo e($pAuth->AuthName); ?></span></a>
+                                <ul >
+                        <?php endif; ?>
                 <?php foreach($Auths as $Auth): ?>
                     <?php if($Auth->PID==$pAuth->Auth_ID): ?>
-                <li><a href="<?php echo e(url($Auth->Path)); ?>"><?php echo e($Auth->AuthName); ?></a></li>
+                        <?php if($Auth->Auth_ID==$lds_Id): ?>
+                            <li class="active" onclick='rePath(this)' id="<?php echo e($Auth->Auth_ID); ?>"><a href="#"><?php echo e($Auth->AuthName); ?></a></li>
+                        <?php else: ?>
+
+                            <li onclick="rePath(this)" id="<?php echo e($Auth->Auth_ID); ?>"><a href="#"><?php echo e($Auth->AuthName); ?></a></li>
+                        <?php endif; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
@@ -68,6 +81,24 @@
         <?php endforeach; ?>
         <?php endif; ?>
     </ul>
+    <script type="text/javascript">
+
+         function rePath(e){
+          var authID=$(e).attr("id");
+            $.ajax({
+                  url:"<?php echo e(asset('index/getPath')); ?>",
+                  data:{authId:authID},
+                  dataType:"Json",
+                  type:"POST",
+                  success:function(res){
+                      var path=res['lds_path'];
+                      console.log(res);
+                     location.href="http://admin.ziyawang.cn/"+path;
+                  }
+              })
+          }
+
+    </script>
 
 </div>
 

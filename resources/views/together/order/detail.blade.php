@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="{{asset('order/index')}}" title="订单列表" class="tip-bottom"><i class="icon-home"></i>订单</a>
+        <a href="{{asset('order/index')}}" title="订单管理" class="tip-bottom"><i class="icon-home"></i>订单管理</a>
         <a href="#" class="current">订单详情</a>
     </div>
     <div class="row-fluid">

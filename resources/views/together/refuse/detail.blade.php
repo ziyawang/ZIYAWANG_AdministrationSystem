@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="{{asset('refuse/index')}}" title="退单列表" class="tip-bottom"><i class="icon-home"></i>退单</a>
+        <a href="{{asset('refuse/index')}}" title="退单管理" class="tip-bottom"><i class="icon-home"></i>退单管理</a>
         <a href="#" class="current">退单详情</a>
     </div>
     <div class="row-fluid">

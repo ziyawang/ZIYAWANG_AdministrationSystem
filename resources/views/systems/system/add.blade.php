@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="{{url("system/index")}}" title="用户列表" class="tip-bottom"><i class="icon-home"></i>用户</a>
+        <a href="{{url("system/index")}}" title="人员管理" class="tip-bottom"><i class="icon-home"></i>人员管理</a>
         <a href="#" class="current">添加用户</a>
     </div>
     <div class="row-fluid">
@@ -60,11 +60,13 @@
                             <div class="controls">
                                 <select  name="department" id="url" />
                                         <option value="0">请选择</option>
+                                        <option value="CEO">CEO</option>
                                         <option value="技术部">技术部</option>
                                         <option value="产品部">产品部</option>
-                                        <option value="销售部">销售部</option>
+                                        <option value="投资事业部">投资事业部</option>
                                         <option value="人事部">人事部</option>
-                                        <option value="客服部">客服部</option>
+                                        <option value="渠道开发部">渠道开发部</option>
+                                        <option value="信息开发部">信息开发部</option>
                                         <option value="视频部">视频部</option>
                                         <option value="财务部">财务部</option>
                                 </select>

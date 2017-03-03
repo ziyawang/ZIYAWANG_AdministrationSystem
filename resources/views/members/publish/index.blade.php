@@ -2,7 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
     <div id="breadcrumb">
-        <a href="#" title="用户注册" class="tip-bottom"><i class="icon-home"></i>用户</a>
+        <a href="#" title="用户管理" class="tip-bottom"><i class="icon-home"></i>用户管理</a>
         <a href="#" class="current">用户列表</a>
         <a href="#" class="pull-right" id="export"> <div class=" btn btn-primary ">导出</div></a>
     </div>
@@ -206,25 +206,25 @@
                 <tbody>
                 @foreach($datas as $data)
                     <tr>
-                        <td>{{$data->number}}</td>
-                        <td>{{$data->userid}}</td>
-                        <td>{{$data->username}}</td>
-                        <td>{{$data->phonenumber}}</td>
-                        <td>{{$data->created_at}}</td>
+                        <td style="text-align: center">{{$data->number}}</td>
+                        <td style="text-align: center">{{$data->userid}}</td>
+                        <td style="text-align: center">{{$data->username}}</td>
+                        <td style="text-align: center">{{$data->phonenumber}}</td>
+                        <td style="text-align: center">{{$data->created_at}}</td>
                         @if($data->status==0)
-                            <td><p style="color:dodgerblue;margin:0 auto">正常</p></td>
+                            <td style="text-align: center"><p style="color:dodgerblue;margin:0 auto">正常</p></td>
                         @else
-                           <td><p  style="color:dodgerblue">冻结</p></td>
+                           <td style="text-align: center"><p  style="color:dodgerblue">冻结</p></td>
                         @endif
                         @if($data->role==1)
-                        <td>服务方</td>
+                        <td style="text-align: center">服务方</td>
                         @elseif($data->role==2)
-                            <td>发布方</td>
+                            <td style="text-align: center">发布方</td>
                         @else
-                            <td>注册</td>
+                            <td style="text-align: center">注册</td>
                         @endif
-                        <td>{{$data->Channel}}</td>
-                        <td>
+                        <td style="text-align: center">{{$data->Channel}}</td>
+                        <td style="text-align: center">
                             <a href="{{url('publish/detail/'.$data->userid)}}">查看</a>
                         </td>
                       

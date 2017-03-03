@@ -2,7 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/news.css ')}}"/>
     <div id="breadcrumb" >
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>约谈</a>
+        <a href="#" title="约谈管理" class="tip-bottom"><i class="icon-home"></i>约谈管理</a>
         <a href="#" class="current">约谈</a>
         <a href="#" class="pull-right" id="export">
             {{--<div class="btn btn-primary" >导出</div>--}}

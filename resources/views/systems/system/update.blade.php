@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="{{url("system/index")}}" title="用户列表" class="tip-bottom"><i class="icon-home"></i>用户</a>
+        <a href="{{url("system/index")}}" title="人员管理" class="tip-bottom"><i class="icon-home"></i>人员管理</a>
         <a href="#" class="current">编辑用户</a>
     </div>
 
@@ -56,11 +56,13 @@
                             <label class="control-label">部门</label>
                             <div class="controls">
                                 <select  name="department" id="url" />
+                                    <option value="CEO"   @if($datas['Department']=='CEO') selected="selected" @endif>CEO</option>
                                     <option value="技术部"   @if($datas['Department']=='技术部') selected="selected" @endif>技术部</option>
                                     <option value="产品部"  @if($datas['Department']=='产品部')selected="selected" @endif>产品部</option>
-                                    <option value="销售部"  @if($datas['Department']=='销售部') selected="selected" @endif>销售部</option>
+                                    <option value="投资事业部"  @if($datas['Department']=='投资事业部') selected="selected" @endif>投资事业部</option>
                                     <option value="人事部"  @if($datas['Department']=='人事部') selected="selected" @endif>人事部</option>
-                                    <option value="客服部" @if($datas['Department']=='客服部') selected="selected" @endif>客服部</option>
+                                    <option value="渠道开发部" @if($datas['Department']=='渠道开发部') selected="selected" @endif>渠道开发部</option>
+                                    <option value="信息开发部" @if($datas['Department']=='信息开发部') selected="selected" @endif>信息开发部</option>
                                     <option value="视频部" @if($datas['Department']=='视频部') selected="selected" @endif>视频部</option>
                                     <option value="财务部" @if($datas['Department']=='财务部') selected="selected" @endif>财务部</option>
                                 </select>

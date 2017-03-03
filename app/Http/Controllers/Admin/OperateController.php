@@ -20,6 +20,11 @@ class OperateController extends Controller
     //保存上传的轮播图信息
     public function save()
     {
+        foreach($_POST as $val){
+            if(empty($val)){
+                return back()->with("msg", "请您将信息填写完整!");
+            }
+        }
         if ($_POST['type'] == 1) {
             $type = $_POST['typeName'];
         } else {
@@ -61,7 +66,8 @@ class OperateController extends Controller
         $ids = array(889, 1095, 44);
         $datas = DB::table("T_U_REPORT")
             ->leftJoin("users", "users.userid", "=", "T_U_REPORT.UserID")
-            ->select("users.username", "users.phonenumber", "T_U_REPORT.*")
+            ->leftJoin("T_P_PROJECTINFO", "T_P_PROJECTINFO.ProjectID", "=", "T_U_REPORT.ItemID")
+            ->select("users.username", "users.phonenumber", "T_U_REPORT.*","T_P_PROJECTINFO.TypeID","T_P_PROJECTINFO.CertifyState","T_P_PROJECTINFO.Member")
             ->whereNotIn("T_U_REPORT.UserID", $ids)
             ->where("T_U_REPORT.UserID","<>",0)
             ->orderBy("T_U_REPORT.created_at","desc")

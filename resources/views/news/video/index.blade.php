@@ -3,7 +3,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/news.css ')}}"/>
     <div id="breadcrumb">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 视频</a>
+        <a href="#" title="视频管理" class="tip-bottom"><i class="icon-home"></i> 视频管理</a>
         <a href="#" class="current">视频列表</a>
         <a href="{{url('video/add')}}" class="pull-right"> <button class="btn btn-primary">添加视频</button></a>
     </div>
@@ -47,14 +47,14 @@
                         <td width="60" height="50"><img  src="{{"Http://images.ziyawang.com".$data->VideoLogo}}"/></td>
                         <td>{{$data->VideoTitle}}</td>
                         <td>{{$data->VideoDes}}</td>
-                        <td>{{$data->Order}}</td>
+                        <td style="text-align: center">{{$data->Order}}</td>
                         @if($data->Flag==0)
                             <td>保存</td>
                         @elseif($data->Flag==1)
                             <td>保存并发布</td>
                         @endif
                         <td>{{$data->PublishTime}}</td>
-                        <td class="text-center">
+                        <td class="text-center" style="text-align: center">
                             <a class="btn btn-primary" href="{{url('video/update/'.$data->VideoID)}}"><i class="icon-pencil icon-white"></i></a>
                             <a class="btn btn-danger" href="{{url('video/delete/'.$data->VideoID)}}" onclick="return confirm('确定将此记录删除?')"><i class="icon-remove icon-white"></i></a>
                         </td>

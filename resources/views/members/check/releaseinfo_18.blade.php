@@ -56,7 +56,7 @@
                                 <label class="control-label checkState">身份</label>
                                 <div class="controls selectBox" >
                                     <select  name="Identity" id="Identity"/>
-                                    <option value="项目持有者" @if($data->Identity=="债权人") selected="selected" @endif>债权人</option>
+                                    <option value="项目持有者" @if($data->Identity=="项目持有者") selected="selected" @endif>债权人</option>
                                     <option value="FA（中介)" @if($data->Identity=="FA（中介）") selected="selected" @endif>FA（中介）</option>
                                     </select>
                                 </div>
@@ -171,7 +171,7 @@
                         @endif
                         @if(!empty($data->Industry))
                             <div class="control-group">
-                                <label class="control-label">债务人是否失联</label>
+                                <label class="control-label">债务方行业</label>
                                 <div class="controls">
                                     <select  name="Industry" id="Industry"/>
                                     <option value="IT|通信|电子|互联网" @if($data->Industry=="IT|通信|电子|互联网") selected="selected" @endif>IT|通信|电子|互联网</option>
@@ -386,9 +386,14 @@
                         </div>
                         <div class="control-group">
                             <label class="control-label">信息状态</label>
-                            <div class="controls">
+                            {{-- <div class="controls">
                                 <input type="radio" name="togetherType" id="togetherType" checked="checked" value="0" @if($data->PublishState==0) checked="checked" @endif/>未合作
                                 <input type="radio" name="togetherType"  id="togetherType" value="1"  @if($data->PublishState==1) checked="checked" @endif />已合作
+                            </div>--}}
+                            <div class="controls">
+                                <input type="radio" name="cooperateState"  checked="checked" value="0" @if($data->CooperateState==0) checked="checked" @endif/>未合作
+                                <input type="radio" name="cooperateState"   value="1"  @if($data->CooperateState==1) checked="checked" @endif />合作中
+                                <input type="radio" name="cooperateState"   value="2"  @if($data->CooperateState==2) checked="checked" @endif />已合作
                             </div>
                         </div>
                         <div class="control-group">

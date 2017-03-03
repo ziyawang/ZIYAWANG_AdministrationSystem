@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" >
-        <a href="#" title="go to home" class="tip-bottom"><i class="icon-home"></i>密码</a>
+        <a href="#" title="修改密码" class="tip-bottom"><i class="icon-home"></i>修改密码</a>
         <a href="#" class="current">修改密码</a>
     </div>
     <div class="row-fluid">

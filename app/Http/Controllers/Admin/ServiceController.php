@@ -33,7 +33,7 @@ class ServiceController extends Controller
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%0" . $typeName . "%")
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -42,7 +42,7 @@ class ServiceController extends Controller
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%0" . $typeName . "%")
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     } else {
                         $datas = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
@@ -52,7 +52,7 @@ class ServiceController extends Controller
                             ->where("users.phonenumber", "like", "%" . $connectPhone . "%")
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%0" . $typeName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -61,7 +61,7 @@ class ServiceController extends Controller
                             ->where("users.phonenumber", "like", "%" . $connectPhone . "%")
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%0" . $typeName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     }
                 } else {
                     if (!empty($serviceName)) {
@@ -73,7 +73,7 @@ class ServiceController extends Controller
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%" . $typeName . "%")
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -82,7 +82,7 @@ class ServiceController extends Controller
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%" . $typeName . "%")
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     } else {
                         $datas = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
@@ -91,7 +91,7 @@ class ServiceController extends Controller
                             //->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%" . $typeName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -99,7 +99,7 @@ class ServiceController extends Controller
                             //->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%" . $typeName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     }
                 }
             } else {
@@ -112,7 +112,7 @@ class ServiceController extends Controller
                             ->where("users.phonenumber", "like", "%" . $connectPhone . "%")
                             ->where($stateWhere)
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -120,7 +120,7 @@ class ServiceController extends Controller
                             ->where("users.phonenumber", "like", "%" . $connectPhone . "%")
                             ->where($stateWhere)
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     } else {
                         $datas = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
@@ -129,7 +129,7 @@ class ServiceController extends Controller
                             //->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where("users.phonenumber", "like", "%" . $connectPhone . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -137,7 +137,7 @@ class ServiceController extends Controller
                             //->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where("users.phonenumber", "like", "%" . $connectPhone . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     }
                 } else {
                     if (!empty($serviceName)) {
@@ -148,7 +148,7 @@ class ServiceController extends Controller
                            // ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where($stateWhere)
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -156,7 +156,7 @@ class ServiceController extends Controller
                             // ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where($stateWhere)
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     } else {
                         $datas = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
@@ -164,14 +164,14 @@ class ServiceController extends Controller
                             ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark","users.phonenumber","T_P_SERVICECERTIFY.updated_at")
                             //->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
                             ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark","users.phonenumber","T_P_SERVICECERTIFY.updated_at")
                             //->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     }
                 }
             }
@@ -218,7 +218,7 @@ class ServiceController extends Controller
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%" . $typeName . "%")
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -228,7 +228,7 @@ class ServiceController extends Controller
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%" . $typeName . "%")
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     } else {
                         $datas = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
@@ -238,7 +238,7 @@ class ServiceController extends Controller
                             ->where("users.phonenumber", "like", "%" . $connectPhone . "%")
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%" . $typeName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -247,7 +247,7 @@ class ServiceController extends Controller
                             ->where("users.phonenumber", "like", "%" . $connectPhone . "%")
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%" . $typeName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     }
                 } else {
                     if (!empty($serviceName)) {
@@ -259,7 +259,7 @@ class ServiceController extends Controller
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%" . $typeName . "%")
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -268,7 +268,7 @@ class ServiceController extends Controller
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%" . $typeName . "%")
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     } else {
                         $datas = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
@@ -277,7 +277,7 @@ class ServiceController extends Controller
                            // ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%" . $typeName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -285,7 +285,7 @@ class ServiceController extends Controller
                             // ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where("T_U_SERVICEINFO.ServiceType", "like", "%" . $typeName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     }
                 }
             } else {
@@ -299,7 +299,7 @@ class ServiceController extends Controller
                             ->where("users.phonenumber", "like", "%" . $connectPhone . "%")
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -308,7 +308,7 @@ class ServiceController extends Controller
                             ->where("users.phonenumber", "like", "%" . $connectPhone . "%")
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     } else {
                         $datas = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
@@ -317,7 +317,7 @@ class ServiceController extends Controller
                            // ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where("users.phonenumber", "like", "%" . $connectPhone . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -325,7 +325,7 @@ class ServiceController extends Controller
                             // ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where("users.phonenumber", "like", "%" . $connectPhone . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     }
                 } else {
                     if (!empty($serviceName)) {
@@ -336,7 +336,7 @@ class ServiceController extends Controller
                             //->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total= DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
@@ -344,7 +344,7 @@ class ServiceController extends Controller
                             //->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where("T_U_SERVICEINFO.ServiceName", "like", "%" . $serviceName . "%")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     } else {
                         $datas = DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
@@ -352,14 +352,14 @@ class ServiceController extends Controller
                             ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark","users.phonenumber","T_P_SERVICECERTIFY.updated_at")
                             //->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+                            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
                         $total= DB::table("T_U_SERVICEINFO")
                             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
                             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
                             ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark","users.phonenumber","T_P_SERVICECERTIFY.updated_at")
                             //->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
                             ->where($stateWhere)
-                            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+                            ->count();
                     }
                 }
             }
@@ -397,13 +397,12 @@ class ServiceController extends Controller
             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
             ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark","users.phonenumber","T_P_SERVICECERTIFY.updated_at")
             //->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
-            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->paginate(20);
+            ->orderBy("T_U_SERVICEINFO.created_at", "desc")->paginate(20);
         $total = DB::table("T_U_SERVICEINFO")
             ->leftjoin("T_P_SERVICECERTIFY", "T_U_SERVICEINFO.ServiceID", "=", "T_P_SERVICECERTIFY.ServiceID")
             ->leftJoin("users","T_U_SERVICEINFO.UserID","=","users.userid")
             ->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark","users.phonenumber","T_P_SERVICECERTIFY.updated_at")
-            //->select("T_U_SERVICEINFO.*", "T_P_SERVICECERTIFY.State", "T_P_SERVICECERTIFY.Remark")
-            ->orderBy("T_U_SERVICEINFO.ServiceID", "desc")->count();
+            ->count();
         $db = array();
         $number=$total;
         foreach ($datas as $data) {
@@ -643,6 +642,8 @@ class ServiceController extends Controller
             "ServiceName"=>$_POST['serviceName'],
             "ServiceIntroduction"=>$_POST['SerInt'],
             "ConnectPhone"=>$_POST['number'],
+            "Size"=>$_POST['Size'],
+            "Founds"=>$_POST['Founds'],
             "ServiceType"=>$changeType,
             'updated_at' => date("Y-m-d H:i:s", time())
         ]);

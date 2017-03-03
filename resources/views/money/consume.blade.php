@@ -131,11 +131,11 @@
                         <td style="text-align:center"> <a href="{{url('check/detail/'.$dataMoney->ProjectID.'/'.$dataMoney->TypeID)}}" target="_blank">{{$dataMoney->ProjectID}}</a></td>
                        {{-- <td style="text-align:center">{{$dataMoney->WordDes}}</td>--}}
                         <td style="text-align:center">{{$dataMoney->TypeName}}</td>
-                        <td style="text-align:center">{{$dataMoney->Money}}</td>
+                        <td style="text-align:center">{{$dataMoney->Price}}</td>
                         <td style="text-align:center">{{$dataMoney->Money*$dataMoney->recordCounts}}</td>
                         <td style="text-align:center">{{$dataMoney->created_at}}</td>
                         <td style="text-align:center">{{$dataMoney->recordCounts}}</td>
-                        <td>
+                        <td style="text-align: center">
                             <a href="{{asset('money/conDetail/'.$dataMoney->ProjectID.'/'.$value.'/'.$longTime.'/'.$shortTime)}}">查看详情</a>
                         </td>
                     </tr>

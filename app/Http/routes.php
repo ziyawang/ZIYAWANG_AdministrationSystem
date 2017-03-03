@@ -22,7 +22,12 @@ Route::get("index/index",'Admin\IndexController@index');
 Route::post('admin/login','Admin\LoginController@login');
 
 Route::group(['middleware' =>"AdminLogin"], function () {
-    //系统管理中人员管理路由
+    
+//首页中的菜单权限控制
+    Route::post("index/getPath",'Admin\IndexController@getPath');
+    
+    
+//系统管理中人员管理路由
 Route::get('system/index', 'Admin\SystemController@index');
 Route::get('system/add', 'Admin\SystemController@add');
 Route::post('systems/system/add', 'Admin\SystemController@add');
@@ -86,9 +91,10 @@ Route::get('entrust/index', 'Admin\EntrustController@index');
 Route::post('entrust/change', 'Admin\EntrustController@change');
 
 //会员管理中的会员列表的路由
-Route::get("members/index",'Admin\MembersController@index');
+Route::any("members/index",'Admin\MembersController@index');
 Route::get("members/recharge",'Admin\MembersController@recharge');
 Route::post("members/saveRecharge",'Admin\MembersController@saveRecharge');
+Route::get("members/export",'Admin\MembersController@export');
 
 //会员管理中的服务方认证路由
 Route::get("star/index",'Admin\StarController@index');
@@ -181,7 +187,7 @@ Route::any("count/serCount",'Admin\CountController@serCount');
 Route::any("test/index",'Admin\TestController@index');
 Route::any("test/ajaxChoose",'Admin\TestController@ajaxChoose');
 Route::get("test/add",'Admin\TestController@add');
-    Route::post("test/save",'Admin\TestController@save');
+Route::post("test/save",'Admin\TestController@save');
 
 //运维管理中的导出报表
 Route::any("export/index",'Admin\ExportController@index');
@@ -202,6 +208,26 @@ Route::any("money/resultData",'Admin\MoneyController@ajaxData');
 Route::any("money/consume",'Admin\MoneyController@consume');
 Route::any("money/conDetail/{projectId}/{value}/{longTime}/{shortTime}",'Admin\MoneyController@conDetail');
 Route::any("money/consumeData",'Admin\MoneyController@consumeData');
+    
+//客户档案
+Route::any("customer/index",'Admin\CustomerController@index');
+Route::get("customer/add",'Admin\CustomerController@add');
+Route::post("customer/saveAdd",'Admin\CustomerController@saveAdd');
+Route::get("customer/delete/{customerId}",'Admin\CustomerController@delete');
+Route::any("customer/addKey",'Admin\CustomerController@addKey');
+Route::any("customer/saveKey",'Admin\CustomerController@saveKey');
+Route::get("customer/detail/{customerId}",'Admin\CustomerController@detail');  
+Route::post("customer/saveUpdate",'Admin\CustomerController@saveUpdate');
+    
+    //资芽网线下项目跟进
+Route::any("process/index",'Admin\ProcessController@index');
+Route::get("process/add",'Admin\ProcessController@add');
+Route::post("process/saveAdd",'Admin\ProcessController@saveAdd');
+Route::get("process/delete/{projectId}",'Admin\ProcessController@delete');
+Route::get("process/detail/{projectId}/{typeId}",'Admin\ProcessController@detail');
+Route::POST("process/saveUpdate/",'Admin\ProcessController@saveUpdate');
+   
+
 
 
 });

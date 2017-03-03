@@ -67,15 +67,14 @@
                             <option value="<?php echo e($result->TypeID); ?>" <?php if(!empty($typeName) && $typeName==$result->TypeID): ?> selected="selected" <?php endif; ?>><?php echo e($result->TypeName); ?></option>
                         <?php endforeach; ?>*/ ?>
                         <select  name="typeName" id="typeName"/>
-                        <option value="0">---全部---</option>
-                        <option value="1" <?php if($typeName=="1"): ?> selected="selected" <?php endif; ?>>资产包</option>
-                        <option value="6,17" <?php if($typeName=="6,17"): ?> selected="selected" <?php endif; ?>>融资信息</option>
-                        <option value="12,16" <?php if($typeName=="12,16"): ?> selected="selected" <?php endif; ?>>固定资产</option>
-                        <option value="18" <?php if($typeName=="18"): ?> selected="selected" <?php endif; ?>>企业商账</option>
-                        <option value="19" <?php if($typeName=="19"): ?> selected="selected" <?php endif; ?>>个人债权</option>
-                        <option value="20,21,22" <?php if($typeName=="20,21,22"): ?> selected="selected" <?php endif; ?>>法拍资产</option>
-
-                            </select>
+                            <option value="0">---全部---</option>
+                            <option value="1" <?php if($typeName=="1"): ?> selected="selected" <?php endif; ?>>资产包</option>
+                            <option value="6,17" <?php if($typeName=="6,17"): ?> selected="selected" <?php endif; ?>>融资信息</option>
+                            <option value="12,16" <?php if($typeName=="12,16"): ?> selected="selected" <?php endif; ?>>固定资产</option>
+                            <option value="18" <?php if($typeName=="18"): ?> selected="selected" <?php endif; ?>>企业商账</option>
+                            <option value="19" <?php if($typeName=="19"): ?> selected="selected" <?php endif; ?>>个人债权</option>
+                            <option value="20,21,22" <?php if($typeName=="20,21,22"): ?> selected="selected" <?php endif; ?>>法拍资产</option>
+                        </select>
                     </div>
                 </div>
             </td>
@@ -155,8 +154,8 @@
                     <th>浏览次数</th>
                     <th>收藏次数</th>
                     <th>发布渠道</th>
+                    <th>芽币</th>
                     <th>审核状态</th>
-                    <th>备注</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -178,6 +177,7 @@
                         <td><a href="<?php echo e(asset("check/viewDetail/".$data->ProjectID)); ?>"><?php echo e($data->ViewCount); ?></a></td>
                         <td><a href="<?php echo e(asset("check/collectDetail/".$data->ProjectID)); ?>"><?php echo e($data->CollectionCount); ?></a></td>
                         <td><?php echo e($data->Channel); ?></td>
+                        <td><?php echo e($data->Price); ?></td>
                         <?php if($data->State==0): ?>
                             <td><p style="color: #149bdf">待审核</p></td>
                         <?php elseif($data->State==1): ?>
@@ -185,7 +185,6 @@
                         <?php else: ?>
                             <td><p style="color: #149bdf">拒审核</p></td>
                         <?php endif; ?>
-                        <td><?php echo e($data->Remark); ?></td>
                         <td><a href="<?php echo e(url('check/detail/'.$data->ProjectID.'/'.$data->TypeID)); ?>">查看</a></td>
                     </tr>
                 <?php endforeach; ?>

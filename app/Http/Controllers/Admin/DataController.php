@@ -248,9 +248,18 @@ class DataController extends Controller
         }
 
 
-        $recordIds=array();
+        /*$recordIds=array();
         foreach ($results as $result) {
             $recordIds[]=$result->RecordID;
+        }*/
+       $dbs = array();
+        $recordIds=array();
+        foreach ($results as $result) {
+            $phoneNumber = $result->PhoneNumber;
+            if (!in_array($phoneNumber, $dbs)) {
+                $dbs[] = $phoneNumber;
+                $recordIds[]=$result->RecordID;
+            }
         }
         $numArray=array("18610301342","15261176097","13522154362","18366127749","18301684703","15261176097","18810772441","15811535676","18518691160","15810116865","17095058258","17701314132","18210909557");
         if(isset($_POST['_token'])){
@@ -310,10 +319,19 @@ class DataController extends Controller
                 ->get();
         }
 
-
+        foreach ($dbs as $db) {
+            if(!empty($shortTime) && !empty($longTime)){
+                $Time=date("Y-m-d",strtotime($longTime)+24*60*60);
+                $counts = DB::table("T_M_RECORD")->where("PhoneNumber", $db)->whereBetween("LoginTime",[$shortTime,$Time])->count();
+                $longTime=$longTime;
+            }else{
+                $counts = DB::table("T_M_RECORD")->where("PhoneNumber", $db)->count();
+            }
 
             foreach ($datas as $data) {
-                $userId = $data->userid;
+                if ($data->phonenumber == $db) {
+                    $data->counts = $counts;
+                    $userId = $data->userid;
                     $results = DB::table("T_U_SERVICEINFO")->where('userid', $userId)->count();
                     $pubs = DB::table("T_P_PROJECTINFO")->where("userid", $userId)->count();
                     if ($results > 0) {
@@ -334,8 +352,9 @@ class DataController extends Controller
                     } else {
                         $data->role = 0;
                     }
-
+                }
             }
+        }
 
         require_once '../vendor/PHPExcel.class.php';
         require_once '../vendor/PHPExcel/IOFactory.php';
@@ -355,7 +374,8 @@ class DataController extends Controller
             ->setCellValue('C1', '公司名称')
             ->setCellValue('D1', '服务类型')
             ->setCellValue('E1', '注册时间')
-            ->setCellValue('F1', '登录时间');
+            ->setCellValue('F1', '登录时间')
+            ->setCellValue('G1', '登录次数');
         foreach ($datas as $key => $data) {
             if($data->role==1){
                 $role="服务方";
@@ -371,21 +391,23 @@ class DataController extends Controller
                 ->setCellValue('C' . $i, $data->ServiceName)
                 ->setCellValue('D' . $i, $data->ServiceType)
                 ->setCellValue('E' . $i, $data->created_at)
-                ->setCellValue('F' . $i, $data->LoginTime);
+                ->setCellValue('F' . $i, $data->LoginTime)
+                ->setCellValue('G' . $i, $data->counts);
 
         }
-        $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel, 'Excel5');
-        header("Pragma: public");
-        header("Expires: 0");
-        header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
-        header("Content-Type:application/force-download");
-        header("Content-Type:application/vnd.ms-execl");
-        header("Content-Type:application/octet-stream");
-        header("Content-Type:application/download");
-        header('Content-Disposition:attachment;filename=' . $excel_name . ".xls");
-        header("Content-Transfer-Encoding:binary");
-        $objWriter->save('php://output');
-    }
+            $objWriter = \PHPExcel_IOFactory::createWriter($phpExcel, 'Excel5');
+            header("Pragma: public");
+            header("Expires: 0");
+            header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
+            header("Content-Type:application/force-download");
+            header("Content-Type:application/vnd.ms-execl");
+            header("Content-Type:application/octet-stream");
+            header("Content-Type:application/download");
+            header('Content-Disposition:attachment;filename=' . $excel_name . ".xls");
+            header("Content-Transfer-Encoding:binary");
+            $objWriter->save('php://output');
+        }
+
     //用户反馈信息展示
     public function returnBack(){
         $datas=DB::table("T_U_FEEDBACK")

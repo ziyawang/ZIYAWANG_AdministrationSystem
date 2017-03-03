@@ -2,7 +2,7 @@
 
 @section('content')
     <div id="breadcrumb" style="position:relative">
-        <a href="{{url("system/index")}}" title="用户列表" class="tip-bottom"><i class="icon-home"></i>用户列表</a>
+        <a href="{{url("system/index")}}" title="人员管理" class="tip-bottom"><i class="icon-home"></i>人员管理</a>
         <a href="#" class="current">用户列表</a>
         <a href="{{url('system/add')}}" class="pull-right"> <button class="btn btn-success">添加用户</button></a>
     </div>
@@ -28,12 +28,12 @@
                 <tbody>
                 @foreach($datas as $data)
                 <tr>
-                    <td>{{$data['Name']}}</td>
-                    <td>{{$data['Email']}}</td>
-                    <td>{{$data['PhoneNumber']}}</td>
-                    <td>{{$data['RoleName']}}</td>
-                    <td>{{$data['Department']}}</td>
-                    <td>
+                    <td style="text-align: center">{{$data['Name']}}</td>
+                    <td style="text-align: center">{{$data['Email']}}</td>
+                    <td style="text-align: center">{{$data['PhoneNumber']}}</td>
+                    <td style="text-align: center">{{$data['RoleName']}}</td>
+                    <td style="text-align: center">{{$data['Department']}}</td>
+                    <td style="text-align: center">
                         <a class="btn btn-primary" href="{{url('system/update/'.$data['id'])}}"><i class="icon-pencil icon-white"></i></a>&nbsp&nbsp&nbsp
                         <a class="btn btn-danger"  href="{{url('system/delete/'.$data['id'])}}"onclick="return confirm('确定将此记录删除?')"><i class="icon-remove icon-white"></i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                         <a class="btn btn-primary"  href="{{url('system/edit/'.$data['id'])}}"onclick="return confirm('确定将密码恢复到原始值吗?')">重置密码</i></a>

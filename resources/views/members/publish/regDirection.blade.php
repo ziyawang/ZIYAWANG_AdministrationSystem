@@ -2,7 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
     <div id="breadcrumb">
-        <a href="{{asset('publish/index')}}" title="用户注册" class="tip-bottom"><i class="icon-home"></i>用户注册</a>
+        <a href="{{asset('publish/index')}}" title="用户管理" class="tip-bottom"><i class="icon-home"></i>用户管理</a>
         <a href="#" class="current">用户注册</a>
 
     </div>

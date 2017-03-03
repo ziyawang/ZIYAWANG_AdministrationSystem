@@ -14,7 +14,7 @@
         .radio input[type="radio"] {  float: left; margin-left: 0px;}
     </style>
     <div id="breadcrumb">
-        <a href="" title="测评系统" class="tip-bottom"><i class="icon-home"></i>测评系统</a>
+        <a href="" title="添加题目" class="tip-bottom"><i class="icon-home"></i>添加题目</a>
         <a href="#" class="current">添加题目</a>
     </div>
     <div class="row-fluid">
@@ -32,11 +32,11 @@
                         </div>
                     </div>
                     <div class="control-group question">
-                        <label class="control-label cap">题目类型</label>
+                        <label class="control-label cap" style="padding-top: 13px">题目类型</label>
                         <div class="controls newsType">
-                            <input type="radio" id="single" name="choice" value="0" />单选
-                            <input type="radio" id="multi" name="choice" value="2" />多选
-                            <input type="radio" id="fill" name="choice" value="1" />填空
+                            <input type="radio" id="single" name="choice" value="0" style="vertical-align:-3px" />单选
+                            <input type="radio" id="multi" name="choice" value="2" style="vertical-align:-3px" />多选
+                            <input type="radio" id="fill" name="choice" value="1"  style="vertical-align:-3px"/>填空
                         </div>
                     </div>
                 `   <div class="control-group">
@@ -57,7 +57,7 @@
                     </div>
                     </form>
                     <div class="form-actions">
-                        <button id="pub">提交</button>
+                        <button id="pub" class="btn btn-primary" style="margin-left: 192px">提交</button>
                     </div>
                 </div>
             </div>
@@ -100,6 +100,8 @@
                 success:function(msg) {
                     if (msg.status_code == "200") {
                         window.location.href="{{asset('test/add')}}";
+                    }else{
+                        alert("添加题目失败,请您重新添加!");
                     }
                 }
             });

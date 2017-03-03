@@ -5,11 +5,14 @@
         <link rel="stylesheet" href="{{asset('css/bootstrap.min.css ')}}"/>
         <link rel="stylesheet" href="{{asset('css/bootstrap-responsive.min.css')}}" />
         <link rel="stylesheet" href="{{asset('css/select2.css')}}" />
+    <link rel="stylesheet" href="{{asset('css/bootstrap-datetimepicker.min.css')}}" />
         <script src="{{asset('js/jquery.min.js')}}"></script>
         <script src="{{asset('js/bootstrap.min.js')}}"></script>
         <script src="{{asset('js/unicorn.js')}}"></script>
         <script src="{{asset('js/select2.min.js')}}"></script>
         <script src="{{asset('assets/layer/layer/layer.js')}}"></script>
+    <script src="{{asset('js/bootstrap-datetimepicker.js')}}"></script>
+    <script src="{{asset('js/bootstrap-datetimepicker.zh-CN.js')}}"></script>
 
 </head>
 <body>
@@ -34,10 +37,10 @@
                 <input type="number" name="PayMoney"  id="PayMoney"/>
             </div>
         </div>
-        <div class="control-group" id="from" >
+        <div class="control-group"  >
             <label class="control-label">开始时间</label>
             <div class="controls">
-                <input type="text" name="StartTime" />
+                <input type="text" name="StartTime" id="StartTime"/>
             </div>
         </div>
     </form>
@@ -47,12 +50,12 @@
     </body>
 <script>
     $(function () {
-        /*  $('#longTime').datetimepicker({
+          $('#StartTime').datetimepicker({
          minView: "month", //选择日期后，不会再跳转去选择时分秒
          format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
          language: 'zh-CN', //汉化
          autoclose:true //选择日期后自动关闭
-         });*/
+         });
         $(function () {
             $("#button").on("click", function () {
                 var data = $('#formPC').serialize();

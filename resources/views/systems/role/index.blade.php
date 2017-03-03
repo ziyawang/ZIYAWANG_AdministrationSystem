@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position: relative">
-        <a href="{{asset('role/index')}}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>角色</a>
+        <a href="{{asset('role/index')}}" title="角色管理" class="tip-bottom"><i class="icon-home"></i>角色管理</a>
         <a href="#" class="current">角色列表</a>
         <a href="{{url('role/add')}}" class="pull-right"> <button class="btn btn-success">添加角色</button></a>
     </div>
@@ -25,10 +25,10 @@
                 <tbody>
                 @foreach($datas as $data)
                     <tr>
-                        <td>{{$data->id}}</td>
-                        <td>{{$data->RoleName}}</td>
+                        <td style="text-align: center">{{$data->id}}</td>
+                        <td style="text-align: center">{{$data->RoleName}}</td>
 
-                        <td>
+                        <td style="text-align: center">
                             <a class="btn btn-primary" href="{{url('role/update/'.$data->id)}}"><i class="icon-pencil icon-white"></i></a>&nbsp&nbsp&nbsp
                             <a class="btn btn-danger"  href="{{url('role/delete/'.$data->id)}}"onclick="return confirm('确定将此记录删除?')"><i class="icon-remove icon-white"></i></a>
                         </td>

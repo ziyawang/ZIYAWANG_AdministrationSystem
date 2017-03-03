@@ -5,7 +5,7 @@
         .newsType .checker span .checker span{background-position: -76px -240px;}
     </style>
     <div id="breadcrumb">
-        <a href="{{url('video/index')}}" title="视频列表" class="tip-bottom"><i class="icon-home"></i> 视频</a>
+        <a href="{{url('video/index')}}" title="视频管理" class="tip-bottom"><i class="icon-home"></i>视频管理</a>
         <a href="#" class="current">编辑视频</a>
     </div>
     @if(session("msg"))
@@ -37,7 +37,7 @@
                         <label class="control-label">视频类型</label>
                         <div class="controls newsType">
                             @foreach($types as $type)
-                                @if(!isset($count))
+                                @if(empty($count))
                                     <input type="checkbox" name="type[]" value="{{$type->id}}"/>{{$type->TypeName}}
                                 @else
                                     <input type="checkbox" name="type[]" value="{{$type->id}}" @if(in_array($type->id,$count)) checked="checked" @endif />{{$type->TypeName}}

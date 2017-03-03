@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" style="position:relative" xmlns="http://www.w3.org/1999/html">
-        <a href="{{asset('push/index')}}" title="审核列表" class="tip-bottom"><i class="icon-home"></i>推送</a>
+        <a href="{{asset('push/index')}}" title="推送信息" class="tip-bottom"><i class="icon-home"></i>推送信息</a>
         <a href="#" class="current">推送信息</a>
     </div>
     @if(session("msg"))

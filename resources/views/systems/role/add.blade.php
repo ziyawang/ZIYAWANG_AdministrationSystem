@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <div id="breadcrumb" >
-        <a href="{{asset('role/index')}}" title="角色列表" class="tip-bottom"><i class="icon-home"></i>角色</a>
+        <a href="{{asset('role/index')}}" title="角色管理" class="tip-bottom"><i class="icon-home"></i>角色管理</a>
         <a href="#" class="current">添加角色</a>
     </div>
     <div class="row-fluid">

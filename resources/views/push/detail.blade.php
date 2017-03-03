@@ -3,7 +3,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/news.css ')}}"/>
     <div id="breadcrumb">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 推送</a>
+        <a href="#" title="推送列表" class="tip-bottom"><i class="icon-home"></i> 推送列表</a>
         <a href="#" class="current">已推送列表</a>
     </div>
     <div  class="container-fluid">

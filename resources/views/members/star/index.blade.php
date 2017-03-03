@@ -2,7 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>星级认证</a>
+        <a href="#" title="星级认证" class="tip-bottom"><i class="icon-home"></i>星级认证</a>
         <a href="#" class="current">认证列表</a>
     </div>
     <div  class="container-fluid">
@@ -14,6 +14,7 @@
                     <th>联系人</th>
                     <th>认证类型</th>
                     <th>认证费用(元)</th>
+                    <th>备注</th>
                     <th>认证时间</th>
                     <th>状态</th>
                     <th>操作</th>
@@ -30,6 +31,16 @@
                         @else
                             <td>免费</td>
                         @endif
+                        @if(!empty($data->PayMoney))
+                            @if($data->Remark==1)
+                                <td>赠送</td>
+                            @else
+                                <td>购买</td>
+                            @endif
+                        @else
+                            <td></td>
+                        @endif
+
                         <td>{{$data->created_at}}</td>
                         @if($data->State==1)
                             <td>待审核</td>

@@ -80,7 +80,7 @@ class VideoController extends Controller
             }
             return redirect("video/index");
         }else {
-            return back()->with('msg', "请选择新闻类型");
+            return back()->with('msg', "请选择视频类型");
         }
 
     }
@@ -152,7 +152,7 @@ class VideoController extends Controller
     public function update($id){
         $datas=DB::table("T_V_VIDEOINFO")->where('VideoID',$id)->first();
         $results=DB::table("T_CONFIG_ITEMTYPE")->select("TypeID")->where("ModuleID",$id)->get();
-       
+        $count=array();
         foreach ($results as $result){
             $count[]=$result->TypeID;
         }

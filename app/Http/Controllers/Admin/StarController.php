@@ -77,10 +77,16 @@ class StarController extends Controller
                 "State"=>$state,
             ]);
         }else {
-            $PictureArr["PictureDes1"]=!empty($_POST['PictureDes1']) ? $_POST['PictureDes1'] : "";
-            $PictureArr["PictureDes2"]=!empty($_POST['PictureDes2']) ? $_POST['PictureDes2'] : "";
-            $PictureArr["PictureDes3"]=!empty($_POST['PictureDes3']) ? $_POST['PictureDes3'] : "";
-            $resource=implode(",",$PictureArr);
+            $PictureArr["PictureDes1"]=!empty($_POST['PictureDes1']) ? $_POST['PictureDes1'] : null;
+            $PictureArr["PictureDes2"]=!empty($_POST['PictureDes2']) ? $_POST['PictureDes2'] : null;
+            $PictureArr["PictureDes3"]=!empty($_POST['PictureDes3']) ? $_POST['PictureDes3'] : null;
+            $arr=array();
+            foreach ($PictureArr as $value){
+                if(!empty($value)){
+                    $arr[]=$value;
+                }
+            }
+            $resource=implode(",",$arr);
             $result=DB::table("T_U_STAR")->where("StarPayID",$starPayId)->update([
                 "Resource"=>$resource,
                 "State"=>$state,
@@ -93,8 +99,15 @@ class StarController extends Controller
                 $starIdArr[]=$value->StarID;
             }
             $level=implode(",",$starIdArr);
+            $orders=DB::table("T_U_SERVICEINFO")->where("UserID",$userId)->pluck("Order");
+            if($orders[0]==0){
+                $order=1;
+            }else{
+                $order=$orders[0];
+            }
             $res=DB::table("T_U_SERVICEINFO")->where("UserID",$userId)->update([
-                "Level"=>$level
+                "Level"=>$level,
+                "Order"=>$order
             ]);
             return redirect("star/index");
         }else{

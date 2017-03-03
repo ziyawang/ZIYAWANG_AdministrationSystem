@@ -2,7 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>服务方</a>
+        <a href="#" title="服务方审核" class="tip-bottom"><i class="icon-home"></i>服务方审核</a>
         <a href="#" class="current">服务方列表</a>
         <a href="#" class="pull-right" id="export"> <div class="btn btn-primary">导出</div></a>
     </div>
@@ -91,7 +91,7 @@
                 <thead>
                 <tr>
                     <th>编号</th>
-                    <th class="w1">ID</th>
+                    <th >ID</th>
                     <th class="w2">公司名称</th>
                     <th class="w3">注册号</th>
                     <th class="w3">联系号</th>
@@ -100,10 +100,10 @@
                     <th class="w6">服务地区</th>
                     <th class="w8">完善时间</th>
                     <th class="w8">审核时间</th>
-                    <th class="w1">浏览次数</th>
-                    <th class="w1">收藏次数</th>
-                    <th class="w1">查看次数</th>
-                    <th class="w1">登录次数</th>
+                    <th >浏览次数</th>
+                    <th >收藏次数</th>
+                    <th >查看次数</th>
+                    <th >登录次数</th>
                     <th class="w9">审核状态</th>
                     <th class="w10">操作</th>
                 </tr>
@@ -111,30 +111,30 @@
                 <tbody>
                 @foreach($datas as $data)
                     <tr>
-                        <td>{{$data->number}}</td>
-                        <td>{{$data->ServiceID}}</td>
-                        <td>{{$data->ServiceName}}</td>
-                        <td>{{$data->phonenumber}}</td>
-                        <td>{{$data->ConnectPhone}}</td>
-                        <td>{{$data->ServiceLocation}}</td>
-                        <td>{{$data->ServiceType}}</td>
-                        <td>{{$data->ServiceArea}}</td>
+                        <td style="text-align: center">{{$data->number}}</td>
+                        <td style="text-align: center">{{$data->ServiceID}}</td>
+                        <td style="text-align: center">{{$data->ServiceName}}</td>
+                        <td style="text-align: center">{{$data->phonenumber}}</td>
+                        <td style="text-align: center">{{$data->ConnectPhone}}</td>
+                        <td style="text-align: center">{{$data->ServiceLocation}}</td>
+                        <td style="text-align: center">{{$data->ServiceType}}</td>
+                        <td style="text-align: center">{{$data->ServiceArea}}</td>
                 {{--        <td class="tdCompanyIntro"><div>{{$data->ServiceIntroduction}}</div></td>--}}
-                        <td>{{$data->created_at}}</td>
-                        <td>{{$data->updated_at}}</td>
-                        <td>{{$data->ViewCount}}</td>
-                        <td>{{$data->CollectionCount}}</td>
-                        <td>{{$data->CheckCount}}</td>
-                        <td>{{$data->loginCounts}}</td>
+                        <td style="text-align: center">{{$data->created_at}}</td>
+                        <td style="text-align: center">{{$data->updated_at}}</td>
+                        <td style="text-align: center">{{$data->ViewCount}}</td>
+                        <td style="text-align: center">{{$data->CollectionCount}}</td>
+                        <td style="text-align: center">{{$data->CheckCount}}</td>
+                        <td style="text-align: center">{{$data->loginCounts}}</td>
                         @if($data->State==2)
-                            <td><p style="color: #149bdf">拒审核</p></td>
+                            <td style="text-align: center"><p style="color: #149bdf">拒审核</p></td>
                             @elseif($data->State==0)
-                            <td><p style="color: #149bdf">待审核</p></td>
+                            <td style="text-align: center"><p style="color: #149bdf">待审核</p></td>
                             @else
-                            <td><p style="color: #149bdf">已审核</p></td>
+                            <td style="text-align: center"><p style="color: #149bdf">已审核</p></td>
                             @endif
 
-                        <td><a href="{{url('service/detail/'.$data->ServiceID)}}" id="look">查看</a></td>
+                        <td style="text-align: center"><a href="{{url('service/detail/'.$data->ServiceID)}}" id="look">查看</a></td>
                     </tr>
                     @endforeach
                 </tbody>

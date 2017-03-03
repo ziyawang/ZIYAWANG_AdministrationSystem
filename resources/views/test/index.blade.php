@@ -2,7 +2,7 @@
 @section('content')
     <link rel="stylesheet" href="{{asset('css/member.css ')}}"/>
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>测评系统</a>
+        <a href="#" title="测评列表" class="tip-bottom"><i class="icon-home"></i>测评列表</a>
         <a href="#" class="current">测评列表</a>
         {{--<a href="#" class="pull-right" id="export"> <div class="btn btn-primary " >导出</div></a>--}}
     </div>
@@ -93,7 +93,11 @@
                         <td>{{$data->Type}}</td>
                         <td>{{$data->Score}}</td>
                         <td>{{$data->Count}}</td>
-                        <td>{{$data->Channel}}</td>
+                        @if($data->Channel=="ANDROID")
+                            <td>Android</td>
+                        @else
+                            <td>{{$data->Channel}}</td>
+                        @endif
                         <td>{{$data->TestTime}}</td>
                     </tr>
                 @endforeach

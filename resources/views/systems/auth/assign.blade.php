@@ -4,7 +4,7 @@
         .authentic tr td .checker span .checker span{background-position: -76px -240px;}
     </style>
     <div id="breadcrumb" style="position:relative">
-        <a href="{{asset("auth/index")}}" title="角色列表" class="tip-bottom"><i class="icon-home"></i>权限</a>
+        <a href="{{asset("auth/index")}}" title="权限管理" class="tip-bottom"><i class="icon-home"></i>权限管理</a>
         <a href="#" class="current">分配权限</a>
     </div>
     @if(session("msg"))
