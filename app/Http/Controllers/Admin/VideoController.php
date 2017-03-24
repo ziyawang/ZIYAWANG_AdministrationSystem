@@ -50,6 +50,9 @@ class VideoController extends Controller
                         case "资芽一分钟":
                             $typeName->TypeName="zyyfz";
                             break;
+                        case "付费课程":
+                            $typeName->TypeName="ffkc";
+                            break;
                     }
                 }
                 foreach ($typeNames as $typeName){
@@ -66,6 +69,8 @@ class VideoController extends Controller
                 "VideoThumb"=>$_POST['videoThumb'],
                 'Flag'=>$type,
                 "VideoLabel"=>$videoLab,
+                "Member"=>$_POST['member'],
+                "Price"=>!empty($_POST['gold']) ? $_POST['gold'] : "",
                 "Order"=>!empty($_POST['order']) ? $_POST['order'] : "",
                 'PublishTime'=>date("Y-m-d H:i:s", time()),
                 'created_at'=>date("Y-m-d H:i:s", time())
@@ -106,12 +111,17 @@ class VideoController extends Controller
                         case "资芽一分钟":
                             $typeName->TypeName="zyyfz";
                             break;
+                        case "付费课程":
+                            $typeName->TypeName="ffkc";
+                            break;
                     }
                 }
                 foreach ($typeNames as $typeName){
                     $arr[]= $typeName->TypeName;
                 }
-
+            }
+            if($_POST['member']=="0"){
+                $_POST['gold']="";
             }
             $videoLab=implode(",",$arr);
             $db=DB::table("T_V_VIDEOINFO")->where('VideoID',$_POST['videoid'])->update([
@@ -123,6 +133,8 @@ class VideoController extends Controller
                 "VideoThumb"=>$_POST['videoThumb'],
                 'Flag'=>$type,
                 "VideoLabel"=>$videoLab,
+                "Member"=>$_POST['member'],
+                "Price"=>$_POST['gold'],
                 "Order"=>!empty($_POST['order']) ? $_POST['order'] : "",
                 'PublishTime'=>date("Y-m-d H:i:s", time()),
                 'updated_at'=>date("Y-m-d H:i:s", time())
@@ -147,7 +159,6 @@ class VideoController extends Controller
         }
 
     }
-    
     //编辑视频信息
     public function update($id){
         $datas=DB::table("T_V_VIDEOINFO")->where('VideoID',$id)->first();
@@ -185,12 +196,13 @@ class VideoController extends Controller
     }
      //上传pc端的视频
     public function bigupload(){
+        set_time_limit(0);
         $file = Input::file('Filedata');
-        $clientName = $file->getClientOriginalName();//获取文件名
+      // $clientName = $file->getClientOriginalName();//获取文件名
         $tmpName = $file->getFileName();//获取临时文件名
         $realPath = $file->getRealPath();//缓存文件的绝对路径
         $extension = $file->getClientOriginalExtension();//获取文件的后缀
-        $mimeType = $file->getMimeType();//文件类型
+        //$mimeType = $file->getMimeType();//文件类型
         $newName = time(). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径
@@ -200,12 +212,13 @@ class VideoController extends Controller
     }
       //上传手机端的视频
     public function smallupload(){
+        set_time_limit(0);
         $file = Input::file('Filedata');
-        $clientName = $file->getClientOriginalName();//获取文件名
+       // $clientName = $file->getClientOriginalName();//获取文件名
         $tmpName = $file->getFileName();//获取临时文件名
         $realPath = $file->getRealPath();//缓存文件的绝对路径
         $extension = $file->getClientOriginalExtension();//获取文件的后缀
-        $mimeType = $file->getMimeType();//文件类型
+       // $mimeType = $file->getMimeType();//文件类型
         $newName = time(). mt_rand(1000,9999). '.'. $extension;//新文件名
 //       $path = $file->move(base_path().'/public/upload/images/',$newName);//移动绝对路径
 //       $filePath = '/upload/images/'.$newName;//存入数据库的相对路径

@@ -118,31 +118,47 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">面积</label>
+                            <label class="control-label">土地面积</label>
                             <div class="controls">
                                 <input type="text" name="Area" id="Area" value="{{$data->Area}}" />
                             </div>
                         </div>
-                        <div class="control-group">
+                        @if(!empty($data->BuildArea))
+                            <div class="control-group">
+                                <label class="control-label">建筑面积</label>
+                                <div class="controls">
+                                    <input type="text" name="buildArea" id="buildArea" value="{{$data->BuildArea}}" />
+                                </div>
+                            </div>
+                        @endif
+                        @if(!empty($data->FloorRatio))
+                            <div class="control-group">
+                                <label class="control-label">容积率</label>
+                                <div class="controls">
+                                    <input type="text" name="floorRatio" id="floorRatio" value="{{$data->FloorRatio}}" />
+                                </div>
+                            </div>
+                        @endif
+                      {{--  <div class="control-group">
                             <label class="control-label">剩余使用年限</label>
                             <div class="controls">
                                 <input type="number" name="Year" id="Year" value="{{$data->Year}}"/>年
                             </div>
-                        </div>
-                        <div class="control-group">
+                        </div>--}}
+                       {{-- <div class="control-group">
                             <label class="control-label">转让方式</label>
                             <div class="controls">
                                 <input type="radio" name="TransferType" id="TransferType" value="产权转让" @if($data->TransferType=="产权转让") checked="checked" @endif/>产权转让
                                 <input type="radio" name="TransferType"  id="TransferType" value="股权转让"  @if($data->TransferType=="股权转让") checked="checked" @endif />股权转让
                             </div>
-                        </div>
+                        </div>--}}
                         <div class="control-group">
                             <label class="control-label">转让价格</label>
                             <div class="controls">
                                 <input type="number" name="TransferMoney" id="TransferMoney" value="{{$data->TransferMoney}}"/>万
                             </div>
                         </div>
-                        @if(!empty($data->Credentials))
+                       {{-- @if(!empty($data->Credentials))
                             <div class="control-group">
                                 <label class="control-label">相关证件</label>
                                 <div class="controls">
@@ -186,7 +202,7 @@
                                     <input type="radio" name="Property"  id="Property" value="否"  @if($data->Property=="否") checked="checked" @endif />否
                                 </div>
                             </div>
-                        @endif
+                        @endif--}}
                         <div class="control-group">
                             <label class="control-label checkState">项目亮点</label>
                             <div class="controls newsType">
@@ -308,6 +324,57 @@
                                         });
                                     }
                                 });
+                            });
+                        </script>
+                        <script>
+                            $(function () {
+                                $("#shortTime").datetimepicker({
+                                    minView: "month", //选择日期后，不会再跳转去选择时分秒
+                                    format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+                                    language: 'zh-CN', //汉化
+                                    autoclose:true //选择日期后自动关闭
+                                });
+                            });
+                        </script>
+                        <div class="control-group">
+                            <label class="control-label">详情图片</label>
+                            <div class="controls ec_right upload">
+                                {{-- <div class="ec_right upload">--}}
+                                <div class="fileinput-button">
+                                    <!-- The file input field used as target for the file upload widget -->
+                                    <input id="detailupload" type="file" name="files[]" data-url="http://admin.ziyawang.com/public/upload" multiple accept="image/png, image/gif, image/jpg, image/jpeg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <p id="nopz1" style="margin-left:170px;" class="error"></p>
+                            <div class="clearfix img_box" style="margin-left:200px;">
+                                @if(!empty($data->PictureDet))
+                                    <div class="pictures" style="display: block"><img class="preview" id="PictureDet" src="http://images.ziyawang.com{{$data->PictureDet}}"  picname=''><span class="deleteBtn1 deleteImg" title="删除" style="display: none"></span></div>
+                                @else
+                                    <div class="pictures"><img class="preview" id="PictureDet" src=""  picname=''><span class="deleteBtn1 deleteImg" title="删除"></span></div>
+                                @endif
+                            </div>
+                            <p><input type="hidden" name="PictureDet" value="{{$data->PictureDet}}"></p>
+                        </div>
+                        <script>
+                            $(function(){
+                                $('#detailupload').fileupload({
+                                    dataType: 'json',
+                                    formAcceptCharset :'utf-8',
+                                    maxNumberOfFiles : 1,
+                                    done: function (e, data) {
+                                        $.each(data.result.files, function (index, file) {
+                                            // console.log(file.name);
+                                            $('input[name=PictureDet]').val(data);
+                                            var name = $(".preview[src='']:first").attr('id');
+                                            $("input[name='" + name + "']").val('/user/' + file.name);
+                                            $(".preview[src='']:first").next().hide();
+                                            $(".preview[src='']:first").attr({'src':encodeURI('http://images.ziyawang.com/user/'+file.name), 'picname':file.name}).parent().show();
+                                            $('#nopz1').html('');
+                                        });
+                                    }
+                                });
                                 $('.pictures').hover(function(){
                                     $(this).children('.deleteImg').toggle();
                                 })
@@ -327,16 +394,6 @@
                                     })
 
                                 })
-                            });
-                        </script>
-                        <script>
-                            $(function () {
-                                $("#shortTime").datetimepicker({
-                                    minView: "month", //选择日期后，不会再跳转去选择时分秒
-                                    format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
-                                    language: 'zh-CN', //汉化
-                                    autoclose:true //选择日期后自动关闭
-                                });
                             });
                         </script>
                         <div class="control-group">

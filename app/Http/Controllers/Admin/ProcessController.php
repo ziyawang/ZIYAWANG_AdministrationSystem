@@ -26,17 +26,27 @@ class ProcessController extends Controller
                 $typeName=!empty($_POST['typeName']) ? $_POST['typeName'] : "";
                 $departmentWhere=($_POST['department']!="全部")? array("T_AS_USER.Department"=>$_POST['department']) : array();
                 if(!empty($_POST['serviceName'])){
-                        $datas=DB::table("T_P_PROJECTINFO")
-                            ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
-                            ->leftJoin("T_P_SERVICE","T_P_SERVICE.ProjectID","=","T_P_PROJECTINFO.ProjectID")
-                            ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
-                            ->select("T_P_PROJECTINFO.*","T_AS_USER.Name","T_AS_USER.Department","T_AS_USER.id","T_P_PROJECTTYPE.TypeName","T_P_SERVICE.SerName")
-                            ->where("T_P_PROJECTINFO.CertifyState",4)
-                            ->where("T_P_PROJECTINFO.Title","like","%".$_POST['serviceName']."%")
-                            ->whereIn("T_P_PROJECTINFO.TypeId",$typeNameWhere)
-                            ->where($departmentWhere)
-                            ->orderBy("created_at","desc")
-                            ->paginate(20);
+                    $datas=DB::table("T_P_PROJECTINFO")
+                        ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
+                        ->leftJoin("T_P_SERVICE","T_P_SERVICE.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                        ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                        ->select("T_P_PROJECTINFO.*","T_AS_USER.Name","T_AS_USER.Department","T_AS_USER.id","T_P_PROJECTTYPE.TypeName","T_P_SERVICE.SerName")
+                        ->where("T_P_PROJECTINFO.CertifyState",4)
+                        ->where("T_P_PROJECTINFO.Title","like","%".$_POST['serviceName']."%")
+                        ->whereIn("T_P_PROJECTINFO.TypeId",$typeNameWhere)
+                        ->where($departmentWhere)
+                        ->orderBy("created_at","desc")
+                        ->paginate(20);
+                    $counts=DB::table("T_P_PROJECTINFO")
+                        ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
+                        ->leftJoin("T_P_SERVICE","T_P_SERVICE.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                        ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                        ->select("T_P_PROJECTINFO.*","T_AS_USER.Name","T_AS_USER.Department","T_AS_USER.id","T_P_PROJECTTYPE.TypeName","T_P_SERVICE.SerName")
+                        ->where("T_P_PROJECTINFO.CertifyState",4)
+                        ->where("T_P_PROJECTINFO.Title","like","%".$_POST['serviceName']."%")
+                        ->whereIn("T_P_PROJECTINFO.TypeId",$typeNameWhere)
+                        ->where($departmentWhere)
+                        ->count();
                     }else{
                     $datas=DB::table("T_P_PROJECTINFO")
                             ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
@@ -48,9 +58,31 @@ class ProcessController extends Controller
                             ->where($departmentWhere)
                             ->orderBy("created_at","desc")
                             ->paginate(20);
+                    $counts=DB::table("T_P_PROJECTINFO")
+                        ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
+                        ->leftJoin("T_P_SERVICE","T_P_SERVICE.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                        ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                        ->select("T_P_PROJECTINFO.*","T_AS_USER.Name","T_AS_USER.Department","T_AS_USER.id","T_P_PROJECTTYPE.TypeName","T_P_SERVICE.SerName")
+                        ->where("T_P_PROJECTINFO.CertifyState",4)
+                        ->whereIn("T_P_PROJECTINFO.TypeId",$typeNameWhere)
+                        ->where($departmentWhere)
+                        ->count();
                     }
+                $result=array();
+                foreach ($datas as $key=>$data){
+                    if(!in_array($data,$result)){
+                        $result[]=$data;
+                    }else{
+                        unset($datas[$key]);
+                    }
+                }
+                $number=$counts;
+                foreach ($datas as $val){
+                    $val->Number=$number;
+                    $number--;
+                }
             }else if(!empty($_GET)){
-                $department=!empty($_GET['department']) ? $_POST['department'] : "";
+                $department=!empty($_GET['department']) ? $_GET['department'] : "";
                 $serviceName=!empty($_GET['serviceName']) ? $_GET['serviceName'] : "";
                 $typeName=!empty($_GET['typeName']) ? $_GET['typeName'] : "";
                 if($_GET['typeName'] != 0 ){
@@ -71,6 +103,16 @@ class ProcessController extends Controller
                         ->where($departmentWhere)
                         ->orderBy("created_at","desc")
                         ->paginate(20);
+                    $counts=DB::table("T_P_PROJECTINFO")
+                        ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
+                        ->leftJoin("T_P_SERVICE","T_P_SERVICE.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                        ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                        ->select("T_P_PROJECTINFO.*","T_AS_USER.Name","T_AS_USER.Department","T_AS_USER.id","T_P_PROJECTTYPE.TypeName","T_P_SERVICE.SerName")
+                        ->where("T_P_PROJECTINFO.CertifyState",4)
+                        ->where("T_P_PROJECTINFO.Title","like","%".$_GET['serviceName']."%")
+                        ->whereIn("T_P_PROJECTINFO.TypeId",$typeNameWhere)
+                        ->where($departmentWhere)
+                        ->count();
                     }else{
                     $datas=DB::table("T_P_PROJECTINFO")
                             ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
@@ -82,8 +124,29 @@ class ProcessController extends Controller
                             ->where($departmentWhere)
                             ->orderBy("created_at","desc")
                             ->paginate(20);
+                    $counts=DB::table("T_P_PROJECTINFO")
+                        ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
+                        ->leftJoin("T_P_SERVICE","T_P_SERVICE.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                        ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                        ->select("T_P_PROJECTINFO.*","T_AS_USER.Name","T_AS_USER.Department","T_AS_USER.id","T_P_PROJECTTYPE.TypeName","T_P_SERVICE.SerName")
+                        ->where("T_P_PROJECTINFO.CertifyState",4)
+                        ->whereIn("T_P_PROJECTINFO.TypeId",$typeNameWhere)
+                        ->where($departmentWhere)
+                        ->count();
                     }
-
+                        $result=array();
+                        foreach ($datas as $key=>$data){
+                            if(!in_array($data,$result)){
+                                $result[]=$data;
+                            }else{
+                                unset($datas[$key]);
+                            }
+                        }
+                        $number=$counts-20*($_GET['page']-1);
+                        foreach ($datas as $val){
+                            $val->Number=$number;
+                            $number--;
+                        }
                 }else{
                 $typeIds=array(1,6,12,16,17,18,19,20,21,22);
                 $datas=DB::table("T_P_PROJECTINFO")
@@ -95,9 +158,30 @@ class ProcessController extends Controller
                     ->whereIn("T_P_PROJECTINFO.TypeId",$typeIds)
                     ->orderBy("created_at","desc")
                     ->paginate(20);
-                    $department="";
-                    $serviceName="";
-                    $typeName="";
+                $counts=DB::table("T_P_PROJECTINFO")
+                    ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
+                    ->leftJoin("T_P_SERVICE","T_P_SERVICE.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                    ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                    ->select("T_P_PROJECTINFO.*","T_AS_USER.Name","T_AS_USER.Department","T_AS_USER.id","T_P_PROJECTTYPE.TypeName","T_P_SERVICE.SerName")
+                    ->where("T_P_PROJECTINFO.CertifyState",4)
+                    ->whereIn("T_P_PROJECTINFO.TypeId",$typeIds)
+                    ->count();
+                $result=array();
+                foreach ($datas as $key=>$data){
+                    if(!in_array($data,$result)){
+                        $result[]=$data;
+                    }else{
+                        unset($datas[$key]);
+                    }
+                }
+                $number=$counts;
+                foreach ($datas as $val){
+                    $val->Number=$number;
+                    $number--;
+                }
+                $department="全部";
+                $serviceName="";
+                $typeName="";
             }
             $departs=DB::table("T_AS_USER")->where("Status",1)->whereIn("Department",['信息开发部',"渠道开发部","投资事业部"])->pluck("Department");
             $Departments=array();
@@ -106,7 +190,6 @@ class ProcessController extends Controller
                     $Departments[]=$value;
                 }
             }
-
         }else{
             if(!empty($_POST)){
                 $parts=DB::table("T_AS_USER")->where("Status",1)->where("id",$id)->pluck("Department");
@@ -133,6 +216,16 @@ class ProcessController extends Controller
                             ->where("T_AS_USER.Department",$department)
                             ->orderBy("created_at","desc")
                             ->paginate(20);
+                    $datas=DB::table("T_P_PROJECTINFO")
+                        ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
+                        ->leftJoin("T_P_SERVICE","T_P_SERVICE.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                        ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                        ->select("T_P_PROJECTINFO.*","T_AS_USER.Name","T_AS_USER.Department","T_AS_USER.id","T_P_PROJECTTYPE.TypeName","T_P_SERVICE.SerName")
+                        ->where("T_P_PROJECTINFO.CertifyState",4)
+                        ->where("T_P_PROJECTINFO.Title","like","%".$_POST['serviceName']."%")
+                        ->whereIn("T_P_PROJECTINFO.TypeId",$typeNameWhere)
+                        ->where("T_AS_USER.Department",$department)
+                        ->count();
                     }else{
                     $datas=DB::table("T_P_PROJECTINFO")
                             ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
@@ -144,7 +237,29 @@ class ProcessController extends Controller
                             ->where("T_AS_USER.Department",$department)
                             ->orderBy("created_at","desc")
                             ->paginate(20);
+                    $counts=DB::table("T_P_PROJECTINFO")
+                        ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
+                        ->leftJoin("T_P_SERVICE","T_P_SERVICE.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                        ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                        ->select("T_P_PROJECTINFO.*","T_AS_USER.Name","T_AS_USER.Department","T_AS_USER.id","T_P_PROJECTTYPE.TypeName","T_P_SERVICE.SerName")
+                        ->where("T_P_PROJECTINFO.CertifyState",4)
+                        ->whereIn("T_P_PROJECTINFO.TypeId",$typeNameWhere)
+                        ->where("T_AS_USER.Department",$department)
+                        ->count();
                     }
+                $result=array();
+                foreach ($datas as $key=>$data){
+                    if(!in_array($data,$result)){
+                        $result[]=$data;
+                    }else{
+                        unset($datas[$key]);
+                    }
+                }
+                $number=$counts;
+                foreach ($datas as $val){
+                    $val->Number=$number;
+                    $number--;
+                }
                 }else if(!empty($_GET)){
                 $parts=DB::table("T_AS_USER")->where("Status",1)->where("id",$id)->pluck("Department");
                 $department=$parts[0];
@@ -168,6 +283,16 @@ class ProcessController extends Controller
                             ->where("T_AS_USER.Department",$department)
                             ->orderBy("created_at","desc")
                             ->paginate(20);
+                    $counts=DB::table("T_P_PROJECTINFO")
+                        ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
+                        ->leftJoin("T_P_SERVICE","T_P_SERVICE.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                        ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                        ->select("T_P_PROJECTINFO.*","T_AS_USER.Name","T_AS_USER.Department","T_AS_USER.id","T_P_PROJECTTYPE.TypeName","T_P_SERVICE.SerName")
+                        ->where("T_P_PROJECTINFO.CertifyState",4)
+                        ->where("T_P_PROJECTINFO.Title","like","%".$_POST['serviceName']."%")
+                        ->whereIn("T_P_PROJECTINFO.TypeId",$typeNameWhere)
+                        ->where("T_AS_USER.Department",$department)
+                        ->count();
                     }else{
                     $datas=DB::table("T_P_PROJECTINFO")
                             ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
@@ -179,7 +304,29 @@ class ProcessController extends Controller
                             ->where("T_AS_USER.Department",$department)
                             ->orderBy("created_at","desc")
                             ->paginate(20);
+                    $counts=DB::table("T_P_PROJECTINFO")
+                        ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
+                        ->leftJoin("T_P_SERVICE","T_P_SERVICE.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                        ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                        ->select("T_P_PROJECTINFO.*","T_AS_USER.Name","T_AS_USER.Department","T_AS_USER.id","T_P_PROJECTTYPE.TypeName","T_P_SERVICE.SerName")
+                        ->where("T_P_PROJECTINFO.CertifyState",4)
+                        ->whereIn("T_P_PROJECTINFO.TypeId",$typeNameWhere)
+                        ->where("T_AS_USER.Department",$department)
+                        ->count();
                     }
+                $result=array();
+                foreach ($datas as $key=>$data){
+                    if(!in_array($data,$result)){
+                        $result[]=$data;
+                    }else{
+                        unset($datas[$key]);
+                    }
+                }
+                $number=$counts-20*($_GET['page']-1);
+                foreach ($datas as $val){
+                    $val->Number=$number;
+                    $number--;
+                }
                 }else{
                 $parts=DB::table("T_AS_USER")->where("Status",1)->where("id",$id)->pluck("Department");
                 $department=$parts[0];
@@ -196,6 +343,27 @@ class ProcessController extends Controller
                     ->whereIn("T_P_PROJECTINFO.TypeId",$typeIds)
                     ->orderBy("created_at","desc")
                     ->paginate(20);
+                $counts=DB::table("T_P_PROJECTINFO")
+                    ->leftJoin("T_AS_USER","T_AS_USER.id","=","T_P_PROJECTINFO.Responsible")
+                    ->leftJoin("T_P_SERVICE","T_P_SERVICE.ProjectID","=","T_P_PROJECTINFO.ProjectID")
+                    ->leftJoin("T_P_PROJECTTYPE","T_P_PROJECTTYPE.TypeID","=","T_P_PROJECTINFO.TypeID")
+                    ->select("T_P_PROJECTINFO.*","T_AS_USER.Name","T_AS_USER.Department","T_AS_USER.id","T_P_PROJECTTYPE.TypeName","T_P_SERVICE.SerName")
+                    ->where("T_P_PROJECTINFO.CertifyState",4)
+                    ->whereIn("T_P_PROJECTINFO.TypeId",$typeIds)
+                    ->count();
+                $result=array();
+                foreach ($datas as $key=>$data){
+                    if(!in_array($data,$result)){
+                        $result[]=$data;
+                    }else{
+                        unset($datas[$key]);
+                    }
+                }
+                $number=$counts;
+                foreach ($datas as $val){
+                    $val->Number=$number;
+                    $number--;
+                }
             }
             $departs=DB::table("T_AS_USER")->where("Status",1)->where("id",$id)->pluck("Department");
             $Departments=array();
@@ -205,15 +373,7 @@ class ProcessController extends Controller
                 }
             }
         }
-        $result=array();
 
-        foreach ($datas as $key=>$data){
-            if(!in_array($data,$result)){
-                    $result[]=$data;
-            }else{
-                unset($datas[$key]);
-            }
-        }
         return view("process.index",compact("datas","Departments","department","typeName","serviceName"));
     }
     //添加项目
@@ -448,7 +608,7 @@ class ProcessController extends Controller
                 ]);
                 break;
         }
-        foreach ($_POST['Name'] as $val){
+       /* foreach ($_POST['Name'] as $val){
             $serRes=DB::table("T_P_SERVICE")->insert([
                 "SerName"=>!empty($_POST['SerName']) ? $_POST['SerName'] : "",
                 "Name"=>!empty($val[0]) ? $val[0] : "",
@@ -457,9 +617,9 @@ class ProcessController extends Controller
                 "created_at"=>date("Y-m-d H:i:s",time()),
                 "updated_at"=>date("Y-m-d H:i:s",time())
             ]);
-        }
+        }*/
 
-        foreach($_POST['Events'] as $value){
+        /*foreach($_POST['Events'] as $value){
             $processRes=DB::table("T_P_PROCESS")->insert([
                 "Events"=>!empty($value[1]) ? $value[1] : "",
                 "Remark"=>!empty($value[2]) ? $value[2] : "",
@@ -469,8 +629,8 @@ class ProcessController extends Controller
                 "updated_at"=>date("Y-m-d H:i:s",time())
             ]);
 
-        }
-        if($serRes &&$processRes){
+        }*/
+        if($res){
             return redirect("process/index");
         }else{
             return back()->with("msg","添加失败,请您重新添加!");
@@ -836,7 +996,13 @@ class ProcessController extends Controller
                 ]);
                 break;
         }
-        if(!empty($_POST["Name"]) && !empty($_POST['Events'])){
+        if($res){
+            return redirect("process/index");
+        }else{
+            return back()->with("msg","添加失败,请您重新添加!");
+        }
+
+      /*  if(!empty($_POST["Name"]) && !empty($_POST['Events'])){
             $serDel=DB::table("T_P_SERVICE")->where("ProjectID",$_POST['projectId'])->delete();
             $ProDel=DB::table("T_P_PROCESS")->where("ProjectID",$_POST['projectId'])->delete();
             foreach ($_POST['Name'] as $val){
@@ -868,7 +1034,7 @@ class ProcessController extends Controller
 
         }else{
             return redirect("process/index");
-        }
+        }*/
 
 
     }

@@ -131,11 +131,11 @@
                     <tr>
                         <td style="text-align:center"><?php echo e($dataMoney->phonenumber); ?></td>
                         <?php if($dataMoney->role==1): ?>
-                            <td>服务方</td>
+                            <td style="text-align: center">服务方</td>
                         <?php elseif($dataMoney->role==2): ?>
-                            <td>发布方</td>
+                            <td style="text-align: center">发布方</td>
                         <?php else: ?>
-                            <td>注册</td>
+                            <td style="text-align: center">注册</td>
                         <?php endif; ?>
                         <?php if(!empty($dataMoney->username)): ?>
                             <td style="text-align:center"><?php echo e($dataMoney->username); ?></td>
@@ -155,7 +155,7 @@
                         <td style="text-align:center"><?php echo e($dataMoney->OrderNumber); ?></td>*/ ?>
                         <td style="text-align:center"><?php echo e($dataMoney->created_at); ?></td>
                         <td style="text-align:center"><?php echo e($dataMoney->recordCounts); ?></td>
-                        <td>
+                        <td style="text-align: center">
                             <a href="<?php echo e(asset('money/detail/'.$dataMoney->UserID.'/'.$value.'/'.$longTime.'/'.$shortTime)); ?>">查看详情</a>
                         </td>
                     </tr>

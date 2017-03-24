@@ -65,6 +65,7 @@
             <table class="table table-bordered table-striped checkTable">
                 <thead>
                 <tr>
+                    <th>编号</th>
                     <th>项目类型</th>
                     <th>项目名称</th>
                     <th>服务方</th>
@@ -76,6 +77,7 @@
                 <tbody>
                 @foreach($datas as $data)
                     <tr>
+                        <td>{{$data->Number}}</td>
                         <td>{{$data->TypeName}}</td>
                         <td>{{$data->Title}}</td>
                         <td>{{$data->SerName}}</td>

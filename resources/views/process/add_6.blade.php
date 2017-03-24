@@ -267,47 +267,47 @@
                                     </select>
                             </div>
                         </div>
-                        <div class="control-group">
+                        {{--<div class="control-group">
                             <label class="control-label">服务方名称</label>
                             <div class="controls">
                                 <input type="text" name="SerName" id="SerName" value=""   />
                             </div>
                         </div>
-                    <div class="control-group">
-                        <label class="control-label" style="padding-top: 35px;">服务方信息</label>
-                        <div class="controls">
-                            <table id="table">
-                                <tr>
-                                    <th>联系人</th>
-                                    <th>电话</th>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td> <input type="text" name="Name[0][]" value=""  /></td>
-                                    <td> <input type="text" name="Name[0][]" value="" /></td>
-                                    <td id="add">+添加</td>
-                                </tr>
-                            </table>
+                        <div class="control-group">
+                            <label class="control-label" style="padding-top: 35px;">服务方信息</label>
+                            <div class="controls">
+                                <table id="table">
+                                    <tr>
+                                        <th>联系人</th>
+                                        <th>电话</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td> <input type="text" name="Name[0][]" value=""  /></td>
+                                        <td> <input type="text" name="Name[0][]" value="" /></td>
+                                        <td id="add">+添加</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" style="padding-top: 35px;">项目推进进度</label>
-                        <div class="controls">
-                            <table id="tableTo">
-                                <tr>
-                                    <th>时间</th>
-                                    <th>事件</th>
-                                    <th>备注</th>
-                                </tr>
-                                <tr>
-                                    <td> <input type="text" name="Events[0][]" class="shortTime" value="" /></td>
-                                    <td> <input type="text" name="Events[0][]" value=""  style='margin-right: 20px;width: 600px;'/></td>
-                                    <td> <input type="text" name="Events[0][]" value="" /></td>
-                                    <td id="addTo">+添加</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+                        <div class="control-group">
+                            <label class="control-label" style="padding-top: 35px;">项目推进进度</label>
+                            <div class="controls">
+                                <table id="tableTo">
+                                    <tr>
+                                        <th>时间</th>
+                                        <th>事件</th>
+                                        <th>备注</th>
+                                    </tr>
+                                    <tr>
+                                        <td> <input type="text" name="Events[0][]" class="shortTime" value="" /></td>
+                                        <td> <input type="text" name="Events[0][]" value=""  style='margin-right: 20px;width: 600px;'/></td>
+                                        <td> <input type="text" name="Events[0][]" value="" /></td>
+                                        <td id="addTo">+添加</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>--}}
                         <div class="form-actions">
                             <input type="submit" value="保存" class="btn btn-primary"/>
                         </div>
@@ -325,44 +325,44 @@
                 });
             });
         </script>
-            <script>
-                $(function (){
+        <script>
+            $(function (){
 
-                    $("#typeName").on("change",function(){
-                        var typeName=$("#typeName").val();
-                        location.href="http://admin.ziyawang.com/process/add?typeName="+typeName;
-                    })
+                $("#typeName").on("change",function(){
+                    var typeName=$("#typeName").val();
+                    location.href="http://admin.ziyawang.com/process/add?typeName="+typeName;
                 })
-            </script>
-            <script>
-                $(function(){
-                    var num=0;
-                    var number=0;
-                    $("#add").on("click",function(){
-                        num=num+1;
-                        var str="<tr><td><input type='text' name='Name["+num+"][]' value=''  /></td><td><input type='text' name='Name["+num+"][]' value=''  /></td><td onclick='reduce(this)'>"+"-删除"+"</td></tr>";
-                        $("#table").append(str);
-                    })
-                    $("#addTo").on("click",function(){
-                        number=number+1;
-                        var str="<tr><td><input type='text' name='Events["+number+"][]' class='shortTime' value=''/></td><td><input type='text' name='Events["+number+"][]' value='' style='margin-right: 20px;width: 600px;' /></td><td><input type='text' name='Events["+number+"][]' value=''/></td><td onclick='reduceTo(this)'>"+"-删除"+"</td></tr>";
-                        $("#tableTo").append(str);
-                        $(".shortTime").datetimepicker({
-                            minView: "month", //选择日期后，不会再跳转去选择时分秒
-                            format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
-                            language: 'zh-CN', //汉化
-                            autoclose:true //选择日期后自动关闭
-                        });
-                    })
+            })
+        </script>
+    {{--    <script>
+            $(function(){
+                var num=0;
+                var number=0;
+                $("#add").on("click",function(){
+                    num=num+1;
+                    var str="<tr><td><input type='text' name='Name["+num+"][]' value=''  /></td><td><input type='text' name='Name["+num+"][]' value=''  /></td><td onclick='reduce(this)'>"+"-删除"+"</td></tr>";
+                    $("#table").append(str);
+                })
+                $("#addTo").on("click",function(){
+                    number=number+1;
+                    var str="<tr><td><input type='text' name='Events["+number+"][]' class='shortTime' value=''/></td><td><input type='text' name='Events["+number+"][]' value='' style='margin-right: 20px;width: 600px;' /></td><td><input type='text' name='Events["+number+"][]' value=''/></td><td onclick='reduceTo(this)'>"+"-删除"+"</td></tr>";
+                    $("#tableTo").append(str);
+                    $(".shortTime").datetimepicker({
+                        minView: "month", //选择日期后，不会再跳转去选择时分秒
+                        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+                        language: 'zh-CN', //汉化
+                        autoclose:true //选择日期后自动关闭
+                    });
+                })
 
-                })
-                function reduce(obj){
-                    $(obj).parent().remove();
-                }
-                function reduceTo(obj){
-                    $(obj).parent().remove();
-                }
-            </script>
+            })
+            function reduce(obj){
+                $(obj).parent().remove();
+            }
+            function reduceTo(obj){
+                $(obj).parent().remove();
+            }
+        </script>--}}
         <script>
             $(function() {
                 $("input[type='radio']").on("click", function () {

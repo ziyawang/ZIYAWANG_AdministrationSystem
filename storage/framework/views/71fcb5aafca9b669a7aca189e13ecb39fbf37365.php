@@ -1,7 +1,7 @@
 <?php $__env->startSection('content'); ?>
     <link rel="stylesheet" href="<?php echo e(asset('css/member.css ')); ?>"/>
     <div id="breadcrumb" style="position:relative">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>审核</a>
+        <a href="#" title="信息审核" class="tip-bottom"><i class="icon-home"></i>信息审核</a>
         <a href="#" class="current">审核列表</a>
         <a href="#" class="pull-right" id="export"> <div class="btn btn-primary " >导出</div></a>
     </div>

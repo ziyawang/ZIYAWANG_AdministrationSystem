@@ -277,38 +277,14 @@
                             <p><input type="hidden" name="PictureDes4" value="{{$data->PictureDes4}}"></p>
                             <p><input type="hidden" name="PictureDes5" value="{{$data->PictureDes5}}"></p>
                         </div>
-                        <div class="control-group">
-                            <label class="control-label">上传清单</label>
-                            <div class="controls ec_right upload">
-                                {{-- <div class="ec_right upload">--}}
-                                <div class="fileinput-button">
-                                    <!-- The file input field used as target for the file upload widget -->
-                                    <input id="list_upload" type="file" name="files[]" data-url="http://admin.ziyawang.com/public/upload" multiple >
+                        @if(!empty($data->AssetList))
+                            <div class="control-group" id="remark">
+                                <label class="control-label">下载清单</label>
+                                <div class="controls">
+                                    <a href="{{'Http://images.ziyawang.com/'.$data->AssetList}}"  id="upload"> <div class="btn btn-success " >下载清单</div></a>
                                 </div>
                             </div>
-                        </div>
-                        <p><input type="hidden" name="AssetList" id="qd"></p>
-                        <script type="text/javascript">
-                            $(function() {
-                                $('#list_upload').fileupload({
-                                    dataType: 'json',
-                                    limitMultiFileUploadSize : 10000,
-                                    maxNumberOfFiles : 1,
-                                    done: function (e, data) {
-                                        $.each(data.result.files, function (index, file) {
-                                            if(file.size > 0) {
-                                                $('input[name=AssetList]').val(file.name);
-                                                layer.msg('清单上传成功！');
-                                                $('#listname').html('文件已上传');
-                                                $('#list_upload').attr('disabled',true);
-                                            } else {
-                                                layer.msg('文件大小超过限制,上传失败！');
-                                            }
-                                        });
-                                    }
-                                });
-                            });
-                        </script>
+                        @endif
                         <script>
                             $(function(){
                                 $('#fileupload').fileupload({
@@ -372,7 +348,7 @@
                             </div>
                         </div>
                         @endforeach
-                        <div class="control-group">
+                      {{--  <div class="control-group">
                             <label class="control-label" >服务方名称</label>
                             <div class="controls">
                                 <input type="text" name="SerName" id="SerName" value="{{$ServiceNames[0]}}"   />
@@ -434,7 +410,7 @@
                                 </table>
                             </div>
                         </div>
-
+--}}
                         <div class="form-actions">
                             <input type="submit" value="保存" class="btn btn-primary"/>
                         </div>
@@ -461,7 +437,7 @@
                     });
                 });
             </script>
-            <script>
+ {{--           <script>
                 $(function(){
                     var num=0;
                     var number=0;
@@ -489,7 +465,7 @@
                     $(obj).parent().remove();
                 }
 
-            </script>
+            </script>--}}
         </div>
     </div>
 @endsection

@@ -232,6 +232,7 @@ class PushController extends Controller{
         $datas=DB::table("T_M_MESSAGETEXT")
             ->leftJoin("T_M_MESSAGE","T_M_MESSAGETEXT.TextID","=","T_M_MESSAGE.TextID")
             ->leftJoin("users","users.userid","=","T_M_MESSAGE.RecID")
+            ->where("T_M_MESSAGETEXT.Title","<>","温馨提示")
             ->orderBy("Time","desc")
             ->paginate(20);
         return view("push/detail",compact("datas"));

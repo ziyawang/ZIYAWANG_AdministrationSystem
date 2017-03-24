@@ -56,7 +56,7 @@
                         <td style="text-align:center">{{$data->OrderNumber}}</td>
                         <td style="text-align:center">{{$data->created_at}}</td>
                         <td>
-                            @if(!empty($data->ProjectID))
+                            @if(!empty($data->ProjectID) && $data->ProjectID!=0)
                                 <a href="{{url('check/detail/'.$data->ProjectID.'/'.$data->TypeID)}}" target="_blank">{{$data->Operates}}</a>
                             @else
                                 {{$data->Operates}}

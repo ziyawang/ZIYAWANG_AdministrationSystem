@@ -159,6 +159,23 @@
                             </div>
                         </div>
                         <div class="control-group">
+                            <label class="control-label">审核状态</label>
+                            <div class="controls">
+                                <select name="state" id="state">
+                                    <option value="0" >-请选择-</option>
+                                    <option value="1" @if($data->CertifyState==1)selected="selected" @endif>已审核</option>
+                                    <option value="2" @if($data->CertifyState==2)selected="selected" @endif>拒审核</option>
+                                    <option value="3" @if($data->CertifyState==3)selected="selected" @endif>删除</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group" id="remark" style="display: none">
+                            <label class="control-label">备注</label>
+                            <div class="controls">
+                                <input type="text" name="remark" id="date" value=""/>
+                            </div>
+                        </div>
+                        <div class="control-group">
                             <label class="control-label">信息状态</label>
                             <div class="controls">
                                 <input type="radio" name="togetherType" id="togetherType" checked="checked" value="0" @if($data->PublishState==0) checked="checked" @endif/>未合作
@@ -199,23 +216,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="control-group">
-                            <label class="control-label">审核状态</label>
-                            <div class="controls">
-                                <select name="state" id="state">
-                                    <option value="0" >-请选择-</option>
-                                    <option value="1" @if($data->CertifyState==1)selected="selected" @endif>已审核</option>
-                                    <option value="2" @if($data->CertifyState==2)selected="selected" @endif>拒审核</option>
-                                    <option value="3" @if($data->CertifyState==3)selected="selected" @endif>删除</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="control-group" id="remark" style="display: none">
-                            <label class="control-label">备注</label>
-                            <div class="controls">
-                                <input type="text" name="remark" id="date" value=""/>
-                            </div>
-                        </div>
+
                         @endforeach
                     <div class="form-actions">
                         <input type="submit" value="修改" class="btn btn-primary"/>

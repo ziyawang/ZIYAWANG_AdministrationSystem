@@ -304,7 +304,7 @@
                         </div>
                     </div>
                     @endforeach
-                    @foreach($Names as $name)
+                   {{-- @foreach($Names as $name)
                         <div class="control-group">
                             <label class="control-label">服务方名称</label>
                             <div class="controls">
@@ -363,7 +363,7 @@
                                 @endif
                             @endforeach
                         </table>
-                    </div>
+                    </div>--}}
                     <div class="form-actions">
                         <input type="submit" value="保存" class="btn btn-primary"/>
                     </div>
@@ -380,7 +380,7 @@
                 })
             })
         </script>
-        <script>
+    {{--    <script>
             $(function(){
                 var num=0;
                 var number=0;
@@ -409,7 +409,7 @@
             }
 
 
-        </script>
+        </script>--}}
     </div>
     </div>
 @endsection

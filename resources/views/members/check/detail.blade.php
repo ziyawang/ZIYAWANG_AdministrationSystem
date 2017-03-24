@@ -138,7 +138,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label checkState">来源</label>
+                            <label class="control-label checkState">卖家类型</label>
                             <div class="controls selectBox" >
                                 <select  name="FromWhere" id="FromWhere"/>
                                 <option value="银行" @if($data->AssetType=="银行") selected="selected" @endif>银行</option>
@@ -176,7 +176,7 @@
                             </div>
                         </div>
                         @endif
-                        @if(!empty($data->Counts))
+                       {{-- @if(!empty($data->Counts))
                         <div class="control-group">
                             <label class="control-label">户数</label>
                             <div class="controls">
@@ -205,16 +205,16 @@
                         <div class="control-group">
                             <label class="control-label checkState">抵押物类型</label>
                             <div class="controls newsType">
-                                    <input type="checkbox" name="Pawn[]" id="Pawn" value="土地"   @if(in_array("土地",$pawn)) checked="checked" @endif/>土地
-                                    <input type="checkbox" name="Pawn[]"  id="Pawn" value="住宅"  @if(in_array("住宅",$pawn)) checked="checked" @endif />住宅
-                                    <input type="checkbox" name="Pawn[]"  id="Pawn" value="商业"  @if(in_array("商业",$pawn)) checked="checked" @endif />商业
-                                    <input type="checkbox" name="Pawn[]"  id="Pawn" value="厂房"  @if(in_array("厂房",$pawn)) checked="checked" @endif />厂房
-                                    <input type="checkbox" name="Pawn[]"  id="Pawn" value="设备"  @if(in_array("设备" ,$pawn)) checked="checked" @endif />设备
-                                    <input type="checkbox" name="Pawn[]"  id="Pawn" value="其他"  @if(in_array("其他",$pawn)) checked="checked" @endif />其他
+                                    <input type="checkbox" name="Pawn[]"  value="土地"   @if(in_array("土地",$pawn)) checked="checked" @endif/>土地
+                                    <input type="checkbox" name="Pawn[]"   value="住宅"  @if(in_array("住宅",$pawn)) checked="checked" @endif />住宅
+                                    <input type="checkbox" name="Pawn[]"   value="商业"  @if(in_array("商业",$pawn)) checked="checked" @endif />商业
+                                    <input type="checkbox" name="Pawn[]"   value="厂房"  @if(in_array("厂房",$pawn)) checked="checked" @endif />厂房
+                                    <input type="checkbox" name="Pawn[]"   value="设备"  @if(in_array("设备" ,$pawn)) checked="checked" @endif />设备
+                                    <input type="checkbox" name="Pawn[]"   value="其他"  @if(in_array("其他",$pawn)) checked="checked" @endif />其他
                             </div>
                         </div>
-                        @endif
-                        @if(!empty($data->ProLabel))
+                        @endif--}}
+
                         <div class="control-group">
                             <label class="control-label checkState">项目亮点</label>
                             <div class="controls newsType">
@@ -223,7 +223,6 @@
                                     <input type="checkbox" name="ProLabel[]"  id="ProLabel" value="一手包"  @if(in_array("一手包",$proLabels)) checked="checked" @endif />一手包
                             </div>
                         </div>
-                        @endif
                         <div class="control-group">
                             <label class="control-label">文字描述</label>
                             <div class="controls">
@@ -336,25 +335,6 @@
                                             });
                                         }
                                     });
-                                    $('.pictures').hover(function(){
-                                        $(this).children('.deleteImg').toggle();
-                                    })
-                                    $('.deleteImg').click(function(){
-                                        var _this = $(this);
-                                        $(_this).parent().hide();
-                                        var typeId=  $(_this).prev().attr("id");
-                                        $("input[name='"+typeId+"']").val("");
-                                        $(_this).hide();
-                                        $(_this).prev().attr('src','');
-                                        var url = "http://admin.ziyawang.com/public/upload?file=" + $(this).prev().attr('picname');
-                                        $.ajax({
-                                            'url':url,
-                                            'type': 'DELETE',
-                                            'success':function(msg){
-                                            }
-                                        })
-
-                                    })
                                 });
                             </script>
                             <script>
@@ -367,30 +347,66 @@
                                     });
                                 });
                             </script>
-                        {{-- <div class="control-group">
-                            <label class="control-label">相关凭证</label>
-                            <div class="controls">
-                                <input type="hidden" id="filepath" name="checklogo">
-                                <input id="file_upload" name="file_upload"  multiple="true">
-                            </div>
-                            <div class="controls  span3">
-                                <div><img id="PictureDes1" alt=""  @if(!empty($data->PictureDes1)) src="{{'Http://images.ziyawang.com'.$data->PictureDes1}}"   @endif/>
-                                       <span><a href="{{'Http://images.ziyawang.com'.$data->PictureDes1}}"><i class="icon-download PictureDes1" @if(empty($data->PictureDes1)) style="display:none" @endif></i></a>&nbsp&nbsp
-                                           <i class="icon-trash PictureDes1" @if(empty($data->PictureDes1)) style="display:none" @endif ></i>
-                                       </span>
-                                </div>
-                                <div><img  id="PictureDes2" alt=""  @if(!empty($data->PictureDes2))  src="{{'Http://images.ziyawang.com'.$data->PictureDes2}}" @endif/>
-                                        <span><a href="{{'Http://images.ziyawang.com'.$data->PictureDes2}}"><i class="icon-download PictureDes2"  @if(empty($data->PictureDes2)) style="display:none" @endif></i></a>&nbsp&nbsp
-                                            <i class="icon-trash PictureDes2" @if(empty($data->PictureDes2)) style="display:none" @endif></i>
-                                        </span>
-                                </div>
-                                <div><img  id="PictureDes3" alt=""  @if(!empty($data->PictureDes3))  src="{{'Http://images.ziyawang.com'.$data->PictureDes3}}"  @endif/>
-                                            <span><a href="{{'Http://images.ziyawang.com'.$data->PictureDes3}}"><i class="icon-download PictureDes3 " @if(empty($data->PictureDes3)) style="display:none" @endif ></i></a>&nbsp&nbsp
-                                                <i class="icon-trash PictureDes3" @if(empty($data->PictureDes3)) style="display:none" @endif ></i>
-                                            </span>
+                       <div class="control-group">
+                            <label class="control-label">详情图片</label>
+                            <div class="controls ec_right upload">
+                                 <div class="ec_right upload">
+                                <div class="fileinput-button">
+                                    <!-- The file input field used as target for the file upload widget -->
+                                    <input id="detailupload" type="file" name="files[]" data-url="http://admin.ziyawang.com/public/upload" multiple accept="image/png, image/gif, image/jpg, image/jpeg">
                                 </div>
                             </div>
-                        </div>--}}
+                        </div>
+                        <div class="control-group">
+                            <p id="nopz1" style="margin-left:170px;" class="error"></p>
+                            <div class="clearfix img_box" style="margin-left:200px;">
+                                @if(!empty($data->PictureDet))
+                                    <div class="pictures" style="display: block"><img class="preview1" id="PictureDet" src="http://images.ziyawang.com{{$data->PictureDet}}"  picname=''><span class="deleteBtn1 deleteImg" title="删除" style="display: none"></span></div>
+                                @else
+                                    <div class="pictures"><img class="preview1" id="PictureDet" src=""  picname=''><span class="deleteBtn1 deleteImg" title="删除"></span></div>
+                                @endif
+                            </div>
+                            <p><input type="hidden" name="PictureDet" value="{{$data->PictureDet}}"></p>
+                        </div>
+                        <script>
+                            $(function(){
+                               $('#detailupload').fileupload({
+                                    dataType: 'json',
+                                    formAcceptCharset :'utf-8',
+                                    maxNumberOfFiles : 1,
+                                    done: function (e, data) {
+                                        $.each(data.result.files, function (index, file) {
+                                            // console.log(file.name);
+                                            $('input[name=PictureDet]').val(data);
+                                            var name = $(".preview1[src='']:first").attr('id');
+                                            $("input[name='" + name + "']").val('/user/' + file.name);
+                                            $(".preview1[src='']:first").next().hide();
+                                            $(".preview1[src='']:first").attr({'src':encodeURI('http://images.ziyawang.com/user/'+file.name), 'picname':file.name}).parent().show();
+                                            $('#nopz1').html('');
+                                        });
+                                    }
+                                });
+                                $('.pictures').hover(function(){
+                                    $(this).children('.deleteImg').toggle();
+                                })
+                                $('.deleteImg').click(function(){
+                                    var _this = $(this);
+                                    $(_this).parent().hide();
+                                    $(_this).hide();
+                                    var typeId=  $(_this).prev().attr("id");
+                                    $("input[name='"+typeId+"']").val("");
+                                    $(_this).prev().attr('src','');
+                                    var url = "http://admin.ziyawang.com/public/upload?file=" + $(this).prev().attr('picname');
+                                    $.ajax({
+                                        'url':url,
+                                        'type': 'DELETE',
+                                        'success':function(msg){
+                                        }
+                                    })
+
+                                })
+                            });
+                        </script>
                         <div class="control-group">
                             <label class="control-label">审核状态</label>
                             <div class="controls">
@@ -464,6 +480,7 @@
                                 @endif
                             </div>
                         </div>
+
                         <div class="control-group" id="remark">
                             <label class="control-label">清单</label>
                             <div class="controls">

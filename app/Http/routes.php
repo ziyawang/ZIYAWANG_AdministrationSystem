@@ -20,13 +20,10 @@ Route::get('login/index', [
 Route::get("index/index",'Admin\IndexController@index');
 
 Route::post('admin/login','Admin\LoginController@login');
+//首页中的菜单权限控制
+Route::post("index/getPath",'Admin\IndexController@getPath');
 
 Route::group(['middleware' =>"AdminLogin"], function () {
-    
-//首页中的菜单权限控制
-    Route::post("index/getPath",'Admin\IndexController@getPath');
-    
-    
 //系统管理中人员管理路由
 Route::get('system/index', 'Admin\SystemController@index');
 Route::get('system/add', 'Admin\SystemController@add');
@@ -177,9 +174,6 @@ Route::any("count/index",'Admin\CountController@index');
 Route::any("count/mapCounts",'Admin\CountController@mapCounts');
 Route::any("count/numMoneyCount",'Admin\CountController@numMoneyCount');
 
-
-
-
 //运维管理中的服务方分析
 Route::any("count/serCount",'Admin\CountController@serCount');    
     
@@ -206,7 +200,7 @@ Route::any("money/detail/{userId}/{value}/{longTime}/{shortTime}",'Admin\MoneyCo
 Route::any("money/ajax",'Admin\MoneyController@ajax');   
 Route::any("money/resultData",'Admin\MoneyController@ajaxData');
 Route::any("money/consume",'Admin\MoneyController@consume');
-Route::any("money/conDetail/{projectId}/{value}/{longTime}/{shortTime}",'Admin\MoneyController@conDetail');
+Route::any("money/conDetail/{projectId}/{videoId}/{value}/{longTime}/{shortTime}",'Admin\MoneyController@conDetail');
 Route::any("money/consumeData",'Admin\MoneyController@consumeData');
     
 //客户档案
@@ -227,9 +221,6 @@ Route::get("process/delete/{projectId}",'Admin\ProcessController@delete');
 Route::get("process/detail/{projectId}/{typeId}",'Admin\ProcessController@detail');
 Route::POST("process/saveUpdate/",'Admin\ProcessController@saveUpdate');
    
-
-
-
 });
 Route::any("public/upload",'Admin\PublicController@upload');
 Route::get("public/change",'Admin\PublicController@change');

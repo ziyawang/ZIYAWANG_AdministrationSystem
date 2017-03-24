@@ -287,7 +287,7 @@
                                 </select>
                         </div>
                     </div>
-                    <div class="control-group">
+                   {{-- <div class="control-group">
                         <label class="control-label">服务方名称</label>
                         <div class="controls">
                             <input type="text" name="SerName" id="SerName" value=""   />
@@ -327,7 +327,7 @@
                                 </tr>
                             </table>
                         </div>
-                    </div>
+                    </div>--}}
                     <div class="form-actions">
                         <input type="submit" value="保存" class="btn btn-primary"/>
                     </div>
@@ -354,7 +354,7 @@
                 })
             })
         </script>
-        <script>
+     {{--   <script>
             $(function(){
                 var num=0;
                 var number=0;
@@ -383,7 +383,7 @@
             }
 
 
-        </script>
+        </script>--}}
         <script>
             $(function() {
                 $("input[type='radio']").on("click", function () {

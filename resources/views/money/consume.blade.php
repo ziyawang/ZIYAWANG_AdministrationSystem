@@ -128,15 +128,23 @@
                 <tbody>
                 @foreach($dataMoneys as $dataMoney)
                     <tr>
-                        <td style="text-align:center"> <a href="{{url('check/detail/'.$dataMoney->ProjectID.'/'.$dataMoney->TypeID)}}" target="_blank">{{$dataMoney->ProjectID}}</a></td>
+                        @if($dataMoney->ProjectID!=0)
+                            <td style="text-align:center"> <a href="{{url('check/detail/'.$dataMoney->ProjectID.'/'.$dataMoney->TypeID)}}" target="_blank">{{$dataMoney->ProjectID}}</a></td>
+                        @else
+                            <td style="text-align:center"> <a href="#"target=_blank">{{$dataMoney->VideoID}}</a></td>
+                        @endif
                        {{-- <td style="text-align:center">{{$dataMoney->WordDes}}</td>--}}
                         <td style="text-align:center">{{$dataMoney->TypeName}}</td>
                         <td style="text-align:center">{{$dataMoney->Price}}</td>
-                        <td style="text-align:center">{{$dataMoney->Money*$dataMoney->recordCounts}}</td>
+                        <td style="text-align:center">{{$dataMoney->Price*$dataMoney->realCounts}}</td>
                         <td style="text-align:center">{{$dataMoney->created_at}}</td>
                         <td style="text-align:center">{{$dataMoney->recordCounts}}</td>
                         <td style="text-align: center">
-                            <a href="{{asset('money/conDetail/'.$dataMoney->ProjectID.'/'.$value.'/'.$longTime.'/'.$shortTime)}}">查看详情</a>
+                            @if($dataMoney->ProjectID!=0)
+                                <a href="{{asset('money/conDetail/'.$dataMoney->ProjectID.'/'.$dataMoney->VideoID.'/'.$value.'/'.$longTime.'/'.$shortTime)}}">查看详情</a>
+                            @else
+                                <a href="{{asset('money/conDetail/'.$dataMoney->ProjectID.'/'.$dataMoney->VideoID.'/'.$value.'/'.$longTime.'/'.$shortTime)}}">查看详情</a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

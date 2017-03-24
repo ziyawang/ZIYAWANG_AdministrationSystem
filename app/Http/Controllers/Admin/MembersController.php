@@ -29,6 +29,13 @@ class MembersController extends Controller
                     ->where("Over", 0)
                     ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
                     ->count();
+                $res = DB::table("T_U_MEMBER")
+                    ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
+                    ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
+                    ->where("PayFlag", 1)
+                    ->where("Over", 0)
+                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                    ->get();
             } else {
                 $datas = DB::table("T_U_MEMBER")
                     ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
@@ -47,15 +54,22 @@ class MembersController extends Controller
                     ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
                     ->where("PayName", $_GET['payName'])
                     ->count();
+                $res = DB::table("T_U_MEMBER")
+                    ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
+                    ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
+                    ->where("PayFlag", 1)
+                    ->where("Over", 0)
+                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                    ->where("PayName", $_GET['payName'])
+                    ->get();
             }
+
             if(isset($_GET['page'])){
                 $number = $total - 20 * ($_GET['page'] - 1);
             }else{
                 $number = $total;
             }
-            $money=0;
             foreach ($datas as $data) {
-                $money=$money+$data->PayMoney/100;
                 $channel = $data->Channel;
                 $data->Total = $number;
                 switch ($channel) {
@@ -86,6 +100,11 @@ class MembersController extends Controller
                 }
                 $data->Channel = $channel;
                 $number--;
+            }
+
+            $money=0;
+            foreach ($res as $val){
+                $money=$money+$val->PayMoney/100;
             }
             $payName=$_GET['payName'];
             return view("members/member/index", compact("datas", "payName","money"));
@@ -106,11 +125,9 @@ class MembersController extends Controller
                 ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
                 ->count();
             $number = $total;
-            $money=0;
             foreach ($datas as $data) {
                 $channel = $data->Channel;
                 $data->Total = $number;
-                $money=$money+$data->PayMoney/100;
                 switch ($channel) {
                     case "wx":
                         $channel = "微信App";
@@ -139,6 +156,17 @@ class MembersController extends Controller
                 }
                 $data->Channel = $channel;
                 $number--;
+            }
+            $res = DB::table("T_U_MEMBER")
+                ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
+                ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
+                ->where("PayFlag", 1)
+                ->where("Over", 0)
+                ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                ->get();
+            $money=0;
+            foreach ($res as $val){
+                $money=$money+$val->PayMoney/100;
             }
             $payName="全部";
             return view("members/member/index", compact("datas", "payName","money"));

@@ -45,14 +45,14 @@
                         <td width="60" height="50"><img  src="<?php echo e("Http://images.ziyawang.com".$data->VideoLogo); ?>"/></td>
                         <td><?php echo e($data->VideoTitle); ?></td>
                         <td><?php echo e($data->VideoDes); ?></td>
-                        <td><?php echo e($data->Order); ?></td>
+                        <td style="text-align: center"><?php echo e($data->Order); ?></td>
                         <?php if($data->Flag==0): ?>
                             <td>保存</td>
                         <?php elseif($data->Flag==1): ?>
                             <td>保存并发布</td>
                         <?php endif; ?>
                         <td><?php echo e($data->PublishTime); ?></td>
-                        <td class="text-center">
+                        <td class="text-center" style="text-align: center">
                             <a class="btn btn-primary" href="<?php echo e(url('video/update/'.$data->VideoID)); ?>"><i class="icon-pencil icon-white"></i></a>
                             <a class="btn btn-danger" href="<?php echo e(url('video/delete/'.$data->VideoID)); ?>" onclick="return confirm('确定将此记录删除?')"><i class="icon-remove icon-white"></i></a>
                         </td>

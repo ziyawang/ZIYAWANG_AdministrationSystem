@@ -2,6 +2,11 @@
 
 @section('content')
     <style>
+        .radio input[type="radio"] {
+            float: left;
+            margin-left: 0px;
+        }
+        .radio{ vertical-align: sub;}
         .newsType .checker span .checker span{background-position: -76px -240px;}
     </style>
     <div id="breadcrumb">
@@ -95,12 +100,34 @@
                             </video>
                         </div>
                     </div>
-                    <div class="control-group span4" >
+                    <div class="control-group " >
                         <label class="control-label">修改顺序</label>
                         <div class="controls"  >
-                            <input type="text" name="order"  value="{{$datas->Order}}"/>
+                            <input type="number" name="order"  value="{{$datas->Order}}"/>
                         </div>
                     </div>
+                    <div class="control-group">
+                        <label class="control-label" style="padding-top: 13px;">视频级别</label>
+                        <div class="controls" id="messageType">
+                            <input type="radio" name="member"  value="0" @if($datas->Member=="0") checked="checked" @endif/><span style="display: inline-block;vertical-align: 0;">免费</span>
+                            <input type="radio" name="member"  value="1" @if($datas->Member=="1") checked="checked" @endif/><span style="display: inline-block;vertical-align: 0;">收费</span>
+                        </div>
+                    </div>
+                    @if($datas->Member=="1" && !empty($datas->Price))
+                        <div class="control-group" id="goldId">
+                            <label class="control-label">芽币</label>
+                            <div class="controls">
+                                <input type="number" name="gold" id="gold" value="{{$datas->Price}}"/>
+                            </div>
+                        </div>
+                        @else
+                        <div class="control-group" id="goldId" style="display: none">
+                            <label class="control-label">芽币</label>
+                            <div class="controls">
+                                <input type="number" name="gold" id="gold" value=""/>
+                            </div>
+                        </div>
+                    @endif
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary" onClick="savevideo(0)" >保存</button>
                         <button id="publish" type="submit" class="btn btn-primary" onClick="savevideo(1)" >保存并发布</button>
@@ -111,7 +138,6 @@
             </div>
         </div>
     </div>
-
     <script type="text/javascript">
         <?php $timestamp = time();?>
 
@@ -182,5 +208,17 @@
                 }
             });
         });
+    </script>
+    <script>
+        $(function(){
+            $("input[type='radio']").on("click",function(){
+                var videoType=$("#messageType input[type='radio']:checked").val();
+                if(videoType=="1"){
+                    $("#goldId").show();
+                }else{
+                    $("#goldId").hide();
+                }
+            });
+        })
     </script>
 @endsection
