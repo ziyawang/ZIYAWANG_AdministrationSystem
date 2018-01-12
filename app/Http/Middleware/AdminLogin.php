@@ -37,8 +37,7 @@ class AdminLogin
                     $authArr[] = $auth->AuthID;
                 }
                 $path = $request->path();
-                $pathAuthIds = DB::table("T_AS_AUTH")->where("Path", $path)->pluck("Auth_ID");
-                if (!in_array($pathAuthIds['0'], $authArr)) {
+               if (!in_array($pathAuthIds['0'], $authArr)) {
                     return redirect("/");
                 } else {
                     return $next($request);

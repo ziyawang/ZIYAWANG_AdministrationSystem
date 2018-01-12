@@ -57,7 +57,7 @@
                                 <div class="controls selectBox" >
                                     <select  name="Identity" id="Identity"/>
                                     <option value="项目持有者" @if($data->Identity=="项目持有者") selected="selected" @endif>项目持有者</option>
-                                    <option value="FA（中介)" @if($data->Identity=="FA（中介）") selected="selected" @endif>FA（中介）</option>
+                                    <option value="受托方" @if($data->Identity!="项目持有者") selected="selected" @endif>受托方</option>
                                     </select>
                                 </div>
                             </div>
@@ -349,13 +349,13 @@
                         <div class="control-group">
                             <p id="nopz1" style="margin-left:170px;" class="error"></p>
                             <div class="clearfix img_box" style="margin-left:200px;">
-                                @if(!empty($data->PictureDet))
-                                    <div class="pictures" style="display: block"><img class="preview" id="PictureDet" src="http://images.ziyawang.com{{$data->PictureDet}}"  picname=''><span class="deleteBtn1 deleteImg" title="删除" style="display: none"></span></div>
+                                @if(!empty($data->PictureDet1))
+                                    <div class="pictures" style="display: block"><img class="preview1" id="PictureDet" src="http://images.ziyawang.com{{$data->PictureDet1}}"  picname=''><span class="deleteBtn1 deleteImg" title="删除" style="display: none"></span></div>
                                 @else
-                                    <div class="pictures"><img class="preview" id="PictureDet" src=""  picname=''><span class="deleteBtn1 deleteImg" title="删除"></span></div>
+                                    <div class="pictures"><img class="preview1" id="PictureDet1" src=""  picname=''><span class="deleteBtn1 deleteImg" title="删除"></span></div>
                                 @endif
                             </div>
-                            <p><input type="hidden" name="PictureDet" value="{{$data->PictureDet}}"></p>
+                            <p><input type="hidden" name="PictureDet1" value="{{$data->PictureDet}}"></p>
                         </div>
                         <script>
                             $(function(){
@@ -367,10 +367,10 @@
                                         $.each(data.result.files, function (index, file) {
                                             // console.log(file.name);
                                             $('input[name=PictureDet]').val(data);
-                                            var name = $(".preview[src='']:first").attr('id');
+                                            var name = $(".preview1[src='']:first").attr('id');
                                             $("input[name='" + name + "']").val('/user/' + file.name);
-                                            $(".preview[src='']:first").next().hide();
-                                            $(".preview[src='']:first").attr({'src':encodeURI('http://images.ziyawang.com/user/'+file.name), 'picname':file.name}).parent().show();
+                                            $(".preview1[src='']:first").next().hide();
+                                            $(".preview1[src='']:first").attr({'src':encodeURI('http://images.ziyawang.com/user/'+file.name), 'picname':file.name}).parent().show();
                                             $('#nopz1').html('');
                                         });
                                     }

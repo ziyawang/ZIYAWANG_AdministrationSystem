@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\UploadHandler;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Mockery\Exception;
 
 class PublicController extends Controller
 {
@@ -338,6 +340,49 @@ class PublicController extends Controller
         }
 
         var_dump("从T_P_SPEC12OLD数据修改成功2");
+
+    }
+
+    //赠送芽币
+    public  function active(){
+        $users=User::select("userid","Account")->whereNotId("userid", [889, 1095,679,46])->get();
+        dd($users);
+        try{
+            foreach ($users as $user){
+                $orderNo = 'ZS' . substr(time(),4) . mt_rand(1000,9999);
+                $account=$user->Account+100;
+                $userId=$user->userid;
+                User::where("userid",$userId)->update([
+                    "Account"=>$account,
+                    "updated_at"=>date("Y-m-d H:i:s",time())
+                ]);
+               DB::table("T_U_MONEY")->insert([
+                   "UserID"=>$userId,
+                   "Type"=>1,
+                   "OrderNumber"=>$orderNo,
+                   "Money"=>100,
+                   "RealMoney"=>1000,
+                   "Account"=>$account,
+                   "ProjectID"=>0,
+                   "Flag"=>1,
+                   "BackNumber"=>"",
+                   "created_at"=>date("Y-m-d H:i:s",time()),
+                   "timestamp"=>time(),
+                   "IP"=>"124.239.176.59",
+                   "channel"=>"",
+                   "Operates"=>"活动赠送100芽币",
+                   "DelFlag"=>0,
+                   "VideoID"=>0,
+                   "paper"=>0
+               ]);
+            }
+        }catch(Exception $e){
+            throw $e;
+        }
+        if(!isset($e)){
+            dd("成功");
+        }else{}
+        dd("失败");
 
     }
 }

@@ -100,16 +100,6 @@
             });
         });
     </script>
-    {{-- <script>
-         $(function(){
-             // var connectPhone = $('#connectPhone').val();
-             var shortTime=$("#shortTime").val();
-             var longTime=$("#longTime").val();
-             var serviceName=$("#serviceName").val()
-             var url = 'http://admin.ziyawang.com/data/export?shortTime='+shortTime+"&longTime="+longTime+"&serviceName="+serviceName;
-             $('#export').attr('href',url);
-         });
-     </script>--}}
     <div  class="container-fluid">
         <div class="widget-content nopadding">
             <table class="table table-bordered table-striped">

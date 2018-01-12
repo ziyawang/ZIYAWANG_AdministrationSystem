@@ -62,10 +62,7 @@ class NewsController extends Controller
                     }
             }
             $newLab=implode(",",$arr);
-            if(!empty($_POST['NewsAuthor1'])){
-                $_POST['NewsAuthor']=$_POST['NewsAuthor1'];
-            }
-                $db = DB::table("T_N_NEWSINFO")->insertGetId([
+            $db = DB::table("T_N_NEWSINFO")->insertGetId([
                     'NewsTitle' => $_POST['title'],
                     'NewsContent' => $_POST['content'],
                     'Brief' => $_POST['description'],
@@ -99,7 +96,8 @@ class NewsController extends Controller
     }
 
     //保存编辑新闻
-    public function saveupdate($type){   
+    public function saveupdate($type){
+       
         if(!empty($_POST['type'])){
             $typeIds=$_POST['type'];
             foreach ($typeIds  as $typeId ){
@@ -132,10 +130,7 @@ class NewsController extends Controller
                 }
             }
             $newLab=implode(",",$arr);
-            if(!empty($_POST['NewsAuthor1'])){
-                $_POST['NewsAuthor']=$_POST['NewsAuthor1'];
-            }
-                $db = DB::table("T_N_NEWSINFO")->where('newsid', $_POST['newsid'])->update([
+            $db = DB::table("T_N_NEWSINFO")->where('newsid', $_POST['newsid'])->update([
                     'NewsTitle' => $_POST['title'],
                     'NewsContent' => $_POST['content'],
                     'Brief' => $_POST['description'],

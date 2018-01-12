@@ -69,6 +69,7 @@
                                         <option value="信息开发部">信息开发部</option>
                                         <option value="视频部">视频部</option>
                                         <option value="财务部">财务部</option>
+                                        <option value="副总">副总</option>
                                 </select>
                             </div>
                         </div>

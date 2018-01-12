@@ -454,7 +454,12 @@ class CustomerController extends Controller
     }
     //保存添加上的客户信息
     public  function  saveAdd(){
-      
+        if(!empty($_POST['accendantName'])){
+            $accendantIds=DB::table("T_AS_USER")->where("Name",trim($_POST['accendantName']))->pluck("id");
+            $accendantId=$accendantIds[0];
+        }else{
+            return back()->with("msg","请填写客情维护人");
+        }
         if(!empty($_POST['CustomerNeed'])){
             $customerNeed=implode(";",$_POST['CustomerNeed']);
         }else{
@@ -487,7 +492,6 @@ class CustomerController extends Controller
         }else{
             $proArea="";
         }
-        $accendantId=Session::get("userId");
         $result=DB::table("T_U_CUSTOMER")->insertGetId([
             "CustomerName"=>!empty($_POST['CustomerName']) ? $_POST['CustomerName'] : "",
             "Adress"=>!empty($_POST['Adress']) ? $_POST['Adress'] : "",
@@ -619,10 +623,11 @@ class CustomerController extends Controller
     //保存编辑的信息
     public  function  saveUpdate(){
 
-        $accendantId=Session::get("userId");
-        $authArr=array(1,11,17);
-        if(in_array($accendantId,$authArr)){
-            return redirect("customer/index");
+        if(!empty($_POST['Name'])){
+            $accendantIds=DB::table("T_AS_USER")->where("Name",trim($_POST['Name']))->pluck("id");
+            $accendantId=$accendantIds[0];
+        }else{
+            return back()->with("msg","请填写客情维护人");
         }
         $customerId=$_POST['customerId'];
         if(!empty($_POST['CustomerNeed'])){
@@ -725,6 +730,17 @@ class CustomerController extends Controller
             if($result){
                 return redirect("customer/index");
             }
+        }
+    }
+
+    //ajax查询客户是否已经添加
+    public  function  returnData(){
+        $customerName=trim($_POST['customerName']);
+        $count=DB::table("T_U_CUSTOMER")->where("CustomerName",$customerName)->count();
+        if($count){
+            return 1;
+        }else{
+            return 0;
         }
     }
 }

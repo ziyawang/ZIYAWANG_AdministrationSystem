@@ -10,18 +10,18 @@
         <form class="form-horizontal" method="post" action="{{asset('data/index')}}" name="basic_validate"  novalidate="novalidate" />
         <table  class="table table-bordered table-striped publishTable">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-           {{-- <td>
-                <div class="control-group">
-                    <label class="control-label">手机号</label>
-                    <div class="controls" >
-                        @if(!empty($phoneNumber))
-                            <input type="text" name="connectPhone"  id="connectPhone" value="{{$phoneNumber}}"  style="width:100px"/>
-                        @else
-                            <input type="text" name="connectPhone" id="connectPhone" value="" style="width:100px"/>
-                        @endif
-                    </div>
-                </div>
-            </td>--}}
+            {{-- <td>
+                 <div class="control-group">
+                     <label class="control-label">手机号</label>
+                     <div class="controls" >
+                         @if(!empty($phoneNumber))
+                             <input type="text" name="connectPhone"  id="connectPhone" value="{{$phoneNumber}}"  style="width:100px"/>
+                         @else
+                             <input type="text" name="connectPhone" id="connectPhone" value="" style="width:100px"/>
+                         @endif
+                     </div>
+                 </div>
+             </td>--}}
             <td>
                 <div class="control-group">
                     <label class="control-label checkState">公司名称</label>

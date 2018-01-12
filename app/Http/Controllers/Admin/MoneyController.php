@@ -18,6 +18,7 @@ class MoneyController extends Controller
             ->select("T_U_MONEY.*", "users.phonenumber", "T_U_SERVICEINFO.ServiceName", "users.username", "T_U_SERVICEINFO.ServiceID")
             ->where("T_U_MONEY.Type", 1)
             ->where("T_U_MONEY.Flag", 1)
+            ->where("T_U_MONEY.paper",0)
             ->whereNotIn("T_U_MONEY.UserID", [889, 1095, 46,679])
             ->orderBy("T_U_MONEY.created_at", "desc")
             ->get();
@@ -26,7 +27,8 @@ class MoneyController extends Controller
         $results = DB::table("T_U_MONEY")
             ->where("T_U_MONEY.Type", 1)
             ->where("T_U_MONEY.Flag", 1)
-            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+            ->where("paper",0)
+            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
             ->get();
         foreach ($results as $result) {
             $money = $money + $result->Money;
@@ -47,15 +49,17 @@ class MoneyController extends Controller
             ->select("T_U_MONEY.*", "users.phonenumber", "T_U_SERVICEINFO.ServiceName", "users.username", "T_U_SERVICEINFO.ServiceID")
             ->where("T_U_MONEY.Type", 1)
             ->where("T_U_MONEY.Flag", 1)
+            ->where("T_U_MONEY.paper",0)
             ->whereIn("T_U_MONEY.MoneyID", $moneyIds)
-            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
             ->orderBy("T_U_MONEY.created_at", "desc")
             ->paginate(20);
+           // ->get();
 
         foreach ($dataMoneys as $key => $dataMoney) {
             $dataMoneyId = $dataMoney->UserID;
-            $recordCounts = DB::table("T_U_MONEY")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->where("T_U_MONEY.Flag", 1)->count();
-            $personalMoneys = DB::table("T_U_MONEY")->select("Money", "RealMoney")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->where("T_U_MONEY.Flag", 1)->get();
+            $recordCounts = DB::table("T_U_MONEY")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->where("T_U_MONEY.Flag", 1) ->where("T_U_MONEY.paper",0)->count();
+            $personalMoneys = DB::table("T_U_MONEY")->select("Money", "RealMoney")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->where("T_U_MONEY.Flag", 1) ->where("T_U_MONEY.paper",0)->get();
             $personalMoney = 0;
             $realPerMoney = 0;
             foreach ($personalMoneys as $value) {
@@ -101,6 +105,10 @@ class MoneyController extends Controller
                 $dataMoney->role = 0;
             }
         }
+        $totalCount=0;
+        foreach ($dataMoneys as $val){
+            $totalCount=$totalCount+$val->recordCounts;
+        }
         $value = "30";
         $shortTime = "1";
         $longTime = "1";
@@ -124,9 +132,10 @@ class MoneyController extends Controller
                 ->select("T_U_MONEY.*", "users.phonenumber", "T_U_SERVICEINFO.ServiceName", "users.username", "T_U_SERVICEINFO.ServiceID")
                 ->where("T_U_MONEY.Type", 1)
                 ->where("T_U_MONEY.Flag", 1)
+                ->where("T_U_MONEY.paper",0)
                 ->where("timestamp", ">", $chooseTime)
                 ->where("T_U_MONEY.UserID", $userId)
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095])
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095, 46,679])
                 ->orderBy("T_U_MONEY.created_at", "desc")
                 ->paginate(20);
         } elseif ($values == 30) {
@@ -136,8 +145,9 @@ class MoneyController extends Controller
                 ->select("T_U_MONEY.*", "users.phonenumber", "T_U_SERVICEINFO.ServiceName", "users.username", "T_U_SERVICEINFO.ServiceID")
                 ->where("T_U_MONEY.Type", 1)
                 ->where("T_U_MONEY.Flag", 1)
+                ->where("T_U_MONEY.paper",0)
                 ->where("T_U_MONEY.UserID", $userId)
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095])
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095, 46,679])
                 ->orderBy("T_U_MONEY.created_at", "desc")
                 ->paginate(20);
         } else {
@@ -149,9 +159,10 @@ class MoneyController extends Controller
                 ->select("T_U_MONEY.*", "users.phonenumber", "T_U_SERVICEINFO.ServiceName", "users.username", "T_U_SERVICEINFO.ServiceID")
                 ->where("T_U_MONEY.Type", 1)
                 ->where("T_U_MONEY.Flag", 1)
+                ->where("T_U_MONEY.paper",0)
                 ->where("T_U_MONEY.UserID", $userId)
                 ->whereBetween("timestamp", [$shortTime, $longTime])
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095])
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095, 46,679])
                 ->orderBy("T_U_MONEY.created_at", "desc")
                 ->paginate(20);
         }
@@ -256,15 +267,17 @@ class MoneyController extends Controller
                 ->select("T_U_MONEY.*", "users.phonenumber", "T_U_SERVICEINFO.ServiceName", "users.username", "T_U_SERVICEINFO.ServiceID")
                 ->where("T_U_MONEY.Type", 1)
                 ->where("T_U_MONEY.Flag", 1)
+                ->where("T_U_MONEY.paper",0)
                 ->where("timestamp", ">", $chooseTime)
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095])
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095, 46,679])
                 ->orderBy("T_U_MONEY.created_at", "desc")
                 ->get();
             $results = DB::table("T_U_MONEY")
                 ->where("T_U_MONEY.Type", 1)
                 ->where("T_U_MONEY.Flag", 1)
+                ->where("paper",0)
                 ->where("timestamp", ">", $chooseTime)
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095])
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095, 46,679])
                 ->get();
         } else if ($value == 30) {
             $shortTime = $shortTimes;
@@ -275,13 +288,16 @@ class MoneyController extends Controller
                 ->select("T_U_MONEY.*", "users.phonenumber", "T_U_SERVICEINFO.ServiceName", "users.username", "T_U_SERVICEINFO.ServiceID")
                 ->where("T_U_MONEY.Type", 1)
                 ->where("T_U_MONEY.Flag", 1)
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095])
+                ->where("T_U_MONEY.paper",0)
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095, 46,679])
                 ->orderBy("T_U_MONEY.created_at", "desc")
                 ->get();
             $results = DB::table("T_U_MONEY")
                 ->where("T_U_MONEY.Type", 1)
                 ->where("T_U_MONEY.Flag", 1)
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095])
+                ->where("T_U_MONEY.paper",0)
+                ->where("paper",0)
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095, 46,679])
                 ->get();
 
         } else {
@@ -293,15 +309,17 @@ class MoneyController extends Controller
                 ->select("T_U_MONEY.*", "users.phonenumber", "T_U_SERVICEINFO.ServiceName", "users.username", "T_U_SERVICEINFO.ServiceID")
                 ->where("T_U_MONEY.Type", 1)
                 ->where("T_U_MONEY.Flag", 1)
+                ->where("T_U_MONEY.paper",0)
                 ->whereBetween("timestamp", [$shortTime, $longTime])
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095])
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095, 46,679])
                 ->orderBy("T_U_MONEY.created_at", "desc")
                 ->get();
             $results = DB::table("T_U_MONEY")
                 ->where("T_U_MONEY.Type", 1)
                 ->where("T_U_MONEY.Flag", 1)
+                ->where("paper",0)
                 ->whereBetween("timestamp", [$shortTime, $longTime])
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095])
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095, 46,679])
                 ->get();
         }
         $money = 0;
@@ -325,21 +343,22 @@ class MoneyController extends Controller
             ->select("T_U_MONEY.*", "users.phonenumber", "T_U_SERVICEINFO.ServiceName", "users.username", "T_U_SERVICEINFO.ServiceID")
             ->where("T_U_MONEY.Type", 1)
             ->where("T_U_MONEY.Flag", 1)
+            ->where("T_U_MONEY.paper", 0)
             ->whereIn("T_U_MONEY.MoneyID", $moneyIds)
-            ->whereNotIn("T_U_MONEY.UserID", [889, 1095])
+            ->whereNotIn("T_U_MONEY.UserID", [889, 1095, 46,679])
             ->orderBy("T_U_MONEY.created_at", "desc")
             ->paginate(20);
         foreach ($dataMoneys as $key => $dataMoney) {
             $dataMoneyId = $dataMoney->UserID;
             if ($value == 7) {
-                $recordCounts = DB::table("T_U_MONEY")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->where("timestamp", ">", $chooseTime)->where("T_U_MONEY.Flag", 1)->count();
-                $personalMoneys = DB::table("T_U_MONEY")->select("Money", "RealMoney")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->where("timestamp", ">", $chooseTime)->where("T_U_MONEY.Flag", 1)->get();
+                $recordCounts = DB::table("T_U_MONEY")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->where("timestamp", ">", $chooseTime)->where("T_U_MONEY.Flag", 1) ->where("T_U_MONEY.paper",0)->count();
+                $personalMoneys = DB::table("T_U_MONEY")->select("Money", "RealMoney")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->where("timestamp", ">", $chooseTime)->where("T_U_MONEY.Flag", 1) ->where("T_U_MONEY.paper",0)->get();
             } elseif ($value == 30) {
-                $recordCounts = DB::table("T_U_MONEY")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->where("T_U_MONEY.Flag", 1)->count();
-                $personalMoneys = DB::table("T_U_MONEY")->select("Money", "RealMoney")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->where("T_U_MONEY.Flag", 1)->get();
+                $recordCounts = DB::table("T_U_MONEY")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->where("T_U_MONEY.Flag", 1) ->where("T_U_MONEY.paper",0)->count();
+                $personalMoneys = DB::table("T_U_MONEY")->select("Money", "RealMoney")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->where("T_U_MONEY.Flag", 1) ->where("T_U_MONEY.paper",0)->get();
             } else {
-                $personalMoneys = DB::table("T_U_MONEY")->select("Money", "RealMoney")->where("UserID", $dataMoneyId)->whereBetween("timestamp", [$shortTime, $longTime])->where("T_U_MONEY.Type", 1)->where("T_U_MONEY.Flag", 1)->get();
-                $recordCounts = DB::table("T_U_MONEY")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->whereBetween("timestamp", [$shortTime, $longTime])->where("T_U_MONEY.Flag", 1)->count();
+                $personalMoneys = DB::table("T_U_MONEY")->select("Money", "RealMoney")->where("UserID", $dataMoneyId)->whereBetween("timestamp", [$shortTime, $longTime])->where("T_U_MONEY.Type", 1)->where("T_U_MONEY.Flag", 1) ->where("T_U_MONEY.paper",0)->get();
+                $recordCounts = DB::table("T_U_MONEY")->where("UserID", $dataMoneyId)->where("T_U_MONEY.Type", 1)->whereBetween("timestamp", [$shortTime, $longTime])->where("T_U_MONEY.Flag", 1) ->where("T_U_MONEY.paper",0)->count();
             }
             $dataMoney->recordCounts = $recordCounts;
             $personalMoney = 0;
@@ -403,7 +422,8 @@ class MoneyController extends Controller
             ->leftJoin("T_V_VIDEOINFO", "T_V_VIDEOINFO.VideoID", "=", "T_U_MONEY.VideoID")*/
           /*  ->select("T_U_MONEY.*", "T_P_PROJECTINFO.WordDes", "T_P_PROJECTINFO.TypeID")*/
             ->where("T_U_MONEY.Type", 2)
-            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+            ->where("T_U_MONEY.paper",0)
+            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
           /*  ->whereIn("T_P_PROJECTINFO.TypeID", [1, 6, 12, 16, 17, 18, 19, 20, 21, 22])*/
             ->orderBy("T_U_MONEY.created_at", "desc")
             ->get();
@@ -413,11 +433,13 @@ class MoneyController extends Controller
         $results = DB::table("T_U_MONEY")
             ->where("T_U_MONEY.Type", 1)
             ->where("T_U_MONEY.Flag", 1)
-            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
+            ->where("T_U_MONEY.paper",0)
             ->get();
         $consumes = DB::table("T_U_MONEY")
             ->where("T_U_MONEY.Type", 2)
-            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+            ->where("T_U_MONEY.paper",0)
+            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
             ->get();
         foreach ($results as $result) {
             $money = $money + $result->Money;
@@ -445,22 +467,28 @@ class MoneyController extends Controller
             ->select("T_U_MONEY.*", "T_P_PROJECTINFO.WordDes", "T_P_PROJECTTYPE.TypeName", "T_P_PROJECTINFO.TypeID", "T_P_PROJECTINFO.Price")*/
             ->where("T_U_MONEY.Type", 2)
             ->whereIn("T_U_MONEY.MoneyID", $moneyIds)
-            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
+            ->where("DelFlag",0)
+            ->where("paper",0)
             ->orderBy("T_U_MONEY.created_at", "desc")
            /* ->whereIn("T_P_PROJECTINFO.TypeID", [1, 6, 12, 16, 17, 18, 19, 20, 21, 22])*/
             ->paginate(20);
+           // ->get();
         foreach ($dataMoneys as $dataMoney) {
             $projectId = $dataMoney->ProjectID;
+            $paper=$dataMoney->paper;
             if($projectId!=0){
-                $TypeNames=DB::table("T_P_PROJECTINFO")->leftJoin("T_P_PROJECTTYPE", "T_P_PROJECTTYPE.TypeID", "=", "T_P_PROJECTINFO.TypeID")->where("ProjectID",$projectId)->first();
-                $recordCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->count();
-                $realCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->where("Money", "<>", 0)->count();
+                if($paper!=1){
+                    $TypeNames=DB::table("T_P_PROJECTINFO")->leftJoin("T_P_PROJECTTYPE", "T_P_PROJECTTYPE.TypeID", "=", "T_P_PROJECTINFO.TypeID")->where("ProjectID",$projectId)->first();
+                    $recordCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->count();
+                    $realCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->where("Money", "<>", 0)->count();
+                }
             }else{
                 $TypeNames=DB::table("T_V_VIDEOINFO")->where("VideoID",$dataMoney->VideoID)->first();
                 $TypeNames->TypeName="视频";
                 $TypeNames->TypeID=0;
-                $recordCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->count();
-                $realCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->where("Money", "<>", 0)->count();
+                $recordCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->count();
+                $realCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->where("Money", "<>", 0)->count();
             }
             $dataMoney->Price=$TypeNames->Price;
             $dataMoney->recordCounts = $recordCounts;
@@ -468,6 +496,11 @@ class MoneyController extends Controller
             $dataMoney->TypeName=$TypeNames->TypeName;
             $dataMoney->TypeID=$TypeNames->TypeID;
         }
+        $totalCount=0;
+        foreach ($dataMoneys as $val){
+            $totalCount=$totalCount+$val->recordCounts;
+        }
+
         $value = "30";
         $shortTime = "1";
         $longTime = "1";
@@ -495,7 +528,7 @@ class MoneyController extends Controller
                     ->where("T_U_MONEY.Type", 2)
                     ->where("T_U_MONEY.ProjectID", $projectId)
                     ->where("timestamp", ">", $chooseTime)
-                    ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                    ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                     ->orderBy("T_U_MONEY.created_at", "desc")
                     ->paginate(20);
             }else{
@@ -506,7 +539,7 @@ class MoneyController extends Controller
                     ->where("T_U_MONEY.Type", 2)
                     ->where("T_U_MONEY.VideoID", $videoId)
                     ->where("timestamp", ">", $chooseTime)
-                    ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                    ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                     ->orderBy("T_U_MONEY.created_at", "desc")
                     ->paginate(20);
             }
@@ -520,7 +553,7 @@ class MoneyController extends Controller
                     ->select("T_U_MONEY.*", "users.phonenumber", "T_U_SERVICEINFO.ServiceName", "users.username", "T_U_SERVICEINFO.ServiceID")
                     ->where("T_U_MONEY.Type", 2)
                     ->where("T_U_MONEY.ProjectID", $projectId)
-                    ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                    ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                     ->orderBy("T_U_MONEY.created_at", "desc")
                     ->paginate(20);
             }else{
@@ -530,7 +563,7 @@ class MoneyController extends Controller
                     ->select("T_U_MONEY.*", "users.phonenumber", "T_U_SERVICEINFO.ServiceName", "users.username", "T_U_SERVICEINFO.ServiceID")
                     ->where("T_U_MONEY.Type", 2)
                     ->where("T_U_MONEY.VideoID", $videoId)
-                    ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                    ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                     ->orderBy("T_U_MONEY.created_at", "desc")
                     ->paginate(20);
             }
@@ -545,7 +578,7 @@ class MoneyController extends Controller
                     ->where("T_U_MONEY.Type", 2)
                     ->where("T_U_MONEY.ProjectID", $projectId)
                     ->whereBetween("timestamp", [$shortTime, $longTime])
-                    ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                    ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                     ->orderBy("T_U_MONEY.created_at", "desc")
                     ->paginate(20);
             }else{
@@ -556,7 +589,7 @@ class MoneyController extends Controller
                     ->where("T_U_MONEY.Type", 2)
                     ->where("T_U_MONEY.VideoID", $videoId)
                     ->whereBetween("timestamp", [$shortTime, $longTime])
-                    ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                    ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                     ->orderBy("T_U_MONEY.created_at", "desc")
                     ->paginate(20);
             }
@@ -632,20 +665,23 @@ class MoneyController extends Controller
                /* ->leftJoin("T_P_PROJECTINFO", "T_P_PROJECTINFO.ProjectID", "=", "T_U_MONEY.ProjectID")
                 ->select("T_U_MONEY.*", "T_P_PROJECTINFO.WordDes", "T_P_PROJECTINFO.TypeID")*/
                 ->where("T_U_MONEY.Type", 2)
+                ->where("paper",0)
                 ->where("timestamp", ">", $chooseTime)
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                 ->orderBy("T_U_MONEY.created_at", "desc")
                 ->get();
             $results = DB::table("T_U_MONEY")
                 ->where("T_U_MONEY.Type", 1)
                 ->where("T_U_MONEY.Flag", 1)
+                ->where("paper",0)
                 ->where("timestamp", ">", $chooseTime)
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                 ->get();
             $consumes = DB::table("T_U_MONEY")
                 ->where("T_U_MONEY.Type", 2)
+                ->where("T_U_MONEY.paper",0)
                 ->where("timestamp", ">", $chooseTime)
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                 ->get();
         } else if ($value == 30) {
             $shortTime = $shortTimes;
@@ -654,17 +690,20 @@ class MoneyController extends Controller
                /* ->leftJoin("T_P_PROJECTINFO", "T_P_PROJECTINFO.ProjectID", "=", "T_U_MONEY.ProjectID")
                 ->select("T_U_MONEY.*", "T_P_PROJECTINFO.WordDes", "T_P_PROJECTINFO.TypeID")*/
                 ->where("T_U_MONEY.Type", 2)
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                ->where("paper",0)
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                 ->orderBy("T_U_MONEY.created_at", "desc")
                 ->get();
             $results = DB::table("T_U_MONEY")
                 ->where("T_U_MONEY.Type", 1)
                 ->where("T_U_MONEY.Flag", 1)
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                ->where("paper",0)
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                 ->get();
             $consumes = DB::table("T_U_MONEY")
                 ->where("T_U_MONEY.Type", 2)
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                ->where("T_U_MONEY.paper",0)
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                 ->get();
 
         } else {
@@ -674,20 +713,23 @@ class MoneyController extends Controller
                /* ->leftJoin("T_P_PROJECTINFO", "T_P_PROJECTINFO.ProjectID", "=", "T_U_MONEY.ProjectID")
                 ->select("T_U_MONEY.*", "T_P_PROJECTINFO.WordDes", "T_P_PROJECTINFO.TypeID")*/
                 ->where("T_U_MONEY.Type", 2)
+                ->where("paper",0)
                 ->whereBetween("timestamp", [$shortTime, $longTime])
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                 ->orderBy("T_U_MONEY.created_at", "desc")
                 ->get();
             $results = DB::table("T_U_MONEY")
                 ->where("T_U_MONEY.Type", 1)
                 ->where("T_U_MONEY.Flag", 1)
+                ->where("paper",0)
                 ->whereBetween("timestamp", [$shortTime, $longTime])
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                 ->get();
             $consumes = DB::table("T_U_MONEY")
                 ->where("T_U_MONEY.Type", 2)
+                ->where("T_U_MONEY.paper",0)
                 ->whereBetween("timestamp", [$shortTime, $longTime])
-                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+                ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
                 ->get();
         }
         $money = 0;
@@ -716,8 +758,9 @@ class MoneyController extends Controller
             ->leftJoin("T_P_PROJECTTYPE", "T_P_PROJECTTYPE.TypeID", "=", "T_P_PROJECTINFO.TypeID")
             ->select("T_U_MONEY.*", "T_P_PROJECTINFO.WordDes", "T_P_PROJECTTYPE.TypeName", "T_P_PROJECTINFO.TypeID", "T_P_PROJECTINFO.Price")*/
             ->where("T_U_MONEY.Type", 2)
+            ->where("paper",0)
             ->whereIn("T_U_MONEY.MoneyID", $moneyIds)
-            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])
+            ->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])
             ->orderBy("T_U_MONEY.created_at", "desc")
             ->paginate(20);
         foreach ($dataMoneys as $key => $dataMoney) {
@@ -725,38 +768,38 @@ class MoneyController extends Controller
             if ($value == 7) {
                 if($projectId!=0){
                     $TypeNames=DB::table("T_P_PROJECTINFO")->leftJoin("T_P_PROJECTTYPE", "T_P_PROJECTTYPE.TypeID", "=", "T_P_PROJECTINFO.TypeID")->where("ProjectID",$projectId)->first();
-                    $recordCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->where("timestamp", ">", $chooseTime)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->count();
-                    $realCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->where("timestamp", ">", $chooseTime)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->where("Money", "<>", 0)->count();
+                    $recordCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->where("timestamp", ">", $chooseTime)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->count();
+                    $realCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->where("timestamp", ">", $chooseTime)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->where("Money", "<>", 0)->count();
                 }else{
                     $TypeNames=DB::table("T_V_VIDEOINFO")->where("VideoID",$dataMoney->VideoID)->first();
                     $TypeNames->TypeName="视频";
                     $TypeNames->TypeID=0;
-                    $recordCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("timestamp", ">", $chooseTime)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->count();
-                    $realCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("timestamp", ">", $chooseTime)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->where("Money", "<>", 0)->count();
+                    $recordCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("timestamp", ">", $chooseTime)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->count();
+                    $realCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("timestamp", ">", $chooseTime)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->where("Money", "<>", 0)->count();
                 }
             } elseif ($value == 30) {
                 if($projectId!=0){
                     $TypeNames=DB::table("T_P_PROJECTINFO")->leftJoin("T_P_PROJECTTYPE", "T_P_PROJECTTYPE.TypeID", "=", "T_P_PROJECTINFO.TypeID")->where("ProjectID",$projectId)->first();
-                    $recordCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->count();
-                    $realCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->where("Money", "<>", 0)->count();
+                    $recordCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->count();
+                    $realCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->where("Money", "<>", 0)->count();
                 }else{
                     $TypeNames=DB::table("T_V_VIDEOINFO")->where("VideoID",$dataMoney->VideoID)->first();
                     $TypeNames->TypeName="视频";
                     $TypeNames->TypeID=0;
-                    $recordCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->count();
-                    $realCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->where("Money", "<>", 0)->count();
+                    $recordCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->count();
+                    $realCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("Type", 2)->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->where("Money", "<>", 0)->count();
                 }
             } else {
                 if($projectId!=0){
                     $TypeNames=DB::table("T_P_PROJECTINFO")->leftJoin("T_P_PROJECTTYPE", "T_P_PROJECTTYPE.TypeID", "=", "T_P_PROJECTINFO.TypeID")->where("ProjectID",$projectId)->first();
-                    $recordCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->whereBetween("timestamp", [$shortTime, $longTime])->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->count();
-                    $realCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->whereBetween("timestamp", [$shortTime, $longTime])->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->where("Money", "<>", 0)->count();
+                    $recordCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->whereBetween("timestamp", [$shortTime, $longTime])->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->count();
+                    $realCounts = DB::table("T_U_MONEY")->where("ProjectID", $projectId)->where("Type", 2)->whereBetween("timestamp", [$shortTime, $longTime])->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->where("Money", "<>", 0)->count();
                 }else{
                     $TypeNames=DB::table("T_V_VIDEOINFO")->where("VideoID",$dataMoney->VideoID)->first();
                     $TypeNames->TypeName="视频";
                     $TypeNames->TypeID=0;
-                    $recordCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("Type", 2)->whereBetween("timestamp", [$shortTime, $longTime])->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->count();
-                    $realCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("Type", 2)->whereBetween("timestamp", [$shortTime, $longTime])->whereNotIn("T_U_MONEY.UserID", [889, 1095,679])->where("Money", "<>", 0)->count();
+                    $recordCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("Type", 2)->whereBetween("timestamp", [$shortTime, $longTime])->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->count();
+                    $realCounts = DB::table("T_U_MONEY")->where("VideoID", $dataMoney->VideoID)->where("Type", 2)->whereBetween("timestamp", [$shortTime, $longTime])->whereNotIn("T_U_MONEY.UserID", [889, 1095,679,46])->where("Money", "<>", 0)->count();
                 }
             }
             $dataMoney->Price=$TypeNames->Price;

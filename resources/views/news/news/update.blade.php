@@ -50,22 +50,10 @@
                         <div class="control-group" id="from" style="display: block">
                             <label class="control-label" >来源</label>
                             <div class="controls">
-                                <input type="text" name="NewsAuthor1"  value="{{$datas->NewsAuthor}}"/>
+                                <input type="text" name="NewsAuthor"  value="{{$datas->NewsAuthor}}"/>
                             </div>
                         </div>
-                        <div class="control-group" id="NewsAuthor" style="display: none">
-                        <label class="control-label">作者</label>
-                        <div class="controls">
-                            <input type="text" name="NewsAuthor"  value="{{$datas->NewsAuthor}}"/>
-                        </div>
-                    </div>
                     @else
-                        <div class="control-group" id="from" style="display: none">
-                            <label class="control-label" >来源</label>
-                            <div class="controls">
-                                <input type="text" name="NewsAuthor1"  value="{{$datas->NewsAuthor}}"/>
-                            </div>
-                        </div>
                         <div class="control-group" id="NewsAuthor" style="display:block">
                             <label class="control-label">作者</label>
                             <div class="controls">

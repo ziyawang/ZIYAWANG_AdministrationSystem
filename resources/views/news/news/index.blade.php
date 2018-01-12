@@ -64,7 +64,8 @@
             </table>
         </div>
         <div class="pagination alternate" style="margin:0 auto">
-            {!! $datas->render() !!}
+           {{-- {!! $datas->render() !!}--}}
+            {!! $datas->links() !!}
         </div>
     </div>
 

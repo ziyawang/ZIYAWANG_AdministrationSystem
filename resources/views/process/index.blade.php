@@ -68,7 +68,7 @@
                     <th>编号</th>
                     <th>项目类型</th>
                     <th>项目名称</th>
-                    <th>服务方</th>
+                    <th>动态</th>
                     <th>项目负责人</th>
                     <th>所属部门</th>
                     <th>操作</th>
@@ -80,7 +80,7 @@
                         <td>{{$data->Number}}</td>
                         <td>{{$data->TypeName}}</td>
                         <td>{{$data->Title}}</td>
-                        <td>{{$data->SerName}}</td>
+                        <td>{{$data->created_at}}</td>
                         <td>{{$data->Name}}</td>
                         <td>{{$data->Department}}</td>
                         <td>

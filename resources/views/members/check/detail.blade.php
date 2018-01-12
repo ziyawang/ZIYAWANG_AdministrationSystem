@@ -58,7 +58,7 @@
                             <div class="controls selectBox" >
                                 <select  name="Identity" id="Identity"/>
                                 <option value="项目持有者" @if($data->Identity=="项目持有者") selected="selected" @endif>项目持有者</option>
-                                <option value="FA（中介)" @if($data->Identity=="FA（中介）") selected="selected" @endif>FA（中介）</option>
+                                <option value="受托方" @if($data->Identity!="项目持有者") selected="selected" @endif>受托方</option>
                                 </select>
                             </div>
                         </div>
@@ -141,10 +141,10 @@
                             <label class="control-label checkState">卖家类型</label>
                             <div class="controls selectBox" >
                                 <select  name="FromWhere" id="FromWhere"/>
-                                <option value="银行" @if($data->AssetType=="银行") selected="selected" @endif>银行</option>
-                                <option value="非银行机构" @if($data->AssetType=="非银行机构") selected="selected" @endif>非银行机构</option>
-                                <option value="企业" @if($data->AssetType=="企业") selected="selected" @endif>企业</option>
-                                <option value="其他" @if($data->AssetType=="其他") selected="selected" @endif>其他</option>
+                                <option value="银行" @if($data->FromWhere=="银行") selected="selected" @endif>银行</option>
+                                <option value="非银行机构" @if($data->FromWhere=="非银行机构") selected="selected" @endif>非银行机构</option>
+                                <option value="企业" @if($data->FromWhere=="企业") selected="selected" @endif>企业</option>
+                                <option value="其他" @if($data->FromWhere=="其他") selected="selected" @endif>其他</option>
                                 </select>
                             </div>
                         </div>
@@ -360,20 +360,27 @@
                         <div class="control-group">
                             <p id="nopz1" style="margin-left:170px;" class="error"></p>
                             <div class="clearfix img_box" style="margin-left:200px;">
-                                @if(!empty($data->PictureDet))
-                                    <div class="pictures" style="display: block"><img class="preview1" id="PictureDet" src="http://images.ziyawang.com{{$data->PictureDet}}"  picname=''><span class="deleteBtn1 deleteImg" title="删除" style="display: none"></span></div>
+                                @if(!empty($data->PictureDet1))
+                                    <div class="pictures" style="display: block"><img class="preview1" id="PictureDet1" src="http://images.ziyawang.com{{$data->PictureDet1}}"  picname=''><span class="deleteBtn1 deleteImg" title="删除" style="display: none"></span></div>
                                 @else
-                                    <div class="pictures"><img class="preview1" id="PictureDet" src=""  picname=''><span class="deleteBtn1 deleteImg" title="删除"></span></div>
+                                    <div class="pictures"><img class="preview1" id="PictureDet1" src=""  picname=''><span class="deleteBtn1 deleteImg" title="删除"></span></div>
                                 @endif
+                                @if(!empty($data->PictureDet2))
+                                    <div class="pictures" style="display: block"><img class="preview1" id="PictureDet2" src="http://images.ziyawang.com{{$data->PictureDet2}}"  picname=''><span class="deleteBtn1 deleteImg" title="删除" style="display: none"></span></div>
+                                @else
+                                    <div class="pictures"><img class="preview1" id="PictureDet2" src=""  picname=''><span class="deleteBtn1 deleteImg" title="删除"></span></div>
+                                @endif
+
                             </div>
-                            <p><input type="hidden" name="PictureDet" value="{{$data->PictureDet}}"></p>
+                            <p><input type="hidden" name="PictureDet1" value="{{$data->PictureDet1}}"></p>
+                            <p><input type="hidden" name="PictureDet2" value="{{$data->PictureDet2}}"></p>
                         </div>
                         <script>
                             $(function(){
                                $('#detailupload').fileupload({
                                     dataType: 'json',
                                     formAcceptCharset :'utf-8',
-                                    maxNumberOfFiles : 1,
+                                    maxNumberOfFiles : 2,
                                     done: function (e, data) {
                                         $.each(data.result.files, function (index, file) {
                                             // console.log(file.name);

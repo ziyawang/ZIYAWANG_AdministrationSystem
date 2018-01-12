@@ -18,31 +18,31 @@ class MembersController extends Controller
                     ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
                     ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
                     ->where("PayFlag", 1)
-                    ->where("Over", 0)
-                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                    //->where("Over", 0)
+                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46,116])
                     ->orderBy("StartTime", "desc")
                     ->paginate(20);
                 $total = DB::table("T_U_MEMBER")
                     ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
                     ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
                     ->where("PayFlag", 1)
-                    ->where("Over", 0)
-                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                    // ->where("Over", 0)
+                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46,116])
                     ->count();
                 $res = DB::table("T_U_MEMBER")
                     ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
                     ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
                     ->where("PayFlag", 1)
-                    ->where("Over", 0)
-                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                    // ->where("Over", 0)
+                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46,116])
                     ->get();
             } else {
                 $datas = DB::table("T_U_MEMBER")
                     ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
                     ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
                     ->where("PayFlag", 1)
-                    ->where("Over", 0)
-                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                   // ->where("Over", 0)
+                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46,116])
                     ->where("PayName", $_GET['payName'])
                     ->orderBy("StartTime", "desc")
                     ->paginate(20);
@@ -50,16 +50,16 @@ class MembersController extends Controller
                     ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
                     ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
                     ->where("PayFlag", 1)
-                    ->where("Over", 0)
-                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                    //->where("Over", 0)
+                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46,116])
                     ->where("PayName", $_GET['payName'])
                     ->count();
                 $res = DB::table("T_U_MEMBER")
                     ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
                     ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
                     ->where("PayFlag", 1)
-                    ->where("Over", 0)
-                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                   // ->where("Over", 0)
+                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46,116])
                     ->where("PayName", $_GET['payName'])
                     ->get();
             }
@@ -113,16 +113,16 @@ class MembersController extends Controller
                 ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
                 ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
                 ->where("PayFlag", 1)
-                ->where("Over", 0)
-                ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                //->where("Over", 0)
+                ->whereNotIn("T_U_MEMBER.UserId", [889, 46,116])
                 ->orderBy("StartTime", "desc")
                 ->paginate(20);
             $total = DB::table("T_U_MEMBER")
                 ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
                 ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
                 ->where("PayFlag", 1)
-                ->where("Over", 0)
-                ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+               // ->where("Over", 0)
+                ->whereNotIn("T_U_MEMBER.UserId", [889, 46,116])
                 ->count();
             $number = $total;
             foreach ($datas as $data) {
@@ -161,8 +161,8 @@ class MembersController extends Controller
                 ->leftJoin("T_U_SERVICEINFO", "T_U_MEMBER.UserID", "=", "T_U_SERVICEINFO.UserID")
                 ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
                 ->where("PayFlag", 1)
-                ->where("Over", 0)
-                ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                //->where("Over", 0)
+                ->whereNotIn("T_U_MEMBER.UserId", [889, 46,116])
                 ->get();
             $money=0;
             foreach ($res as $val){
@@ -285,7 +285,7 @@ class MembersController extends Controller
                     ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
                     ->where("PayFlag", 1)
                     ->where("Over", 0)
-                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46,116])
                     ->get();
             } else {
                 $datas = DB::table("T_U_MEMBER")
@@ -293,7 +293,7 @@ class MembersController extends Controller
                     ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
                     ->where("PayFlag", 1)
                     ->where("Over", 0)
-                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                    ->whereNotIn("T_U_MEMBER.UserId", [889, 46,116])
                     ->where("PayName", $_GET['payName'])
                     ->get();
             }
@@ -303,7 +303,7 @@ class MembersController extends Controller
                 ->leftJoin("T_CONFIG_MEMBER", "T_CONFIG_MEMBER.MemberID", "=", "T_U_MEMBER.MemberID")
                 ->where("PayFlag", 1)
                 ->where("Over", 0)
-                ->whereNotIn("T_U_MEMBER.UserId", [889, 46])
+                ->whereNotIn("T_U_MEMBER.UserId", [889, 46,116])
                 ->get();
         }
         require_once '../vendor/PHPExcel.class.php';

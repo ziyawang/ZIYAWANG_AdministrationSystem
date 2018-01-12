@@ -212,6 +212,8 @@ Route::any("customer/addKey",'Admin\CustomerController@addKey');
 Route::any("customer/saveKey",'Admin\CustomerController@saveKey');
 Route::get("customer/detail/{customerId}",'Admin\CustomerController@detail');  
 Route::post("customer/saveUpdate",'Admin\CustomerController@saveUpdate');
+Route::post("customer/returnData",'Admin\CustomerController@returnData');
+
     
     //资芽网线下项目跟进
 Route::any("process/index",'Admin\ProcessController@index');
@@ -225,5 +227,6 @@ Route::POST("process/saveUpdate/",'Admin\ProcessController@saveUpdate');
 Route::any("public/upload",'Admin\PublicController@upload');
 Route::get("public/change",'Admin\PublicController@change');
 Route::get("public/update",'Admin\PublicController@update');
+Route::get("public/active",'Admin\PublicController@active');
 
 

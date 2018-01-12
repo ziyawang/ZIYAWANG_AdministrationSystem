@@ -43,6 +43,13 @@
                 <div class="widget-content nopadding">
                     <form class="form-horizontal" method="post" action="{{asset('customer/saveAdd')}}"/>
                     <div class="control-group">
+                        <label class="control-label">客情维护人</label>
+                        <div class="controls">
+                            <input type="text" name="accendantName" id="accendantName" value="" style="width: 100px"/>
+                            <span style="color: red">* 必填信息!</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
                         <label class="control-label checkState">客情级别</label>
                         <div class="controls selectBox">
                             <select name="Level" id="Level"/>
@@ -63,7 +70,7 @@
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label checkState">客户级别</label>
+                        <label class="control-label checkState">客户类型</label>
                         <div class="controls selectBox">
                             <select name="CustType" id="CustType"/>
                             <option value="服务方">服务方</option>
@@ -77,6 +84,26 @@
                             <input type="text" name="CustomerName" id="CustomerName" value=""/>
                         </div>
                     </div>
+                    <script>
+                        $("#CustomerName").on("blur",function(){
+                            var customerName=$("#CustomerName").val();
+                            if(customerName){
+                                $.ajax({
+                                    url:"{{url('customer/returnData')}}",
+                                    data:{"customerName":customerName},
+                                    type:"POST",
+                                    dateType:"json",
+                                    success:function (msg) {
+                                        if(msg==1){
+                                            layer.alert('该客户名称已经存在')
+                                        }
+                                    }
+
+                                })
+                            }
+
+                        })
+                    </script>
                     <div class="control-group">
                         <label class="control-label">公司所在地</label>
                         <div class="controls">

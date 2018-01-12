@@ -56,8 +56,8 @@
                                 <label class="control-label checkState">身份</label>
                                 <div class="controls selectBox" >
                                     <select  name="Identity" id="Identity"/>
-                                    <option value="项目持有者" @if($data->Identity=="债权人") selected="selected" @endif>债权人</option>
-                                    <option value="FA（中介)" @if($data->Identity=="FA（中介）") selected="selected" @endif>FA（中介）</option>
+                                    <option value="债权人" @if($data->Identity=="债权人" || $data->Identity=="项目持有者") selected="selected" @endif>债权人</option>
+                                    <option value="受托方" @if($data->Identity=="FA（中介）" || $data->Identity=="受托方") selected="selected" @endif>受托方</option>
                                     </select>
                                 </div>
                             </div>

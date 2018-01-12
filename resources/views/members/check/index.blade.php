@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </td>
-            <td>
+           <td>
                 <div class="control-group">
                     <label class="control-label checkState">ID</label>
                     <div class="controls selectBox" >
@@ -36,6 +36,19 @@
                     </div>
                 </div>
             </td>
+           {{-- <td>
+                <div class="control-group">
+                    <label class="control-label checkState" >信息状态</label>
+                    <div class="controls selectBox" >
+                        <select  name="CooperateState" id="CooperateState"/>
+                        <option value="3">--全部--<option>
+                        <option value="1" @if(isset($CooperateState) && $CooperateState==1) selected="selected" @endif>合作中</option>
+                        <option value="0" @if(isset($CooperateState) && $CooperateState==0) selected="selected" @endif>未合作</option>
+                        <option value="2" @if(isset($CooperateState) && $CooperateState==2) selected="selected" @endif>已合作</option>
+                        </select>
+                    </div>
+                </div>
+            </td>--}}
             <td>
                 <div class="control-group">
                     <label class="control-label checkState" >信息等级</label>
@@ -149,6 +162,7 @@
                     <th>ID</th>
                     <th>联系人</th>
                     <th>注册号</th>
+                    <th>联系号</th>
                     <th>发布时间</th>
                     <th>地址</th>
                     <th>信息类型</th>
@@ -157,6 +171,7 @@
                     <th>收藏次数</th>
                     <th>发布渠道</th>
                     <th>芽币</th>
+                    <th>合作状态</th>
                     <th>审核状态</th>
                     <th>操作</th>
                 </tr>
@@ -172,6 +187,7 @@
                             <td></td>
                         @endif
                         <td>{{$data->phonenumber}}</td>
+                        <td>{{$data->ConnectPhone}}</td>
                         <td>{{$data->PublishTime}}</td>
                         <td>{{$data->ProArea}}</td>
                         <td>{{$data->TypeName}}</td>
@@ -180,6 +196,13 @@
                         <td><a href="{{asset("check/collectDetail/".$data->ProjectID)}}">{{$data->CollectionCount}}</a></td>
                         <td>{{$data->Channel}}</td>
                         <td>{{$data->Price}}</td>
+                        @if($data->CooperateState==0)
+                            <td><p style="color: #149bdf">未合作</p></td>
+                        @elseif($data->CooperateState==1)
+                            <td><p style="color: #149bdf">合作中</p></td>
+                        @else
+                            <td><p style="color: #149bdf">已合作</p></td>
+                        @endif
                         @if($data->State==0)
                             <td><p style="color: #149bdf">待审核</p></td>
                         @elseif($data->State==1)

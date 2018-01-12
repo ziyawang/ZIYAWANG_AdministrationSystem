@@ -57,7 +57,7 @@
                                 <div class="controls selectBox" >
                                     <select  name="Identity" id="Identity"/>
                                     <option value="项目持有者" @if($data->Identity=="项目持有者") selected="selected" @endif>项目持有者</option>
-                                    <option value="FA（中介)" @if($data->Identity=="FA（中介）") selected="selected" @endif>FA（中介）</option>
+                                    <option value="受托方" @if($data->Identity!="项目持有者") selected="selected" @endif>受托方</option>
                                     </select>
                                 </div>
                             </div>
